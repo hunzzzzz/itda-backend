@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.moira.itda.domain.series.mapper.SeriesAdminMapper">
+    <!-- 파일 ID 존재 여부 확인 -->
+    <select id="selectImageFileIdChk">
+        SELECT COUNT(file_id) AS CNT FROM IMAGE_FILE
+        WHERE file_id = #{fileId}
+    </select>
+
+    <!-- 가챠 시리즈 저장 -->
+    <insert id="insertGachaSeries">
+        INSERT INTO GACHA_SERIES (
+               id
+             , title
+             , manufacturer
+             , price
+             , view_count
+             , file_id
+             , released_at
+             , created_at
+        )
+        VALUES (
+               #{id}
+             , #{title}
+             , #{manufacturer}
+             , #{price}
+             , #{viewCount}
+             , #{fileId}
+             , #{releasedAt}
+             , CURRENT_TIMESTAMP
+        )
+    </insert>
+
+    <!-- 가챠 아이템 저장 -->
+    <insert id="insertGachaItem">
+        INSERT INTO GACHA_ITEM (
+               series_id
+             , name
+             , created_at
+        )
+        VALUES (
+               #{seriesId}
+             , #{name}
+             , CURRENT_TIMESTAMP
+        )
+    </insert>
+</mapper>
