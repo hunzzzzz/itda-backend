@@ -47,6 +47,33 @@ public enum ErrorCode {
             "U0007",
             "유효하지 않은 비밀번호입니다.",
             HttpStatus.BAD_REQUEST
+    ),
+
+    // 권한 관련 에러코드
+    INVALID_AUTHORIZATION_HEADER(
+            "A0001",
+            "Authorization 헤더에 토큰 정보가 포함되어 있지 않습니다.",
+            HttpStatus.BAD_REQUEST
+    ),
+    INVALID_TOKEN(
+            "A0002",
+            "유효하지 않은 토큰입니다.",
+            HttpStatus.UNAUTHORIZED
+    ),
+    EXPIRED_ATK(
+            "A0003",
+            "AccessToken이 만료되었습니다.",
+            HttpStatus.UNAUTHORIZED
+    ),
+    INVALID_SIGNATURE(
+            "A0004",
+            "토큰 서명이 유효하지 않거나 형식이 올바르지 않습니다.",
+            HttpStatus.UNAUTHORIZED
+    ),
+    ACCESS_DENIED(
+            "A0005",
+            "접근 권한이 없습니다.",
+            HttpStatus.FORBIDDEN
     );
 
     private final String code;

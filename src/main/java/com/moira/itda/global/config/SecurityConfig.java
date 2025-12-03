@@ -1,5 +1,8 @@
 package com.moira.itda.global.config;
 
+import com.moira.itda.global.auth.filter.CustomAccessDeniedHandler;
+import com.moira.itda.global.auth.filter.ExceptionHandlerFilter;
+import com.moira.itda.global.auth.filter.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,15 +20,16 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableMethodSecurity
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-//    private final CustomAccessDeniedHandler customAccessDeniedHandler;
-//    private final ExceptionHandlerFilter exceptionHandlerFilter;
-//    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final CustomAccessDeniedHandler customAccessDeniedHandler;
+    private final ExceptionHandlerFilter exceptionHandlerFilter;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -57,12 +61,12 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.POST, "/api/signup/**").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/api/login/**").permitAll()
                                 .anyRequest().authenticated()
-                );
+                )
                 // 4. 예외 처리 핸들러 등록
-//                .exceptionHandling(customizer -> customizer.accessDeniedHandler(customAccessDeniedHandler))
+                .exceptionHandling(customizer -> customizer.accessDeniedHandler(customAccessDeniedHandler))
                 // 5. 필터 추가
-//                .addFilterBefore(exceptionHandlerFilter, UsernamePasswordAuthenticationFilter.class)
-//                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(exceptionHandlerFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
