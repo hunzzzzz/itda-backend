@@ -79,6 +79,40 @@ public enum ErrorCode {
             "A0005",
             "접근 권한이 없습니다.",
             HttpStatus.FORBIDDEN
+    ),
+
+    // 가챠 관련 에러코드
+    INVALID_TITLE(
+            "G0001",
+            "유효하지 않은 가챠 제목입니다.",
+            HttpStatus.BAD_REQUEST
+    ),
+    INVALID_PRICE(
+            "G0002",
+            "유효하지 않은 가챠 가격입니다.",
+            HttpStatus.BAD_REQUEST
+    ),
+    NO_FILE_ID(
+            "G0003",
+            "이미지 파일 정보가 없습니다.",
+            HttpStatus.BAD_REQUEST
+    ),
+    NO_GACHA_ITEMS(
+            "G0004",
+            "가챠 하위 항목 정보가 없습니다.",
+            HttpStatus.BAD_REQUEST
+    ),
+    SERIES_EXCEEDED_MAX_FILE_COUNT(
+            "G0005",
+            "최대 1개의 파일만 업로드할 수 있습니다.",
+            HttpStatus.BAD_REQUEST
+    ),
+
+    // 파일 관련 에러코드
+    FILE_NOT_FOUND(
+            "F0001",
+            "존재하지 않는 파일입니다.",
+            HttpStatus.BAD_REQUEST
     );
 
     private final String code;
