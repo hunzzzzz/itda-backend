@@ -11,6 +11,11 @@ public enum ErrorCode {
             "알 수 없는 오류가 발생했습니다. 잠시 후 다시 시도해주세요.",
             HttpStatus.INTERNAL_SERVER_ERROR
     ),
+    LOCAL_FILE_SYSTEM_ERROR(
+            "S0002",
+            "로컬 파일 시스템 환경에서 오류가 발생했습니다.",
+            HttpStatus.INTERNAL_SERVER_ERROR
+    ),
 
     // 유저 관련 에러코드
     ALREADY_USING_NICKNAME(
@@ -112,6 +117,36 @@ public enum ErrorCode {
     FILE_NOT_FOUND(
             "F0001",
             "존재하지 않는 파일입니다.",
+            HttpStatus.BAD_REQUEST
+    ),
+    INVALID_FILE(
+            "F0002",
+            "유효하지 않은 파일입니다.",
+            HttpStatus.BAD_REQUEST
+    ),
+    FILE_SAVE_FAILED(
+            "F0003",
+            "파일 저장에 실패하였습니다. 다시 시도해주세요.",
+            HttpStatus.INTERNAL_SERVER_ERROR
+    ),
+    FILE_DELETE_FORBIDDEN(
+            "F0004",
+            "해당 파일을 삭제할 수 없습니다.",
+            HttpStatus.FORBIDDEN
+    ),
+    FILE_DELETE_FAILED(
+            "F0005",
+            "파일 삭제에 실패하였습니다.",
+            HttpStatus.INTERNAL_SERVER_ERROR
+    ),
+    FILE_SIZE_LIMIT_EXCEEDED(
+            "F0006",
+            "최대 5MB 크기의 파일만 첨부할 수 있습니다.",
+            HttpStatus.BAD_REQUEST
+    ),
+    UNSUPPORTED_FILE_EXTENSION(
+            "F0007",
+            "지원하지 않는 파일 확장자입니다. (허용 확장자: jpg, jpeg, png)",
             HttpStatus.BAD_REQUEST
     );
 
