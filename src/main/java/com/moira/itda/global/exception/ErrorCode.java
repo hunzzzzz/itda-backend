@@ -48,6 +48,11 @@ public enum ErrorCode {
             "유효하지 않은 비밀번호입니다.",
             HttpStatus.BAD_REQUEST
     ),
+    LOGIN_ERROR(
+            "U0008",
+            "이메일 혹은 비밀번호를 잘못 입력하였습니다.",
+            HttpStatus.BAD_REQUEST
+    ),
 
     // 권한 관련 에러코드
     INVALID_AUTHORIZATION_HEADER(
