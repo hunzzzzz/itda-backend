@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.moira.itda.domain.signup.mapper.SignupMapper">
+    <!-- 회원가입 > 닉네임 중복 확인 -->
+    <select id="selectNicknameCnt">
+        SELECT COUNT(nickname) AS CNT FROM USER WHERE nickname = #{nickname}
+    </select>
+
+    <!-- 회원가입 > 이메일 중복 확인 -->
+    <select id="selectEmailCnt">
+        SELECT COUNT(email) AS CNT FROM USER WHERE email = #{email}
+    </select>
+
+    <!-- 회원가입 > 회원가입 -->
+    <insert id="insertUser">
+        INSERT INTO USER (
+               id
+             , role
+             , status
+             , type
+             , name
+             , nickname
+             , phone
+             , image_url
+             , email
+             , password
+             , refresh_token
+             , last_login_at
+             , created_at
+             , updated_at
+        )
+        VALUES (
+               #{id}
+             , #{role}
+             , #{status}
+             , #{type}
+             , #{name}
+             , #{nickname}
+             , #{phone}
+             , null
+             , #{email}
+             , #{password}
+             , null
+             , null
+             , CURRENT_TIMESTAMP
+             , CURRENT_TIMESTAMP
+        )
+    </insert>
+</mapper>
