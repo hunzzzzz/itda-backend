@@ -26,6 +26,9 @@ public class ImageFileService {
     private final ImageFileMapper imageFileMapper;
     private final LocalFileStorageHandler localFileStorageHandler;
 
+    /**
+     * 이미지 파일 저장
+     */
     @Transactional
     public FileIdResponse uploadFile(ImageFileRequest request) {
         FileInfo fileInfo = null;

@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class ImageFileController {
     private final ImageFileService imageFileService;
 
+    /**
+     * 이미지 파일 저장
+     */
     @PostMapping("/api/image/files")
     public ResponseEntity<FileIdResponse> uploadFiles(@ModelAttribute ImageFileRequest request) {
         FileIdResponse fileIdResponse = imageFileService.uploadFile(request);
