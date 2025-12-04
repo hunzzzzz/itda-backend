@@ -1,5 +1,6 @@
 package com.moira.itda.domain.series.service;
 
+import com.moira.itda.domain.series.dto.response.ItemIdNameResponse;
 import com.moira.itda.domain.series.dto.response.SaleSeriesContentsResponse;
 import com.moira.itda.domain.series.dto.response.SaleSeriesResponse;
 import com.moira.itda.domain.series.mapper.SeriesMapper;
@@ -39,5 +40,12 @@ public class SeriesService {
 
         // [4] DTO 병합
         return new SaleSeriesResponse(contents, offsetPaginationInfo);
+    }
+
+    /**
+     * 판매 > 판매등록 > 가챠 시리즈 하위 아이템 목록 조회
+     */
+    public List<ItemIdNameResponse> getSeriesItemList(String seriesId) {
+        return seriesMapper.selectSeriesItemListWhenSale(seriesId);
     }
 }

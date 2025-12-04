@@ -49,4 +49,9 @@
          ON T2.series_id = T1.id
         ORDER BY T1.id DESC, T2.name ASC
     </select>
+
+    <!-- 판매 > 판매등록 > 가챠 시리즈 하위 아이템 목록 조회 -->
+    <select id="selectSeriesItemListWhenSale" resultType="com.moira.itda.domain.series.dto.response.ItemIdNameResponse">
+        SELECT id, name FROM GACHA_ITEM WHERE series_id = #{seriesId}
+    </select>
 </mapper>
