@@ -148,6 +148,11 @@ public enum ErrorCode {
             "F0007",
             "지원하지 않는 파일 확장자입니다. (허용 확장자: jpg, jpeg, png)",
             HttpStatus.BAD_REQUEST
+    ),
+    COMMON_CODE_NOT_FOUND(
+            "C0001",
+            "존재하지 않는 공통 코드입니다.",
+            HttpStatus.BAD_REQUEST
     );
 
     private final String code;
