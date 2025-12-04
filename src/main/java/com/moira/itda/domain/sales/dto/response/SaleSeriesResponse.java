@@ -1,4 +1,4 @@
-package com.moira.itda.domain.series.dto.response;
+package com.moira.itda.domain.sales.dto.response;
 
 import lombok.*;
 
@@ -9,8 +9,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class SaleSeriesContentsResponse {
+public class SaleSeriesResponse {
     private String seriesId;
     private String title;
-    private List<ItemNameResponse> items;
+    private List<SalesSeriesItemNameResponse> items;
 }

@@ -1,4 +1,4 @@
-package com.moira.itda.domain.series.dto.response;
+package com.moira.itda.domain.sales.dto.response;
 
 import lombok.*;
 
@@ -7,6 +7,6 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class ItemNameResponse {
+public class SalesSeriesItemNameResponse {
     private String name;
 }

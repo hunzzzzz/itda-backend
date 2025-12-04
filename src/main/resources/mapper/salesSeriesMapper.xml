@@ -2,19 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.moira.itda.domain.series.mapper.SeriesMapper">
+<mapper namespace="com.moira.itda.domain.sales.mapper.SalesSeriesMapper">
     <!-- resultMap 등록 -->
-    <resultMap id="seriesSaleSearchResponse" type="com.moira.itda.domain.series.dto.response.SaleSeriesContentsResponse">
+    <resultMap id="seriesSaleSearchResponse" type="com.moira.itda.domain.sales.dto.response.SaleSeriesResponse">
         <id property="seriesId" column="s_id"/>
         <result property="title" column="s_title"/>
 
-        <collection property="items" javaType="java.util.List" ofType="com.moira.itda.domain.series.dto.response.ItemNameResponse">
+        <collection property="items" javaType="java.util.List" ofType="com.moira.itda.domain.sales.dto.response.SalesSeriesItemNameResponse">
             <result property="name" column="i_name"/>
         </collection>
     </resultMap>
 
     <!-- 판매 > 판매등록 > 가챠 시리즈 목록 검색 > 총 개수 계산 (페이지네이션) -->
-    <select id="selectSeriesListCntWhenSaleSearch" resultType="java.lang.Long">
+    <select id="selectSeriesListCnt" resultType="java.lang.Long">
         SELECT COUNT(id)
         FROM GACHA_SERIES
         WHERE 1=1
@@ -27,7 +27,7 @@
     </select>
 
     <!-- 판매 > 판매등록 > 가챠 시리즈 목록 검색 -->
-    <select id="selectSeriesListWhenSaleSearch" resultMap="seriesSaleSearchResponse">
+    <select id="selectSeriesList" resultMap="seriesSaleSearchResponse">
         WITH T1 AS (
             SELECT id, title
             FROM GACHA_SERIES
@@ -51,7 +51,7 @@
     </select>
 
     <!-- 판매 > 판매등록 > 가챠 시리즈 하위 아이템 목록 조회 -->
-    <select id="selectSeriesItemListWhenSale" resultType="com.moira.itda.domain.series.dto.response.ItemIdNameResponse">
+    <select id="selectSeriesItemList" resultType="com.moira.itda.domain.sales.dto.response.SalesSeriesItemIdNameResponse">
         SELECT id, name FROM GACHA_ITEM WHERE series_id = #{seriesId}
     </select>
 </mapper>
