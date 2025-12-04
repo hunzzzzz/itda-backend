@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.moira.itda.domain.series.mapper.SeriesMapper">
+    <!-- resultMap 등록 -->
+    <resultMap id="seriesSaleSearchResponse" type="com.moira.itda.domain.series.dto.response.SaleSeriesContentsResponse">
+        <id property="seriesId" column="s_id"/>
+        <result property="title" column="s_title"/>
+
+        <collection property="items" javaType="java.util.List" ofType="com.moira.itda.domain.series.dto.response.ItemNameResponse">
+            <result property="name" column="i_name"/>
+        </collection>
+    </resultMap>
+
+    <!-- 판매 > 판매등록 > 검색 > 총 개수 계산 -->
+    <select id="selectSeriesListCntWhenSaleSearch" resultType="java.lang.Long">
+        SELECT COUNT(id)
+        FROM GACHA_SERIES
+        WHERE 1=1
+        <choose>
+            <when test="keywordPattern != null and keywordPattern != ''">
+                AND title LIKE #{keywordPattern}
+            </when>
+        </choose>
+        ORDER BY created_at
+    </select>
+
+    <!-- 판매 > 판매등록 > 검색 -->
+    <select id="selectSeriesListWhenSaleSearch" resultMap="seriesSaleSearchResponse">
+        WITH T1 AS (
+            SELECT id, title
+            FROM GACHA_SERIES
+            WHERE 1=1
+            <choose>
+                <when test="keywordPattern != null and keywordPattern != ''">
+                    AND title LIKE #{keywordPattern}
+                </when>
+            </choose>
+            ORDER BY created_at DESC
+            LIMIT #{pageSize} OFFSET #{offset}
+        )
+        SELECT
+               T1.id    AS s_id
+             , T1.title AS s_title
+             , T2.name  AS i_name
+        FROM T1
+        LEFT JOIN GACHA_ITEM T2
+         ON T2.series_id = T1.id
+        ORDER BY T1.id DESC, T2.name ASC
+    </select>
+</mapper>
