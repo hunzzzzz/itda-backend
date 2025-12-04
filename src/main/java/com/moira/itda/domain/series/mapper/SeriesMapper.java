@@ -7,9 +7,9 @@ import java.util.List;
 
 @Mapper
 public interface SeriesMapper {
-    // 판매 > 판매등록 > 검색 > 총 개수 계산
+    // 판매 > 판매등록 > 가챠 시리즈 목록 검색 > 총 개수 계산 (페이지네이션)
     Long selectSeriesListCntWhenSaleSearch(String keywordPattern);
 
-    // 판매 > 판매등록 > 검색
+    // 판매 > 판매등록 > 가챠 시리즈 목록 검색
     List<SaleSeriesContentsResponse> selectSeriesListWhenSaleSearch(String keywordPattern, int pageSize, int offset);
 }

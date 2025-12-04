@@ -13,7 +13,7 @@
         </collection>
     </resultMap>
 
-    <!-- 판매 > 판매등록 > 검색 > 총 개수 계산 -->
+    <!-- 판매 > 판매등록 > 가챠 시리즈 목록 검색 > 총 개수 계산 (페이지네이션) -->
     <select id="selectSeriesListCntWhenSaleSearch" resultType="java.lang.Long">
         SELECT COUNT(id)
         FROM GACHA_SERIES
@@ -26,7 +26,7 @@
         ORDER BY created_at
     </select>
 
-    <!-- 판매 > 판매등록 > 검색 -->
+    <!-- 판매 > 판매등록 > 가챠 시리즈 목록 검색 -->
     <select id="selectSeriesListWhenSaleSearch" resultMap="seriesSaleSearchResponse">
         WITH T1 AS (
             SELECT id, title
