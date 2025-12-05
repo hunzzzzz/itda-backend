@@ -112,6 +112,11 @@ public enum ErrorCode {
             "최대 1개의 파일만 업로드할 수 있습니다.",
             HttpStatus.BAD_REQUEST
     ),
+    SERIES_NOT_FOUND(
+            "G0006",
+            "존재하지 않는 가챠 시리즈입니다.",
+            HttpStatus.BAD_REQUEST
+    ),
 
     // 파일 관련 에러코드
     FILE_NOT_FOUND(
@@ -149,6 +154,25 @@ public enum ErrorCode {
             "지원하지 않는 파일 확장자입니다. (허용 확장자: jpg, jpeg, png)",
             HttpStatus.BAD_REQUEST
     ),
+
+    // 판매 관련 에러코드
+    INVALID_SALES_TITLE(
+            "S0001",
+            "유효하지 않은 판매 제목입니다.",
+            HttpStatus.BAD_REQUEST
+    ),
+    INVALID_SALES_CONTENT(
+            "S0002",
+            "유효하지 않은 판매 내용입니다.",
+            HttpStatus.BAD_REQUEST
+    ),
+    INVALID_SALES_HOPE_METHOD(
+            "S0003",
+            "유효하지 않은 거래 방식입니다.",
+            HttpStatus.BAD_REQUEST
+    ),
+
+    // 공통코드 관련 에러코드
     COMMON_CODE_NOT_FOUND(
             "C0001",
             "존재하지 않는 공통 코드입니다.",

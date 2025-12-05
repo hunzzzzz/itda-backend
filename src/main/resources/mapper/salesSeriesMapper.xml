@@ -54,4 +54,64 @@
     <select id="selectSeriesItemList" resultType="com.moira.itda.domain.sales.dto.response.SalesSeriesItemIdNameResponse">
         SELECT id, name FROM GACHA_ITEM WHERE series_id = #{seriesId}
     </select>
+
+    <!-- 판매 > 판매등록 > 가챠 시리즈 ID 유효성 검사 -->
+    <select id="selectSeriesIdChk">
+        SELECT COUNT(id) FROM GACHA_SERIES WHERE id = #{seriesId}
+    </select>
+
+    <!-- 판매 > 판매등록 > 파일 ID 유효성 검사 -->
+    <select id="selectFileIdChk">
+        SELECT COUNT(file_id) FROM IMAGE_FILE WHERE file_id = #{fileId}
+    </select>
+
+    <!-- 판매 > 판매등록 > Sales 객체 저장 -->
+    <insert id="insertSales">
+        INSERT INTO SALES (
+               id
+             , series_id
+             , user_id
+             , status
+             , title
+             , content
+             , file_id
+             , hope_method
+             , created_at
+             , updated_at
+        )
+        VALUES (
+               #{id}
+             , #{seriesId}
+             , #{userId}
+             , #{status}
+             , #{title}
+             , #{content}
+             , #{fileId}
+             , #{hopeMethod}
+             , CURRENT_TIMESTAMP
+             , CURRENT_TIMESTAMP
+        )
+    </insert>
+
+    <!-- 판매 > 판매등록 > SalesItem 객체 저장 -->
+    <insert id="insertSalesItem">
+        INSERT INTO SALES_ITEM (
+               sales_id
+             , series_id
+             , series_item_id
+             , count
+             , current_count
+             , price
+             , created_at
+        )
+        VALUES (
+               #{salesId}
+             , #{seriesId}
+             , #{seriesItemId}
+             , #{count}
+             , #{currentCount}
+             , #{price}
+             , CURRENT_TIMESTAMP
+        )
+    </insert>
 </mapper>

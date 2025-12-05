@@ -1,5 +1,6 @@
 package com.moira.itda.global.entity;
 
+import com.moira.itda.domain.sales.dto.request.SalesItemAddRequest;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,4 +19,16 @@ public class SalesItem {
     private int currentCount;
     private int price;
     private ZonedDateTime createdAt;
+
+    public static SalesItem fromSalesItemAddRequest(String seriesId, String salesId, SalesItemAddRequest request) {
+        return SalesItem.builder()
+                .salesId(salesId)
+                .seriesId(seriesId)
+                .seriesItemId(request.seriesItemId())
+                .count(request.count())
+                .currentCount(request.count())
+                .price(request.price())
+                .createdAt(ZonedDateTime.now())
+                .build();
+    }
 }

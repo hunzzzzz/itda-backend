@@ -1,14 +1,14 @@
 package com.moira.itda.domain.sales.controller;
 
-import com.moira.itda.domain.sales.dto.response.SalesSeriesItemIdNameResponse;
+import com.moira.itda.domain.sales.dto.request.SalesAddRequest;
 import com.moira.itda.domain.sales.dto.response.SaleSeriesSearchResponse;
+import com.moira.itda.domain.sales.dto.response.SalesSeriesItemIdNameResponse;
 import com.moira.itda.domain.sales.service.SalesSeriesService;
+import com.moira.itda.global.aop.UserPrincipal;
+import com.moira.itda.global.auth.SimpleUserAuth;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -40,5 +40,19 @@ public class SalesSeriesController {
         List<SalesSeriesItemIdNameResponse> list = salesSeriesService.getSeriesItemList(seriesId);
 
         return ResponseEntity.ok(list);
+    }
+
+    /**
+     * 판매 > 판매등록
+     */
+    @PostMapping("/api/sales/series/{seriesId}")
+    public ResponseEntity<Object> addSales(
+            @UserPrincipal SimpleUserAuth userAuth,
+            @PathVariable String seriesId,
+            @RequestBody SalesAddRequest request
+    ) {
+        salesSeriesService.addSales(userAuth, seriesId, request);
+
+        return ResponseEntity.ok(null);
     }
 }
