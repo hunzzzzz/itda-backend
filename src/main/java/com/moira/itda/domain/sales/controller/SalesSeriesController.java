@@ -2,6 +2,7 @@ package com.moira.itda.domain.sales.controller;
 
 import com.moira.itda.domain.sales.dto.request.SalesAddRequest;
 import com.moira.itda.domain.sales.dto.response.SaleSeriesSearchResponse;
+import com.moira.itda.domain.sales.dto.response.SalesResponse;
 import com.moira.itda.domain.sales.dto.response.SalesSeriesItemIdNameResponse;
 import com.moira.itda.domain.sales.service.SalesSeriesService;
 import com.moira.itda.global.aop.UserPrincipal;
@@ -54,5 +55,12 @@ public class SalesSeriesController {
         salesSeriesService.addSales(userAuth, seriesId, request);
 
         return ResponseEntity.ok(null);
+    }
+
+    @GetMapping("/api/sales")
+    public ResponseEntity<List<SalesResponse>> getSalesList(@UserPrincipal SimpleUserAuth userAuth) {
+        List<SalesResponse> list = salesSeriesService.getSalesList(userAuth);
+
+        return ResponseEntity.ok(list);
     }
 }

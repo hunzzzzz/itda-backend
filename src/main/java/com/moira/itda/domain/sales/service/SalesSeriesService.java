@@ -4,6 +4,7 @@ import com.moira.itda.domain.sales.dto.request.SalesAddRequest;
 import com.moira.itda.domain.sales.dto.request.SalesItemAddRequest;
 import com.moira.itda.domain.sales.dto.response.SaleSeriesResponse;
 import com.moira.itda.domain.sales.dto.response.SaleSeriesSearchResponse;
+import com.moira.itda.domain.sales.dto.response.SalesResponse;
 import com.moira.itda.domain.sales.dto.response.SalesSeriesItemIdNameResponse;
 import com.moira.itda.domain.sales.mapper.SalesSeriesMapper;
 import com.moira.itda.global.auth.SimpleUserAuth;
@@ -88,6 +89,9 @@ public class SalesSeriesService {
         }
     }
 
+    /**
+     * 판매 > 판매등록 > 유효성 검사
+     */
     private void validate(String seriesId, SalesAddRequest request) {
         if (salesSeriesMapper.selectSeriesIdChk(seriesId) < 1) {
             throw new ItdaException(ErrorCode.SERIES_NOT_FOUND);
@@ -106,5 +110,12 @@ public class SalesSeriesService {
         } catch (Exception e) {
             throw new ItdaException(ErrorCode.INVALID_SALES_HOPE_METHOD);
         }
+    }
+
+    /**
+     * 판매 > 판매 목록 조회
+     */
+    public List<SalesResponse> getSalesList(SimpleUserAuth userAuth) {
+        return salesSeriesMapper.selectSalesList(userAuth.userId());
     }
 }

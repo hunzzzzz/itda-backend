@@ -1,6 +1,7 @@
 package com.moira.itda.domain.sales.mapper;
 
 import com.moira.itda.domain.sales.dto.response.SaleSeriesResponse;
+import com.moira.itda.domain.sales.dto.response.SalesResponse;
 import com.moira.itda.domain.sales.dto.response.SalesSeriesItemIdNameResponse;
 import com.moira.itda.global.entity.Sales;
 import com.moira.itda.global.entity.SalesItem;
@@ -30,4 +31,7 @@ public interface SalesSeriesMapper {
 
     // 판매 > 판매등록 > SalesItem 객체 저장
     void insertSalesItem(SalesItem salesItem);
+
+    // 판매 > 판매 목록 조회
+    List<SalesResponse> selectSalesList(String userId);
 }

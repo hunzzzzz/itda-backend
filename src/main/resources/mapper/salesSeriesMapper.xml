@@ -114,4 +114,18 @@
              , CURRENT_TIMESTAMP
         )
     </insert>
+
+    <!-- 판매 > 판매 목록 조회 -->
+    <select id="selectSalesList" resultType="com.moira.itda.domain.sales.dto.response.SalesResponse">
+        SELECT
+               A.id
+             , A.series_id
+             , A.user_id
+             , A.status
+             , A.title
+             , (SELECT file_url FROM IMAGE_FILE WHERE file_id = A.file_id ORDER BY created_at DESC LIMIT 1) AS fileUrl
+             , A.hope_method
+             , A.created_at
+        FROM SALES A
+    </select>
 </mapper>
