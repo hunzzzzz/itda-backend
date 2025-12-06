@@ -82,6 +82,7 @@
         FROM COMMON_CODE C
         LEFT JOIN COMMON_CODE_DETAIL CD
          ON CD.code_key = C.code_key
+        ORDER BY C.created_at ASC, CD.created_at ASC
     </select>
 
     <!-- ========================================================================== -->
