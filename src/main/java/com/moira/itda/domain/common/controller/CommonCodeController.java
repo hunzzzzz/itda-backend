@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -24,7 +25,7 @@ public class CommonCodeController {
     public ResponseEntity<Object> add(@RequestBody CommonCodeAddRequest request) {
         commonCodeService.add(request);
 
-        return ResponseEntity.ok(null);
+        return ResponseEntity.created(URI.create("/api/common/code")).build();
     }
 
     /**
