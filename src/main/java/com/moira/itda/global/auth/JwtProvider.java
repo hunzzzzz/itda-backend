@@ -19,9 +19,13 @@ public class JwtProvider {
     @Value("${jwt.secret.key}")
     private String secretKey;
 
-    private static final String JWT_ISSUER = "ITDA_LOCAL";                    // 토큰 발급자
-    private static final Long JWT_EXPIRATION_TIME_ATK = 1000 * 60 * 60L;      // 1시간
-    private static final Long JWT_EXPIRATION_TIME_RTK = 1000 * 60 * 60 * 24L; // 24시간
+    @Value("${spring.profiles.active}")
+    private String profilesActive;
+
+    private static final String JWT_ISSUER = "ITDA_LOCAL";                             // 토큰 발급자
+    private static final Long JWT_EXPIRATION_TIME_ATK = 1000 * 60 * 60L;               // ATK 유효시간 (1시간)
+    private static final Long JWT_EXPIRATION_TIME_ATK_IN_LOCAL = 1000 * 60 * 60 * 24L; // ATK 유효시간 (24시간, 로컬)
+    private static final Long JWT_EXPIRATION_TIME_RTK = 1000 * 60 * 60 * 24L;          // RTK 유효시간 (24시간)
     private SecretKey key;
 
     @PostConstruct
@@ -32,7 +36,11 @@ public class JwtProvider {
     }
 
     public String createAtk(User user) {
-        return this.createToken(user, JWT_EXPIRATION_TIME_ATK);
+        if ("local".equals(profilesActive)) {
+            return this.createToken(user, JWT_EXPIRATION_TIME_ATK_IN_LOCAL);
+        } else {
+            return this.createToken(user, JWT_EXPIRATION_TIME_ATK);
+        }
     }
 
     public String createRtk(User user) {

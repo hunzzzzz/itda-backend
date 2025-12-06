@@ -177,6 +177,11 @@ public enum ErrorCode {
             "C0001",
             "존재하지 않는 공통 코드입니다.",
             HttpStatus.BAD_REQUEST
+    ),
+    ALREADY_EXISTING_COMMON_CODE(
+            "C0002",
+            "이미 존재하는 공통 코드입니다.",
+            HttpStatus.BAD_REQUEST
     );
 
     private final String code;

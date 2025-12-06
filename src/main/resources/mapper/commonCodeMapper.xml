@@ -3,13 +3,95 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.moira.itda.domain.common.mapper.CommonCodeMapper">
-    <!-- 공통 코드 존재 여부 확인 -->
+    <resultMap id="commonCodeResponse" type="com.moira.itda.domain.common.dto.response.CommonCodeResponse">
+        <id property="codeKey" column="c_code_key"/>
+        <result property="createdAt" column="c_created_at"/>
+        <result property="updatedAt" column="c_updated_at"/>
+
+        <collection property="details" javaType="java.util.List" ofType="com.moira.itda.domain.common.dto.response.CommonCodeDetailResponse">
+            <id property="detailId" column="cd_id"/>
+            <result property="engName" column="cd_eng_name"/>
+            <result property="korName" column="cd_kor_name"/>
+        </collection>
+    </resultMap>
+
+    <resultMap id="seriesSaleSearchResponse" type="com.moira.itda.domain.sales.dto.response.SaleSeriesResponse">
+        <id property="seriesId" column="s_id"/>
+        <result property="title" column="s_title"/>
+
+        <collection property="items" javaType="java.util.List" ofType="com.moira.itda.domain.sales.dto.response.SalesSeriesItemNameResponse">
+            <result property="name" column="i_name"/>
+        </collection>
+    </resultMap>
+
+    <!-- ========================================================================== -->
+    <!-- 공통코드 > Key 존재 여부 확인 -->
     <select id="selectCommonCodeKeyChk">
         SELECT COUNT(code_key) FROM COMMON_CODE WHERE code_key = #{key}
     </select>
 
-    <!-- 공통 코드 조회 -->
-    <select id="selectCommonCodeDetailList" resultType="com.moira.itda.domain.common.dto.CommonCodeResponse">
-        SELECT eng_name, kor_name FROM COMMON_CODE_DETAIL WHERE code_key = #{key}
+    <!-- ========================================================================== -->
+    <!-- 공통코드 > 저장 > CommonCode 저장 -->
+    <insert id="insertCommonCode">
+        INSERT INTO COMMON_CODE (
+               code_key
+             , created_at
+             , updated_at
+        )
+        VALUES (
+               #{key}
+             , #{createdAt}
+             , #{updatedAt}
+        )
+    </insert>
+
+    <!-- 공통코드 > 저장 > CommonCodeDetail 저장 -->
+    <insert id="insertCommonCodeDetail">
+        INSERT INTO COMMON_CODE_DETAIL (
+               code_key
+             , eng_name
+             , kor_name
+             , created_at
+             , updated_at
+        )
+        VALUES (
+               #{key}
+             , #{engName}
+             , #{korName}
+             , #{createdAt}
+             , #{updatedAt}
+        )
+    </insert>
+
+    <!-- ========================================================================== -->
+    <!-- 공통코드 > 단건 조회 -->
+    <select id="selectCommonCode" resultType="com.moira.itda.domain.common.dto.response.CommonCodeDetailResponse">
+        SELECT id AS detailId, eng_name, kor_name FROM COMMON_CODE_DETAIL WHERE code_key = #{key}
     </select>
+
+    <!-- ========================================================================== -->
+    <!-- 공통코드 > 전체 조회 -->
+    <select id="selectCommonCodeList" resultMap="commonCodeResponse">
+        SELECT
+               C.code_key   AS c_code_key
+             , C.created_at AS c_created_at
+             , C.updated_at AS c_updated_at
+             , CD.id        AS cd_id
+             , CD.eng_name  AS cd_eng_name
+             , CD.kor_name  AS cd_kor_name
+        FROM COMMON_CODE C
+        LEFT JOIN COMMON_CODE_DETAIL CD
+         ON CD.code_key = C.code_key
+    </select>
+
+    <!-- ========================================================================== -->
+    <!-- 공통코드 > CommonCode 삭제 -->
+    <delete id="deleteCommonCode">
+        DELETE FROM COMMON_CODE WHERE code_key = #{key}
+    </delete>
+
+    <!-- 공통코드 > CommonCodeDetail 삭제 -->
+    <delete id="deleteCommonCodeDetail">
+        DELETE FROM COMMON_CODE_DETAIL WHERE code_key = #{key}
+    </delete>
 </mapper>

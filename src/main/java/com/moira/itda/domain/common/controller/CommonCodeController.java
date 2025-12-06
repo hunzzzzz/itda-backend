@@ -1,12 +1,13 @@
 package com.moira.itda.domain.common.controller;
 
-import com.moira.itda.domain.common.dto.CommonCodeResponse;
+import com.moira.itda.domain.common.dto.request.CommonCodeAddRequest;
+import com.moira.itda.domain.common.dto.response.CommonCodeDetailResponse;
+import com.moira.itda.domain.common.dto.response.CommonCodeResponse;
 import com.moira.itda.domain.common.service.CommonCodeService;
+import com.moira.itda.global.aop.IsAdmin;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -15,10 +16,46 @@ import java.util.List;
 public class CommonCodeController {
     private final CommonCodeService commonCodeService;
 
-    @GetMapping("/api/common")
-    public ResponseEntity<List<CommonCodeResponse>> getCommonCode(@RequestParam String key) {
-        List<CommonCodeResponse> list = commonCodeService.getCommonCode(key);
+    /**
+     * 공통코드 > 저장
+     */
+    @IsAdmin
+    @PostMapping("/api/common/code")
+    public ResponseEntity<Object> add(@RequestBody CommonCodeAddRequest request) {
+        commonCodeService.add(request);
+
+        return ResponseEntity.ok(null);
+    }
+
+    /**
+     * 공통코드 > 단건 조회
+     */
+    @GetMapping("/api/common/code/{key}")
+    public ResponseEntity<List<CommonCodeDetailResponse>> get(@PathVariable String key) {
+        List<CommonCodeDetailResponse> list = commonCodeService.get(key);
 
         return ResponseEntity.ok(list);
+    }
+
+    /**
+     * 공통코드 > 전체 조회
+     */
+    @IsAdmin
+    @GetMapping("/api/common/code")
+    public ResponseEntity<List<CommonCodeResponse>> getAll() {
+        List<CommonCodeResponse> list = commonCodeService.getAll();
+
+        return ResponseEntity.ok(list);
+    }
+
+    /**
+     * 공통코드 > 삭제
+     */
+    @IsAdmin
+    @DeleteMapping("/api/common/code/{key}")
+    public ResponseEntity<Object> delete(@PathVariable String key) {
+        commonCodeService.delete(key);
+
+        return ResponseEntity.ok(null);
     }
 }
