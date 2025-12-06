@@ -3,6 +3,23 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.moira.itda.domain.series.mapper.SeriesMapper">
+    <resultMap id="seriesDetailResponse" type="com.moira.itda.domain.series.dto.response.SeriesDetailResponse">
+        <id property="seriesId" column="s_id"/>
+        <result property="title" column="s_title"/>
+        <result property="manufacturer" column="s_manufacturer"/>
+        <result property="fileId" column="s_file_id"/>
+        <result property="fileUrl" column="f_file_url"/>
+        <result property="price" column="s_price"/>
+        <result property="viewCount" column="s_view_count"/>
+        <result property="releasedAt" column="s_released_at"/>
+        <result property="createdAt" column="s_created_at"/>
+        <result property="updatedAt" column="s_updated_at"/>
+        <collection property="items" javaType="java.util.List" ofType="com.moira.itda.domain.series.dto.response.SeriesItemResponse">
+            <id property="seriesItemId" column="i_id"/>
+            <result property="name" column="i_name"/>
+        </collection>
+    </resultMap>
+
     <!-- ========================================================================== -->
     <!-- 가챠시리즈 > 등록 > 파일 ID 존재 여부 확인 -->
     <select id="selectFileIdChk">
@@ -51,7 +68,7 @@
     </insert>
 
     <!-- ========================================================================== -->
-    <!-- 가챠시리즈 > 전체 조회 > totalCount 계산 -->
+    <!-- 가챠시리즈 > 전체 조회 (오프셋 기반 페이지네이션) > totalCount 계산 -->
     <select id="selectGachaSeriesListCnt">
         SELECT COUNT(id) FROM GACHA_SERIES
         WHERE 1 = 1
@@ -65,8 +82,8 @@
         </choose>
     </select>
 
-    <!-- 가챠시리즈 > 전체 조회 -->
-    <select id="selectGachaSeriesList" resultType="com.moira.itda.domain.series.dto.response.SeriesResponse">
+    <!-- 가챠시리즈 > 전체 조회 (오프셋 기반 페이지네이션) -->
+    <select id="selectGachaSeriesListWithPagination" resultType="com.moira.itda.domain.series.dto.response.SeriesResponse">
         SELECT
                S.id AS seriesId
              , S.title
@@ -92,5 +109,29 @@
         </choose>
         ORDER BY S.created_at DESC
         LIMIT #{pageSize} OFFSET #{offset}
+    </select>
+
+    <!-- 가챠시리즈 > 단건 조회 -->
+    <select id="selectGachaSeries" resultMap="seriesDetailResponse">
+        SELECT
+               S.id           AS s_id
+             , S.title        AS s_title
+             , S.manufacturer AS s_manufacturer
+             , S.file_id      AS s_file_id
+             , F.file_url     AS f_file_url
+             , S.price        AS s_price
+             , S.view_count   AS s_view_count
+             , S.released_at  AS s_released_at
+             , S.created_at   AS s_created_at
+             , S.updated_at   AS s_updated_at
+             , I.id           AS i_id
+             , I.name         AS i_name
+        FROM GACHA_SERIES S
+        LEFT JOIN IMAGE_FILE F
+         ON F.file_id = S.file_id
+        LEFT JOIN GACHA_ITEM I
+         ON I.series_id = S.id
+        WHERE S.id = #{seriesId}
+        ORDER BY S.created_at DESC, I.created_at ASC
     </select>
 </mapper>

@@ -1,5 +1,6 @@
 package com.moira.itda.domain.series.mapper;
 
+import com.moira.itda.domain.series.dto.response.SeriesDetailResponse;
 import com.moira.itda.domain.series.dto.response.SeriesResponse;
 import com.moira.itda.global.entity.GachaItem;
 import com.moira.itda.global.entity.GachaSeries;
@@ -29,12 +30,17 @@ public interface SeriesMapper {
     // ------------------------------------------------------------------------
 
     /**
-     * 가챠시리즈 > 전체 조회
+     * 가챠시리즈 > 전체 조회 (오프셋 기반 페이지네이션) > totalCount 계산
      */
-    Long selectGachaSeriesListCnt(String keywordPattern);
+    Long selectGachaSeriesListCntWithPagination(String keywordPattern);
 
     /**
-     * 가챠시리즈 > 전체 조회
+     * 가챠시리즈 > 전체 조회 (오프셋 기반 페이지네이션)
      */
-    List<SeriesResponse> selectGachaSeriesList(String keywordPattern, int pageSize, int offset);
+    List<SeriesResponse> selectGachaSeriesListWithPagination(String keywordPattern, int pageSize, int offset);
+
+    /**
+     * 가챠시리즈 > 단건 조회
+     */
+    List<SeriesDetailResponse> selectGachaSeries(String seriesId);
 }

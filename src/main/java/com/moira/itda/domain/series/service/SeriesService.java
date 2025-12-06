@@ -2,6 +2,7 @@ package com.moira.itda.domain.series.service;
 
 import com.moira.itda.domain.series.dto.request.SeriesAddRequest;
 import com.moira.itda.domain.series.dto.request.SeriesItemAddRequest;
+import com.moira.itda.domain.series.dto.response.SeriesDetailResponse;
 import com.moira.itda.domain.series.dto.response.SeriesPageResponse;
 import com.moira.itda.domain.series.dto.response.SeriesResponse;
 import com.moira.itda.domain.series.mapper.SeriesMapper;
@@ -77,23 +78,31 @@ public class SeriesService {
     }
 
     /**
-     * 가챠시리즈 > 전체 조회
+     * 가챠시리즈 > 전체 조회 (오프셋 기반 페이지네이션)
      */
     @Transactional(readOnly = true)
-    public SeriesPageResponse getAll(String keyword, int page) {
+    public SeriesPageResponse get(String keyword, int page) {
         // [1] 변수 세팅
-        String keywordPattern = "%" + keyword + "%";
+        String keywordPattern = keyword.isEmpty() ? "" : "%" + keyword + "%";
         int offset = (page - 1) * SERIES_PAGE_SIZE;
 
         // [2] 조회
-        Long totalCount = seriesMapper.selectGachaSeriesListCnt(keywordPattern);
-        List<SeriesResponse> series = seriesMapper.selectGachaSeriesList(keywordPattern, SERIES_PAGE_SIZE, offset);
+        Long totalCount = seriesMapper.selectGachaSeriesListCntWithPagination(keywordPattern);
+        List<SeriesResponse> seriesList = seriesMapper.selectGachaSeriesListWithPagination(keywordPattern, SERIES_PAGE_SIZE, offset);
 
         // [3] 오프셋 페이지네이션 응답값 적용
         OffsetPaginationInfo paginationInfo = paginationHandler.getOffsetPaginationInfo(
                 totalCount, page, SERIES_PAGE_SIZE
         );
 
-        return new SeriesPageResponse(series, paginationInfo);
+        return new SeriesPageResponse(seriesList, paginationInfo);
+    }
+
+    /**
+     * 가챠시리즈 > 단건 조회
+     */
+    @Transactional(readOnly = true)
+    public List<SeriesDetailResponse> get(String seriesId) {
+        return seriesMapper.selectGachaSeries(seriesId);
     }
 }
