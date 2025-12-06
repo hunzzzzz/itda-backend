@@ -62,7 +62,7 @@ public class AwsS3Handler {
             amazonS3.putObject(s3Object);
 
             // [4] S3 Url 생성
-            URL url = amazonS3.getUrl(bucketName, storedFileName);
+            URL url = amazonS3.getUrl(bucketName, s3Key);
             String fileUrl = url.toString();
 
             // [5] FileInfo 객체 생성 및 리턴
