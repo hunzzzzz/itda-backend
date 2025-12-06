@@ -9,6 +9,6 @@ public record SeriesAddRequest(
         Integer price,
         String fileId,
         ZonedDateTime releasedAt,
-        List<ItemAddRequest> items
+        List<SeriesItemAddRequest> items
 ) {
 }

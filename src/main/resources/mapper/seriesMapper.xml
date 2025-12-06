@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.moira.itda.domain.series.mapper.SeriesMapper">
+    <!-- ========================================================================== -->
+    <!-- 가챠시리즈 > 등록 > 파일 ID 존재 여부 확인 -->
+    <select id="selectFileIdChk">
+        SELECT COUNT(file_id) AS CNT FROM IMAGE_FILE WHERE file_id = #{fileId}
+    </select>
+
+    <!-- ========================================================================== -->
+    <!-- 가챠시리즈 > 등록 > GachaSeries 저장 -->
+    <insert id="insertGachaSeries">
+        INSERT INTO GACHA_SERIES (
+               id
+             , title
+             , manufacturer
+             , price
+             , view_count
+             , file_id
+             , released_at
+             , created_at
+             , updated_at
+        )
+        VALUES (
+               #{id}
+             , #{title}
+             , #{manufacturer}
+             , #{price}
+             , #{viewCount}
+             , #{fileId}
+             , #{releasedAt}
+             , #{createdAt}
+             , #{updatedAt}
+        )
+    </insert>
+
+    <!-- 가챠시리즈 > 등록 > GachaItem 저장 -->
+    <insert id="insertGachaItem">
+        INSERT INTO GACHA_ITEM (
+               series_id
+             , name
+             , created_at
+        )
+        VALUES (
+               #{seriesId}
+             , #{name}
+             , #{createdAt}
+        )
+    </insert>
+
+    <!-- ========================================================================== -->
+    <!-- 가챠시리즈 > 전체 조회 > totalCount 계산 -->
+    <select id="selectGachaSeriesListCnt">
+        SELECT COUNT(id) FROM GACHA_SERIES
+        WHERE 1 = 1
+        <choose>
+            <when test="keywordPattern != null and keywordPattern != ''">
+                AND (
+                     title LIKE #{keywordPattern}
+                  OR manufacturer LIKE #{keywordPattern}
+                )
+            </when>
+        </choose>
+    </select>
+
+    <!-- 가챠시리즈 > 전체 조회 -->
+    <select id="selectGachaSeriesList" resultType="com.moira.itda.domain.series.dto.response.SeriesResponse">
+        SELECT
+               S.id AS seriesId
+             , S.title
+             , S.manufacturer
+             , S.file_id
+             , F.file_url
+             , S.price
+             , S.view_count
+             , S.released_at
+             , S.created_at
+             , S.updated_at
+        FROM GACHA_SERIES S
+        LEFT JOIN IMAGE_FILE F
+         ON F.file_id = S.file_id
+        WHERE 1 = 1
+        <choose>
+            <when test="keywordPattern != null and keywordPattern != ''">
+                AND (
+                     S.title LIKE #{keywordPattern}
+                  OR S.manufacturer LIKE #{keywordPattern}
+                )
+            </when>
+        </choose>
+        ORDER BY S.created_at DESC
+        LIMIT #{pageSize} OFFSET #{offset}
+    </select>
+</mapper>
