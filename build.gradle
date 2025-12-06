@@ -25,6 +25,8 @@ repositories {
 }
 
 dependencies {
+    // aws: s3
+    implementation 'com.amazonaws:aws-java-sdk:1.12.794'
     // database
     runtimeOnly 'com.mysql:mysql-connector-j'
     // jwt
