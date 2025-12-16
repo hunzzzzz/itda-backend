@@ -50,6 +50,21 @@ enum class ErrorCode(
         message = "이메일 혹은 비밀번호를 잘못 입력하였습니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
+    USER_NOT_FOUND(
+        code = "U0010",
+        message = "존재하지 않는 유저입니다.",
+        httpStatus = HttpStatus.BAD_REQUEST
+    ),
+    PASSWORD_NOT_MATCH(
+        code = "U0011",
+        message = "비밀번호가 일치하지 않습니다.",
+        httpStatus = HttpStatus.BAD_REQUEST
+    ),
+    CANNOT_UPDATE_WITH_SAME_PASSWORD(
+        code = "U0012",
+        message = "동일한 비밀번호로 변경할 수 업습니다.",
+        httpStatus = HttpStatus.BAD_REQUEST
+    ),
 
     // 권한 관련 에러코드
     INVALID_AUTHORIZATION_HEADER(
