@@ -57,7 +57,7 @@
 
     <!-- 어드민 페이지 > 가챠정보 > 전체 조회 -->
     <select id="selectGachaList" resultType="com.moira.itda.domain.admin.gacha.dto.response.AdminGachaResponse">
-        SELECT
+        SELECT DISTINCT
                G.id AS gachaId
              , G.status
              , G.title
@@ -71,11 +71,14 @@
         FROM GACHA G
         LEFT JOIN IMAGE_FILE F
          ON F.file_id = G.file_id
+        LEFT JOIN GACHA_ITEM GI
+         ON GI.gacha_id = G.id
         WHERE 1=1
         <choose>
             <when test="keywordPattern != null and keywordPattern != ''">
                    G.title        LIKE #{keywordPattern}
                 OR G.manufacturer LIKE #{keywordPattern}
+                OR GI.name        LIKE #{keywordPattern}
             </when>
         </choose>
         ORDER BY G.created_at ASC
