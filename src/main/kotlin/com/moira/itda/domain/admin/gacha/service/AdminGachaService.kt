@@ -3,6 +3,8 @@ package com.moira.itda.domain.admin.gacha.service
 import com.moira.itda.domain.admin.gacha.dto.request.AdminGachaAddRequest
 import com.moira.itda.domain.admin.gacha.dto.request.AdminGachaItemAddRequest
 import com.moira.itda.domain.admin.gacha.mapper.AdminGachaMapper
+import com.moira.itda.domain.admin.gacha.dto.response.AdminGachaItemResponse
+import com.moira.itda.domain.admin.gacha.dto.response.AdminGachaResponse
 import com.moira.itda.global.entity.Gacha
 import com.moira.itda.global.entity.GachaItem
 import com.moira.itda.global.exception.ErrorCode
@@ -76,5 +78,23 @@ class AdminGachaService(
     fun addItem(gachaId: String, request: AdminGachaItemAddRequest) {
         val gachaItem = GachaItem.fromAdminGachaItemAddRequest(gachaId = gachaId, request = request)
         adminGachaMapper.insertGachaItem(gachaItem = gachaItem)
+    }
+
+    /**
+     * 어드민 페이지 > 가챠정보 > 전체 조회
+     */
+    @Transactional(readOnly = true)
+    fun getAll(keyword: String): List<AdminGachaResponse> {
+        val keywordPattern = if (keyword.isBlank()) "" else "%$keyword%"
+
+        return adminGachaMapper.selectGachaList(keywordPattern = keywordPattern)
+    }
+
+    /**
+     * 어드민 페이지 > 가챠정보 > 하위 아이템 목록 조회
+     */
+    @Transactional(readOnly = true)
+    fun getItems(gachaId: String): List<AdminGachaItemResponse> {
+        return adminGachaMapper.selectGachaItemList(gachaId = gachaId)
     }
 }
