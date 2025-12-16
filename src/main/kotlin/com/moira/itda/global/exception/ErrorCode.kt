@@ -51,4 +51,26 @@ enum class ErrorCode(
         httpStatus = HttpStatus.BAD_REQUEST
     ),
 
+    // 권한 관련 에러코드
+    INVALID_AUTHORIZATION_HEADER(
+        code = "A0001",
+        message = "Authorization 헤더에 토큰 정보가 포함되어 있지 않습니다.",
+        httpStatus = HttpStatus.BAD_REQUEST
+    ),
+    INVALID_TOKEN(
+        code = "A0002",
+        message = "유효하지 않은 토큰입니다.",
+        httpStatus = HttpStatus.UNAUTHORIZED
+    ),
+    EXPIRED_ATK(
+        code = "A0003",
+        message = "AccessToken이 만료되었습니다.",
+        httpStatus = HttpStatus.UNAUTHORIZED
+    ),
+    INVALID_SIGNATURE(
+        code = "A0004",
+        message = "토큰 서명이 유효하지 않거나 형식이 올바르지 않습니다.",
+        httpStatus = HttpStatus.UNAUTHORIZED
+    ),
+
 }
