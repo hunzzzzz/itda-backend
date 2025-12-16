@@ -104,5 +104,15 @@ enum class ErrorCode(
         message = "파일 삭제에 실패하였습니다.",
         httpStatus = HttpStatus.INTERNAL_SERVER_ERROR
     ),
+    FILE_SIZE_LIMIT_EXCEEDED(
+        code = "F0004",
+        message = "최대 5MB 크기의 파일만 첨부할 수 있습니다.",
+        httpStatus = HttpStatus.BAD_REQUEST
+    ),
+    UNSUPPORTED_FILE_EXTENSION(
+        code = "F0005",
+        message = "지원하지 않는 파일 확장자입니다. (허용 확장자: jpg, jpeg, png)",
+        httpStatus = HttpStatus.BAD_REQUEST
+    ),
 
 }

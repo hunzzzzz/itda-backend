@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.moira.itda.domain.common.mapper.CommonMapper">
+    <!-- 공통 > 이미지 파일 업로드 > ImageFile 저장 -->
+    <insert id="insertImageFile">
+        INSERT INTO IMAGE_FILE (
+               file_id
+             , identifier
+             , original_file_name
+             , stored_file_name
+             , size
+             , file_url
+             , created_at
+        )
+        VALUES (
+               #{fileId}
+             , #{identifier}
+             , #{originalFileName}
+             , #{storedFileName}
+             , #{size}
+             , #{fileUrl}
+             , #{createdAt}
+        )
+    </insert>
+</mapper>
