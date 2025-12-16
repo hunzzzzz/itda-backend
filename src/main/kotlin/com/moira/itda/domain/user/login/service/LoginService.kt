@@ -59,7 +59,7 @@ class LoginService(
         val rtk = jwtProvider.createRtk(user = user)
 
         // [6] RefreshToken 저장 (DB, 쿠키)
-        loginMapper.updateUser(userId = user.id, rtk = rtk)
+        loginMapper.updateRefreshToken(userId = user.id, rtk = rtk)
         cookieHandler.putRtkInCookie(rtk = rtk, response = httpServletResponse)
 
         // [7] AccessToken 리턴

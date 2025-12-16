@@ -29,7 +29,7 @@
     </select>
 
     <!-- 로그인 > User 수정 -->
-    <update id="updateUser">
+    <update id="updateRefreshToken">
         UPDATE USER
         SET
                refresh_token = #{rtk}

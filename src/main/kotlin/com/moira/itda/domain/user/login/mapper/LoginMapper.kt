@@ -19,7 +19,7 @@ interface LoginMapper {
     /**
      * 로그인 > User 수정
      */
-    fun updateUser(userId: String, rtk: String)
+    fun updateRefreshToken(userId: String, rtk: String)
 
     /**
      * 로그인 > LoginHistory 저장
