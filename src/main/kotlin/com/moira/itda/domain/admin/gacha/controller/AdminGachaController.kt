@@ -13,7 +13,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 /**
- * 어드민 > 가챠정보 페이지
+ * 어드민 페이지 > 가챠정보 탭
  */
 @RestController
 class AdminGachaController(
