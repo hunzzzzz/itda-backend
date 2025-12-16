@@ -11,13 +11,15 @@ import com.moira.itda.global.entity.Gacha
 import com.moira.itda.global.entity.GachaItem
 import com.moira.itda.global.exception.ErrorCode
 import com.moira.itda.global.exception.ItdaException
+import com.moira.itda.global.file.component.AwsS3Handler
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.util.*
 
 @Service
 class AdminGachaService(
-    private val adminGachaMapper: AdminGachaMapper
+    private val adminGachaMapper: AdminGachaMapper,
+    private val awsS3Handler: AwsS3Handler
 ) {
     /**
      * 어드민 페이지 > 가챠정보 > 등록 > 유효성 검사
@@ -116,4 +118,30 @@ class AdminGachaService(
         adminGachaMapper.updateGachaItem(itemId = itemId, gachaId = gachaId, newName = request.name)
     }
 
+    /**
+     * 어드민 페이지 > 가챠정보 > 삭제
+     */
+    @Transactional
+    fun delete(gachaId: String) {
+        // [1] 파일 ID, 파일 Url 조회
+        val fileId = adminGachaMapper.selectFileId(gachaId = gachaId)
+            ?: throw ItdaException(ErrorCode.FILE_NOT_FOUND)
+        val fileUrls = adminGachaMapper.selectFileUrlList(fileId = fileId)
+
+        // [2] 파일 삭제 (AWS S3)
+        fileUrls.forEach { fileUrl -> awsS3Handler.delete(fileUrl = fileUrl) }
+
+        // [2] ImageFile -> GachaItem -> Gacha 삭제
+        adminGachaMapper.deleteImageFile(fileId = fileId)
+        adminGachaMapper.deleteGachaItemList(gachaId = gachaId)
+        adminGachaMapper.deleteGacha(gachaId = gachaId)
+    }
+
+    /**
+     * 어드민 페이지 > 가챠정보 > 하위 아이템 삭제
+     */
+    @Transactional
+    fun deleteItem(gachaId: String, itemId: Long) {
+        adminGachaMapper.deleteGachaItem(gachaId = gachaId, itemId = itemId)
+    }
 }

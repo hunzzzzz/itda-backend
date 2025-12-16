@@ -47,4 +47,34 @@ interface AdminGachaMapper {
      * 어드민 페이지 > 가챠정보 > 수정 > GachaItem 수정
      */
     fun updateGachaItem(itemId: Long, gachaId: String, newName: String)
+
+    /**
+     * 어드민 페이지 > 가챠정보 > 삭제 > 파일 ID 조회
+     */
+    fun selectFileId(gachaId: String): String?
+
+    /**
+     * 어드민 페이지 > 가챠정보 > 삭제 > 파일 URL 목록 조회
+     */
+    fun selectFileUrlList(fileId: String): List<String>
+
+    /**
+     * 어드민 페이지 > 가챠정보 > 삭제 > ImageFile 삭제
+     */
+    fun deleteImageFile(fileId: String)
+
+    /**
+     * 어드민 페이지 > 가챠정보 > 삭제 > GachaItem 전체 삭제
+     */
+    fun deleteGachaItemList(gachaId: String)
+
+    /**
+     * 어드민 페이지 > 가챠정보 > 삭제 > Gacha 삭제
+     */
+    fun deleteGacha(gachaId: String)
+
+    /**
+     * 어드민 페이지 > 가챠정보 > 하위 아이템 삭제 > GachaItem 삭제
+     */
+    fun deleteGachaItem(gachaId: String, itemId: Long)
 }

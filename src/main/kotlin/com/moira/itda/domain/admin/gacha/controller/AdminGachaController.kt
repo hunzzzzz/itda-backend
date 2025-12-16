@@ -96,4 +96,26 @@ class AdminGachaController(
 
         return ResponseEntity.ok(null)
     }
+
+    /**
+     * 어드민 페이지 > 가챠정보 > 삭제
+     */
+    @IsAdmin
+    @DeleteMapping("/api/admin/gacha/{gachaId}")
+    fun delete(@PathVariable gachaId: String): ResponseEntity<Nothing> {
+        adminGachaService.delete(gachaId = gachaId)
+
+        return ResponseEntity.noContent().build()
+    }
+
+    /**
+     * 어드민 페이지 > 가챠정보 > 하위 아이템 삭제
+     */
+    @IsAdmin
+    @DeleteMapping("/api/admin/gacha/{gachaId}/items/{itemId}")
+    fun deleteItem(@PathVariable gachaId: String, @PathVariable itemId: Long): ResponseEntity<Nothing> {
+        adminGachaService.deleteItem(gachaId = gachaId, itemId = itemId)
+
+        return ResponseEntity.noContent().build()
+    }
 }
