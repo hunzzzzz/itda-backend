@@ -2,9 +2,11 @@ package com.moira.itda.domain.admin.gacha.mapper
 
 import com.moira.itda.domain.admin.gacha.dto.response.AdminGachaItemResponse
 import com.moira.itda.domain.admin.gacha.dto.response.AdminGachaResponse
+import com.moira.itda.domain.admin.gacha.dto.request.AdminGachaUpdateRequest
 import com.moira.itda.global.entity.Gacha
 import com.moira.itda.global.entity.GachaItem
 import org.apache.ibatis.annotations.Mapper
+import org.apache.ibatis.annotations.Param
 
 @Mapper
 interface AdminGachaMapper {
@@ -32,4 +34,17 @@ interface AdminGachaMapper {
      * 어드민 페이지 > 가챠정보 > 하위 아이템 목록 조회
      */
     fun selectGachaItemList(gachaId: String): List<AdminGachaItemResponse>
+
+    /**
+     * 어드민 페이지 > 가챠정보 > 수정 > Gacha 수정
+     */
+    fun updateGacha(
+        @Param("gachaId") gachaId: String,
+        @Param("request") request: AdminGachaUpdateRequest
+    )
+
+    /**
+     * 어드민 페이지 > 가챠정보 > 수정 > GachaItem 수정
+     */
+    fun updateGachaItem(itemId: Long, gachaId: String, newName: String)
 }

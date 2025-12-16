@@ -92,4 +92,21 @@
         WHERE gacha_id = #{gachaId}
         ORDER BY created_at ASC
     </select>
+
+    <!-- 어드민 페이지 > 가챠정보 > 수정 > Gacha 수정 -->
+    <update id="updateGacha">
+        UPDATE GACHA
+        SET
+               title        = #{request.title}
+             , manufacturer = #{request.manufacturer}
+             , price        = #{request.price}
+        WHERE id = #{gachaId}
+    </update>
+
+    <!-- 어드민 페이지 > 가챠정보 > 수정 > GachaItem 수정 -->
+    <update id="updateGachaItem">
+        UPDATE GACHA_ITEM
+        SET name = #{newName}
+        WHERE id = #{itemId} AND gacha_id = #{gachaId}
+    </update>
 </mapper>

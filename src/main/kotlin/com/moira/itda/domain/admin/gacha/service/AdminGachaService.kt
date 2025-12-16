@@ -2,9 +2,11 @@ package com.moira.itda.domain.admin.gacha.service
 
 import com.moira.itda.domain.admin.gacha.dto.request.AdminGachaAddRequest
 import com.moira.itda.domain.admin.gacha.dto.request.AdminGachaItemAddRequest
-import com.moira.itda.domain.admin.gacha.mapper.AdminGachaMapper
+import com.moira.itda.domain.admin.gacha.dto.request.AdminGachaItemUpdateRequest
+import com.moira.itda.domain.admin.gacha.dto.request.AdminGachaUpdateRequest
 import com.moira.itda.domain.admin.gacha.dto.response.AdminGachaItemResponse
 import com.moira.itda.domain.admin.gacha.dto.response.AdminGachaResponse
+import com.moira.itda.domain.admin.gacha.mapper.AdminGachaMapper
 import com.moira.itda.global.entity.Gacha
 import com.moira.itda.global.entity.GachaItem
 import com.moira.itda.global.exception.ErrorCode
@@ -97,4 +99,21 @@ class AdminGachaService(
     fun getItems(gachaId: String): List<AdminGachaItemResponse> {
         return adminGachaMapper.selectGachaItemList(gachaId = gachaId)
     }
+
+    /**
+     * 어드민 페이지 > 가챠정보 > 수정
+     */
+    @Transactional
+    fun update(gachaId: String, request: AdminGachaUpdateRequest) {
+        adminGachaMapper.updateGacha(gachaId = gachaId, request = request)
+    }
+
+    /**
+     * 어드민 페이지 > 가챠정보 > 하위 아이템 수정
+     */
+    @Transactional
+    fun updateItem(gachaId: String, itemId: Long, request: AdminGachaItemUpdateRequest) {
+        adminGachaMapper.updateGachaItem(itemId = itemId, gachaId = gachaId, newName = request.name)
+    }
+
 }
