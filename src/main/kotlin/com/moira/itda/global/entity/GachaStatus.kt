@@ -1,5 +1,5 @@
 package com.moira.itda.global.entity
 
-enum class GachaSeriesStatus {
+enum class GachaStatus {
     ACTIVE, DISCONTINUED
 }
