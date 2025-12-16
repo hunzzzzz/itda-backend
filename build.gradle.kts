@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "com.moira"
-version = "0.0.1-SNAPSHOT"
+version = "1.0.0"
 description = "itda"
 
 java {
@@ -20,15 +20,27 @@ repositories {
 }
 
 dependencies {
-	implementation("org.springframework.boot:spring-boot-starter-web")
-	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-	implementation("org.jetbrains.kotlin:kotlin-reflect")
-	implementation("org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.5")
-	runtimeOnly("com.mysql:mysql-connector-j")
-	testImplementation("org.springframework.boot:spring-boot-starter-test")
-	testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
-	testImplementation("org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.5")
-	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    // aws: s3
+    implementation("com.amazonaws:aws-java-sdk:1.12.794")
+    // database
+    runtimeOnly("com.mysql:mysql-connector-j")
+    // jwt
+    implementation("io.jsonwebtoken:jjwt-api:0.12.6")
+    runtimeOnly("io.jsonwebtoken:jjwt-impl:0.12.6")
+    runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.12.6")
+    // kotlin
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+    implementation("org.jetbrains.kotlin:kotlin-reflect")
+    // mybatis
+    implementation("org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.5")
+    // springboot
+    implementation("org.springframework.boot:spring-boot-starter-security")
+    implementation("org.springframework.boot:spring-boot-starter-web")
+    // test
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
+    testImplementation("org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.5")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
 kotlin {
