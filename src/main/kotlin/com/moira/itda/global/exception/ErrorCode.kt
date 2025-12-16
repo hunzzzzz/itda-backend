@@ -45,5 +45,10 @@ enum class ErrorCode(
         message = "유효하지 않은 닉네임입니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
+    LOGIN_ERROR(
+        code = "U0007",
+        message = "이메일 혹은 비밀번호를 잘못 입력하였습니다.",
+        httpStatus = HttpStatus.BAD_REQUEST
+    ),
 
 }

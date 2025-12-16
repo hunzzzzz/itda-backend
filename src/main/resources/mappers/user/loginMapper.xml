@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.moira.itda.domain.user.login.mapper.LoginMapper">
+    <!-- 로그인 > 이메일 존재 여부 조회 -->
+    <select id="selectEmailChk">
+        SELECT COUNT(id) FROM USER WHERE email = #{email}
+    </select>
+
+    <!-- 로그인 > User 조회 (by 이메일) -->
+    <select id="selectUser" resultType="com.moira.itda.global.entity.User">
+        SELECT
+               id
+             , role
+             , status
+             , email
+             , password
+             , name
+             , nickname
+             , image_url
+             , refresh_token
+             , last_login_at
+             , created_at
+             , updated_at
+        FROM USER
+        WHERE email = #{email}
+    </select>
+
+    <!-- 로그인 > User 수정 -->
+    <update id="updateUser">
+        UPDATE USER
+        SET
+               refresh_token = #{rtk}
+             , last_login_at = CURRENT_TIMESTAMP
+        WHERE id = #{userId}
+    </update>
+
+    <!-- 로그인 > LoginHistory 저장 -->
+    <insert id="insertUserLoginHistory">
+        INSERT INTO USER_LOGIN_HISTORY (
+               user_id
+             , success_yn
+             , ip_address
+             , user_agent
+             , login_at
+        )
+        VALUES (
+               #{userId}
+             , #{successYn}
+             , #{ipAddress}
+             , #{userAgent}
+             , #{loginAt}
+        )
+    </insert>
+</mapper>

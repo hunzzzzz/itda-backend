@@ -9,4 +9,22 @@ data class UserLoginHistory(
     val ipAddress: String,
     val userAgent: String,
     val loginAt: ZonedDateTime
-)
+) {
+    companion object {
+        fun fromLoginRequest(
+            userId: String,
+            successYn: String,
+            ipAddress: String,
+            userAgent: String
+        ): UserLoginHistory {
+            return UserLoginHistory(
+                id = null,
+                userId = userId,
+                successYn = successYn,
+                ipAddress = ipAddress,
+                userAgent = userAgent,
+                loginAt = ZonedDateTime.now()
+            )
+        }
+    }
+}
