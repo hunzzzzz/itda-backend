@@ -88,4 +88,21 @@ enum class ErrorCode(
         httpStatus = HttpStatus.UNAUTHORIZED
     ),
 
+    // 파일 관련 에러코드
+    INVALID_FILE(
+        code = "F0001",
+        message = "유효하지 않은 파일입니다.",
+        httpStatus = HttpStatus.BAD_REQUEST
+    ),
+    FILE_SAVE_FAILED(
+        code = "F0002",
+        message = "파일 저장에 실패하였습니다.",
+        httpStatus = HttpStatus.INTERNAL_SERVER_ERROR
+    ),
+    FILE_DELETE_FAILED(
+        code = "F0003",
+        message = "파일 삭제에 실패하였습니다.",
+        httpStatus = HttpStatus.INTERNAL_SERVER_ERROR
+    ),
+
 }
