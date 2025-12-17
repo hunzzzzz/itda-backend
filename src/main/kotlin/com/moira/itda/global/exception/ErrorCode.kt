@@ -125,6 +125,23 @@ enum class ErrorCode(
         httpStatus = HttpStatus.BAD_REQUEST
     ),
 
+    // 공통코드 관련 에러코드
+    INVALID_CODE_KEY(
+        code = "C0001",
+        message = "유효하지 않은 코드 키입니다.",
+        httpStatus = HttpStatus.BAD_REQUEST
+    ),
+    ALREADY_USING_KEY(
+        code = "C0002",
+        message = "이미 사용중인 코드 키입니다.",
+        httpStatus = HttpStatus.BAD_REQUEST
+    ),
+    ALREADY_USING_CODE_DETAIL_NAME(
+        code = "C0003",
+        message = "이미 사용중인 코드 이름입니다.",
+        httpStatus = HttpStatus.BAD_REQUEST
+    ),
+
     // 가챠 관련 에러코드
     INVALID_GACHA_TITLE(
         code = "G0001",
