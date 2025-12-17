@@ -25,4 +25,15 @@
              , #{createdAt}
         )
     </insert>
+
+    <!-- 공통 > 공통코드 조회 > 세부코드 목록 조회 -->
+    <select id="selectCodeDetailList" resultType="com.moira.itda.domain.common.dto.response.CodeDetailResponse">
+        SELECT
+               id AS detailId
+             , eng_name
+             , kor_name
+        FROM COMMON_CODE_DETAIL
+        WHERE code_key = #{key}
+        ORDER BY created_at ASC
+    </select>
 </mapper>

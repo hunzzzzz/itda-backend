@@ -1,6 +1,7 @@
 package com.moira.itda.domain.common.service
 
 import com.moira.itda.domain.common.dto.request.ImageFileUploadRequest
+import com.moira.itda.domain.common.dto.response.CodeDetailResponse
 import com.moira.itda.domain.common.dto.response.FileIdResponse
 import com.moira.itda.domain.common.mapper.CommonMapper
 import com.moira.itda.global.entity.ImageFile
@@ -8,6 +9,7 @@ import com.moira.itda.global.exception.ErrorCode
 import com.moira.itda.global.exception.ItdaException
 import com.moira.itda.global.file.component.AwsS3Handler
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.multipart.MultipartFile
 import java.util.*
 
@@ -73,5 +75,13 @@ class CommonService(
         }
 
         return FileIdResponse(fileId = fileId)
+    }
+
+    /**
+     * 공통 > 공통코드 조회
+     */
+    @Transactional(readOnly = true)
+    fun getCode(key: String): List<CodeDetailResponse> {
+        return commonMapper.selectCodeDetailList(key = key)
     }
 }
