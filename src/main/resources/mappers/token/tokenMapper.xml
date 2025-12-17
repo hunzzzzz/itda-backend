@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.moira.itda.domain.token.mapper.TokenMapper">
+    <!-- 토큰 재발급 > User 조회 (by 유저 ID) -->
+    <select id="selectUser" resultType="com.moira.itda.global.entity.User">
+        SELECT
+               id
+             , role
+             , status
+             , email
+             , password
+             , name
+             , nickname
+             , image_url
+             , refresh_token
+             , last_login_at
+             , created_at
+             , updated_at
+        FROM USER
+        WHERE id = #{userId}
+    </select>
+
+    <!-- 토큰 재발급 > RefreshToken 저장 -->
+    <update id="updateRefreshToken">
+        UPDATE USER SET refresh_token = #{rtk} WHERE id = #{userId}
+    </update>
+</mapper>

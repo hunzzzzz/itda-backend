@@ -87,6 +87,11 @@ enum class ErrorCode(
         message = "토큰 서명이 유효하지 않거나 형식이 올바르지 않습니다.",
         httpStatus = HttpStatus.UNAUTHORIZED
     ),
+    EXPIRED_USER_INFO(
+        code = "A0005",
+        message = "사용자의 로그인 정보가 만료되었습니다. 다시 로그인해주세요.",
+        httpStatus = HttpStatus.UNAUTHORIZED
+    ),
 
     // 파일 관련 에러코드
     INVALID_FILE(
