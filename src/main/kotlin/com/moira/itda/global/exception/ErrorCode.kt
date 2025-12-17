@@ -161,4 +161,14 @@ enum class ErrorCode(
         message = "존재하지 않는 가챠입니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
+    ALREADY_PENDING_SALES(
+        code = "G0008",
+        message = "이미 해당 가챠 관련 상품을 판매중입니다.",
+        httpStatus = HttpStatus.BAD_REQUEST
+    ),
+    ALREADY_PENDING_EXCHANGE(
+        code = "G0009",
+        message = "이미 해당 가챠 관련 상품을 교환중입니다.",
+        httpStatus = HttpStatus.BAD_REQUEST
+    ),
 }

@@ -62,4 +62,24 @@
     <delete id="deleteGachaWish">
         DELETE FROM GACHA_WISH WHERE user_id = #{userId} AND gacha_id = #{gachaId}
     </delete>
+
+    <!-- 가챠정보 > 교환 > 진행 중인 교환글 존재 여부 확인 -->
+    <select id="selectExchangeChk">
+        SELECT COUNT(id)
+        FROM TRADE
+        WHERE  gacha_id = #{gachaId}
+         AND  user_id   = #{userId}
+         AND  status    = 'PENDING'
+         AND  type      = 'EXCHANGE'
+    </select>
+
+    <!-- 가챠정보 > 판매 > 진행 중인 판매글 존재 여부 확인 -->
+    <select id="selectSalesChk">
+        SELECT COUNT(id)
+        FROM TRADE
+        WHERE gacha_id   = #{gachaId}
+         AND   user_id   = #{userId}
+         AND   status    = 'PENDING'
+         AND   type      = 'SALES'
+    </select>
 </mapper>
