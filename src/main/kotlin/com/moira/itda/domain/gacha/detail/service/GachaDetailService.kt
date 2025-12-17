@@ -1,14 +1,17 @@
 package com.moira.itda.domain.gacha.detail.service
 
 import com.moira.itda.domain.gacha.detail.dto.response.GachaDetailResponse
+import com.moira.itda.domain.gacha.detail.dto.response.GachaWishCheckResponse
 import com.moira.itda.domain.gacha.detail.mapper.GachaDetailMapper
 import com.moira.itda.global.auth.component.CookieHandler
+import com.moira.itda.global.entity.GachaWish
 import com.moira.itda.global.exception.ErrorCode
 import com.moira.itda.global.exception.ItdaException
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.time.ZonedDateTime
 
 @Service
 class GachaDetailService(
@@ -41,4 +44,34 @@ class GachaDetailService(
         // [3] 상세정보 리턴
         return GachaDetailResponse(gacha = gacha, items = items)
     }
+
+    /**
+     * 가챠정보 > 가챠목록 > 상세정보 > 즐겨찾기 여부 조회
+     */
+    @Transactional(readOnly = true)
+    fun checkWish(userId: String, gachaId: String): GachaWishCheckResponse {
+        val wishYn = gachaDetailMapper.selectGachaWishChk(userId = userId, gachaId = gachaId)
+
+        return GachaWishCheckResponse(wishYn = wishYn)
+    }
+
+    /**
+     * 가챠정보 > 가챠목록 > 상세정보 > 즐겨찾기
+     */
+    @Transactional
+    fun wish(userId: String, gachaId: String) {
+        // [1] 즐겨찾기 여부 조회
+        val wishYn = this.checkWish(userId = userId, gachaId = gachaId).wishYn
+
+        // [2-1] GachaWish 저장
+        if ("N" == wishYn) {
+            val gachaWish = GachaWish(id = null, userId = userId, gachaId = gachaId, createdAt = ZonedDateTime.now())
+            gachaDetailMapper.insertGachaWish(gachaWish = gachaWish)
+        }
+        // [2-2] GachaWish 삭제
+        else {
+            gachaDetailMapper.deleteGachaWish(userId = userId, gachaId = gachaId)
+        }
+    }
+
 }

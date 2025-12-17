@@ -36,4 +36,30 @@
     <update id="updateViewCount">
         UPDATE GACHA SET view_count = view_count + 1 WHERE id = #{gachaId}
     </update>
+
+    <!-- 가챠정보 > 가챠목록 > 상세정보 > 즐겨찾기 여부 조회 -->
+    <select id="selectGachaWishChk" resultType="java.lang.String">
+        SELECT CASE WHEN COUNT(id) > 0 THEN 'Y' ELSE 'N' END
+        FROM GACHA_WISH
+        WHERE user_id = #{userId} AND gacha_id = #{gachaId}
+    </select>
+
+    <!-- 가챠정보 > 가챠목록 > 상세정보 > 즐겨찾기 > GachaWish 저장 -->
+    <insert id="insertGachaWish">
+        INSERT INTO GACHA_WISH (
+               user_id
+             , gacha_id
+             , created_at
+        )
+        VALUES (
+               #{userId}
+             , #{gachaId}
+             , #{createdAt}
+        )
+    </insert>
+
+    <!-- 가챠정보 > 가챠목록 > 상세정보 > 즐겨찾기 > GachaWish 삭제 -->
+    <delete id="deleteGachaWish">
+        DELETE FROM GACHA_WISH WHERE user_id = #{userId} AND gacha_id = #{gachaId}
+    </delete>
 </mapper>
