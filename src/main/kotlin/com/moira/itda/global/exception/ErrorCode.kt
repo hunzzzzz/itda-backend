@@ -156,5 +156,9 @@ enum class ErrorCode(
         message = "최대 1개의 파일만 업로드할 수 있습니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
-
+    GACHA_NOT_FOUND(
+        code = "G0007",
+        message = "존재하지 않는 가챠입니다.",
+        httpStatus = HttpStatus.BAD_REQUEST
+    ),
 }
