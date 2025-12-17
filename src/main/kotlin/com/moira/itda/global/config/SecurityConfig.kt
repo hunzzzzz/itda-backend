@@ -51,6 +51,7 @@ class SecurityConfig(
                     .requestMatchers(HttpMethod.POST, "/api/signup/**").permitAll()
                     .requestMatchers(HttpMethod.POST, "/api/login/**").permitAll()
                     .requestMatchers(HttpMethod.POST, "/api/token/refresh/**").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/api/gacha").permitAll()
                     .anyRequest().authenticated()
             }
             // [4] 필터 추가
