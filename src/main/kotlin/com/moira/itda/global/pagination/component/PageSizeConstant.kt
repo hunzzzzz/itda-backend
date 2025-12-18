@@ -7,5 +7,8 @@ class PageSizeConstant {
 
         // 가챠정보 > 가챠목록 > 상세정보 > 거래 목록 조회
         const val GACHA_DETAIL_TRADE_PAGE_SIZE = 10
+
+        // 판매 및 교환 대상 지정
+        const val TRADE_TARGET_PAGE_SIZE = 3
     }
 }
