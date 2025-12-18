@@ -240,5 +240,10 @@ enum class ErrorCode(
         message = "유효하지 않은 거래 가격입니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
+    CANNOT_LOAD_TRADE_LIST(
+        code = "T0008",
+        message = "거래 목록을 불러올 수 없습니다. 잠시 후 다시 시도해주세요.",
+        httpStatus = HttpStatus.INTERNAL_SERVER_ERROR
+    ),
 
 }

@@ -2,16 +2,14 @@ package com.moira.itda.domain.gacha.detail.controller
 
 import com.moira.itda.domain.gacha.detail.dto.response.GachaDetailResponse
 import com.moira.itda.domain.gacha.detail.dto.response.GachaWishCheckResponse
+import com.moira.itda.domain.gacha.detail.dto.response.TradePageResponse
 import com.moira.itda.domain.gacha.detail.service.GachaDetailService
 import com.moira.itda.global.auth.aop.UserPrincipal
 import com.moira.itda.global.auth.dto.UserAuth
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PutMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 /**
  * 가챠정보 탭 > 가챠목록 > 상세정보 페이지
@@ -88,5 +86,18 @@ class GachaDetailController(
         gachaDetailService.checkSales(userId = userAuth.userId, gachaId = gachaId)
 
         return ResponseEntity.ok(null)
+    }
+
+    /**
+     * 가챠정보 > 가챠목록 > 상세정보 > 거래 목록 조회
+     */
+    @GetMapping("/api/gacha/{gachaId}/trades")
+    fun getTrades(
+        @PathVariable gachaId: String,
+        @RequestParam(required = false, defaultValue = "1") page: Int
+    ): ResponseEntity<TradePageResponse> {
+        val response = gachaDetailService.getTrades(gachaId = gachaId, page = page)
+
+        return ResponseEntity.ok(response)
     }
 }

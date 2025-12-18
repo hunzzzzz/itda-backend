@@ -1,7 +1,9 @@
 package com.moira.itda.domain.gacha.detail.mapper
 
-import com.moira.itda.domain.gacha.detail.dto.response.GachaResponse
 import com.moira.itda.domain.gacha.detail.dto.response.GachaItemResponse
+import com.moira.itda.domain.gacha.detail.dto.response.GachaResponse
+import com.moira.itda.domain.gacha.detail.dto.response.TradeResponse
+import com.moira.itda.domain.gacha.detail.dto.response.TradeSalesItemResponse
 import com.moira.itda.global.entity.GachaWish
 import org.apache.ibatis.annotations.Mapper
 
@@ -46,4 +48,20 @@ interface GachaDetailMapper {
      * 가챠정보 > 가챠목록 > 상세정보 > 판매 > 진행 중인 판매글 존재 여부 확인
      */
     fun selectSalesChk(userId: String, gachaId: String): Int
+
+    /**
+     * 가챠정보 > 가챠목록 > 상세정보 > 거래 목록 조회 > totalElements 계산
+     */
+    fun selectTradeCnt(gachaId: String): Long
+
+    /**
+     * 가챠정보 > 가챠목록 > 상세정보 > 거래 목록 조회
+     */
+    fun selectTradeList(gachaId: String, pageSize: Int, offset: Int): List<TradeResponse>
+
+    /**
+     * 가챠정보 > 가챠목록 > 상세정보 > 거래 목록 조회 > 하위 판매 정보 조회
+     */
+    fun selectTradeSalesItemList(tradeId: String, gachaId: String): List<TradeSalesItemResponse>
+
 }

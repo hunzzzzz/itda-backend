@@ -2,11 +2,16 @@ package com.moira.itda.domain.gacha.detail.service
 
 import com.moira.itda.domain.gacha.detail.dto.response.GachaDetailResponse
 import com.moira.itda.domain.gacha.detail.dto.response.GachaWishCheckResponse
+import com.moira.itda.domain.gacha.detail.dto.response.TradeContentResponse
+import com.moira.itda.domain.gacha.detail.dto.response.TradePageResponse
 import com.moira.itda.domain.gacha.detail.mapper.GachaDetailMapper
 import com.moira.itda.global.auth.component.CookieHandler
 import com.moira.itda.global.entity.GachaWish
+import com.moira.itda.global.entity.TradeType
 import com.moira.itda.global.exception.ErrorCode
 import com.moira.itda.global.exception.ItdaException
+import com.moira.itda.global.pagination.component.OffsetPaginationHandler
+import com.moira.itda.global.pagination.component.PageSizeConstant.Companion.GACHA_DETAIL_TRADE_PAGE_SIZE
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.stereotype.Service
@@ -16,7 +21,8 @@ import java.time.ZonedDateTime
 @Service
 class GachaDetailService(
     private val cookieHandler: CookieHandler,
-    private val gachaDetailMapper: GachaDetailMapper
+    private val gachaDetailMapper: GachaDetailMapper,
+    private val offsetPaginationHandler: OffsetPaginationHandler
 ) {
     /**
      * 가챠정보 > 가챠목록 > 상세정보
@@ -92,6 +98,64 @@ class GachaDetailService(
         if (gachaDetailMapper.selectSalesChk(userId = userId, gachaId = gachaId) > 0) {
             throw ItdaException(ErrorCode.ALREADY_PENDING_SALES)
         }
+    }
+
+    /**
+     * 가챠정보 > 가챠목록 > 상세정보 > 거래 목록 조회
+     */
+    @Transactional(readOnly = true)
+    fun getTrades(gachaId: String, page: Int): TradePageResponse {
+        // [1] 변수 세팅
+        val pageSize = GACHA_DETAIL_TRADE_PAGE_SIZE
+        val offset = offsetPaginationHandler.getOffset(page = page, pageSize = pageSize)
+
+        // [2] 조회
+        val totalElements = gachaDetailMapper.selectTradeCnt(gachaId = gachaId)
+        val trades = gachaDetailMapper.selectTradeList(
+            gachaId = gachaId,
+            pageSize = pageSize,
+            offset = offset
+        )
+
+        // [3] 하위 교환/판매 목록 조회
+        val contents = trades.map { trade ->
+            when (trade.type) {
+                // [3-1] 판매
+                TradeType.SALES.name -> {
+                    TradeContentResponse(
+                        trade = trade,
+                        salesItemList = gachaDetailMapper.selectTradeSalesItemList(
+                            tradeId = trade.id, gachaId = gachaId
+                        ),
+                        exchangeItemList = emptyList()
+                    )
+                }
+
+                // [3-2] 교환
+                TradeType.EXCHANGE.name -> {
+                    TradeContentResponse(
+                        trade = trade,
+                        salesItemList = emptyList(),
+                        exchangeItemList = emptyList() // TODO
+                    )
+                }
+
+                // [3-3] 아무 값도 아닌 경우 -> 에러 처리
+                else -> {
+                    throw ItdaException(ErrorCode.CANNOT_LOAD_TRADE_LIST)
+                }
+            }
+        }
+
+        // [4] 오프셋 기반 페이지네이션 구현
+        val pageResponse = offsetPaginationHandler.getPageResponse(
+            pageSize = pageSize,
+            page = page,
+            totalElements = totalElements
+        )
+
+        // [5] DTO 병합 후 리턴
+        return TradePageResponse(content = contents, page = pageResponse)
     }
 
 }

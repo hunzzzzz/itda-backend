@@ -82,4 +82,46 @@
          AND   status    = 'PENDING'
          AND   type      = 'SALES'
     </select>
+
+    <!-- 가챠정보 > 가챠목록 > 상세정보 > 거래 목록 조회 > totalElements 계산 -->
+    <select id="selectTradeCnt">
+        SELECT COUNT(id) FROM TRADE WHERE gacha_id = #{gachaId}
+    </select>
+
+    <!-- 가챠정보 > 가챠목록 > 상세정보 > 거래 목록 조회 -->
+    <select id="selectTradeList" resultType="com.moira.itda.domain.gacha.detail.dto.response.TradeResponse">
+        SELECT
+               T.id
+             , T.type
+             , T.status
+             , T.title
+             , T.file_id
+             , (SELECT file_url FROM IMAGE_FILE WHERE file_id = T.file_id ORDER BY created_at LIMIT 1)
+             , T.hope_method
+             , T.hope_address
+             , T.created_at
+             , U.id AS userId
+             , U.nickname
+        FROM TRADE T
+        LEFT JOIN USER U
+         ON U.id = T.user_id
+        WHERE T.gacha_id = #{gachaId}
+    </select>
+
+    <!-- 가챠정보 > 가챠목록 > 상세정보 > 거래 목록 조회 > 하위 판매 정보 조회 -->
+    <select id="selectTradeSalesItemList" resultType="com.moira.itda.domain.gacha.detail.dto.response.TradeSalesItemResponse">
+        SELECT
+               SI.id
+             , GI.id   AS gachaItemId
+             , GI.name AS gachaItemName
+             , SI.count
+             , SI.current_count
+             , SI.price
+             , SI.created_at
+        FROM TRADE_SALES_ITEM SI
+        LEFT JOIN GACHA_ITEM GI
+         ON GI.id = SI.gacha_item_id
+        WHERE SI.trade_id = #{tradeId}
+         AND SI.gacha_id = #{gachaId}
+    </select>
 </mapper>
