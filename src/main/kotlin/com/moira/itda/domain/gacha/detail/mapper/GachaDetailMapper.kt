@@ -38,12 +38,12 @@ interface GachaDetailMapper {
     fun deleteGachaWish(userId: String, gachaId: String)
 
     /**
-     * 가챠정보 > 교환 > 진행 중인 교환글 존재 여부 확인
+     * 가챠정보 > 가챠목록 > 상세정보 > 교환 > 진행 중인 교환글 존재 여부 확인
      */
     fun selectExchangeChk(userId: String, gachaId: String): Int
 
     /**
-     * 가챠정보 > 판매 > 진행 중인 판매글 존재 여부 확인
+     * 가챠정보 > 가챠목록 > 상세정보 > 판매 > 진행 중인 판매글 존재 여부 확인
      */
     fun selectSalesChk(userId: String, gachaId: String): Int
 }
