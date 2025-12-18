@@ -4,7 +4,7 @@ import org.springframework.http.HttpStatus
 
 enum class ErrorCode(
     val code: String,
-    val message: String,
+    var message: String,
     val httpStatus: HttpStatus
 ) {
     // 시스템 관련 에러코드
@@ -73,6 +73,11 @@ enum class ErrorCode(
     INVALID_BAN_DAYS(
         code = "U0014",
         message = "유효하지 않은 계정 정지일수입니다.",
+        httpStatus = HttpStatus.BAD_REQUEST
+    ),
+    BANNED_USER_CANNOT_LOGIN(
+        code = "U0015",
+        message = "%s까지 계정이 정지된 유저입니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
 

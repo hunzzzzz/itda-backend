@@ -5,6 +5,7 @@ import com.moira.itda.domain.user.login.dto.response.LoginResponse
 import com.moira.itda.domain.user.login.mapper.LoginMapper
 import com.moira.itda.global.auth.component.CookieHandler
 import com.moira.itda.global.auth.component.JwtProvider
+import com.moira.itda.global.entity.UserStatus
 import com.moira.itda.global.exception.ErrorCode
 import com.moira.itda.global.exception.ItdaException
 import jakarta.servlet.http.HttpServletRequest
@@ -13,6 +14,7 @@ import org.springframework.http.HttpHeaders
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.time.format.DateTimeFormatter
 
 @Service
 class LoginService(
@@ -48,6 +50,19 @@ class LoginService(
         if (!passwordEncoder.matches(request.password, user.password)) {
             loginHistoryService.saveFailedLoginHistory(user = user, ipAddress = ipAddress, userAgent = userAgent)
             throw ItdaException(ErrorCode.LOGIN_ERROR)
+        }
+        // [4-2] 계정이 정지된 유저가 로그인 시도 시, 로그인 실패 기록 저장 후 에러 처리
+        else if (user.status == UserStatus.BANNED) {
+            loginHistoryService.saveFailedLoginHistory(user = user, ipAddress = ipAddress, userAgent = userAgent)
+
+            // 계정 정지 기한 조회 후 문자열 포매팅
+            val bannedUntil = loginMapper.selectBannedUntil(userId = user.id)
+            val formattedBannedUntil = bannedUntil.format(DateTimeFormatter.ofPattern("yyyy년 M월 d일 H시 m분"))
+            val newErrorCode = ErrorCode.BANNED_USER_CANNOT_LOGIN
+            newErrorCode.message = newErrorCode.message.replace("%s", formattedBannedUntil)
+
+            // 에러 처리
+            throw ItdaException(newErrorCode)
         }
         // [4-2] 그 외의 경우, 로그인 성공 기록 저장
         else {

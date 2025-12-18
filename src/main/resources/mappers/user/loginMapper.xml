@@ -28,6 +28,11 @@
         WHERE email = #{email}
     </select>
 
+    <!-- 로그인 > 계정 정지 기한 조회 -->
+    <select id="selectBannedUntil" resultType="java.time.ZonedDateTime">
+        SELECT banned_until FROM USER_BAN_HISTORY WHERE user_id = #{userId}
+    </select>
+
     <!-- 로그인 > User 수정 -->
     <update id="updateRefreshToken">
         UPDATE USER
