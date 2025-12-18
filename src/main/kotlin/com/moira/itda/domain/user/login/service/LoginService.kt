@@ -48,11 +48,15 @@ class LoginService(
 
         // [4-1] 비밀번호 불일치 시, 로그인 실패 기록 저장 후 에러 처리
         if (!passwordEncoder.matches(request.password, user.password)) {
+            // 로그인 실패 기록 저장
             loginHistoryService.saveFailedLoginHistory(user = user, ipAddress = ipAddress, userAgent = userAgent)
+
+            // 에러 처리
             throw ItdaException(ErrorCode.LOGIN_ERROR)
         }
         // [4-2] 계정이 정지된 유저가 로그인 시도 시, 로그인 실패 기록 저장 후 에러 처리
         else if (user.status == UserStatus.BANNED) {
+            // 로그인 실패 기록 저장
             loginHistoryService.saveFailedLoginHistory(user = user, ipAddress = ipAddress, userAgent = userAgent)
 
             // 계정 정지 기한 조회 후 문자열 포매팅
@@ -64,7 +68,7 @@ class LoginService(
             // 에러 처리
             throw ItdaException(newErrorCode)
         }
-        // [4-2] 그 외의 경우, 로그인 성공 기록 저장
+        // [4-3] 그 외의 경우, 로그인 성공 기록 저장
         else {
             loginHistoryService.saveSuccessLoginHistory(user = user, ipAddress = ipAddress, userAgent = userAgent)
         }
