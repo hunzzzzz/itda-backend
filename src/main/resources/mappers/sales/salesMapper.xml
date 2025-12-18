@@ -13,4 +13,19 @@
         WHERE gacha_id = #{gachaId}
         ORDER BY created_at ASC
     </select>
+
+    <!-- 판매등록 > 진행 중인 판매글 존재 여부 확인 -->
+    <select id="selectSalesChk">
+        SELECT COUNT(id)
+        FROM TRADE
+        WHERE gacha_id   = #{gachaId}
+        AND   user_id   = #{userId}
+        AND   status    = 'PENDING'
+        AND   type      = 'SALES'
+    </select>
+
+    <!-- 판매등록 > 파일 ID 존재 여부 조회 -->
+    <select id="selectImageFileCnt">
+        SELECT COUNT(id) FROM IMAGE_FILE WHERE file_id = #{fileId}
+    </select>
 </mapper>

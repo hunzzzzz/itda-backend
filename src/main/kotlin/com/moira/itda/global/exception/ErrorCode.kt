@@ -188,4 +188,42 @@ enum class ErrorCode(
         message = "이미 해당 가챠 관련 상품을 교환중입니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
+
+    // 거래 관련 에러코드
+    INVALID_TRADE_TITLE(
+        code = "T0001",
+        message = "유효하지 않은 거래 제목입니다.",
+        httpStatus = HttpStatus.BAD_REQUEST
+    ),
+    INVALID_TRADE_CONTENT(
+        code = "T0002",
+        message = "유효하지 않은 거래 내용입니다.",
+        httpStatus = HttpStatus.BAD_REQUEST
+    ),
+    INVALID_TRADE_FILE_ID(
+        code = "T0003",
+        message = "유효하지 않은 거래 이미지 파일 정보입니다.",
+        httpStatus = HttpStatus.BAD_REQUEST
+    ),
+    INVALID_TRADE_HOPE_METHOD(
+        code = "T0004",
+        message = "유효하지 않은 거래 희망 방법입니다.",
+        httpStatus = HttpStatus.BAD_REQUEST
+    ),
+    NO_TRADE_ITEMS(
+        code = "T0005",
+        message = "거래 아이템 정보가 없습니다.",
+        httpStatus = HttpStatus.BAD_REQUEST
+    ),
+    INVALID_TRADE_ITEM_COUNT(
+        code = "T0006",
+        message = "유효하지 않은 거래 수량입니다.",
+        httpStatus = HttpStatus.BAD_REQUEST
+    ),
+    INVALID_TRADE_ITEM_PRICE(
+        code = "T0007",
+        message = "유효하지 않은 거래 가격입니다.",
+        httpStatus = HttpStatus.BAD_REQUEST
+    ),
+
 }
