@@ -28,4 +28,66 @@
     <select id="selectImageFileCnt">
         SELECT COUNT(id) FROM IMAGE_FILE WHERE file_id = #{fileId}
     </select>
+
+    <!-- 판매등록 > Trade 저장 -->
+    <insert id="insertTrade">
+        INSERT INTO TRADE (
+               id
+             , gacha_id
+             , user_id
+             , type
+             , status
+             , title
+             , content
+             , file_id
+             , hope_method
+             , hope_location
+             , hope_address
+             , hope_location_latitude
+             , hope_location_longitude
+             , created_at
+             , updated_at
+        )
+        VALUES (
+               #{id}
+             , #{gachaId}
+             , #{userId}
+             , #{type}
+             , #{status}
+             , #{title}
+             , #{content}
+             , #{fileId}
+             , #{hopeMethod}
+             , #{hopeLocation}
+             , #{hopeAddress}
+             , #{hopeLocationLatitude}
+             , #{hopeLocationLongitude}
+             , #{createdAt}
+             , #{updatedAt}
+        )
+    </insert>
+
+    <!-- 판매등록 > TradeSalesItem 저장 -->
+    <insert id="insertTradeSalesItem">
+        INSERT INTO TRADE_SALES_ITEM (
+               trade_id
+             , gacha_id
+             , gacha_item_id
+             , count
+             , current_count
+             , price
+             , created_at
+             , updated_at
+        )
+        VALUES (
+               #{tradeId}
+             , #{gachaId}
+             , #{gachaItemId}
+             , #{count}
+             , #{currentCount}
+             , #{price}
+             , #{createdAt}
+             , #{updatedAt}
+        )
+    </insert>
 </mapper>

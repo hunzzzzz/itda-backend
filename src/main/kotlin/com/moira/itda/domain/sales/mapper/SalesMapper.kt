@@ -1,6 +1,8 @@
 package com.moira.itda.domain.sales.mapper
 
 import com.moira.itda.domain.sales.dto.response.SalesItemResponse
+import com.moira.itda.global.entity.Trade
+import com.moira.itda.global.entity.TradeSalesItem
 import org.apache.ibatis.annotations.Mapper
 
 @Mapper
@@ -20,4 +22,13 @@ interface SalesMapper {
      */
     fun selectImageFileCnt(fileId: String): Int
 
+    /**
+     * 판매등록 > Trade 저장
+     */
+    fun insertTrade(trade: Trade)
+
+    /**
+     * 판매등록 > TradeSalesItem 저장
+     */
+    fun insertTradeSalesItem(tradeSalesItem: TradeSalesItem)
 }
