@@ -28,4 +28,17 @@ class TargetController(
 
         return ResponseEntity.ok(response)
     }
+
+    /**
+     * 교환 및 판매 대상 지정 모달 > 가챠 목록
+     */
+    @GetMapping("/api/target/gacha")
+    fun getGachaList(
+        @RequestParam(required = false, defaultValue = "") keyword: String,
+        @RequestParam(required = false, defaultValue = "1") page: Int
+    ): ResponseEntity<TargetPageResponse> {
+        val response = targetService.getGachaList(keyword = keyword, page = page)
+
+        return ResponseEntity.ok(response)
+    }
 }

@@ -1,8 +1,8 @@
 package com.moira.itda.domain.target.service
 
 import com.moira.itda.domain.target.dto.response.TargetContentResponse
-import com.moira.itda.domain.target.dto.response.TargetPageResponse
 import com.moira.itda.domain.target.dto.response.TargetGachaResponse
+import com.moira.itda.domain.target.dto.response.TargetPageResponse
 import com.moira.itda.domain.target.mapper.TargetMapper
 import com.moira.itda.global.pagination.component.OffsetPaginationHandler
 import com.moira.itda.global.pagination.component.PageSizeConstant.Companion.TRADE_TARGET_PAGE_SIZE
@@ -70,5 +70,29 @@ class TargetService(
             totalElements = totalElements,
             contents = contents
         )
+    }
+
+    /**
+     * 교환 및 판매 대상 지정 모달 > 가챠 목록
+     */
+    fun getGachaList(keyword: String, page: Int): TargetPageResponse {
+        // [1] 변수 세팅
+        val pageSize = TRADE_TARGET_PAGE_SIZE
+        val offset = offsetPaginationHandler.getOffset(page = page, pageSize = pageSize)
+        val keywordPattern = if (keyword.isEmpty()) "" else "%${keyword}%"
+
+        // [2] 가챠 목록 조회
+        val totalElements = targetMapper.selectGachaCnt(keywordPattern = keywordPattern)
+        val gachaList = targetMapper.selectGachaList(
+            keywordPattern = keywordPattern,
+            pageSize = pageSize,
+            offset = offset
+        )
+
+        // [3] 하위 아이템 목록 조회
+        val contents = this.convertToTargetContentResponse(gachaList = gachaList)
+
+        // [4] 오프셋 기반 페이지네이션 적용 후 리턴
+        return this.convertToTargetPageResponse(page = page, totalElements = totalElements, contents = contents)
     }
 }

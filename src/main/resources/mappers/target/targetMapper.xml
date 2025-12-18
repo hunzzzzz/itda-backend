@@ -21,7 +21,40 @@
     </select>
 
     <!-- 교환 및 판매 대상 지정 모달 > 즐겨찾기 목록 > 하위 아이템 목록 조회 -->
+    <!-- 교환 및 판매 대상 지정 모달 > 가챠 목록 > 하위 아이템 목록 조회 -->
     <select id="selectGachaItemList" resultType="com.moira.itda.domain.target.dto.response.TargetGachaItemResponse">
         SELECT id AS gachaItemId, name FROM GACHA_ITEM WHERE gacha_id = #{gachaId}
+    </select>
+
+    <!-- 교환 및 판매 대상 지정 모달 > 가챠 목록 > totalElements 계산 -->
+    <select id="selectGachaCnt">
+        SELECT COUNT(id)
+        FROM GACHA
+        WHERE 1=1
+        <choose>
+            <when test="keywordPattern != null and keywordPattern != ''">
+                AND (
+                     title        LIKE #{keywordPattern}
+                  OR manufacturer LIKE #{keywordPattern}
+                )
+            </when>
+        </choose>
+    </select>
+
+    <!-- 교환 및 판매 대상 지정 모달 > 가챠 목록 > 가챠시리즈 목록 조회 -->
+    <select id="selectGachaList" resultType="com.moira.itda.domain.target.dto.response.TargetGachaResponse">
+        SELECT id AS gachaId, title
+        FROM GACHA
+        WHERE 1=1
+        <choose>
+            <when test="keywordPattern != null and keywordPattern != ''">
+                AND (
+                     title        LIKE #{keywordPattern}
+                  OR manufacturer LIKE #{keywordPattern}
+                )
+            </when>
+        </choose>
+        ORDER BY created_at DESC
+        LIMIT #{pageSize} OFFSET #{offset}
     </select>
 </mapper>
