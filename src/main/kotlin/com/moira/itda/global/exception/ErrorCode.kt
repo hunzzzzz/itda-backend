@@ -65,6 +65,16 @@ enum class ErrorCode(
         message = "동일한 비밀번호로 변경할 수 업습니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
+    INVALID_BAN_REASON(
+        code = "U0013",
+        message = "계정 정지 사유는 필수 입력 항목입니다.",
+        httpStatus = HttpStatus.BAD_REQUEST
+    ),
+    INVALID_BAN_DAYS(
+        code = "U0014",
+        message = "유효하지 않은 계정 정지일수입니다.",
+        httpStatus = HttpStatus.BAD_REQUEST
+    ),
 
     // 권한 관련 에러코드
     INVALID_AUTHORIZATION_HEADER(

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.moira.itda.domain.admin.user.mapper.AdminUserMapper">
+    <!-- 어드민 페이지 > 유저 > 유저 목록 조회 -->
+    <select id="selectUserList" resultType="com.moira.itda.domain.admin.user.dto.response.AdminUserResponse">
+        SELECT
+               id AS userId
+             , role
+             , status
+             , email
+             , name
+             , nickname
+             , image_url
+             , last_login_at
+             , created_at
+             , updated_at
+        FROM USER
+        ORDER BY created_at ASC
+    </select>
+
+    <!-- 어드민 페이지 > 유저 > 계정 정지 > 유저 존재 여부 확인 -->
+    <select id="selectUserChk">
+        SELECT COUNT(id) FROM USER WHERE id = #{userId}
+    </select>
+
+    <!-- 어드민 페이지 > 유저 > 계정 정지 > status 변경 -->
+    <update id="updateBannedStatus">
+        UPDATE USER SET status = 'BANNED' WHERE id = #{userId}
+    </update>
+
+    <!-- 어드민 페이지 > 유저 > 계정 정지 > UserBanHistory 저장 -->
+    <insert id="insertUserBanHistory">
+        INSERT INTO USER_BAN_HISTORY (
+               user_id
+             , reason
+             , banned_at
+             , banned_until
+        )
+        VALUES (
+               #{userId}
+             , #{reason}
+             , #{bannedAt}
+             , #{bannedUntil}
+        )
+    </insert>
+
+    <!-- 어드민 페이지 > 유저 > 계정 정지 > 계정 정지 이력 조회 -->
+    <select id="selectUserBanHistoryList" resultType="com.moira.itda.domain.admin.user.dto.response.AdminUserBanResponse">
+        SELECT
+               id
+             , reason
+             , banned_at
+             , banned_until
+        FROM USER_BAN_HISTORY
+        WHERE user_id = #{userId}
+        ORDER BY banned_at DESC
+    </select>
+
+    <!-- 어드민 페이지 > 유저 > 어드민 권한 부여 -->
+    <update id="updateAdminRole">
+        UPDATE USER SET role = 'ADMIN' WHERE id = #{userId}
+    </update>
+</mapper>
