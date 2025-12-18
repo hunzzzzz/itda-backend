@@ -28,7 +28,7 @@ interface TargetMapper {
     fun selectGachaCnt(keywordPattern: String): Long
 
     /**
-     * 교환 및 판매 대상 지정 모달 > 가챠 목록 > 가챠시리즈 목록 조회
+     * 교환 및 판매 대상 지정 모달 > 가챠 목록 > 가챠 목록 조회
      */
     fun selectGachaList(keywordPattern: String, pageSize: Int, offset: Int): List<TargetGachaResponse>
 }
