@@ -13,6 +13,11 @@ interface ExchangeMapper {
     fun selectGachaItemList(gachaId: String): List<ExchangeItemResponse>
 
     /**
+     * 교환등록 > 가챠 아이템 존재 여부 확인
+     */
+    fun selectGachaItemIdChk(gachaId: String, gachaItemId: Long): Int
+
+    /**
      * 교환등록 > 진행 중인 교환글 존재 여부 확인
      */
     fun selectExchangeChk(gachaId: String, userId: String): Int

@@ -203,6 +203,11 @@ enum class ErrorCode(
         message = "이미 해당 가챠 관련 상품을 교환중입니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
+    GACHA_ITEM_NOT_FOUND(
+        code = "G0010",
+        message = "존재하지 않는 가챠 아이템입니다.",
+        httpStatus = HttpStatus.BAD_REQUEST
+    ),
 
     // 거래 관련 에러코드
     INVALID_TRADE_TITLE(

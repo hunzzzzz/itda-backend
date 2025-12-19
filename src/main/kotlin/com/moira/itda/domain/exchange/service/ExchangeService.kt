@@ -48,8 +48,14 @@ class ExchangeService(
             throw ItdaException(ErrorCode.NO_TRADE_ITEMS)
         }
 
+        // 가챠 아이템 존재 여부 검증
         for (item in request.items) {
-
+            if (exchangeMapper.selectGachaItemIdChk(gachaId = gachaId, gachaItemId = item.giveItemId) < 1) {
+                throw ItdaException(ErrorCode.GACHA_ITEM_NOT_FOUND)
+            }
+            if (exchangeMapper.selectGachaItemIdChk(gachaId = gachaId, gachaItemId = item.wantItemId) < 1) {
+                throw ItdaException(ErrorCode.GACHA_ITEM_NOT_FOUND)
+            }
         }
 
         // 진행 중인 판매글이 있는지 검증

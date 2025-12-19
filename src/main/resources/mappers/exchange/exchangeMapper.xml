@@ -13,8 +13,13 @@
         WHERE gacha_id = #{gachaId}
         ORDER BY created_at ASC
     </select>
+    
+    <!-- 교환등록 > 가챠 아이템 존재 여부 확인 -->
+    <select id="selectGachaItemIdChk">
+        SELECT COUNT(id) FROM GACHA_ITEM WHERE gacha_id = #{gachaId} AND id = #{gachaItemId}
+    </select>
 
-    <!-- 판매등록 > 진행 중인 판매글 존재 여부 확인 -->
+    <!-- 교환등록 > 진행 중인 교환글 존재 여부 확인 -->
     <select id="selectExchangeChk">
         SELECT COUNT(id)
         FROM TRADE
@@ -24,12 +29,12 @@
         AND   type     = 'EXCHANGE'
     </select>
 
-    <!-- 판매등록 > 파일 ID 존재 여부 조회 -->
+    <!-- 교환등록 > 파일 ID 존재 여부 조회 -->
     <select id="selectImageFileCnt">
         SELECT COUNT(id) FROM IMAGE_FILE WHERE file_id = #{fileId}
     </select>
 
-    <!-- 판매등록 > Trade 저장 -->
+    <!-- 교환등록 > Trade 저장 -->
     <insert id="insertTrade">
         INSERT INTO TRADE (
                id
@@ -67,6 +72,7 @@
         )
     </insert>
 
+    <!-- 교환등록 > TradeExchangeItem 저장 -->
     <insert id="insertTradeExchangeItem">
         INSERT INTO TRADE_EXCHANGE_ITEM (
                trade_id
