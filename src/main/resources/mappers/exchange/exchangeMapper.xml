@@ -13,4 +13,76 @@
         WHERE gacha_id = #{gachaId}
         ORDER BY created_at ASC
     </select>
+
+    <!-- 판매등록 > 진행 중인 판매글 존재 여부 확인 -->
+    <select id="selectExchangeChk">
+        SELECT COUNT(id)
+        FROM TRADE
+        WHERE gacha_id = #{gachaId}
+        AND   user_id  = #{userId}
+        AND   status   = 'PENDING'
+        AND   type     = 'EXCHANGE'
+    </select>
+
+    <!-- 판매등록 > 파일 ID 존재 여부 조회 -->
+    <select id="selectImageFileCnt">
+        SELECT COUNT(id) FROM IMAGE_FILE WHERE file_id = #{fileId}
+    </select>
+
+    <!-- 판매등록 > Trade 저장 -->
+    <insert id="insertTrade">
+        INSERT INTO TRADE (
+               id
+             , gacha_id
+             , user_id
+             , type
+             , status
+             , title
+             , content
+             , file_id
+             , hope_method
+             , hope_location
+             , hope_address
+             , hope_location_latitude
+             , hope_location_longitude
+             , created_at
+             , updated_at
+        )
+        VALUES (
+               #{id}
+             , #{gachaId}
+             , #{userId}
+             , #{type}
+             , #{status}
+             , #{title}
+             , #{content}
+             , #{fileId}
+             , #{hopeMethod}
+             , #{hopeLocation}
+             , #{hopeAddress}
+             , #{hopeLocationLatitude}
+             , #{hopeLocationLongitude}
+             , #{createdAt}
+             , #{updatedAt}
+        )
+    </insert>
+
+    <insert id="insertTradeExchangeItem">
+        INSERT INTO TRADE_EXCHANGE_ITEM (
+               trade_id
+             , gacha_id
+             , give_item_id
+             , want_item_id
+             , created_at
+             , updated_at
+        )
+        VALUES (
+               #{tradeId}
+             , #{gachaId}
+             , #{giveItemId}
+             , #{wantItemId}
+             , #{createdAt}
+             , #{updatedAt}
+        )
+    </insert>
 </mapper>
