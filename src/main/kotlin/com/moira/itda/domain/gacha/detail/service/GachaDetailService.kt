@@ -136,7 +136,9 @@ class GachaDetailService(
                     TradeContentResponse(
                         trade = trade,
                         salesItemList = emptyList(),
-                        exchangeItemList = emptyList() // TODO
+                        exchangeItemList = gachaDetailMapper.selectTradeExchangeItemList(
+                            tradeId = trade.tradeId, gachaId = gachaId
+                        )
                     )
                 }
 

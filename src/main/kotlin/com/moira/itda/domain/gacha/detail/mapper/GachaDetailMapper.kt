@@ -2,6 +2,7 @@ package com.moira.itda.domain.gacha.detail.mapper
 
 import com.moira.itda.domain.gacha.detail.dto.response.GachaItemResponse
 import com.moira.itda.domain.gacha.detail.dto.response.GachaResponse
+import com.moira.itda.domain.gacha.detail.dto.response.TradeExchangeItemResponse
 import com.moira.itda.domain.gacha.detail.dto.response.TradeResponse
 import com.moira.itda.domain.gacha.detail.dto.response.TradeSalesItemResponse
 import com.moira.itda.global.entity.GachaWish
@@ -64,4 +65,8 @@ interface GachaDetailMapper {
      */
     fun selectTradeSalesItemList(tradeId: String, gachaId: String): List<TradeSalesItemResponse>
 
+    /**
+     * 가챠정보 > 가챠목록 > 상세정보 > 거래 목록 조회 > 하위 교환 정보 조회
+     */
+    fun selectTradeExchangeItemList(tradeId: String, gachaId: String): List<TradeExchangeItemResponse>
 }

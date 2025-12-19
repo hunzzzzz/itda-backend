@@ -128,5 +128,21 @@
          ON GI.id = SI.gacha_item_id
         WHERE SI.trade_id = #{tradeId}
          AND SI.gacha_id = #{gachaId}
+        ORDER BY SI.created_at ASC
+    </select>
+
+    <!-- 가챠정보 > 가챠목록 > 상세정보 > 거래 목록 조회 > 하위 교환 정보 조회 -->
+    <select id="selectTradeExchangeItemList" resultType="com.moira.itda.domain.gacha.detail.dto.response.TradeExchangeItemResponse">
+        SELECT
+               EI.id
+             , EI.give_item_id
+             , (SELECT name FROM GACHA_ITEM WHERE gacha_id = EI.gacha_id AND id = EI.give_item_id) AS giveItemName
+             , EI.want_item_id
+             , (SELECT name FROM GACHA_ITEM WHERE gacha_id = EI.gacha_id AND id = EI.want_item_id) AS wantItemName
+             , EI.created_at
+        FROM TRADE_EXCHANGE_ITEM EI
+        WHERE EI.trade_id = #{tradeId}
+         AND EI.gacha_id = #{gachaId}
+        ORDER BY EI.created_at ASC
     </select>
 </mapper>
