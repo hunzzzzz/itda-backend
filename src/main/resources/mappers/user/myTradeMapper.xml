@@ -17,9 +17,15 @@
              , T.user_id
              , T.type
              , T.status
+             , T.title
+             , T.content
              , T.file_id
              , F.file_url
              , T.hope_method
+             , T.hope_location
+             , T.hope_address
+             , T.hope_location_latitude
+             , T.hope_location_longitude
              , T.created_at
         FROM TRADE T
         LEFT JOIN IMAGE_FILE F

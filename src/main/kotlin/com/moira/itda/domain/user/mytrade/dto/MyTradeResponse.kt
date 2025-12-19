@@ -1,5 +1,6 @@
 package com.moira.itda.domain.user.mytrade.dto
 
+import com.moira.itda.global.entity.TradeHopeMethod
 import java.time.ZonedDateTime
 
 data class MyTradeResponse(
@@ -8,8 +9,14 @@ data class MyTradeResponse(
     val userId: String,
     val type: String,
     val status: String,
+    val title: String,
+    val content: String,
     val fileId: String,
     val fileUrl: String,
-    val hopeMethod: String,
+    val hopeMethod: TradeHopeMethod,
+    val hopeLocation: String?,
+    val hopeAddress: String?,
+    val hopeLocationLatitude: String?,
+    val hopeLocationLongitude: String?,
     val createdAt: ZonedDateTime
 )

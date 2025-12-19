@@ -91,17 +91,22 @@
     <!-- 가챠정보 > 가챠목록 > 상세정보 > 거래 목록 조회 -->
     <select id="selectTradeList" resultType="com.moira.itda.domain.gacha.detail.dto.response.TradeResponse">
         SELECT
-               T.id
+               T.id AS tradeId
+             , T.gacha_id
+             , T.user_id
+             , U.nickname AS userNickname
              , T.type
              , T.status
              , T.title
+             , T.content
              , T.file_id
-             , (SELECT file_url FROM IMAGE_FILE WHERE file_id = T.file_id ORDER BY created_at LIMIT 1)
+             , (SELECT file_url FROM IMAGE_FILE WHERE file_id = T.file_id ORDER BY created_at LIMIT 1) AS fileUrl
              , T.hope_method
+             , T.hope_location
              , T.hope_address
+             , T.hope_location_latitude
+             , T.hope_location_longitude
              , T.created_at
-             , U.id AS userId
-             , U.nickname
         FROM TRADE T
         LEFT JOIN USER U
          ON U.id = T.user_id

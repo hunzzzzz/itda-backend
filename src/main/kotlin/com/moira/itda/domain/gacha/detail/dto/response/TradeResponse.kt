@@ -1,18 +1,23 @@
 package com.moira.itda.domain.gacha.detail.dto.response
 
+import com.moira.itda.global.entity.TradeHopeMethod
 import java.time.ZonedDateTime
 
 data class TradeResponse(
-    val id: String,
+    val tradeId: String,
+    val gachaId: String,
+    val userId: String,
+    val userNickname: String,
     val type: String,
     val status: String,
     val title: String,
+    val content: String,
     val fileId: String,
     val fileUrl: String,
-    val hopeMethod: String,
+    val hopeMethod: TradeHopeMethod,
+    val hopeLocation: String?,
     val hopeAddress: String?,
-    val createdAt: ZonedDateTime,
-
-    val userId: String,
-    val userNickname: String
+    val hopeLocationLatitude: String?,
+    val hopeLocationLongitude: String?,
+    val createdAt: ZonedDateTime
 )
