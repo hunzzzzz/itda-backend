@@ -22,4 +22,34 @@
           AND GI.gacha_id = SI.gacha_id
         WHERE SI.trade_id = #{tradeId}
     </select>
+
+    <!-- 거래 제안 모달 > 구매 제안 -->
+    <insert id="insertTradePurchaseSuggest">
+        INSERT INTO TRADE_PURCHASE_SUGGEST (
+               user_id
+             , trade_id
+             , gacha_id
+             , gacha_item_id
+             , content
+             , original_price
+             , count
+             , discount_yn
+             , discount_price
+             , created_at
+             , updated_at
+        )
+        VALUES (
+               #{userId}
+             , #{tradeId}
+             , #{gachaId}
+             , #{gachaItemId}
+             , #{content}
+             , #{originalPrice}
+             , #{count}
+             , #{discountYn}
+             , #{discountPrice}
+             , #{createdAt}
+             , #{updatedAt}
+        )
+    </insert>
 </mapper>

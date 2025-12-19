@@ -1,6 +1,6 @@
 package com.moira.itda.domain.suggest.controller
 
-import com.moira.itda.domain.suggest.dto.request.SalesSuggestRequest
+import com.moira.itda.domain.suggest.dto.request.PurchaseSuggestRequest
 import com.moira.itda.domain.suggest.dto.response.SalesItemResponse
 import com.moira.itda.domain.suggest.service.TradeSuggestService
 import com.moira.itda.global.auth.aop.UserPrincipal
@@ -28,11 +28,11 @@ class TradeSuggestController(
     /**
      * 거래 제안 모달 > 구매 제안
      */
-    @PostMapping("/api/trade/{tradeId}/suggest/sales")
+    @PostMapping("/api/trade/{tradeId}/suggest/purchase")
     fun suggest(
         @UserPrincipal userAuth: UserAuth,
         @PathVariable tradeId: String,
-        @RequestBody request: SalesSuggestRequest
+        @RequestBody request: PurchaseSuggestRequest
     ): ResponseEntity<Nothing> {
         tradeSuggestService.suggest(userId = userAuth.userId, tradeId = tradeId, request = request)
 

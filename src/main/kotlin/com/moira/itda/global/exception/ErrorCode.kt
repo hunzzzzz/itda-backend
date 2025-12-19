@@ -255,5 +255,21 @@ enum class ErrorCode(
         message = "유효하지 않은 거래 종류입니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
+    TRADE_COUNT_SHOULD_BE_LARGER_THAN_ZERO(
+        code = "T0010",
+        message = "거래 수량은 0보다 커야 합니다.",
+        httpStatus = HttpStatus.BAD_REQUEST
+    ),
+    SHOULD_TYPE_PRICE_WHEN_YOU_WANT_NEGOTIATION(
+        code = "T0011",
+        message = "네고 희망을 체크한 경우, 네고 희망 가격을 입력해야 합니다.",
+        httpStatus = HttpStatus.BAD_REQUEST
+    ),
+    DISCOUNT_PRICE_SHOULD_BE_LESS_THAN_ORIGINAL_PRICE(
+        code = "T0012",
+        message = "네고 희망 가격은 원래 가격보다 작아야 합니다.",
+        httpStatus = HttpStatus.BAD_REQUEST
+    ),
+
 
 }
