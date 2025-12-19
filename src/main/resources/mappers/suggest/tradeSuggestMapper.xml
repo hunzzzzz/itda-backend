@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.moira.itda.domain.suggest.mapper.TradeSuggestMapper">
+    <!-- 거래 제안 모달 > 판매 정보 조회 -->
+    <select id="selectSalesItem" resultType="com.moira.itda.domain.suggest.dto.response.SalesItemResponse">
+        SELECT
+               SI.id AS tradeSalesItemId
+             , SI.gacha_id
+             , SI.trade_id
+             , SI.gacha_item_id
+             , GI.name AS gachaItemName
+             , SI.price
+             , SI.count
+             , SI.current_count
+             , SI.created_at
+        FROM TRADE_SALES_ITEM SI
+        LEFT JOIN GACHA_ITEM GI
+         ON GI.id = SI.gacha_item_id
+          AND GI.gacha_id = SI.gacha_id
+        WHERE SI.trade_id = #{tradeId}
+    </select>
+</mapper>
