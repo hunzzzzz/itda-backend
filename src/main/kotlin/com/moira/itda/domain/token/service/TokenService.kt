@@ -37,26 +37,32 @@ class TokenService(
         val authorizationHeaderValue = httpServletRequest.getHeader("Authorization")
             ?: throw ItdaException(ErrorCode.INVALID_AUTHORIZATION_HEADER)
 
-        // [2] RefreshToken 추출
-        val refreshToken = jwtProvider.substringToken(authorizationHeaderValue)
-
-        if (!refreshToken.startsWith("Bearer ")) {
+        if (!authorizationHeaderValue.startsWith("Bearer ")) {
             throw ItdaException(ErrorCode.INVALID_TOKEN)
         }
 
-        // [3] 유저 정보 추출
+        // [2] RefreshToken 추출
+        val refreshToken = jwtProvider.substringToken(authorizationHeaderValue)
+
         jwtProvider.validateToken(refreshToken)
             .onSuccess { claims ->
                 if (claims != null) {
+                    // [3] 유저 정보 추출
                     val userId = claims.subject
                     val user = tokenMapper.selectUser(userId = userId)
                         ?: throw ItdaException(ErrorCode.USER_NOT_FOUND)
 
-                    // [4] 토큰 재발급
+                    // [4] 토큰 검증 (with db)
+                    val rtkInDb = user.refreshToken ?: throw ItdaException(ErrorCode.EXPIRED_USER_INFO)
+                    if (refreshToken != rtkInDb) {
+                        throw ItdaException(ErrorCode.INVALID_TOKEN)
+                    }
+
+                    // [5] 토큰 재발급
                     val atk = jwtProvider.createAtk(user = user)
                     val rtk = jwtProvider.createRtk(user = user)
 
-                    // [5] RTK 저장
+                    // [6] RTK 저장
                     tokenMapper.updateRefreshToken(userId = userId, rtk = rtk)
                     cookieHandler.putRtkInCookie(rtk = rtk, response = httpServletResponse)
 
