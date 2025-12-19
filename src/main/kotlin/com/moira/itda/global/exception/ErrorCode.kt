@@ -250,5 +250,10 @@ enum class ErrorCode(
         message = "거래 목록을 불러올 수 없습니다. 잠시 후 다시 시도해주세요.",
         httpStatus = HttpStatus.INTERNAL_SERVER_ERROR
     ),
+    INVALID_TRADE_TYPE(
+        code = "T0009",
+        message = "유효하지 않은 거래 종류입니다.",
+        httpStatus = HttpStatus.BAD_REQUEST
+    ),
 
 }

@@ -10,5 +10,8 @@ class PageSizeConstant {
 
         // 판매 및 교환 대상 지정
         const val TRADE_TARGET_PAGE_SIZE = 3
+
+        // 마이페이지 > 내 거래 목록 조회
+        const val MY_TRADE_LIST_PAGE_SIZE = 10
     }
 }
