@@ -1,6 +1,6 @@
 package com.moira.itda.domain.exchange.controller
 
-import com.moira.itda.domain.exchange.dto.response.SalesItemResponse
+import com.moira.itda.domain.exchange.dto.response.ExchangeItemResponse
 import com.moira.itda.domain.exchange.service.ExchangeService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
@@ -20,7 +20,7 @@ class ExchangeController(
     @GetMapping("/api/exchange/gacha/{gachaId}/items")
     fun getGachaItems(
         @PathVariable gachaId: String
-    ): ResponseEntity<List<SalesItemResponse>> {
+    ): ResponseEntity<List<ExchangeItemResponse>> {
         val response = exchangeService.getGachaItems(gachaId = gachaId)
 
         return ResponseEntity.ok(response)

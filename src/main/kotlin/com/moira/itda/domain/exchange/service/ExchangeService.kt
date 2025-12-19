@@ -1,6 +1,6 @@
 package com.moira.itda.domain.exchange.service
 
-import com.moira.itda.domain.exchange.dto.response.SalesItemResponse
+import com.moira.itda.domain.exchange.dto.response.ExchangeItemResponse
 import com.moira.itda.domain.exchange.mapper.ExchangeMapper
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -13,7 +13,7 @@ class ExchangeService(
      * 교환등록 > 하위 아이템 목록 조회
      */
     @Transactional(readOnly = true)
-    fun getGachaItems(gachaId: String): List<SalesItemResponse> {
+    fun getGachaItems(gachaId: String): List<ExchangeItemResponse> {
         return exchangeMapper.selectGachaItemList(gachaId = gachaId)
     }
 
