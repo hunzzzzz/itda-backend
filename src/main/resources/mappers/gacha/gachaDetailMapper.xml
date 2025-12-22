@@ -106,6 +106,10 @@
              , T.hope_address
              , T.hope_location_latitude
              , T.hope_location_longitude
+             , CASE WHEN T.type = 'SALES'
+                    THEN (SELECT COUNT(id) FROM TRADE_PURCHASE_SUGGEST WHERE trade_id = T.id AND gacha_id = T.gacha_id)
+                    ELSE 0
+               END AS suggest_count
              , T.created_at
         FROM TRADE T
         LEFT JOIN USER U
