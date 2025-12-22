@@ -1,5 +1,6 @@
 package com.moira.itda.global.config
 
+import com.moira.itda.global.auth.filter.ExceptionHandlerFilter
 import com.moira.itda.global.auth.filter.JwtAuthenticationFilter
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -15,6 +16,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 class SecurityConfig(
+    private val exceptionHandlerFilter: ExceptionHandlerFilter,
     private val jwtAuthenticationFilter: JwtAuthenticationFilter
 ) {
     /**
@@ -56,6 +58,7 @@ class SecurityConfig(
                     .anyRequest().authenticated()
             }
             // [4] 필터 추가
+            .addFilterBefore(exceptionHandlerFilter, UsernamePasswordAuthenticationFilter::class.java)
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter::class.java)
             .build()
     }

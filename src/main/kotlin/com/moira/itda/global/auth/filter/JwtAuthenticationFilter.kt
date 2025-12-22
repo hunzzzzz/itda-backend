@@ -94,11 +94,10 @@ class JwtAuthenticationFilter(
                     is ExpiredJwtException -> ErrorCode.EXPIRED_ATK
                     is SignatureException -> ErrorCode.INVALID_SIGNATURE
                     is UnsupportedJwtException, is MalformedJwtException -> ErrorCode.INVALID_TOKEN
-                    else -> {
-                        log.error("[ItdaApplication] 에러 발생! {}", it.message)
-                        ErrorCode.INTERNAL_SERVER_ERROR
-                    }
+                    else -> ErrorCode.INTERNAL_SERVER_ERROR
                 }
+
+                log.error("[JwtAuthenticationFilter: {}] 권한 관련 에러 발생! {}", errorCode, it.message)
 
                 filterErrorSender.sendErrorResponse(response = response, errorCode = errorCode)
             }
