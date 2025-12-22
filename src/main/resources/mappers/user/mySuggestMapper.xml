@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.moira.itda.domain.user.mysuggest.mapper.MySuggestMapper">
+    <!-- 마이페이지 > 내 거래 목록 > 거래 제안 목록 탭 > 거래 제안 목록 조회 > 거래 목록 조회 > totalElements 계산 -->
+    <select id="selectTradeListCnt">
+        SELECT COUNT(id) FROM TRADE_PURCHASE_SUGGEST WHERE user_id = #{userId}
+    </select>
+
+    <!-- 마이페이지 > 내 거래 목록 > 거래 제안 목록 탭 > 거래 제안 목록 조회 > 거래 목록 조회 -->
+    <select id="selectTradeList" resultType="com.moira.itda.domain.user.mysuggest.dto.response.MySuggestResponse">
+        SELECT
+               T.id AS tradeId
+             , T.user_id
+             , T.status
+             , U.nickname AS userNickname
+             , T.file_id
+             , F.file_url
+             , T.created_at
+             , GI.gacha_id
+             , GI.id AS gachaItemId
+             , GI.name AS gachaItemName
+             , PS.id AS suggestId
+             , PS.content
+             , PS.count
+             , PS.discount_yn
+             , PS.discount_price
+             , PS.created_at
+        FROM TRADE_PURCHASE_SUGGEST PS
+        LEFT JOIN TRADE T
+         ON T.id = PS.trade_id
+        LEFT JOIN USER U
+         ON U.id = T.user_id
+        LEFT JOIN IMAGE_FILE F
+         ON F.file_id = T.file_id
+        LEFT JOIN GACHA_ITEM GI
+         ON GI.id = PS.gacha_item_id
+        WHERE PS.user_id = #{userId}
+        ORDER BY PS.created_at DESC
+        LIMIT #{pageSize} OFFSET #{offset}
+    </select>
+</mapper>

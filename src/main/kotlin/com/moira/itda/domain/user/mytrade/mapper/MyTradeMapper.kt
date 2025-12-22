@@ -3,6 +3,7 @@ package com.moira.itda.domain.user.mytrade.mapper
 import com.moira.itda.domain.user.mytrade.dto.MyExchangeItemResponse
 import com.moira.itda.domain.user.mytrade.dto.MySalesItemResponse
 import com.moira.itda.domain.user.mytrade.dto.MyTradeResponse
+import com.moira.itda.domain.user.mysuggest.dto.response.MySuggestResponse
 import org.apache.ibatis.annotations.Mapper
 
 @Mapper
@@ -26,4 +27,14 @@ interface MyTradeMapper {
      * 마이페이지 > 내 거래 목록 조회 > 교환 아이템 목록 조회
      */
     fun selectExchangeItemList(tradeId: String): List<MyExchangeItemResponse>
+
+    /**
+     *
+     */
+    fun selectOpponentsTradeCnt(userId: String)
+
+    /**
+     * 마이페이지 > 내 거래 제안 목록 조회 > 거래 정보 조회
+     */
+    fun selectOpponentsTradeList(userId: String, pageSize: Int, offset: Int): List<MySuggestResponse>
 }
