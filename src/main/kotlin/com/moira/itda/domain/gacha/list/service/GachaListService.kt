@@ -15,6 +15,9 @@ class GachaListService(
     private val gachaListMapper: GachaListMapper,
     private val offsetPaginationHandler: OffsetPaginationHandler
 ) {
+    /**
+     * 가챠정보 > 가챠목록 > 전체 목록 조회 > 유효성 검사 (정렬 조건)
+     */
     private fun validateSortCondition(sort: String) {
         kotlin.runCatching {
             GachaListSortCondition.valueOf(sort)
