@@ -18,7 +18,7 @@ data class MySuggestResponse(
     // 제안 정보
     val suggestId: String,
     val suggestStatus: String,
-    val content: String,
+    val content: String?,
     val count: Int,
     val discountYn: String,
     val discountPrice: Int?,
