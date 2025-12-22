@@ -9,7 +9,8 @@ data class MyPageResponse(
     val email: String,
     val name: String,
     val nickname: String,
-    val imageUrl: String?,
+    val fileId: String?,
+    val imageFileUrl: String?,
     val lastLoginAt: ZonedDateTime?,
     val createdAt: ZonedDateTime
 )

@@ -7,18 +7,35 @@
     <!-- 마이페이지 > 내 프로필 조회 -->
     <select id="selectMyPageResponse" resultType="com.moira.itda.domain.user.mypage.dto.response.MyPageResponse">
         SELECT
-               id AS userId
-             , role
-             , status
-             , email
-             , name
-             , nickname
-             , image_url
-             , last_login_at
-             , created_at
-        FROM USER
-        WHERE id = #{userId}
+               U.id AS userId
+             , U.role
+             , U.status
+             , U.email
+             , U.name
+             , U.nickname
+             , U.file_id
+             , F.file_url AS imageFileUrl
+             , U.last_login_at
+             , U.created_at
+        FROM USER U
+        LEFT JOIN IMAGE_FILE F
+         ON F.file_id = U.file_id
+        WHERE U.id = #{userId}
     </select>
+
+    <!-- 마이페이지 > 프로피 사진 변경 > 파일 ID 수정 -->
+    <select id="selectCurrentFileUrl" resultType="java.lang.String">
+        SELECT F.file_url
+        FROM IMAGE_FILE F
+        LEFT JOIN USER U
+         ON U.file_id = F.file_id
+        WHERE U.id = #{userId}
+    </select>
+
+    <!-- 마이페이지 > 프로피 사진 변경 > 파일 ID 수정 -->
+    <update id="updateFileId">
+        UPDATE USER SET file_id = #{newFileId} WHERE id = #{userId}
+    </update>
 
     <!-- 마이페이지 > 닉네임 변경 > 닉네임 존재 여부 확인 -->
     <select id="selectNicknameChk">

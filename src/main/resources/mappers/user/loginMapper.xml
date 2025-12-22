@@ -19,7 +19,7 @@
              , password
              , name
              , nickname
-             , image_url
+             , file_id
              , refresh_token
              , last_login_at
              , created_at

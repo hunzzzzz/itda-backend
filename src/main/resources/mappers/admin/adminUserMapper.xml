@@ -7,17 +7,20 @@
     <!-- 어드민 페이지 > 유저 > 유저 목록 조회 -->
     <select id="selectUserList" resultType="com.moira.itda.domain.admin.user.dto.response.AdminUserResponse">
         SELECT
-               id AS userId
-             , role
-             , status
-             , email
-             , name
-             , nickname
-             , image_url
-             , last_login_at
-             , created_at
-             , updated_at
-        FROM USER
+               U.id AS userId
+             , U.role
+             , U.status
+             , U.email
+             , U.name
+             , U.nickname
+             , U.file_id
+             , F.file_url AS imageUrl
+             , U.last_login_at
+             , U.created_at
+             , U.updated_at
+        FROM USER U
+        LEFT JOIN IMAGE_FILE F
+         ON F.file_id = U.file_id
         ORDER BY created_at ASC
     </select>
 

@@ -11,6 +11,7 @@ data class AdminUserResponse(
     val email: String,
     val name: String,
     val nickname: String,
+    val fileId: String?,
     val imageUrl: String?,
     val lastLoginAt: ZonedDateTime?,
     val createdAt: ZonedDateTime,

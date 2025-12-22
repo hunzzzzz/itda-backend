@@ -2,6 +2,7 @@ package com.moira.itda.domain.user.mypage.controller
 
 import com.moira.itda.domain.user.mypage.dto.request.NicknameUpdateRequest
 import com.moira.itda.domain.user.mypage.dto.request.PasswordUpdateRequest
+import com.moira.itda.domain.user.mypage.dto.request.ProfileImageUpdateRequest
 import com.moira.itda.domain.user.mypage.dto.response.MyPageResponse
 import com.moira.itda.domain.user.mypage.service.MyPageService
 import com.moira.itda.global.auth.aop.UserPrincipal
@@ -28,6 +29,19 @@ class MyPageController(
         val response = myPageService.getMyProfile(userId = userAuth.userId)
 
         return ResponseEntity.ok(response)
+    }
+
+    /**
+     * 마이페이지 > 프로필 사진 변경
+     */
+    @PutMapping("/api/me/image")
+    fun updateProfileImage(
+        @UserPrincipal userAuth: UserAuth,
+        @RequestBody request: ProfileImageUpdateRequest
+    ): ResponseEntity<Nothing> {
+        myPageService.updateProfileImage(userId = userAuth.userId, request = request)
+
+        return ResponseEntity.ok(null)
     }
 
     /**

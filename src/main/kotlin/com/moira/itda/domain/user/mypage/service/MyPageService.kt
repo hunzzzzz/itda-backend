@@ -3,10 +3,12 @@ package com.moira.itda.domain.user.mypage.service
 import com.moira.itda.domain.user.logout.service.LogoutService
 import com.moira.itda.domain.user.mypage.dto.request.NicknameUpdateRequest
 import com.moira.itda.domain.user.mypage.dto.request.PasswordUpdateRequest
+import com.moira.itda.domain.user.mypage.dto.request.ProfileImageUpdateRequest
 import com.moira.itda.domain.user.mypage.dto.response.MyPageResponse
 import com.moira.itda.domain.user.mypage.mapper.MyPageMapper
 import com.moira.itda.global.exception.ErrorCode
 import com.moira.itda.global.exception.ItdaException
+import com.moira.itda.global.file.component.AwsS3Handler
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
@@ -14,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 class MyPageService(
+    private val awsS3Handler: AwsS3Handler,
     private val logoutService: LogoutService,
     private val myPageMapper: MyPageMapper,
     private val passwordEncoder: PasswordEncoder
@@ -27,6 +30,23 @@ class MyPageService(
     @Transactional(readOnly = true)
     fun getMyProfile(userId: String): MyPageResponse {
         return myPageMapper.selectMyPageResponse(userId = userId) ?: throw ItdaException(ErrorCode.USER_NOT_FOUND)
+    }
+
+    /**
+     * 마이페이지 > 프로필 사진 변경
+     */
+    @Transactional
+    fun updateProfileImage(userId: String, request: ProfileImageUpdateRequest) {
+        // [1] 기존 프로필 사진 URL 조회
+        val currentImageUrl = myPageMapper.selectCurrentFileUrl(userId = userId)
+
+        // [2] 기존 프로필 사진 삭제 (AWS S3)
+        if (currentImageUrl != null) {
+            awsS3Handler.delete(fileUrl = currentImageUrl)
+        }
+
+        // [3] 파일 ID 수정
+        myPageMapper.updateFileId(userId = userId, newFileId = request.fileId)
     }
 
     /**
