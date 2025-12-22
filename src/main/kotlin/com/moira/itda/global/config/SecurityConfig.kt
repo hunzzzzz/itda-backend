@@ -1,5 +1,6 @@
 package com.moira.itda.global.config
 
+import com.moira.itda.global.auth.filter.CustomAccessDeniedHandler
 import com.moira.itda.global.auth.filter.ExceptionHandlerFilter
 import com.moira.itda.global.auth.filter.JwtAuthenticationFilter
 import org.springframework.context.annotation.Bean
@@ -7,7 +8,9 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpMethod
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
@@ -15,7 +18,10 @@ import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 
 @Configuration
+@EnableWebSecurity
+@EnableMethodSecurity
 class SecurityConfig(
+    private val customAccessDeniedHandler: CustomAccessDeniedHandler,
     private val exceptionHandlerFilter: ExceptionHandlerFilter,
     private val jwtAuthenticationFilter: JwtAuthenticationFilter
 ) {
@@ -57,7 +63,9 @@ class SecurityConfig(
                     .requestMatchers(HttpMethod.GET, "/api/code/**").permitAll()
                     .anyRequest().authenticated()
             }
-            // [4] 필터 추가
+            // [4] 예외 처리 핸들러 등록
+            .exceptionHandling { it.accessDeniedHandler(customAccessDeniedHandler) }
+            // [5] 커스텀 필터 추가
             .addFilterBefore(exceptionHandlerFilter, UsernamePasswordAuthenticationFilter::class.java)
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter::class.java)
             .build()

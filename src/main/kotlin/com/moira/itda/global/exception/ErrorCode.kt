@@ -112,6 +112,11 @@ enum class ErrorCode(
         message = "사용자의 로그인 정보가 만료되었습니다. 다시 로그인해주세요.",
         httpStatus = HttpStatus.UNAUTHORIZED
     ),
+    ACCESS_DENIED(
+        code = "A0006",
+        message = "접근 권한이 없습니다.",
+        httpStatus = HttpStatus.UNAUTHORIZED
+    ),
 
     // 파일 관련 에러코드
     INVALID_FILE(
