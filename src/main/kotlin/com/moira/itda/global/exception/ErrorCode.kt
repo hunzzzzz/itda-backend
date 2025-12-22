@@ -300,6 +300,31 @@ enum class ErrorCode(
         message = "이미 취소된 거래 제안입니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
+    SHOULD_TYPE_ITEM_ID_WHEN_YOU_WANT_NEGOTIATION(
+        code = "T0017",
+        message = "'다른 아이템으로 교환 제시'를 원하는 경우, 특정 아이템을 선택해야 합니다.",
+        httpStatus = HttpStatus.BAD_REQUEST
+    ),
+    EXCHANGING_ITEMS_ID_SHOULD_NOT_BE_SAME_WHEN_YOU_WANT_NEGOTIATION(
+        code = "T0017",
+        message = "'다른 아이템으로 교환 제시'를 선택한 경우, 기존 항목과 다른 아이템을 선택해야 합니다.",
+        httpStatus = HttpStatus.BAD_REQUEST
+    ),
+    SUGGEST_ONLY_WHEN_TRADE_IS_PENDING(
+        code = "T0018",
+        message = "진행 중인 거래에 대해서만 교환 및 판매 제안이 가능합니다.",
+        httpStatus = HttpStatus.BAD_REQUEST
+    ),
+    ALREADY_SUGGESTED_PURCHASE_ON_THE_TRADE_ITEM(
+        code = "T0019",
+        message = "이미 해당 제품에 구매 제안을 하였습니다.",
+        httpStatus = HttpStatus.BAD_REQUEST
+    ), 
+    ALREADY_SUGGESTED_EXCHANGE_ON_THE_TRADE_ITEM(
+        code = "T0020",
+        message = "이미 해당 제품에 교환 제안을 하였습니다.",
+        httpStatus = HttpStatus.BAD_REQUEST
+    ),
 
     // 정보 등록/수정 요청 관련 에러코드
     INVALID_GACHA_INFO_TYPE(

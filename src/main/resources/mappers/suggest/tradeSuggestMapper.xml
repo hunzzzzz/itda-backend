@@ -4,6 +4,12 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.moira.itda.domain.suggest.mapper.TradeSuggestMapper">
+    <!-- 거래 제안 모달 > 구매 제안 > 거래 status 조회 -->
+    <!-- 거래 제안 모달 > 교환 제안 > 거래 status 조회 -->
+    <select id="selectTradeStatus" resultType="java.lang.String">
+        SELECT status FROM TRADE where id = #{tradeId}
+    </select>
+
     <!-- 거래 제안 모달 > 판매 정보 조회 -->
     <select id="selectSalesItem" resultType="com.moira.itda.domain.suggest.dto.response.SalesItemResponse">
         SELECT
@@ -22,6 +28,16 @@
           AND GI.gacha_id = SI.gacha_id
         WHERE SI.trade_id = #{tradeId}
         ORDER BY SI.id ASC
+    </select>
+
+    <!-- 거래 제안 모달 > 구매 제안 > 구매 제안 존재 여부 확인 -->
+    <select id="selectTradePurchaseSuggestChk">
+        SELECT COUNT(id) FROM TRADE_PURCHASE_SUGGEST
+        WHERE user_id = #{userId}
+        AND trade_id = #{tradeId}
+        AND gacha_item_id = #{gachaItemId}
+        AND status != 'CANCELED'
+        AND status != 'REJECTED'
     </select>
 
     <!-- 거래 제안 모달 > 구매 제안 -->
@@ -77,4 +93,44 @@
         WHERE GI.gacha_id = (SELECT gacha_id FROM TRADE WHERE id = #{tradeId})
         ORDER BY GI.created_at ASC
     </select>
+
+    <!-- 거래 제안 모달 > 교환 제안 > 교환 제안 존재 여부 확인 -->
+    <select id="selectTradeExchangeSuggestChk">
+        SELECT COUNT(id) FROM TRADE_EXCHANGE_SUGGEST
+        WHERE user_id = #{userId}
+         AND trade_id = #{tradeId}
+         AND suggested_item_id = #{suggestedItemId}
+         AND status != 'CANCELED'
+         AND status != 'REJECTED'
+    </select>
+
+    <!-- 거래 제안 모달 > 교환 제안 > TradeExchangeSuggest 저장 -->
+    <insert id="insertTradeExchangeSuggest">
+        INSERT INTO TRADE_EXCHANGE_SUGGEST (
+               user_id
+             , trade_id
+             , gacha_id
+             , status
+             , seller_item_id
+             , change_yn
+             , original_item_id
+             , suggested_item_id
+             , content
+             , created_at
+             , updated_at
+        )
+        VALUES (
+               #{userId}
+             , #{tradeId}
+             , #{gachaId}
+             , #{status}
+             , #{sellerItemId}
+             , #{changeYn}
+             , #{originalItemId}
+             , #{suggestedItemId}
+             , #{content}
+             , #{createdAt}
+             , #{updatedAt}
+        )
+    </insert>
 </mapper>

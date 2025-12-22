@@ -1,11 +1,14 @@
 package com.moira.itda.domain.suggest.service
 
+import com.moira.itda.domain.suggest.dto.request.ExchangeSuggestRequest
 import com.moira.itda.domain.suggest.dto.request.PurchaseSuggestRequest
 import com.moira.itda.domain.suggest.dto.response.ExchangeItemResponse
 import com.moira.itda.domain.suggest.dto.response.GachaItemResponse
 import com.moira.itda.domain.suggest.dto.response.SalesItemResponse
 import com.moira.itda.domain.suggest.mapper.TradeSuggestMapper
+import com.moira.itda.global.entity.TradeExchangeSuggest
 import com.moira.itda.global.entity.TradePurchaseSuggest
+import com.moira.itda.global.entity.TradeStatus
 import com.moira.itda.global.exception.ErrorCode
 import com.moira.itda.global.exception.ItdaException
 import org.springframework.stereotype.Service
@@ -26,7 +29,7 @@ class TradeSuggestService(
     /**
      * 거래 제안 모달 > 구매 제안 > 유효성 검사
      */
-    private fun validate(request: PurchaseSuggestRequest) {
+    private fun validate(userId: String, tradeId: String, request: PurchaseSuggestRequest) {
         if (request.count < 1) {
             throw ItdaException(ErrorCode.TRADE_COUNT_SHOULD_BE_LARGER_THAN_ZERO)
         }
@@ -36,15 +39,26 @@ class TradeSuggestService(
         if (request.discountYn == "Y" && request.originalPrice < (request.discountPrice ?: 0)) {
             throw ItdaException(ErrorCode.DISCOUNT_PRICE_SHOULD_BE_LESS_THAN_ORIGINAL_PRICE)
         }
+        if (tradeSuggestMapper.selectTradeStatus(tradeId = tradeId) != TradeStatus.PENDING.name) {
+            throw ItdaException(ErrorCode.SUGGEST_ONLY_WHEN_TRADE_IS_PENDING)
+        }
+        if (tradeSuggestMapper.selectTradePurchaseSuggestChk(
+                userId = userId,
+                tradeId = tradeId,
+                gachaItemId = request.gachaItemId
+            ) > 0
+        ) {
+            throw ItdaException(ErrorCode.ALREADY_SUGGESTED_PURCHASE_ON_THE_TRADE_ITEM)
+        }
     }
 
     /**
      * 거래 제안 모달 > 구매 제안
      */
     @Transactional
-    fun suggest(userId: String, tradeId: String, request: PurchaseSuggestRequest) {
+    fun purchaseSuggest(userId: String, tradeId: String, request: PurchaseSuggestRequest) {
         // [1] 유효성 검사
-        this.validate(request = request)
+        this.validate(userId = userId, tradeId = tradeId, request = request)
 
         // [2] 저장
         val tradePurchaseSuggest = TradePurchaseSuggest.fromPurchaseSuggestRequest(
@@ -72,5 +86,46 @@ class TradeSuggestService(
     @Transactional(readOnly = true)
     fun getGachaItemList(tradeId: String): List<GachaItemResponse> {
         return tradeSuggestMapper.selectGachaItemList(tradeId = tradeId)
+    }
+
+    /**
+     * 거래 제안 모달 > 교환 제안 > 유효성 검사
+     */
+    fun validate(userId: String, tradeId: String, request: ExchangeSuggestRequest) {
+        if (request.changeYn == "Y" && request.suggestedItemId == null) {
+            throw ItdaException(ErrorCode.SHOULD_TYPE_ITEM_ID_WHEN_YOU_WANT_NEGOTIATION)
+        }
+        if (request.changeYn == "Y" && (request.suggestedItemId == request.originalItemId)) {
+            throw ItdaException(ErrorCode.EXCHANGING_ITEMS_ID_SHOULD_NOT_BE_SAME_WHEN_YOU_WANT_NEGOTIATION)
+        }
+        if (tradeSuggestMapper.selectTradeStatus(tradeId = tradeId) != TradeStatus.PENDING.name) {
+            throw ItdaException(ErrorCode.SUGGEST_ONLY_WHEN_TRADE_IS_PENDING)
+        }
+        if (request.changeYn == "Y") {
+            if (tradeSuggestMapper.selectTradeExchangeSuggestChk(
+                    userId = userId,
+                    tradeId = tradeId,
+                    suggestedItemId = request.suggestedItemId ?: 0L
+                ) > 0
+            ) {
+                throw ItdaException(ErrorCode.ALREADY_SUGGESTED_EXCHANGE_ON_THE_TRADE_ITEM)
+            }
+        }
+    }
+
+    /**
+     * 거래 제안 모달 > 교환 제안
+     */
+    fun exchangeSuggest(userId: String, tradeId: String, request: ExchangeSuggestRequest) {
+        // [1] 유효성 검사
+        this.validate(userId = userId, tradeId = tradeId, request = request)
+
+        // [2] 저장
+        val tradeExchangeSuggest = TradeExchangeSuggest.fromExchangeSuggestRequest(
+            userId = userId,
+            tradeId = tradeId,
+            request = request
+        )
+        tradeSuggestMapper.insertTradeExchangeSuggest(tradeExchangeSuggest = tradeExchangeSuggest)
     }
 }

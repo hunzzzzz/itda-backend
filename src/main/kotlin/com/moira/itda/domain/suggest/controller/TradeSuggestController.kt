@@ -1,5 +1,6 @@
 package com.moira.itda.domain.suggest.controller
 
+import com.moira.itda.domain.suggest.dto.request.ExchangeSuggestRequest
 import com.moira.itda.domain.suggest.dto.request.PurchaseSuggestRequest
 import com.moira.itda.domain.suggest.dto.response.ExchangeItemResponse
 import com.moira.itda.domain.suggest.dto.response.GachaItemResponse
@@ -31,12 +32,12 @@ class TradeSuggestController(
      * 거래 제안 모달 > 구매 제안
      */
     @PostMapping("/api/trade/{tradeId}/suggest/purchase")
-    fun suggest(
+    fun purchaseSuggest(
         @UserPrincipal userAuth: UserAuth,
         @PathVariable tradeId: String,
         @RequestBody request: PurchaseSuggestRequest
     ): ResponseEntity<Nothing> {
-        tradeSuggestService.suggest(userId = userAuth.userId, tradeId = tradeId, request = request)
+        tradeSuggestService.purchaseSuggest(userId = userAuth.userId, tradeId = tradeId, request = request)
 
         return ResponseEntity.ok(null)
     }
@@ -59,5 +60,19 @@ class TradeSuggestController(
         val response = tradeSuggestService.getGachaItemList(tradeId = tradeId)
 
         return ResponseEntity.ok(response)
+    }
+
+    /**
+     * 거래 제안 모달 > 교환 제안
+     */
+    @PostMapping("/api/trade/{tradeId}/suggest/exchange")
+    fun exchangeSuggest(
+        @UserPrincipal userAuth: UserAuth,
+        @PathVariable tradeId: String,
+        @RequestBody request: ExchangeSuggestRequest
+    ): ResponseEntity<Nothing> {
+        tradeSuggestService.exchangeSuggest(userId = userAuth.userId, tradeId = tradeId, request = request)
+
+        return ResponseEntity.ok(null)
     }
 }
