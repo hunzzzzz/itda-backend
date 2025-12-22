@@ -13,5 +13,5 @@ interface GachaListMapper {
     /**
      * 가챠정보 > 가챠목록 > 전체 목록 조회
      */
-    fun selectGachaList(keywordPattern: String, pageSize: Int, offset: Int): List<GachaResponse>
+    fun selectGachaList(keywordPattern: String, pageSize: Int, offset: Int, sort: String): List<GachaResponse>
 }

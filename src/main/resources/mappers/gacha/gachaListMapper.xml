@@ -33,6 +33,7 @@
              , F.file_url
              , G.price
              , G.view_count
+             , (SELECT COUNT(id) FROM GACHA_WISH WHERE gacha_id = G.id) AS wishCount
              , G.created_at
              , G.updated_at
         FROM GACHA G
@@ -50,7 +51,26 @@
                 )
             </when>
         </choose>
-        ORDER BY G.created_at DESC
+        <choose>
+            <when test="sort == null or sort == '' or sort == 'LATEST'">
+                ORDER BY G.created_at DESC
+            </when>
+            <when test="sort == 'OLDEST'">
+                ORDER BY G.created_at ASC
+            </when>
+            <when test="sort == 'PRICE_ASC'">
+                ORDER BY G.price ASC
+            </when>
+            <when test="sort == 'PRICE_DESC'">
+                ORDER BY G.price DESC
+            </when>
+            <when test="sort == 'MOST_WISHED'">
+                ORDER BY wishCount DESC
+            </when>
+            <otherwise>
+                ORDER BY G.created_at DESC
+            </otherwise>
+        </choose>
         LIMIT #{pageSize} OFFSET #{offset}
     </select>
 </mapper>

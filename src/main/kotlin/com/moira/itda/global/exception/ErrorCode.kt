@@ -7,11 +7,16 @@ enum class ErrorCode(
     var message: String,
     val httpStatus: HttpStatus
 ) {
-    // 시스템 관련 에러코드
+    // 공통 에러코드
     INTERNAL_SERVER_ERROR(
-        code = "INTERNAL_SERVER_ERROR",
+        code = "C0001",
         message = "알 수 없는 오류가 발생했습니다. 잠시 후 다시 시도해주세요.",
         httpStatus = HttpStatus.INTERNAL_SERVER_ERROR
+    ),
+    INVALID_SORT_CONDITION(
+        code = "C0002",
+        message = "올바르지 않은 정렬 조건입니다.",
+        httpStatus = HttpStatus.BAD_REQUEST
     ),
 
     // 유저 관련 에러코드

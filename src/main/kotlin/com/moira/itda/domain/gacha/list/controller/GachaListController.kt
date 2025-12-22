@@ -20,9 +20,10 @@ class GachaListController(
     @GetMapping("/api/gacha")
     fun getAll(
         @RequestParam(required = false, defaultValue = "") keyword: String,
-        @RequestParam(required = false, defaultValue = "1") page: Int
+        @RequestParam(required = false, defaultValue = "1") page: Int,
+        @RequestParam(required = false, defaultValue = "LATEST") sort: String
     ): ResponseEntity<GachaPageResponse> {
-        val response = gachaListService.getAll(keyword = keyword, page = page)
+        val response = gachaListService.getAll(keyword = keyword, page = page, sort = sort)
 
         return ResponseEntity.ok(response)
     }

@@ -11,6 +11,7 @@ data class GachaResponse(
     val fileUrl: String,
     val price: Int,
     val viewCount: Int,
+    val wishCount: Int,
     val createdAt: ZonedDateTime,
     val updatedAt: ZonedDateTime
 )
