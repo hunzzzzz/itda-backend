@@ -1,6 +1,8 @@
 package com.moira.itda.domain.suggest.controller
 
 import com.moira.itda.domain.suggest.dto.request.PurchaseSuggestRequest
+import com.moira.itda.domain.suggest.dto.response.ExchangeItemResponse
+import com.moira.itda.domain.suggest.dto.response.GachaItemResponse
 import com.moira.itda.domain.suggest.dto.response.SalesItemResponse
 import com.moira.itda.domain.suggest.service.TradeSuggestService
 import com.moira.itda.global.auth.aop.UserPrincipal
@@ -37,5 +39,25 @@ class TradeSuggestController(
         tradeSuggestService.suggest(userId = userAuth.userId, tradeId = tradeId, request = request)
 
         return ResponseEntity.ok(null)
+    }
+
+    /**
+     * 거래 제안 모달 > 교환 정보 조회
+     */
+    @GetMapping("/api/trade/{tradeId}/suggest/exchange")
+    fun getExchangeInfo(@PathVariable tradeId: String): ResponseEntity<List<ExchangeItemResponse>> {
+        val response = tradeSuggestService.getExchangeInfo(tradeId = tradeId)
+
+        return ResponseEntity.ok(response)
+    }
+
+    /**
+     * 거래 제안 모달 > 하위 아이템 목록 조회
+     */
+    @GetMapping("/api/trade/{tradeId}/gacha/items")
+    fun getGachaItems(@PathVariable tradeId: String): ResponseEntity<List<GachaItemResponse>> {
+        val response = tradeSuggestService.getGachaItemList(tradeId = tradeId)
+
+        return ResponseEntity.ok(response)
     }
 }

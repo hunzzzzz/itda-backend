@@ -1,6 +1,8 @@
 package com.moira.itda.domain.suggest.service
 
 import com.moira.itda.domain.suggest.dto.request.PurchaseSuggestRequest
+import com.moira.itda.domain.suggest.dto.response.ExchangeItemResponse
+import com.moira.itda.domain.suggest.dto.response.GachaItemResponse
 import com.moira.itda.domain.suggest.dto.response.SalesItemResponse
 import com.moira.itda.domain.suggest.mapper.TradeSuggestMapper
 import com.moira.itda.global.entity.TradePurchaseSuggest
@@ -53,5 +55,22 @@ class TradeSuggestService(
         )
 
         tradeSuggestMapper.insertTradePurchaseSuggest(tradePurchaseSuggest = tradePurchaseSuggest)
+    }
+
+
+    /**
+     * 거래 제안 모달 > 교환 정보 조회
+     */
+    @Transactional(readOnly = true)
+    fun getExchangeInfo(tradeId: String): List<ExchangeItemResponse> {
+        return tradeSuggestMapper.selectExchangeItem(tradeId = tradeId)
+    }
+
+    /**
+     * 거래 제안 모달 > 하위 아이템 목록 조회
+     */
+    @Transactional(readOnly = true)
+    fun getGachaItemList(tradeId: String): List<GachaItemResponse> {
+        return tradeSuggestMapper.selectGachaItemList(tradeId = tradeId)
     }
 }
