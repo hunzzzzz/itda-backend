@@ -294,5 +294,23 @@ enum class ErrorCode(
         code = "T0016",
         message = "이미 취소된 거래 제안입니다.",
         httpStatus = HttpStatus.BAD_REQUEST
+    ),
+
+    // 정보 등록/수정 요청 관련 에러코드
+    INVALID_GACHA_INFO_TYPE(
+        code = "I0001",
+        message = "유효하지 않은 요청 타입입니다.",
+        httpStatus = HttpStatus.BAD_REQUEST
+    ),
+    GACHA_INFO_CONTENT_IS_MANDATORY(
+        code = "I0002",
+        message = "요청 내용은 필수 입력 항목입니다.",
+        httpStatus = HttpStatus.BAD_REQUEST
+    ),
+    INVALID_GACHA_INFO_MESSAGE_YN(
+        code = "I0003",
+        message = "유효하지 않은 메시지 수신 여부입니다. (Y/N)",
+        httpStatus = HttpStatus.BAD_REQUEST
     )
+
 }
