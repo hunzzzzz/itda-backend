@@ -10,6 +10,23 @@
              , IA.status
              , IA.type
              , IA.content
+             , IA.admin_comment
+             , IA.receive_email_yn
+             , IA.requested_at
+             , IA.processed_at
+             , IA.user_id
+             , U.nickname AS userNickname
+        FROM GACHA_INFO_ADD IA
+        LEFT JOIN USER U
+         ON U.id = IA.user_id
+    </select>
+
+    <select id="selectGachaInfoAdd" resultType="com.moira.itda.domain.admin.info.dto.response.AdminGachaInfoAddDetailResponse">
+        SELECT
+               IA.id
+             , IA.status
+             , IA.type
+             , IA.content
              , IA.file_id
              , F.file_url
              , IA.admin_comment
@@ -23,5 +40,6 @@
          ON F.file_id = IA.file_id
         LEFT JOIN USER U
          ON U.id = IA.user_id
+        WHERE IA.id = #{infoId}
     </select>
 </mapper>
