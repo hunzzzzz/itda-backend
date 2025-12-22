@@ -2,7 +2,7 @@ package com.moira.itda.domain.user.mysuggest.service
 
 import com.moira.itda.domain.user.mysuggest.dto.response.MySuggestPageResponse
 import com.moira.itda.domain.user.mysuggest.mapper.MySuggestMapper
-import com.moira.itda.global.entity.TradePurchaseSuggestStatus
+import com.moira.itda.global.entity.TradeSuggestStatus
 import com.moira.itda.global.exception.ErrorCode
 import com.moira.itda.global.exception.ItdaException
 import com.moira.itda.global.pagination.component.OffsetPaginationHandler
@@ -54,15 +54,15 @@ class MySuggestService(
 
         // [2] status에 대한 유효성 검사
         when (status) {
-            TradePurchaseSuggestStatus.APPROVED.name -> {
+            TradeSuggestStatus.APPROVED.name -> {
                 throw ItdaException(ErrorCode.CANNOT_CANCEL_APPROVED_SUGGEST)
             }
 
-            TradePurchaseSuggestStatus.REJECTED.name -> {
+            TradeSuggestStatus.REJECTED.name -> {
                 throw ItdaException(ErrorCode.CANNOT_CANCEL_REJECTED_SUGGEST)
             }
 
-            TradePurchaseSuggestStatus.CANCELED.name -> {
+            TradeSuggestStatus.CANCELED.name -> {
                 throw ItdaException(ErrorCode.ALREADY_CANCELED_SUGGEST)
             }
         }

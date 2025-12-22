@@ -1,5 +1,5 @@
 package com.moira.itda.global.entity
 
-enum class TradePurchaseSuggestStatus {
+enum class TradeSuggestStatus {
     PENDING, CANCELED, APPROVED, REJECTED
 }
