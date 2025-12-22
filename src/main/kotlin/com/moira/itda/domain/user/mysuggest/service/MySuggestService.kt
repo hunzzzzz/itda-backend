@@ -2,6 +2,9 @@ package com.moira.itda.domain.user.mysuggest.service
 
 import com.moira.itda.domain.user.mysuggest.dto.response.MySuggestPageResponse
 import com.moira.itda.domain.user.mysuggest.mapper.MySuggestMapper
+import com.moira.itda.global.entity.TradePurchaseSuggestStatus
+import com.moira.itda.global.exception.ErrorCode
+import com.moira.itda.global.exception.ItdaException
 import com.moira.itda.global.pagination.component.OffsetPaginationHandler
 import com.moira.itda.global.pagination.component.PageSizeConstant.Companion.MY_TRADE_LIST_PAGE_SIZE
 import org.springframework.stereotype.Service
@@ -38,5 +41,33 @@ class MySuggestService(
 
         // [4] DTO 병합 후 리턴
         return MySuggestPageResponse(suggest = suggestList, page = pageResponse)
+    }
+
+    /**
+     * 마이페이지 > 내 거래 목록 > 거래 제안 목록 탭 > 거래 제안 취소
+     */
+    @Transactional
+    fun cancelSuggest(userId: String, suggestId: String) {
+        // [1] status 조회
+        val status = mySuggestMapper.selectSuggestStatus(userId = userId, suggestId = suggestId)
+            ?: throw ItdaException(ErrorCode.SUGGEST_NOT_FOUND)
+
+        // [2] status에 대한 유효성 검사
+        when (status) {
+            TradePurchaseSuggestStatus.APPROVED.name -> {
+                throw ItdaException(ErrorCode.CANNOT_CANCEL_APPROVED_SUGGEST)
+            }
+
+            TradePurchaseSuggestStatus.REJECTED.name -> {
+                throw ItdaException(ErrorCode.CANNOT_CANCEL_REJECTED_SUGGEST)
+            }
+
+            TradePurchaseSuggestStatus.CANCELED.name -> {
+                throw ItdaException(ErrorCode.ALREADY_CANCELED_SUGGEST)
+            }
+        }
+
+        // [3] 거래 제안 취소
+        mySuggestMapper.updateSuggestStatusCanceled(userId = userId, suggestId = suggestId)
     }
 }

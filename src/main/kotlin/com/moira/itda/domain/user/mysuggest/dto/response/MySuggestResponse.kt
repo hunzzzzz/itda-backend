@@ -5,7 +5,7 @@ import java.time.ZonedDateTime
 data class MySuggestResponse(
     // 거래 정보
     val tradeId: String,
-    val status: String,
+    val tradeStatus: String,
     val userId: String,
     val userNickname: String,
     val fileId: String,
@@ -17,6 +17,7 @@ data class MySuggestResponse(
     val gachaItemName: String,
     // 제안 정보
     val suggestId: String,
+    val suggestStatus: String,
     val content: String,
     val count: Int,
     val discountYn: String,

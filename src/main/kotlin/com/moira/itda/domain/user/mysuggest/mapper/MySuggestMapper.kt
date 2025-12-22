@@ -14,4 +14,14 @@ interface MySuggestMapper {
      * 마이페이지 > 내 거래 목록 > 거래 제안 목록 탭 > 거래 제안 목록 조회 > 거래 목록 조회
      */
     fun selectTradeList(userId: String, pageSize: Int, offset: Int): List<MySuggestResponse>
+
+    /**
+     * 마이페이지 > 내 거래 목록 > 거래 제안 목록 탭 > 거래 제안 취소 > status 조회
+     */
+    fun selectSuggestStatus(userId: String, suggestId: String): String?
+
+    /**
+     * 마이페이지 > 내 거래 목록 > 거래 제안 목록 탭 > 거래 제안 취소
+     */
+    fun updateSuggestStatusCanceled(userId: String, suggestId: String)
 }

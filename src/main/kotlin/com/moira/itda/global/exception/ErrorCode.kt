@@ -270,6 +270,24 @@ enum class ErrorCode(
         message = "네고 희망 가격은 원래 가격보다 작아야 합니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
-
-
+    SUGGEST_NOT_FOUND(
+        code = "T0013",
+        message = "존재하지 않는 거래 제안입니다.",
+        httpStatus = HttpStatus.BAD_REQUEST
+    ),
+    CANNOT_CANCEL_APPROVED_SUGGEST(
+        code = "T0014",
+        message = "이미 승인된 거래 제안은 취소할 수 없습니다.",
+        httpStatus = HttpStatus.BAD_REQUEST
+    ),
+    CANNOT_CANCEL_REJECTED_SUGGEST(
+        code = "T0015",
+        message = "이미 거절된 거래 제안은 취소할 수 없습니다.",
+        httpStatus = HttpStatus.BAD_REQUEST
+    ),
+    ALREADY_CANCELED_SUGGEST(
+        code = "T0016",
+        message = "이미 취소된 거래 제안입니다.",
+        httpStatus = HttpStatus.BAD_REQUEST
+    )
 }

@@ -14,7 +14,7 @@
         SELECT
                T.id AS tradeId
              , T.user_id
-             , T.status
+             , T.status AS tradeSuggest
              , U.nickname AS userNickname
              , T.file_id
              , F.file_url
@@ -23,6 +23,7 @@
              , GI.id AS gachaItemId
              , GI.name AS gachaItemName
              , PS.id AS suggestId
+             , PS.status AS suggestStatus
              , PS.content
              , PS.count
              , PS.discount_yn
@@ -41,4 +42,16 @@
         ORDER BY PS.created_at DESC
         LIMIT #{pageSize} OFFSET #{offset}
     </select>
+
+    <!-- 마이페이지 > 내 거래 목록 > 거래 제안 목록 탭 > 거래 제안 취소 > status 조회 -->
+    <select id="selectSuggestStatus" resultType="java.lang.String">
+        SELECT status FROM TRADE_PURCHASE_SUGGEST
+        WHERE id = #{suggestId} AND user_id = #{userId}
+    </select>
+
+    <!-- 마이페이지 > 내 거래 목록 > 거래 제안 목록 탭 > 거래 제안 취소 -->
+    <update id="updateSuggestStatusCanceled">
+        UPDATE TRADE_PURCHASE_SUGGEST SET status = 'CANCELED'
+        WHERE id = #{suggestId} AND user_id = #{userId}
+    </update>
 </mapper>

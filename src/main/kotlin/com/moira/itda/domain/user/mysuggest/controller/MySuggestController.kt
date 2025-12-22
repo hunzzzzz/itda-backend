@@ -5,9 +5,7 @@ import com.moira.itda.domain.user.mysuggest.service.MySuggestService
 import com.moira.itda.global.auth.aop.UserPrincipal
 import com.moira.itda.global.auth.dto.UserAuth
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 /**
  * 마이페이지 > 내 거래 목록 > 거래 제안 목록 탭
@@ -27,5 +25,18 @@ class MySuggestController(
         val response = mySuggestService.getTradeSuggests(userId = userAuth.userId, page = page)
 
         return ResponseEntity.ok(response)
+    }
+
+    /**
+     * 마이페이지 > 내 거래 목록 > 거래 제안 목록 탭 > 거래 제안 취소
+     */
+    @PostMapping("/api/me/trade/suggest/{suggestId}/cancel")
+    fun cancelSuggest(
+        @UserPrincipal userAuth: UserAuth,
+        @PathVariable suggestId: String
+    ): ResponseEntity<Nothing> {
+        mySuggestService.cancelSuggest(userId = userAuth.userId, suggestId = suggestId)
+
+        return ResponseEntity.ok(null)
     }
 }
