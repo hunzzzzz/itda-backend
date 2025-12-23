@@ -27,9 +27,9 @@
              , T.hope_location_latitude
              , T.hope_location_longitude
              , CASE WHEN T.type = 'SALES'
-                    THEN (SELECT COUNT(id) FROM TRADE_PURCHASE_SUGGEST WHERE trade_id = T.id)
+                    THEN (SELECT COUNT(id) FROM TRADE_PURCHASE_SUGGEST WHERE trade_id = T.id AND status != 'CANCELED')
                     WHEN T.type = 'EXCHANGE'
-                    THEN (SELECT COUNT(id) FROM TRADE_EXCHANGE_SUGGEST WHERE trade_id = T.id)
+                    THEN (SELECT COUNT(id) FROM TRADE_EXCHANGE_SUGGEST WHERE trade_id = T.id AND status != 'CANCELED')
                     ELSE 0
                END AS suggestCount
              , T.created_at
