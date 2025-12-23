@@ -12,7 +12,9 @@ class PageSizeConstant {
         const val TRADE_TARGET_PAGE_SIZE = 3
 
         // 마이페이지 > 내 거래 목록 조회
-        // 마이페이지 >
         const val MY_TRADE_LIST_PAGE_SIZE = 10
+
+        // 마이페이지 > 내 거래 목록 조회 > 제안 목록 조회
+        const val MY_TRADE_SUGGEST_LIST_PAGE_SIZE = 5
     }
 }
