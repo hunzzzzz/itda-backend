@@ -1,11 +1,8 @@
 package com.moira.itda.domain.gacha.detail.mapper
 
-import com.moira.itda.domain.gacha.detail.dto.response.GachaItemResponse
-import com.moira.itda.domain.gacha.detail.dto.response.GachaResponse
-import com.moira.itda.domain.gacha.detail.dto.response.TradeExchangeItemResponse
-import com.moira.itda.domain.gacha.detail.dto.response.TradeResponse
-import com.moira.itda.domain.gacha.detail.dto.response.TradeSalesItemResponse
+import com.moira.itda.domain.gacha.detail.dto.response.*
 import com.moira.itda.global.entity.GachaWish
+import com.moira.itda.global.entity.Trade
 import org.apache.ibatis.annotations.Mapper
 
 @Mapper
@@ -69,4 +66,19 @@ interface GachaDetailMapper {
      * 가챠정보 > 가챠목록 > 상세정보 > 거래 목록 조회 > 하위 교환 정보 조회
      */
     fun selectTradeExchangeItemList(tradeId: String, gachaId: String): List<TradeExchangeItemResponse>
+
+    /**
+     * 가챠정보 > 가챠목록 > 상세정보 > 거래 목록 조회 > 거래 삭제 > Trade 조회
+     */
+    fun selectTrade(gachaId: String, tradeId: String): Trade?
+
+    /**
+     * 가챠정보 > 가챠목록 > 상세정보 > 거래 목록 조회 > 거래 삭제 > APPROVED된 구매 제안 여부 조회
+     */
+    fun selectTradePurchaseSuggestChk(tradeId: String): Long
+
+    /**
+     * 가챠정보 > 가챠목록 > 상세정보 > 거래 목록 조회 > 거래 삭제 > APPROVED된 교환 제안 여부 조회
+     */
+    fun selectTradeExchangeSuggestChk(tradeId: String): Long
 }

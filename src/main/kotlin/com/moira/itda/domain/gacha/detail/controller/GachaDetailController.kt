@@ -8,6 +8,7 @@ import com.moira.itda.global.auth.aop.UserPrincipal
 import com.moira.itda.global.auth.dto.UserAuth
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
@@ -99,5 +100,19 @@ class GachaDetailController(
         val response = gachaDetailService.getTrades(gachaId = gachaId, page = page)
 
         return ResponseEntity.ok(response)
+    }
+
+    /**
+     * 가챠정보 > 가챠목록 > 상세정보 > 거래 목록 조회 > 거래 삭제
+     */
+    @DeleteMapping("/api/gacha/{gachaId}/trades/{tradeId}")
+    fun deleteTrade(
+        @UserPrincipal userAuth: UserAuth,
+        @PathVariable gachaId: String,
+        @PathVariable tradeId: String
+    ): ResponseEntity<Nothing> {
+        gachaDetailService.deleteTrade(userId = userAuth.userId, gachaId = gachaId, tradeId = tradeId)
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null)
     }
 }

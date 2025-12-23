@@ -7,6 +7,7 @@ import com.moira.itda.domain.gacha.detail.dto.response.TradePageResponse
 import com.moira.itda.domain.gacha.detail.mapper.GachaDetailMapper
 import com.moira.itda.global.auth.component.CookieHandler
 import com.moira.itda.global.entity.GachaWish
+import com.moira.itda.global.entity.TradeStatus
 import com.moira.itda.global.entity.TradeType
 import com.moira.itda.global.exception.ErrorCode
 import com.moira.itda.global.exception.ItdaException
@@ -159,5 +160,47 @@ class GachaDetailService(
         // [5] DTO 병합 후 리턴
         return TradePageResponse(content = contents, page = pageResponse)
     }
+
+    /**
+     * 가챠정보 > 가챠목록 > 상세정보 > 거래 목록 조회 > 거래 삭제
+     */
+    @Transactional
+    fun deleteTrade(userId: String, gachaId: String, tradeId: String) {
+        // [1] Trade 조회 (by tradeId)
+        val trade = gachaDetailMapper.selectTrade(gachaId = gachaId, tradeId = tradeId)
+            ?: throw ItdaException(ErrorCode.TRADE_NOT_FOUND)
+
+        // [2] 거래 status에 대한 유효성 검사 (COMPLETED된 거래가 있는지)
+        if (trade.status == TradeStatus.COMPLETED) {
+            throw ItdaException(ErrorCode.CANNOT_DELETE_TRADE_WHEN_STATUS_IS_COMPLETED)
+        }
+
+        // [3] 삭제 권한에 대한 유효성 검사 (업로드한 유저 = 요청 유저인지)
+        if (trade.userId != userId) {
+            throw ItdaException(ErrorCode.CANNOT_DELETE_TRADE_OF_OTHERS)
+        }
+
+        // [4] 제안 목록에 대한 유효성 검사 (APPROVED된 제안이 있는지)
+        when (trade.type) {
+            TradeType.SALES -> {
+                if (gachaDetailMapper.selectTradePurchaseSuggestChk(tradeId = tradeId) > 0) {
+                    throw ItdaException(ErrorCode.CANNOT_DELETE_TRADE_WHEN_APPROVED_SUGGEST_EXISTS)
+                }
+            }
+
+            TradeType.EXCHANGE -> {
+                if (gachaDetailMapper.selectTradeExchangeSuggestChk(tradeId = tradeId) > 0) {
+                    throw ItdaException(ErrorCode.CANNOT_DELETE_TRADE_WHEN_APPROVED_SUGGEST_EXISTS)
+                }
+            }
+        }
+
+        // [5] TradePurchaseSuggest, TradeExchangeSuggest 삭제
+
+        // [6] TradeSalesItem, TradeExchangeItem 삭제
+
+        // [7] Trade 삭제
+    }
+
 
 }
