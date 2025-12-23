@@ -5,6 +5,7 @@ import com.moira.itda.domain.user.mytradesuggest.service.MyTradeSuggestService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
@@ -29,5 +30,18 @@ class MyTradeSuggestController(
         )
 
         return ResponseEntity.ok(response)
+    }
+
+    /**
+     * 마이페이지 > 내 거래 목록 조회 > 제안 목록 모달 > 제안 거절
+     */
+    @PutMapping("/api/me/trade/{tradeId}/suggest/{suggestId}/reject")
+    fun reject(
+        @PathVariable tradeId: String,
+        @PathVariable suggestId: Long
+    ): ResponseEntity<Nothing> {
+        myTradeSuggestService.reject(tradeId = tradeId, suggestId = suggestId)
+
+        return ResponseEntity.ok(null)
     }
 }

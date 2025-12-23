@@ -6,6 +6,7 @@ data class ExchangeSuggestResponse(
     val suggestId: String,
     val tradeId: String,
     val gachaId: String,
+    val status: String,
     val sellerItemId: Long,
     val sellerItemName: String,
     val changeYn: String,

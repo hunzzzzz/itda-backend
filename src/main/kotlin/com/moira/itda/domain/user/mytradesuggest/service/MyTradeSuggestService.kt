@@ -67,4 +67,26 @@ class MyTradeSuggestService(
         return SuggestPageResponse(content = contents, page = pageResponse)
     }
 
+    /**
+     * 마이페이지 > 내 거래 목록 조회 > 제안 목록 모달 > 제안 거절
+     */
+    @Transactional
+    fun reject(tradeId: String, suggestId: Long) {
+        // [1] 거래 type 조회
+        val type = myTradeSuggestMapper.selectTradeType(tradeId = tradeId)
+            ?: throw ItdaException(ErrorCode.INVALID_SUGGEST_TYPE)
+
+        // [2] 상태값 변경 (REJECTED)
+        when (type) {
+            TradeType.SALES.name -> {
+                myTradeSuggestMapper.updateTradePurchaseSuggestStatusRejected(tradeId = tradeId, suggestId = suggestId)
+            }
+
+            TradeType.EXCHANGE.name -> {
+                myTradeSuggestMapper.updateTradeExchangeSuggestStatusRejected(tradeId = tradeId, suggestId = suggestId)
+            }
+
+            else -> throw ItdaException(ErrorCode.INVALID_SUGGEST_TYPE)
+        }
+    }
 }
