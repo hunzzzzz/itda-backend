@@ -26,6 +26,12 @@
              , T.hope_address
              , T.hope_location_latitude
              , T.hope_location_longitude
+             , CASE WHEN T.type = 'SALES'
+                    THEN (SELECT COUNT(id) FROM TRADE_PURCHASE_SUGGEST WHERE trade_id = T.id)
+                    WHEN T.type = 'EXCHANGE'
+                    THEN (SELECT COUNT(id) FROM TRADE_EXCHANGE_SUGGEST WHERE trade_id = T.id)
+                    ELSE 0
+               END AS suggestCount
              , T.created_at
         FROM TRADE T
         LEFT JOIN IMAGE_FILE F

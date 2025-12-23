@@ -18,5 +18,6 @@ data class MyTradeResponse(
     val hopeAddress: String?,
     val hopeLocationLatitude: String?,
     val hopeLocationLongitude: String?,
+    val suggestCount: Int,
     val createdAt: ZonedDateTime
 )
