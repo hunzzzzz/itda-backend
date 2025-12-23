@@ -8,4 +8,16 @@ data class ChatMessage(
     val senderId: String,
     val message: String,
     val createdAt: ZonedDateTime
-)
+) {
+    companion object {
+        fun firstChat(chatRoomId: String, message: String): ChatMessage {
+            return ChatMessage(
+                id = null,
+                chatRoomId = chatRoomId,
+                senderId = "SYSTEM",
+                message = message,
+                createdAt = ZonedDateTime.now()
+            )
+        }
+    }
+}

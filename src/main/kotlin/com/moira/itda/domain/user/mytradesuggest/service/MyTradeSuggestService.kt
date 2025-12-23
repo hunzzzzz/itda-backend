@@ -2,6 +2,7 @@ package com.moira.itda.domain.user.mytradesuggest.service
 
 import com.moira.itda.domain.user.mytradesuggest.dto.response.SuggestPageResponse
 import com.moira.itda.domain.user.mytradesuggest.mapper.MyTradeSuggestMapper
+import com.moira.itda.global.entity.ChatMessage
 import com.moira.itda.global.entity.ChatRoom
 import com.moira.itda.global.entity.TradeType
 import com.moira.itda.global.exception.ErrorCode
@@ -16,6 +17,10 @@ class MyTradeSuggestService(
     private val myTradeSuggestMapper: MyTradeSuggestMapper,
     private val offsetPaginationHandler: OffsetPaginationHandler
 ) {
+    companion object {
+        const val FIRST_MESSAGE = "거래 제안이 승인되었습니다. 대화를 시작해 보세요!"
+    }
+
     /**
      * 마이페이지 > 내 거래 목록 조회 > 제안 목록 모달 > 제안 목록 조회
      */
@@ -106,6 +111,10 @@ class MyTradeSuggestService(
         myTradeSuggestMapper.insertChatRoom(chatRoom = chatRoom)
 
         // [4] 초기 메시지 저장 (ChatMessage 저장)
+        val chatMessage = ChatMessage.firstChat(
+            chatRoomId = chatRoom.id.toString(), message = FIRST_MESSAGE
+        )
+        myTradeSuggestMapper.insertChatMessage(chatMessage = chatMessage)
     }
 
     /**
