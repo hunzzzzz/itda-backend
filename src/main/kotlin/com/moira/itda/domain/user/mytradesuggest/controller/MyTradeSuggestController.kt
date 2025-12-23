@@ -2,12 +2,10 @@ package com.moira.itda.domain.user.mytradesuggest.controller
 
 import com.moira.itda.domain.user.mytradesuggest.dto.response.SuggestPageResponse
 import com.moira.itda.domain.user.mytradesuggest.service.MyTradeSuggestService
+import com.moira.itda.global.auth.aop.UserPrincipal
+import com.moira.itda.global.auth.dto.UserAuth
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PutMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 /**
  * 마이페이지 > 내 거래 목록 조회 > 제안 목록 모달
@@ -30,6 +28,20 @@ class MyTradeSuggestController(
         )
 
         return ResponseEntity.ok(response)
+    }
+
+    /**
+     * 마이페이지 > 내 거래 목록 조회 > 제안 목록 모달 > 제안 승인
+     */
+    @PutMapping("/api/me/trade/{tradeId}/suggest/{suggestId}/approve")
+    fun approve(
+        @UserPrincipal userAuth: UserAuth,
+        @PathVariable tradeId: String,
+        @PathVariable suggestId: Long
+    ): ResponseEntity<Nothing> {
+        myTradeSuggestService.approve(userId = userAuth.userId, tradeId = tradeId, suggestId = suggestId)
+
+        return ResponseEntity.ok(null)
     }
 
     /**

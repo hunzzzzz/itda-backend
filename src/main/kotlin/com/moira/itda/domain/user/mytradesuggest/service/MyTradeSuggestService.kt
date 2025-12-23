@@ -2,6 +2,7 @@ package com.moira.itda.domain.user.mytradesuggest.service
 
 import com.moira.itda.domain.user.mytradesuggest.dto.response.SuggestPageResponse
 import com.moira.itda.domain.user.mytradesuggest.mapper.MyTradeSuggestMapper
+import com.moira.itda.global.entity.ChatRoom
 import com.moira.itda.global.entity.TradeType
 import com.moira.itda.global.exception.ErrorCode
 import com.moira.itda.global.exception.ItdaException
@@ -65,6 +66,46 @@ class MyTradeSuggestService(
 
         // [5] DTO 병합 후 리턴
         return SuggestPageResponse(content = contents, page = pageResponse)
+    }
+
+    /**
+     * 마이페이지 > 내 거래 목록 조회 > 제안 목록 모달 > 제안 승인
+     */
+    fun approve(userId: String, tradeId: String, suggestId: Long) {
+        // [1] 거래 type 조회
+        val type = myTradeSuggestMapper.selectTradeType(tradeId = tradeId)
+            ?: throw ItdaException(ErrorCode.INVALID_SUGGEST_TYPE)
+
+        // [2] 상태값 변경 (APPROVED)
+        when (type) {
+            TradeType.SALES.name -> {
+                myTradeSuggestMapper.updateTradePurchaseSuggestStatusApproved(tradeId = tradeId, suggestId = suggestId)
+            }
+
+            TradeType.EXCHANGE.name -> {
+                myTradeSuggestMapper.updateTradeExchangeSuggestStatusApproved(tradeId = tradeId, suggestId = suggestId)
+            }
+
+            else -> throw ItdaException(ErrorCode.INVALID_SUGGEST_TYPE)
+        }
+
+        // [3] 채팅방 생성 (ChatRoom 저장)
+        val buyerId = when (type) {
+            TradeType.SALES.name -> {
+                myTradeSuggestMapper.selectTradePurchaseSuggestUserId(tradeId = tradeId, suggestId = suggestId)
+            }
+
+            TradeType.EXCHANGE.name -> {
+                myTradeSuggestMapper.selectTradeExchangeSuggestUserId(tradeId = tradeId, suggestId = suggestId)
+            }
+
+            else -> throw ItdaException(ErrorCode.INVALID_SUGGEST_TYPE)
+        } ?: throw ItdaException(ErrorCode.USER_NOT_FOUND)
+
+        val chatRoom = ChatRoom.from(tradeId = tradeId, sellerId = userId, buyerId = buyerId)
+        myTradeSuggestMapper.insertChatRoom(chatRoom = chatRoom)
+
+        // [4] 초기 메시지 저장 (ChatMessage 저장)
     }
 
     /**

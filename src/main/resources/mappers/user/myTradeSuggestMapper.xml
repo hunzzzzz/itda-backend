@@ -63,6 +63,24 @@
         ORDER BY ES.created_at DESC
     </select>
 
+    <!-- 마이페이지 > 내 거래 목록 조회 > 제안 목록 모달 > 제안 승인 > 구매 제안 승인 -->
+    <update id="updateTradePurchaseSuggestStatusApproved">
+        UPDATE TRADE_PURCHASE_SUGGEST
+        SET
+               status = 'APPROVED'
+             , updated_at = CURRENT_TIMESTAMP
+        WHERE trade_id = #{tradeId} AND id = #{suggestId}
+    </update>
+
+    <!-- 마이페이지 > 내 거래 목록 조회 > 제안 목록 모달 > 제안 승인 > 교환 제안 승인 -->
+    <update id="updateTradeExchangeSuggestStatusApproved">
+        UPDATE TRADE_EXCHANGE_SUGGEST
+        SET
+               status = 'APPROVED'
+             , updated_at = CURRENT_TIMESTAMP
+        WHERE trade_id = #{tradeId} AND id = #{suggestId}
+    </update>
+
     <!-- 마이페이지 > 내 거래 목록 조회 > 제안 목록 모달 > 제안 거절 > 구매 제안 거절 -->
     <update id="updateTradePurchaseSuggestStatusRejected">
         UPDATE TRADE_PURCHASE_SUGGEST
