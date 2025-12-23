@@ -30,12 +30,13 @@ class MySuggestController(
     /**
      * 마이페이지 > 내 거래 목록 > 거래 제안 목록 탭 > 거래 제안 취소
      */
-    @PostMapping("/api/me/trade/suggest/{suggestId}/cancel")
+    @DeleteMapping("/api/me/trade/suggest/{suggestId}/cancel")
     fun cancelSuggest(
         @UserPrincipal userAuth: UserAuth,
-        @PathVariable suggestId: String
+        @PathVariable suggestId: String,
+        @RequestParam type: String
     ): ResponseEntity<Nothing> {
-        mySuggestService.cancelSuggest(userId = userAuth.userId, suggestId = suggestId)
+        mySuggestService.cancelSuggest(userId = userAuth.userId, suggestId = suggestId, type = type)
 
         return ResponseEntity.ok(null)
     }

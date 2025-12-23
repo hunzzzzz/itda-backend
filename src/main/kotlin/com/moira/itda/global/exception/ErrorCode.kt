@@ -325,6 +325,11 @@ enum class ErrorCode(
         message = "이미 해당 제품에 교환 제안을 하였습니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
+    INVALID_SUGGEST_TYPE(
+        code = "T0021",
+        message = "유효하지 않은 거래 타입입니다.",
+        httpStatus = HttpStatus.BAD_REQUEST
+    ),
 
     // 정보 등록/수정 요청 관련 에러코드
     INVALID_GACHA_INFO_TYPE(

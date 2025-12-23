@@ -98,15 +98,27 @@
         LIMIT #{pageSize} OFFSET #{offset}
     </select>
 
-    <!-- 마이페이지 > 내 거래 목록 > 거래 제안 목록 탭 > 거래 제안 취소 > status 조회 -->
-    <select id="selectSuggestStatus" resultType="java.lang.String">
+    <!-- 마이페이지 > 내 거래 목록 > 거래 제안 목록 탭 > 거래 제안 취소 > 구매 status 조회 -->
+    <select id="selectPurchaseSuggestStatus" resultType="java.lang.String">
         SELECT status FROM TRADE_PURCHASE_SUGGEST
         WHERE id = #{suggestId} AND user_id = #{userId}
     </select>
 
-    <!-- 마이페이지 > 내 거래 목록 > 거래 제안 목록 탭 > 거래 제안 취소 -->
-    <update id="updateSuggestStatusCanceled">
+    <!-- 마이페이지 > 내 거래 목록 > 거래 제안 목록 탭 > 거래 제안 취소 > 교환 status 조회 -->
+    <select id="selectExchangeSuggestStatus" resultType="java.lang.String">
+        SELECT status FROM TRADE_EXCHANGE_SUGGEST
+        WHERE id = #{suggestId} AND user_id = #{userId}
+    </select>
+
+    <!-- 마이페이지 > 내 거래 목록 > 거래 제안 목록 탭 > 거래 제안 취소 > 구매 status 변경 -->
+    <update id="updatePurchaseSuggestStatusCanceled">
         UPDATE TRADE_PURCHASE_SUGGEST SET status = 'CANCELED'
+        WHERE id = #{suggestId} AND user_id = #{userId}
+    </update>
+
+    <!-- 마이페이지 > 내 거래 목록 > 거래 제안 목록 탭 > 거래 제안 취소 > 교환 status 변경  -->
+    <update id="updateExchangeSuggestStatusCanceled">
+        UPDATE TRADE_EXCHANGE_SUGGEST SET status = 'CANCELED'
         WHERE id = #{suggestId} AND user_id = #{userId}
     </update>
 </mapper>
