@@ -6,21 +6,26 @@ data class MySuggestResponse(
     // 거래 정보
     val tradeId: String,
     val tradeStatus: String,
+    val type: String,
     val userId: String,
     val userNickname: String,
     val fileId: String,
     val fileUrl: String,
-    val cratedAt: String,
-    // 가챠 정보
+    val tradeCreatedAt: ZonedDateTime,
+    // 제안 정보 (공통)
     val gachaId: String,
-    val gachaItemId: Long,
-    val gachaItemName: String,
-    // 제안 정보
-    val suggestId: String,
+    val suggestId: Long,
     val suggestStatus: String,
-    val content: String?,
-    val count: Int,
-    val discountYn: String,
-    val discountPrice: Int?,
-    val createdAt: ZonedDateTime
+    val suggestContent: String?,
+    val suggestCreatedAt: ZonedDateTime,
+    // 구매 제안 정보
+    val purchaseGachaItemId: Long?,
+    val purchaseGachaItemName: String?,
+    val purchaseCount: Int?,
+    val purchaseDiscountYn: String?,
+    val purchaseDiscountPrice: Int?,
+    // 교환 제안 정보
+    val exchangeSellerItemId: Long?,
+    val exchangeSellerItemName: String?,
+    val exchangeChangeYn: String?
 )

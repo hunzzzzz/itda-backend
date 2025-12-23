@@ -6,40 +6,95 @@
 <mapper namespace="com.moira.itda.domain.user.mysuggest.mapper.MySuggestMapper">
     <!-- 마이페이지 > 내 거래 목록 > 거래 제안 목록 탭 > 거래 제안 목록 조회 > 거래 목록 조회 > totalElements 계산 -->
     <select id="selectTradeListCnt">
-        SELECT COUNT(id) FROM TRADE_PURCHASE_SUGGEST WHERE user_id = #{userId}
+        WITH UNION_T AS (
+            SELECT id FROM TRADE_PURCHASE_SUGGEST WHERE user_id = #{userId}
+            UNION ALL
+            SELECT id FROM TRADE_EXCHANGE_SUGGEST WHERE user_id = #{userId}
+        )
+        SELECT COUNT(*) FROM UNION_T
     </select>
 
     <!-- 마이페이지 > 내 거래 목록 > 거래 제안 목록 탭 > 거래 제안 목록 조회 > 거래 목록 조회 -->
     <select id="selectTradeList" resultType="com.moira.itda.domain.user.mysuggest.dto.response.MySuggestResponse">
+        WITH UNION_T AS (
+            SELECT id
+                 , 'PURCHASE' AS type
+                 , status
+                 , trade_id
+                 , gacha_id
+                 , content
+                 , gacha_item_id
+                 , count
+                 , discount_yn
+                 , discount_price
+                 , NULL       AS seller_item_id
+                 , NULL       AS change_yn
+                 , NULL       AS suggested_item_id
+                 , created_at
+            FROM TRADE_PURCHASE_SUGGEST
+            WHERE user_id = #{userId}
+
+            UNION ALL
+
+            SELECT
+                   id
+                 , 'EXCHANGE' AS type
+                 , status
+                 , trade_id
+                 , gacha_id
+                 , content
+                 , NULL       AS gacha_item_id
+                 , NULL       AS count
+                 , NULL       AS discount_yn
+                 , NULL       AS discount_price
+                 , seller_item_id
+                 , change_yn
+                 , suggested_item_id
+                 , created_at
+            FROM TRADE_EXCHANGE_SUGGEST
+            WHERE user_id = #{userId}
+        )
         SELECT
-               T.id AS tradeId
+               UNION_T.trade_id
+             , T.status                  AS tradeSuggest
+             , T.type
              , T.user_id
-             , T.status AS tradeSuggest
-             , U.nickname AS userNickname
+             , U.nickname                AS userNickname
              , T.file_id
-             , F.file_url
-             , T.created_at
-             , GI.gacha_id
-             , GI.id AS gachaItemId
-             , GI.name AS gachaItemName
-             , PS.id AS suggestId
-             , PS.status AS suggestStatus
-             , PS.content
-             , PS.count
-             , PS.discount_yn
-             , PS.discount_price
-             , PS.created_at
-        FROM TRADE_PURCHASE_SUGGEST PS
+             , F.file_url                AS fileUrl
+             , T.created_at              AS tradeCreatedAt
+             , T.gacha_id
+             , UNION_T.id                AS suggestId
+             , UNION_T.status            AS suggestStatus
+             , UNION_T.content           AS suggestContent
+             , UNION_T.created_at        AS suggestCreatedAt
+             , UNION_T.gacha_item_id     AS purchaseGachaItemId
+             , CASE WHEN UNION_T.type = 'PURCHASE'
+                    THEN (SELECT name FROM GACHA_ITEM WHERE id = UNION_T.gacha_item_id AND gacha_id = UNION_T.gacha_id)
+                    ELSE NULL
+               END                       AS purchaseGachaItemName
+             , UNION_T.count             AS purchaseCount
+             , UNION_T.discount_yn       AS purchaseDiscountYn
+             , UNION_T.discount_price    AS purchaseDiscountPrice
+             , UNION_T.seller_item_id    AS exchangeSellerItemId
+             , CASE WHEN UNION_T.type = 'EXCHANGE'
+                    THEN (SELECT name FROM GACHA_ITEM WHERE id = UNION_T.seller_item_id AND gacha_id = UNION_T.gacha_id)
+                    ELSE NULL
+               END                       AS exchangeSellerItemName
+             , UNION_T.suggested_item_id AS exchangeSuggestedItemId
+             , CASE WHEN UNION_T.type = 'EXCHANGE'
+                    THEN (SELECT name FROM GACHA_ITEM WHERE id = UNION_T.suggested_item_id AND gacha_id = UNION_T.gacha_id)
+                    ELSE NULL
+               END                       AS exchangeSuggestedItemName
+             , UNION_T.change_yn         AS exchangeChangeYn
+        FROM UNION_T
         LEFT JOIN TRADE T
-         ON T.id = PS.trade_id
+         ON T.ID = UNION_T.trade_id
         LEFT JOIN USER U
-         ON U.id = T.user_id
+         ON U.ID = T.user_id
         LEFT JOIN IMAGE_FILE F
          ON F.file_id = T.file_id
-        LEFT JOIN GACHA_ITEM GI
-         ON GI.id = PS.gacha_item_id
-        WHERE PS.user_id = #{userId}
-        ORDER BY PS.created_at DESC
+        ORDER BY UNION_T.CREATED_AT DESC
         LIMIT #{pageSize} OFFSET #{offset}
     </select>
 
