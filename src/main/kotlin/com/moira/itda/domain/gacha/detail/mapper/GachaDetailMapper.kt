@@ -81,4 +81,30 @@ interface GachaDetailMapper {
      * 가챠정보 > 가챠목록 > 상세정보 > 거래 목록 조회 > 거래 삭제 > APPROVED된 교환 제안 여부 조회
      */
     fun selectTradeExchangeSuggestChk(tradeId: String): Long
+
+    /**
+     * 가챠정보 > 가챠목록 > 상세정보 > 거래 목록 조회 > 거래 삭제 > TradePurchaseSuggest 삭제
+     */
+    fun deleteTradePurchaseSuggest(tradeId: String)
+
+    /**
+     * 가챠정보 > 가챠목록 > 상세정보 > 거래 목록 조회 > 거래 삭제 > TradeExchangeSuggest 삭제
+     */
+    fun deleteTradeExchangeSuggest(tradeId: String)
+
+    /**
+     * 가챠정보 > 가챠목록 > 상세정보 > 거래 목록 조회 > 거래 삭제 > TradeSalesItem 삭제
+     */
+    fun deleteTradeSalesItem(tradeId: String)
+
+    /**
+     * 가챠정보 > 가챠목록 > 상세정보 > 거래 목록 조회 > 거래 삭제 > TradeExchangeItem 삭제
+     */
+    fun deleteTradeExchangeItem(tradeId: String)
+
+    /**
+     * 가챠정보 > 가챠목록 > 상세정보 > 거래 목록 조회 > 거래 삭제 > Trade 삭제
+     */
+    fun deleteTrade(tradeId: String)
+
 }

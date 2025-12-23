@@ -196,11 +196,20 @@ class GachaDetailService(
         }
 
         // [5] TradePurchaseSuggest, TradeExchangeSuggest 삭제
-
         // [6] TradeSalesItem, TradeExchangeItem 삭제
+        when (trade.type) {
+            TradeType.SALES -> {
+                gachaDetailMapper.deleteTradePurchaseSuggest(tradeId = tradeId)
+                gachaDetailMapper.deleteTradeSalesItem(tradeId = tradeId)
+            }
+
+            TradeType.EXCHANGE -> {
+                gachaDetailMapper.deleteTradeExchangeSuggest(tradeId = tradeId)
+                gachaDetailMapper.deleteTradeExchangeItem(tradeId = tradeId)
+            }
+        }
 
         // [7] Trade 삭제
+        gachaDetailMapper.deleteTrade(tradeId = tradeId)
     }
-
-
 }

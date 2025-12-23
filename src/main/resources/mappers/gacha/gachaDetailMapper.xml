@@ -184,4 +184,29 @@
     <select id="selectTradeExchangeSuggestChk">
         SELECT COUNT(id) FROM TRADE_EXCHANGE_SUGGEST WHERE trade_id = #{tradeId} AND status = 'APPROVED'
     </select>
+
+    <!-- 가챠정보 > 가챠목록 > 상세정보 > 거래 목록 조회 > 거래 삭제 > TradePurchaseSuggest 삭제 -->
+    <delete id="deleteTradePurchaseSuggest">
+        DELETE FROM TRADE_PURCHASE_SUGGEST WHERE trade_id = #{tradeId}
+    </delete>
+
+    <!-- 가챠정보 > 가챠목록 > 상세정보 > 거래 목록 조회 > 거래 삭제 > TradeExchangeSuggest 삭제 -->
+    <delete id="deleteTradeExchangeSuggest">
+        DELETE FROM TRADE_EXCHANGE_SUGGEST WHERE trade_id = #{tradeId}
+    </delete>
+
+    <!-- 가챠정보 > 가챠목록 > 상세정보 > 거래 목록 조회 > 거래 삭제 > TradeSalesItem 삭제 -->
+    <delete id="deleteTradeSalesItem">
+        DELETE FROM TRADE_SALES_ITEM WHERE trade_id = #{tradeId}
+    </delete>
+
+    <!-- 가챠정보 > 가챠목록 > 상세정보 > 거래 목록 조회 > 거래 삭제 > TradeExchangeItem 삭제 -->
+    <delete id="deleteTradeExchangeItem">
+        DELETE FROM TRADE_EXCHANGE_ITEM WHERE trade_id = #{tradeId}
+    </delete>
+
+    <!-- 가챠정보 > 가챠목록 > 상세정보 > 거래 목록 조회 > 거래 삭제 > Trade 삭제 -->
+    <delete id="deleteTrade">
+        DELETE FROM TRADE WHERE id = #{tradeId}
+    </delete>
 </mapper>
