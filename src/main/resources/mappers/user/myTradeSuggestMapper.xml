@@ -16,13 +16,16 @@
     </select>
 
     <!-- 마이페이지 > 내 거래 목록 조회 > 제안 목록 모달 > 제안 목록 조회 > 구매 제안 목록 조회 -->
-    <select id="selectTradePurchaseSuggestList">
+    <select id="selectTradePurchaseSuggestList" resultType="com.moira.itda.domain.user.mytradesuggest.dto.response.PurchaseSuggestResponse">
         SELECT
-               PS.id AS suggestId
+               PS.id      AS suggestId
+             , 'PURCHASE' AS type
              , PS.trade_id
              , PS.gacha_id
+             , PS.user_id
+             , U.nickname AS userNickname
              , PS.gacha_item_id
-             , GI.name AS gachaItemName
+             , GI.name    AS gachaItemName
              , PS.status
              , PS.content
              , PS.count
@@ -32,6 +35,8 @@
         FROM TRADE_PURCHASE_SUGGEST PS
         LEFT JOIN GACHA_ITEM GI
          ON GI.gacha_id = PS.gacha_id AND GI.id = PS.gacha_item_id
+        LEFT JOIN USER U
+         ON U.id = PS.user_id
         WHERE PS.trade_id = #{tradeId}
          AND PS.status != 'CANCELED'
         ORDER BY PS.created_at DESC
@@ -44,11 +49,14 @@
     </select>
 
     <!-- 마이페이지 > 내 거래 목록 조회 > 제안 목록 모달 > 제안 목록 조회 > 교환 제안 목록 조회 -->
-    <select id="selectTradeExchangeSuggestList">
+    <select id="selectTradeExchangeSuggestList" resultType="com.moira.itda.domain.user.mytradesuggest.dto.response.ExchangeSuggestResponse">
         SELECT
-               ES.id AS suggestId
+               ES.id      AS suggestId
+             , 'EXCHANGE' AS type
              , ES.trade_id
              , ES.gacha_id
+             , ES.user_id
+             , U.nickname AS userNickname
              , ES.status
              , ES.seller_item_id
              , (SELECT name FROM GACHA_ITEM WHERE gacha_id = ES.gacha_id AND id = ES.seller_item_id) AS sellerItemName
@@ -58,6 +66,8 @@
              , ES.content
              , ES.created_at
         FROM TRADE_EXCHANGE_SUGGEST ES
+        LEFT JOIN USER U
+         ON U.id = ES.user_id
         WHERE ES.trade_id = #{tradeId}
          AND ES.status != 'CANCELED'
         ORDER BY ES.created_at DESC

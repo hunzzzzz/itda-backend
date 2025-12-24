@@ -4,8 +4,11 @@ import java.time.ZonedDateTime
 
 data class PurchaseSuggestResponse(
     val suggestId: String,
+    val type: String,
     val tradeId: String,
     val gachaId: String,
+    val userId: String,
+    val userNickname: String,
     val gachaItemId: Long,
     val gachaItemName: String,
     val status: String,
