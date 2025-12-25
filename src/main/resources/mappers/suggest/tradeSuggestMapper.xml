@@ -31,13 +31,22 @@
     </select>
 
     <!-- 거래 제안 모달 > 구매 제안 > 구매 제안 존재 여부 확인 -->
-    <select id="selectTradePurchaseSuggestChk">
-        SELECT COUNT(id) FROM TRADE_PURCHASE_SUGGEST
-        WHERE user_id = #{userId}
-        AND trade_id = #{tradeId}
-        AND gacha_item_id = #{gachaItemId}
-        AND status != 'CANCELED'
-        AND status != 'REJECTED'
+    <!-- 거래 제안 모달 > 교환 제안 > 교환 제안 존재 여부 확인 -->
+    <select id="selectTradeSuggestChk">
+        SELECT COUNT(id) FROM TRADE_SUGGEST
+        WHERE 1=1
+         AND trade_id = #{tradeId}
+         AND user_id  = #{userId}
+         AND status  != 'CANCELED'
+         AND status  != 'REJECTED'
+        <choose>
+            <when test="type = 'PURCHASE'">
+                AND purchase_item_id = #{gachaItemId}
+            </when>
+            <when test="type = 'EXCHANGE'">
+                AND suggested_item_id = #{suggestedItemId}
+            </when>
+        </choose>
     </select>
 
     <!-- 거래 제안 모달 > 교환 정보 조회 -->
@@ -62,16 +71,6 @@
         FROM GACHA_ITEM GI
         WHERE GI.gacha_id = (SELECT gacha_id FROM TRADE WHERE id = #{tradeId})
         ORDER BY GI.created_at ASC
-    </select>
-
-    <!-- 거래 제안 모달 > 교환 제안 > 교환 제안 존재 여부 확인 -->
-    <select id="selectTradeExchangeSuggestChk">
-        SELECT COUNT(id) FROM TRADE_EXCHANGE_SUGGEST
-        WHERE user_id = #{userId}
-         AND trade_id = #{tradeId}
-         AND suggested_item_id = #{suggestedItemId}
-         AND status != 'CANCELED'
-         AND status != 'REJECTED'
     </select>
 
     <!-- 거래 제안 모달 > 구매 제안 > TradeSuggest 저장 -->

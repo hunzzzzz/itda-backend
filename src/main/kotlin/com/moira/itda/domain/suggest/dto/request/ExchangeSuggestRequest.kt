@@ -5,6 +5,6 @@ data class ExchangeSuggestRequest(
     val sellerItemId: Long,
     val changeYn: String,
     val originalItemId: Long,
-    val suggestedItemId: Long?,
+    val suggestedItemId: Long,
     val content: String?
 )

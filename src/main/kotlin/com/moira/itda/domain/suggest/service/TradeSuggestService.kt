@@ -8,6 +8,7 @@ import com.moira.itda.domain.suggest.dto.response.SalesItemResponse
 import com.moira.itda.domain.suggest.mapper.TradeSuggestMapper
 import com.moira.itda.global.entity.TradeStatus
 import com.moira.itda.global.entity.TradeSuggest
+import com.moira.itda.global.entity.TradeSuggestType
 import com.moira.itda.global.exception.ErrorCode
 import com.moira.itda.global.exception.ItdaException
 import org.springframework.stereotype.Service
@@ -41,10 +42,12 @@ class TradeSuggestService(
         if (tradeSuggestMapper.selectTradeStatus(tradeId = tradeId) != TradeStatus.PENDING.name) {
             throw ItdaException(ErrorCode.SUGGEST_ONLY_WHEN_TRADE_IS_PENDING)
         }
-        if (tradeSuggestMapper.selectTradePurchaseSuggestChk(
+        if (tradeSuggestMapper.selectTradeSuggestChk(
                 userId = userId,
                 tradeId = tradeId,
-                gachaItemId = request.gachaItemId
+                type = TradeSuggestType.PURCHASE,
+                purchaseItemId = request.gachaItemId,
+                suggestedItemId = null,
             ) > 0
         ) {
             throw ItdaException(ErrorCode.ALREADY_SUGGESTED_PURCHASE_ON_THE_TRADE_ITEM)
@@ -90,9 +93,6 @@ class TradeSuggestService(
      * 거래 제안 모달 > 교환 제안 > 유효성 검사
      */
     fun validate(userId: String, tradeId: String, request: ExchangeSuggestRequest) {
-        if (request.changeYn == "Y" && request.suggestedItemId == null) {
-            throw ItdaException(ErrorCode.SHOULD_TYPE_ITEM_ID_WHEN_YOU_WANT_NEGOTIATION)
-        }
         if (request.changeYn == "Y" && (request.suggestedItemId == request.originalItemId)) {
             throw ItdaException(ErrorCode.EXCHANGING_ITEMS_ID_SHOULD_NOT_BE_SAME_WHEN_YOU_WANT_NEGOTIATION)
         }
@@ -100,10 +100,12 @@ class TradeSuggestService(
             throw ItdaException(ErrorCode.SUGGEST_ONLY_WHEN_TRADE_IS_PENDING)
         }
         if (request.changeYn == "Y") {
-            if (tradeSuggestMapper.selectTradeExchangeSuggestChk(
+            if (tradeSuggestMapper.selectTradeSuggestChk(
                     userId = userId,
                     tradeId = tradeId,
-                    suggestedItemId = request.suggestedItemId ?: 0L
+                    type = TradeSuggestType.EXCHANGE,
+                    purchaseItemId = null,
+                    suggestedItemId = request.suggestedItemId
                 ) > 0
             ) {
                 throw ItdaException(ErrorCode.ALREADY_SUGGESTED_EXCHANGE_ON_THE_TRADE_ITEM)

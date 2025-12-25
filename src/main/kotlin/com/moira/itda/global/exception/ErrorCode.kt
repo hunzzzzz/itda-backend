@@ -300,11 +300,6 @@ enum class ErrorCode(
         message = "이미 취소된 거래 제안입니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
-    SHOULD_TYPE_ITEM_ID_WHEN_YOU_WANT_NEGOTIATION(
-        code = "T0017",
-        message = "'다른 아이템으로 교환 제시'를 원하는 경우, 특정 아이템을 선택해야 합니다.",
-        httpStatus = HttpStatus.BAD_REQUEST
-    ),
     EXCHANGING_ITEMS_ID_SHOULD_NOT_BE_SAME_WHEN_YOU_WANT_NEGOTIATION(
         code = "T0017",
         message = "'다른 아이템으로 교환 제시'를 선택한 경우, 기존 항목과 다른 아이템을 선택해야 합니다.",
@@ -350,7 +345,6 @@ enum class ErrorCode(
         message = "이미 승인된 거래 제안이 있어 삭제할 수 없습니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
-
 
     // 정보 등록/수정 요청 관련 에러코드
     INVALID_GACHA_INFO_TYPE(
