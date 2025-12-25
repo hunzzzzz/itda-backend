@@ -53,6 +53,11 @@
         LIMIT #{pageSize} OFFSET #{offset}
     </select>
 
+    <!-- 마이페이지 > 내 거래 목록 > 채팅 > 채팅 목록 조회 > 채팅방 > 거래 제안 정보 조회 -->
+    <select id="getTradeSuggest" resultType="com.moira.itda.domain.user.mychat.dto.response.TradeSuggestResponse">
+
+    </select>
+
     <!-- 마이페이지 > 내 거래 목록 > 채팅 > 채팅 목록 조회 > 채팅방 > 이전 채팅 목록 조회 -->
     <select id="selectChatMessageList" resultType="com.moira.itda.domain.user.mychat.dto.response.ChatMessageResponse">
         SELECT

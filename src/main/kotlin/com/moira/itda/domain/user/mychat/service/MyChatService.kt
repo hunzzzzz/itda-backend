@@ -3,6 +3,7 @@ package com.moira.itda.domain.user.mychat.service
 import com.moira.itda.domain.user.mychat.dto.request.ChatMessageRequest
 import com.moira.itda.domain.user.mychat.dto.response.ChatMessageResponse
 import com.moira.itda.domain.user.mychat.dto.response.MyChatPageResponse
+import com.moira.itda.domain.user.mychat.dto.response.TradeSuggestResponse
 import com.moira.itda.domain.user.mychat.mapper.MyChatMapper
 import com.moira.itda.global.entity.ChatMessage
 import com.moira.itda.global.pagination.component.OffsetPaginationHandler
@@ -39,6 +40,14 @@ class MyChatService(
 
         // [4] DTO 병합 후 리턴
         return MyChatPageResponse(content = content, page = pageResponse)
+    }
+
+    /**
+     * 마이페이지 > 내 거래 목록 > 채팅 > 채팅 목록 조회 > 채팅방 > 거래 제안 정보 조회
+     */
+    @Transactional(readOnly = true)
+    fun getTradeSuggest(chatRoomId: String): TradeSuggestResponse {
+        return myChatMapper.selectTradeSuggest(chatRoomId = chatRoomId)
     }
 
     /**
