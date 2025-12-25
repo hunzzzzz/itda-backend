@@ -3,7 +3,6 @@ package com.moira.itda.domain.user.mytradesuggest.service
 import com.moira.itda.domain.user.mytradesuggest.dto.response.ChatRoomIdResponse
 import com.moira.itda.domain.user.mytradesuggest.dto.response.SuggestPageResponse
 import com.moira.itda.domain.user.mytradesuggest.mapper.MyTradeSuggestMapper
-import com.moira.itda.global.entity.ChatMessage
 import com.moira.itda.global.entity.ChatRoom
 import com.moira.itda.global.entity.TradeType
 import com.moira.itda.global.exception.ErrorCode
@@ -111,12 +110,6 @@ class MyTradeSuggestService(
 
         val chatRoom = ChatRoom.from(tradeId = tradeId, sellerId = userId, buyerId = buyerId)
         myTradeSuggestMapper.insertChatRoom(chatRoom = chatRoom)
-
-        // [4] 초기 메시지 저장 (ChatMessage 저장)
-        val chatMessage = ChatMessage.firstChat(
-            chatRoomId = chatRoom.id, message = FIRST_MESSAGE
-        )
-        myTradeSuggestMapper.insertChatMessage(chatMessage = chatMessage)
 
         return ChatRoomIdResponse(chatRoomId = chatRoom.id)
     }

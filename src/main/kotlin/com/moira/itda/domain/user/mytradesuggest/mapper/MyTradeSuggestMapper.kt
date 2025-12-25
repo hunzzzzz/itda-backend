@@ -2,7 +2,6 @@ package com.moira.itda.domain.user.mytradesuggest.mapper
 
 import com.moira.itda.domain.user.mytradesuggest.dto.response.ExchangeSuggestResponse
 import com.moira.itda.domain.user.mytradesuggest.dto.response.PurchaseSuggestResponse
-import com.moira.itda.global.entity.ChatMessage
 import com.moira.itda.global.entity.ChatRoom
 import org.apache.ibatis.annotations.Mapper
 
@@ -68,10 +67,6 @@ interface MyTradeSuggestMapper {
      */
     fun insertChatRoom(chatRoom: ChatRoom)
 
-    /**
-     * 마이페이지 > 내 거래 목록 조회 > 제안 목록 모달 > 제안 승인 > ChatMessage 저장
-     */
-    fun insertChatMessage(chatMessage: ChatMessage)
 
     /**
      * 마이페이지 > 내 거래 목록 조회 > 제안 목록 모달 > 제안 거절 > 구매 제안 거절

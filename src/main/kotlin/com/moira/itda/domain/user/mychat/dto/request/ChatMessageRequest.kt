@@ -1,4 +1,4 @@
-package com.moira.itda.domain.chat.dto.request
+package com.moira.itda.domain.user.mychat.dto.request
 
 data class ChatMessageRequest(
     val senderId: String,

@@ -1,16 +1,21 @@
 package com.moira.itda.domain.user.mychat.service
 
+import com.moira.itda.domain.user.mychat.dto.request.ChatMessageRequest
+import com.moira.itda.domain.user.mychat.dto.response.ChatMessageResponse
 import com.moira.itda.domain.user.mychat.dto.response.MyChatPageResponse
 import com.moira.itda.domain.user.mychat.mapper.MyChatMapper
+import com.moira.itda.global.entity.ChatMessage
 import com.moira.itda.global.pagination.component.OffsetPaginationHandler
 import com.moira.itda.global.pagination.component.PageSizeConstant.Companion.MY_TRADE_CHAT_LIST_PAGE_SIZE
+import org.springframework.messaging.simp.SimpMessagingTemplate
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
 class MyChatService(
     private val myChatMapper: MyChatMapper,
-    private val offsetPaginationHandler: OffsetPaginationHandler
+    private val offsetPaginationHandler: OffsetPaginationHandler,
+    private val messageTemplate: SimpMessagingTemplate
 ) {
     /**
      * 마이페이지 > 내 거래 목록 > 채팅 > 채팅 목록 조회
@@ -34,5 +39,26 @@ class MyChatService(
 
         // [4] DTO 병합 후 리턴
         return MyChatPageResponse(content = content, page = pageResponse)
+    }
+
+    /**
+     * 마이페이지 > 내 거래 목록 > 채팅 > 채팅 목록 조회 > 채팅방 > 이전 채팅 목록 조회
+     */
+    @Transactional(readOnly = true)
+    fun getChatMessageList(chatRoomId: String): List<ChatMessageResponse> {
+        return myChatMapper.selectChatMessageList(chatRoomId = chatRoomId)
+    }
+
+    /**
+     * 마이페이지 > 내 거래 목록 > 채팅 > 채팅 목록 조회 > 채팅방 > 메시지 전송
+     */
+    @Transactional
+    fun sendMessage(chatRoomId: String, request: ChatMessageRequest) {
+        // [1] ChatMessage 저장
+        val chatMessage = ChatMessage.fromChatMessageRequest(chatRoomId = chatRoomId, request = request)
+        myChatMapper.insertChatMessage(chatMessage = chatMessage)
+
+        // [2] /sub/chat/${chatRoomId}/message를 구독중인 사람들에게 메시지 전달
+        messageTemplate.convertAndSend("/sub/chat/$chatRoomId/message", chatMessage)
     }
 }
