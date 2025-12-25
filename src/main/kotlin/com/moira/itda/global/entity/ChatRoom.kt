@@ -4,7 +4,7 @@ import java.time.ZonedDateTime
 import java.util.*
 
 data class ChatRoom(
-    val id: UUID,
+    val id: String,
     val tradeId: String,
     val sellerId: String,
     val buyerId: String,
@@ -14,7 +14,7 @@ data class ChatRoom(
     companion object {
         fun from(tradeId: String, sellerId: String, buyerId: String): ChatRoom {
             return ChatRoom(
-                id = UUID.randomUUID(),
+                id = UUID.randomUUID().toString(),
                 tradeId = tradeId,
                 sellerId = sellerId,
                 buyerId = buyerId,

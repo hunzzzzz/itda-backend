@@ -1,5 +1,6 @@
 package com.moira.itda.domain.user.mytradesuggest.service
 
+import com.moira.itda.domain.user.mytradesuggest.dto.response.ChatRoomIdResponse
 import com.moira.itda.domain.user.mytradesuggest.dto.response.SuggestPageResponse
 import com.moira.itda.domain.user.mytradesuggest.mapper.MyTradeSuggestMapper
 import com.moira.itda.global.entity.ChatMessage
@@ -76,7 +77,8 @@ class MyTradeSuggestService(
     /**
      * 마이페이지 > 내 거래 목록 조회 > 제안 목록 모달 > 제안 승인
      */
-    fun approve(userId: String, tradeId: String, suggestId: Long) {
+    @Transactional
+    fun approve(userId: String, tradeId: String, suggestId: Long): ChatRoomIdResponse {
         // [1] 거래 type 조회
         val type = myTradeSuggestMapper.selectTradeType(tradeId = tradeId)
             ?: throw ItdaException(ErrorCode.INVALID_SUGGEST_TYPE)
@@ -112,9 +114,11 @@ class MyTradeSuggestService(
 
         // [4] 초기 메시지 저장 (ChatMessage 저장)
         val chatMessage = ChatMessage.firstChat(
-            chatRoomId = chatRoom.id.toString(), message = FIRST_MESSAGE
+            chatRoomId = chatRoom.id, message = FIRST_MESSAGE
         )
         myTradeSuggestMapper.insertChatMessage(chatMessage = chatMessage)
+
+        return ChatRoomIdResponse(chatRoomId = chatRoom.id)
     }
 
     /**

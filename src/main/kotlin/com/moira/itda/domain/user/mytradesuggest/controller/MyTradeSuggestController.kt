@@ -1,5 +1,6 @@
 package com.moira.itda.domain.user.mytradesuggest.controller
 
+import com.moira.itda.domain.user.mytradesuggest.dto.response.ChatRoomIdResponse
 import com.moira.itda.domain.user.mytradesuggest.dto.response.SuggestPageResponse
 import com.moira.itda.domain.user.mytradesuggest.service.MyTradeSuggestService
 import com.moira.itda.global.auth.aop.UserPrincipal
@@ -38,10 +39,10 @@ class MyTradeSuggestController(
         @UserPrincipal userAuth: UserAuth,
         @PathVariable tradeId: String,
         @PathVariable suggestId: Long
-    ): ResponseEntity<Nothing> {
-        myTradeSuggestService.approve(userId = userAuth.userId, tradeId = tradeId, suggestId = suggestId)
+    ): ResponseEntity<ChatRoomIdResponse> {
+        val response = myTradeSuggestService.approve(userId = userAuth.userId, tradeId = tradeId, suggestId = suggestId)
 
-        return ResponseEntity.ok(null)
+        return ResponseEntity.ok(response)
     }
 
     /**
