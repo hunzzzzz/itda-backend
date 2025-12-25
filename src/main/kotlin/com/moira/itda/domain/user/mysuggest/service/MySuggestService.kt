@@ -16,7 +16,7 @@ class MySuggestService(
     private val offsetPaginationHandler: OffsetPaginationHandler
 ) {
     /**
-     * 마이페이지 > 내 거래 목록 > 거래 제안 목록 탭 > 거래 제안 목록 조회
+     * 마이페이지 > 내 거래 목록 > 제안 > 거래 제안 목록 조회
      */
     @Transactional(readOnly = true)
     fun getTradeSuggests(userId: String, page: Int): MySuggestPageResponse {
@@ -25,8 +25,8 @@ class MySuggestService(
         val offset = offsetPaginationHandler.getOffset(page = page, pageSize = pageSize)
 
         // [2] 거래 정보 조회
-        val totalElements = mySuggestMapper.selectTradeListCnt(userId = userId)
-        val suggestList = mySuggestMapper.selectTradeList(
+        val totalElements = mySuggestMapper.selectTradeSuggestListCnt(userId = userId)
+        val suggestList = mySuggestMapper.selectTradeSuggestList(
             userId = userId,
             pageSize = pageSize,
             offset = offset

@@ -26,12 +26,7 @@
              , T.hope_address
              , T.hope_location_latitude
              , T.hope_location_longitude
-             , CASE WHEN T.type = 'SALES'
-                    THEN (SELECT COUNT(id) FROM TRADE_PURCHASE_SUGGEST WHERE trade_id = T.id AND status != 'CANCELED')
-                    WHEN T.type = 'EXCHANGE'
-                    THEN (SELECT COUNT(id) FROM TRADE_EXCHANGE_SUGGEST WHERE trade_id = T.id AND status != 'CANCELED')
-                    ELSE 0
-               END AS suggestCount
+             , (SELECT COUNT(id) FROM TRADE_SUGGEST WHERE trade_id = T.id AND status != 'CANCELED') AS suggest_count
              , T.created_at
         FROM TRADE T
         LEFT JOIN IMAGE_FILE F
@@ -49,7 +44,7 @@
              , SI.trade_id
              , SI.gacha_id
              , SI.gacha_item_id AS gachaItemId
-             , (SELECT name FROM GACHA_ITEM WHERE gacha_id = SI.gacha_id AND id = SI.gacha_item_id) AS gachaItemName
+             , (SELECT name FROM GACHA_ITEM WHERE gacha_id = SI.gacha_id AND id = SI.gacha_item_id) AS gacha_item_name
              , SI.count
              , SI.current_count
              , SI.price

@@ -6,14 +6,14 @@ import org.apache.ibatis.annotations.Mapper
 @Mapper
 interface MySuggestMapper {
     /**
-     * 마이페이지 > 내 거래 목록 > 거래 제안 목록 탭 > 거래 제안 목록 조회 > 거래 목록 조회 > totalElements 계산
+     * 마이페이지 > 내 거래 목록 > 제안 > 거래 제안 목록 조회 > totalElements 계산
      */
-    fun selectTradeListCnt(userId: String): Long
+    fun selectTradeSuggestListCnt(userId: String): Long
 
     /**
-     * 마이페이지 > 내 거래 목록 > 거래 제안 목록 탭 > 거래 제안 목록 조회 > 거래 목록 조회
+     * 마이페이지 > 내 거래 목록 > 제안 > 거래 제안 목록 조회 > totalElements 계산
      */
-    fun selectTradeList(userId: String, pageSize: Int, offset: Int): List<MySuggestResponse>
+    fun selectTradeSuggestList(userId: String, pageSize: Int, offset: Int): List<MySuggestResponse>
 
     /**
      * 마이페이지 > 내 거래 목록 > 거래 제안 목록 탭 > 거래 제안 취소 > 구매 status 조회

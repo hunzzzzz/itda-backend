@@ -181,30 +181,20 @@ class GachaDetailService(
         }
 
         // [4] 제안 목록에 대한 유효성 검사 (APPROVED된 제안이 있는지)
-        when (trade.type) {
-            TradeType.SALES -> {
-                if (gachaDetailMapper.selectTradePurchaseSuggestChk(tradeId = tradeId) > 0) {
-                    throw ItdaException(ErrorCode.CANNOT_DELETE_TRADE_WHEN_APPROVED_SUGGEST_EXISTS)
-                }
-            }
-
-            TradeType.EXCHANGE -> {
-                if (gachaDetailMapper.selectTradeExchangeSuggestChk(tradeId = tradeId) > 0) {
-                    throw ItdaException(ErrorCode.CANNOT_DELETE_TRADE_WHEN_APPROVED_SUGGEST_EXISTS)
-                }
-            }
+        if (gachaDetailMapper.selectTradeSuggestChk(tradeId = tradeId) > 0) {
+            throw ItdaException(ErrorCode.CANNOT_DELETE_TRADE_WHEN_APPROVED_SUGGEST_EXISTS)
         }
 
         // [5] TradePurchaseSuggest, TradeExchangeSuggest 삭제
+        gachaDetailMapper.deleteTradeSuggest(tradeId = tradeId)
+
         // [6] TradeSalesItem, TradeExchangeItem 삭제
         when (trade.type) {
             TradeType.SALES -> {
-                gachaDetailMapper.deleteTradePurchaseSuggest(tradeId = tradeId)
                 gachaDetailMapper.deleteTradeSalesItem(tradeId = tradeId)
             }
 
             TradeType.EXCHANGE -> {
-                gachaDetailMapper.deleteTradeExchangeSuggest(tradeId = tradeId)
                 gachaDetailMapper.deleteTradeExchangeItem(tradeId = tradeId)
             }
         }

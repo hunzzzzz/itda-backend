@@ -14,7 +14,7 @@ data class MySuggestResponse(
     val tradeCreatedAt: ZonedDateTime,
     // 제안 정보 (공통)
     val gachaId: String,
-    val suggestId: Long,
+    val suggestId: String,
     val suggestStatus: String,
     val suggestContent: String?,
     val suggestCreatedAt: ZonedDateTime,
@@ -27,5 +27,7 @@ data class MySuggestResponse(
     // 교환 제안 정보
     val exchangeSellerItemId: Long?,
     val exchangeSellerItemName: String?,
+    val exchangeSuggestedItemId: Long?,
+    val exchangeSuggestedItemName: String?,
     val exchangeChangeYn: String?
 )
