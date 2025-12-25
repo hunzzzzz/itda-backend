@@ -40,36 +40,6 @@
         AND status != 'REJECTED'
     </select>
 
-    <!-- 거래 제안 모달 > 구매 제안 -->
-    <insert id="insertTradePurchaseSuggest">
-        INSERT INTO TRADE_PURCHASE_SUGGEST (
-               user_id
-             , trade_id
-             , gacha_id
-             , gacha_item_id
-             , content
-             , original_price
-             , count
-             , discount_yn
-             , discount_price
-             , created_at
-             , updated_at
-        )
-        VALUES (
-               #{userId}
-             , #{tradeId}
-             , #{gachaId}
-             , #{gachaItemId}
-             , #{content}
-             , #{originalPrice}
-             , #{count}
-             , #{discountYn}
-             , #{discountPrice}
-             , #{createdAt}
-             , #{updatedAt}
-        )
-    </insert>
-
     <!-- 거래 제안 모달 > 교환 정보 조회 -->
     <select id="selectExchangeItem" resultType="com.moira.itda.domain.suggest.dto.response.ExchangeItemResponse">
         SELECT
@@ -104,33 +74,48 @@
          AND status != 'REJECTED'
     </select>
 
-    <!-- 거래 제안 모달 > 교환 제안 > TradeExchangeSuggest 저장 -->
-    <insert id="insertTradeExchangeSuggest">
-        INSERT INTO TRADE_EXCHANGE_SUGGEST (
-               user_id
+    <!-- 거래 제안 모달 > 구매 제안 > TradeSuggest 저장 -->
+    <!-- 거래 제안 모달 > 교환 제안 > TradeSuggest 저장 -->
+    <insert id="insertTradeSuggest">
+        INSERT INTO TRADE_SUGGEST (
+               id
+             , user_id
              , trade_id
              , gacha_id
+             , type
              , status
-             , seller_item_id
-             , change_yn
-             , original_item_id
-             , suggested_item_id
              , content
              , created_at
              , updated_at
+             , purchase_item_id
+             , purchase_original_price
+             , purchase_count
+             , purchase_discount_yn
+             , purchase_discount_price
+             , exchange_seller_item_id
+             , exchange_original_item_id
+             , exchange_suggested_item_id
+             , exchange_change_yn
         )
         VALUES (
-               #{userId}
+               #{id}
+             , #{userId}
              , #{tradeId}
              , #{gachaId}
+             , #{type}
              , #{status}
-             , #{sellerItemId}
-             , #{changeYn}
-             , #{originalItemId}
-             , #{suggestedItemId}
              , #{content}
              , #{createdAt}
              , #{updatedAt}
+             , #{purchaseItemId}
+             , #{purchaseOriginalPrice}
+             , #{purchaseCount}
+             , #{purchaseDiscountYn}
+             , #{purchaseDiscountPrice}
+             , #{exchangeSellerItemId}
+             , #{exchangeOriginalItemId}
+             , #{exchangeSuggestedItemId}
+             , #{exchangeChangeYn}
         )
     </insert>
 </mapper>

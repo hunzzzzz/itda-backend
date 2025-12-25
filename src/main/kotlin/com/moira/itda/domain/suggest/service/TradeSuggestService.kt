@@ -6,9 +6,8 @@ import com.moira.itda.domain.suggest.dto.response.ExchangeItemResponse
 import com.moira.itda.domain.suggest.dto.response.GachaItemResponse
 import com.moira.itda.domain.suggest.dto.response.SalesItemResponse
 import com.moira.itda.domain.suggest.mapper.TradeSuggestMapper
-import com.moira.itda.global.entity.TradeExchangeSuggest
-import com.moira.itda.global.entity.TradePurchaseSuggest
 import com.moira.itda.global.entity.TradeStatus
+import com.moira.itda.global.entity.TradeSuggest
 import com.moira.itda.global.exception.ErrorCode
 import com.moira.itda.global.exception.ItdaException
 import org.springframework.stereotype.Service
@@ -61,14 +60,13 @@ class TradeSuggestService(
         this.validate(userId = userId, tradeId = tradeId, request = request)
 
         // [2] 저장
-        val tradePurchaseSuggest = TradePurchaseSuggest.fromPurchaseSuggestRequest(
+        val tradeSuggest = TradeSuggest.fromPurchaseSuggestRequest(
             userId = userId,
             tradeId = tradeId,
-            gachaId = request.gachaId,
             request = request
         )
 
-        tradeSuggestMapper.insertTradePurchaseSuggest(tradePurchaseSuggest = tradePurchaseSuggest)
+        tradeSuggestMapper.insertTradeSuggest(tradeSuggest = tradeSuggest)
     }
 
 
@@ -121,11 +119,11 @@ class TradeSuggestService(
         this.validate(userId = userId, tradeId = tradeId, request = request)
 
         // [2] 저장
-        val tradeExchangeSuggest = TradeExchangeSuggest.fromExchangeSuggestRequest(
+        val tradeSuggest = TradeSuggest.fromExchangeSuggestRequest(
             userId = userId,
             tradeId = tradeId,
             request = request
         )
-        tradeSuggestMapper.insertTradeExchangeSuggest(tradeExchangeSuggest = tradeExchangeSuggest)
+        tradeSuggestMapper.insertTradeSuggest(tradeSuggest = tradeSuggest)
     }
 }

@@ -3,8 +3,7 @@ package com.moira.itda.domain.suggest.mapper
 import com.moira.itda.domain.suggest.dto.response.ExchangeItemResponse
 import com.moira.itda.domain.suggest.dto.response.GachaItemResponse
 import com.moira.itda.domain.suggest.dto.response.SalesItemResponse
-import com.moira.itda.global.entity.TradeExchangeSuggest
-import com.moira.itda.global.entity.TradePurchaseSuggest
+import com.moira.itda.global.entity.TradeSuggest
 import org.apache.ibatis.annotations.Mapper
 
 @Mapper
@@ -26,11 +25,6 @@ interface TradeSuggestMapper {
     fun selectTradePurchaseSuggestChk(userId: String, tradeId: String, gachaItemId: Long): Long
 
     /**
-     * 거래 제안 모달 > 구매 제안
-     */
-    fun insertTradePurchaseSuggest(tradePurchaseSuggest: TradePurchaseSuggest)
-
-    /**
      * 거래 제안 모달 > 교환 정보 조회
      */
     fun selectExchangeItem(tradeId: String): List<ExchangeItemResponse>
@@ -46,7 +40,8 @@ interface TradeSuggestMapper {
     fun selectTradeExchangeSuggestChk(userId: String, tradeId: String, suggestedItemId: Long): Long
 
     /**
-     * 거래 제안 모달 > 교환 제안 > TradeExchangeSuggest 저장
+     * 거래 제안 모달 > 구매 제안 > TradeSuggest 저장
+     * 거래 제안 모달 > 교환 제안 > TradeSuggest 저장
      */
-    fun insertTradeExchangeSuggest(tradeExchangeSuggest: TradeExchangeSuggest)
+    fun insertTradeSuggest(tradeSuggest: TradeSuggest)
 }
