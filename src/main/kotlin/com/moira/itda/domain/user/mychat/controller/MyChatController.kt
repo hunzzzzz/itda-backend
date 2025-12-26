@@ -1,6 +1,7 @@
 package com.moira.itda.domain.user.mychat.controller
 
 import com.moira.itda.domain.user.mychat.dto.request.ChatMessageRequest
+import com.moira.itda.domain.user.mychat.dto.request.TradeCancelRequest
 import com.moira.itda.domain.user.mychat.dto.response.ChatMessageResponse
 import com.moira.itda.domain.user.mychat.dto.response.MyChatPageResponse
 import com.moira.itda.domain.user.mychat.dto.response.TradeSuggestResponse
@@ -12,6 +13,8 @@ import org.springframework.messaging.handler.annotation.DestinationVariable
 import org.springframework.messaging.handler.annotation.MessageMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PutMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
@@ -64,5 +67,16 @@ class MyChatController(
         request: ChatMessageRequest
     ) {
         myChatService.sendMessage(chatRoomId = chatRoomId, request = request)
+    }
+
+    /**
+     * 마이페이지 > 내 거래 목록 > 채팅 > 채팅 목록 조회 > 채팅방 > 거래 취소
+     */
+    @PutMapping("/api/me/trade/chat/{chatRoomId}/cancel")
+    fun cancelTrade(
+        @PathVariable chatRoomId: String,
+        @RequestBody request: TradeCancelRequest
+    ) {
+        myChatService.cancelTrade(chatRoomId = chatRoomId, request = request)
     }
 }

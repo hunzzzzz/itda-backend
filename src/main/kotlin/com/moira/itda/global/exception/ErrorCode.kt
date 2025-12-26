@@ -351,6 +351,13 @@ enum class ErrorCode(
         httpStatus = HttpStatus.BAD_REQUEST
     ),
 
+    // 채팅 관련 에러코드
+    INVALID_CHAT_STATUS(
+        code = "C0001",
+        message = "유효하지 않은 채팅 상태 코드입니다.",
+        httpStatus = HttpStatus.BAD_REQUEST
+    ),
+
     // 정보 등록/수정 요청 관련 에러코드
     INVALID_GACHA_INFO_TYPE(
         code = "I0001",

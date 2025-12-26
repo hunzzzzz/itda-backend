@@ -32,4 +32,9 @@ interface MyChatMapper {
      * 마이페이지 > 내 거래 목록 > 채팅 > 채팅 목록 조회 > 채팅방 > 메시지 전송 > ChatMessage 저장
      */
     fun insertChatMessage(chatMessage: ChatMessage)
+
+    /**
+     *
+     */
+    fun selectChatStatus(chatRoomId: String): String?
 }

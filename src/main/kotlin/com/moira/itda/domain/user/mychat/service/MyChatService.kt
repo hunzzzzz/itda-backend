@@ -1,11 +1,15 @@
 package com.moira.itda.domain.user.mychat.service
 
 import com.moira.itda.domain.user.mychat.dto.request.ChatMessageRequest
+import com.moira.itda.domain.user.mychat.dto.request.TradeCancelRequest
 import com.moira.itda.domain.user.mychat.dto.response.ChatMessageResponse
 import com.moira.itda.domain.user.mychat.dto.response.MyChatPageResponse
 import com.moira.itda.domain.user.mychat.dto.response.TradeSuggestResponse
 import com.moira.itda.domain.user.mychat.mapper.MyChatMapper
 import com.moira.itda.global.entity.ChatMessage
+import com.moira.itda.global.entity.ChatStatus
+import com.moira.itda.global.exception.ErrorCode
+import com.moira.itda.global.exception.ItdaException
 import com.moira.itda.global.pagination.component.OffsetPaginationHandler
 import com.moira.itda.global.pagination.component.PageSizeConstant.Companion.MY_TRADE_CHAT_LIST_PAGE_SIZE
 import org.springframework.messaging.simp.SimpMessagingTemplate
@@ -69,5 +73,18 @@ class MyChatService(
 
         // [2] /sub/chat/${chatRoomId}/message를 구독중인 사람들에게 메시지 전달
         messageTemplate.convertAndSend("/sub/chat/$chatRoomId/message", chatMessage)
+    }
+
+    @Transactional
+    fun cancelTrade(chatRoomId: String, request: TradeCancelRequest) {
+        // [1] 유효성 검사 (status)
+        val status = myChatMapper.selectChatStatus(chatRoomId = chatRoomId)
+            ?: throw ItdaException(ErrorCode.INVALID_CHAT_STATUS)
+
+        if (status == ChatStatus.ENDED.name) {
+            throw ItdaException(ErrorCode.CANNOT_CANCEL_ENDED_CHAT)
+        }
+
+
     }
 }
