@@ -37,37 +37,30 @@
         LIMIT #{pageSize} OFFSET #{offset}
     </select>
 
-    <!-- 마이페이지 > 내 거래 목록 조회 > 판매 아이템 목록 조회 -->
-    <select id="selectSalesItemList" resultType="com.moira.itda.domain.user.mytrade.dto.MySalesItemResponse">
+    <!-- 마이페이지 > 내 거래 목록 조회 > 하위 교환/판매 아이템 목록 조회 -->
+    <select id="selectTradeItemList" resultType="com.moira.itda.domain.user.mytrade.dto.MyTradeItemResponse">
         SELECT
-               SI.id
-             , SI.trade_id
-             , SI.gacha_id
-             , SI.gacha_item_id AS gachaItemId
-             , (SELECT name FROM GACHA_ITEM WHERE gacha_id = SI.gacha_id AND id = SI.gacha_item_id) AS gacha_item_name
-             , SI.count
-             , SI.current_count
-             , SI.price
-             , SI.created_at
-        FROM TRADE_SALES_ITEM SI
-        WHERE SI.trade_id = #{tradeId}
-        ORDER BY SI.created_at ASC
-    </select>
-
-    <!-- 마이페이지 > 내 거래 목록 조회 > 교환 아이템 목록 조회 -->
-    <select id="selectExchangeItemList" resultType="com.moira.itda.domain.user.mytrade.dto.MyExchangeItemResponse">
-        SELECT
-               EI.id
-             , EI.trade_id
-             , EI.gacha_id
-             , EI.give_item_id
-             , (SELECT name FROM GACHA_ITEM WHERE gacha_id = EI.gacha_id AND id = EI.give_item_id) AS giveItemName
-             , EI.want_item_id
-             , (SELECT name FROM GACHA_ITEM WHERE gacha_id = EI.gacha_id AND id = EI.want_item_id) AS wantItemName
-             , created_at
-             , updated_at
-        FROM TRADE_EXCHANGE_ITEM EI
-        WHERE EI.trade_id = #{tradeId}
-        ORDER BY EI.created_at ASC
+               TI.id
+             , TI.trade_id
+             , TI.gacha_id
+             , TI.type
+             , TI.created_at
+             , TI.updated_at
+             , TI.purchase_item_id
+             , GI_P.name                   AS purchase_item_name
+             , TI.purchase_count
+             , TI.purchase_current_count
+             , TI.purchase_price
+             , TI.exchange_give_item_id
+             , GI_E1.name                  AS exchange_give_item_name
+             , TI.exchange_want_item_id
+             , GI_E2.name                  AS exchange_want_item_name
+        FROM TRADE_ITEM TI
+         LEFT JOIN GACHA_ITEM GI_P  ON GI_P.id  = TI.purchase_item_id
+         LEFT JOIN GACHA_ITEM GI_E1 ON GI_E1.id = TI.exchange_give_item_id
+         LEFT JOIN GACHA_ITEM GI_E2 ON GI_E2.id = TI.exchange_want_item_id
+        WHERE TI.trade_id  = #{tradeId}
+         AND  TI.type      = #{type}
+        ORDER BY TI.created_at ASC
     </select>
 </mapper>

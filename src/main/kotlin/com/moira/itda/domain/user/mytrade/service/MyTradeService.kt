@@ -1,8 +1,9 @@
 package com.moira.itda.domain.user.mytrade.service
 
-import com.moira.itda.domain.user.mytrade.dto.MyTradePageResponse
 import com.moira.itda.domain.user.mytrade.dto.MyTradeContentResponse
+import com.moira.itda.domain.user.mytrade.dto.MyTradePageResponse
 import com.moira.itda.domain.user.mytrade.mapper.MyTradeMapper
+import com.moira.itda.global.entity.TradeItemType
 import com.moira.itda.global.exception.ErrorCode
 import com.moira.itda.global.exception.ItdaException
 import com.moira.itda.global.pagination.component.OffsetPaginationHandler
@@ -21,9 +22,8 @@ class MyTradeService(
     @Transactional(readOnly = true)
     fun getTrades(userId: String, page: Int, type: String): MyTradePageResponse {
         // [1] 유효성 검사
-        if (type != "SALES" && type != "EXCHANGE") {
-            throw ItdaException(ErrorCode.INVALID_TRADE_TYPE)
-        }
+        kotlin.runCatching { TradeItemType.valueOf(type) }
+            .onFailure { throw ItdaException(ErrorCode.INVALID_TRADE_TYPE) }
 
         // [2] 변수 세팅
         val pageSize = MY_TRADE_LIST_PAGE_SIZE
@@ -39,24 +39,11 @@ class MyTradeService(
         )
 
         // [3] 거래 아이템 목록 조회
-        val contents = when (type) {
-            "SALES" -> {
-                tradeList.map { trade ->
-                    val salesItemList = myTradeMapper.selectSalesItemList(tradeId = trade.tradeId)
-
-                    MyTradeContentResponse(trade = trade, items = salesItemList)
-                }
-            }
-            "EXCHANGE" -> {
-                tradeList.map { trade ->
-                    val exchangeItemList = myTradeMapper.selectExchangeItemList(tradeId = trade.tradeId)
-
-                    MyTradeContentResponse(trade = trade, items = exchangeItemList)
-                }
-            }
-            else -> {
-                emptyList()
-            }
+        val contents = tradeList.map {
+            MyTradeContentResponse(
+                trade = it,
+                items = myTradeMapper.selectTradeItemList(tradeId = it.tradeId, type = type),
+            )
         }
 
         // [4] 오프셋 기반 페이지네이션 구현

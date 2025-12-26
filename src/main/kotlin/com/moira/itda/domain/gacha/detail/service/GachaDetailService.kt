@@ -8,7 +8,6 @@ import com.moira.itda.domain.gacha.detail.mapper.GachaDetailMapper
 import com.moira.itda.global.auth.component.CookieHandler
 import com.moira.itda.global.entity.GachaWish
 import com.moira.itda.global.entity.TradeStatus
-import com.moira.itda.global.entity.TradeType
 import com.moira.itda.global.exception.ErrorCode
 import com.moira.itda.global.exception.ItdaException
 import com.moira.itda.global.file.component.AwsS3Handler
@@ -37,9 +36,9 @@ class GachaDetailService(
         httpServletResponse: HttpServletResponse
     ): GachaDetailResponse {
         // [1] 상세정보 조회
-        val gacha = gachaDetailMapper.getGacha(gachaId = gachaId)
+        val gacha = gachaDetailMapper.selectGacha(gachaId = gachaId)
             ?: throw ItdaException(ErrorCode.GACHA_NOT_FOUND)
-        val items = gachaDetailMapper.getGachaItemList(gachaId = gachaId)
+        val items = gachaDetailMapper.selectGachaItemList(gachaId = gachaId)
 
         // [2] 쿠키에 GachaId 여부 확인
         if (!cookieHandler.checkGachaIdInCookie(gachaId = gachaId, request = httpServletRequest)) {
@@ -122,34 +121,10 @@ class GachaDetailService(
 
         // [3] 하위 교환/판매 목록 조회
         val contents = trades.map { trade ->
-            when (trade.type) {
-                // [3-1] 판매
-                TradeType.SALES.name -> {
-                    TradeContentResponse(
-                        trade = trade,
-                        salesItemList = gachaDetailMapper.selectTradeSalesItemList(
-                            tradeId = trade.tradeId, gachaId = gachaId
-                        ),
-                        exchangeItemList = emptyList()
-                    )
-                }
-
-                // [3-2] 교환
-                TradeType.EXCHANGE.name -> {
-                    TradeContentResponse(
-                        trade = trade,
-                        salesItemList = emptyList(),
-                        exchangeItemList = gachaDetailMapper.selectTradeExchangeItemList(
-                            tradeId = trade.tradeId, gachaId = gachaId
-                        )
-                    )
-                }
-
-                // [3-3] 아무 값도 아닌 경우 -> 에러 처리
-                else -> {
-                    throw ItdaException(ErrorCode.CANNOT_LOAD_TRADE_LIST)
-                }
-            }
+            TradeContentResponse(
+                trade = trade,
+                itemList = gachaDetailMapper.selectTradeItemList(tradeId = trade.tradeId, gachaId = gachaId)
+            )
         }
 
         // [4] 오프셋 기반 페이지네이션 구현
@@ -187,25 +162,15 @@ class GachaDetailService(
             throw ItdaException(ErrorCode.CANNOT_DELETE_TRADE_WHEN_APPROVED_SUGGEST_EXISTS)
         }
 
-        // [5] TradePurchaseSuggest, TradeExchangeSuggest 삭제
+        // [5] TradeSuggest, TradeItem 삭제
         gachaDetailMapper.deleteTradeSuggest(tradeId = tradeId)
+        gachaDetailMapper.deleteTradeItem(tradeId = tradeId)
 
-        // [6] TradeSalesItem, TradeExchangeItem 삭제
-        when (trade.type) {
-            TradeType.SALES -> {
-                gachaDetailMapper.deleteTradeSalesItem(tradeId = tradeId)
-            }
-
-            TradeType.EXCHANGE -> {
-                gachaDetailMapper.deleteTradeExchangeItem(tradeId = tradeId)
-            }
-        }
-
-        // [7] 이미지 파일 삭제 (AWS S3)
+        // [6] 이미지 파일 삭제 (AWS S3)
         gachaDetailMapper.selectTradeFileUrlList(tradeId = tradeId)
             .forEach { awsS3Handler.delete(fileUrl = it) }
 
-        // [8] Trade 삭제
+        // [7] Trade 삭제
         gachaDetailMapper.deleteTrade(tradeId = tradeId)
     }
 }

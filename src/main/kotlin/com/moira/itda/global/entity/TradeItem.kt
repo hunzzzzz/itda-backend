@@ -27,7 +27,7 @@ data class TradeItem(
                 id = UUID.randomUUID().toString(),
                 tradeId = tradeId,
                 gachaId = gachaId,
-                type = TradeItemType.PURCHASE,
+                type = TradeItemType.SALES,
                 createdAt = ZonedDateTime.now(),
                 updatedAt = ZonedDateTime.now(),
                 purchaseItemId = request.gachaItemId,

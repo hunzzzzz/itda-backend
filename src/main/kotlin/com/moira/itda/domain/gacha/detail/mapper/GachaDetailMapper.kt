@@ -1,6 +1,9 @@
 package com.moira.itda.domain.gacha.detail.mapper
 
-import com.moira.itda.domain.gacha.detail.dto.response.*
+import com.moira.itda.domain.gacha.detail.dto.response.GachaItemResponse
+import com.moira.itda.domain.gacha.detail.dto.response.GachaResponse
+import com.moira.itda.domain.gacha.detail.dto.response.TradeItemResponse
+import com.moira.itda.domain.gacha.detail.dto.response.TradeResponse
 import com.moira.itda.global.entity.GachaWish
 import com.moira.itda.global.entity.Trade
 import org.apache.ibatis.annotations.Mapper
@@ -10,12 +13,12 @@ interface GachaDetailMapper {
     /**
      * 가챠정보 > 가챠목록 > 상세정보 > 가챠 조회
      */
-    fun getGacha(gachaId: String): GachaResponse?
+    fun selectGacha(gachaId: String): GachaResponse?
 
     /**
      * 가챠정보 > 가챠목록 > 상세정보 > 아이템 목록 조회
      */
-    fun getGachaItemList(gachaId: String): List<GachaItemResponse>
+    fun selectGachaItemList(gachaId: String): List<GachaItemResponse>
 
     /**
      * 가챠정보 > 가챠목록 > 상세정보 > 조회수 증가
@@ -58,14 +61,9 @@ interface GachaDetailMapper {
     fun selectTradeList(gachaId: String, pageSize: Int, offset: Int): List<TradeResponse>
 
     /**
-     * 가챠정보 > 가챠목록 > 상세정보 > 거래 목록 조회 > 하위 판매 정보 조회
+     * 가챠정보 > 가챠목록 > 상세정보 > 거래 목록 조회 > 하위 교환/판매 정보 조회
      */
-    fun selectTradeSalesItemList(tradeId: String, gachaId: String): List<TradeSalesItemResponse>
-
-    /**
-     * 가챠정보 > 가챠목록 > 상세정보 > 거래 목록 조회 > 하위 교환 정보 조회
-     */
-    fun selectTradeExchangeItemList(tradeId: String, gachaId: String): List<TradeExchangeItemResponse>
+    fun selectTradeItemList(tradeId: String, gachaId: String): List<TradeItemResponse>
 
     /**
      * 가챠정보 > 가챠목록 > 상세정보 > 거래 목록 조회 > 거래 삭제 > Trade 조회
@@ -83,14 +81,9 @@ interface GachaDetailMapper {
     fun deleteTradeSuggest(tradeId: String)
 
     /**
-     * 가챠정보 > 가챠목록 > 상세정보 > 거래 목록 조회 > 거래 삭제 > TradeSalesItem 삭제
+     * 가챠정보 > 가챠목록 > 상세정보 > 거래 목록 조회 > 거래 삭제 > TradeItem 삭제
      */
-    fun deleteTradeSalesItem(tradeId: String)
-
-    /**
-     * 가챠정보 > 가챠목록 > 상세정보 > 거래 목록 조회 > 거래 삭제 > TradeExchangeItem 삭제
-     */
-    fun deleteTradeExchangeItem(tradeId: String)
+    fun deleteTradeItem(tradeId: String)
 
     /**
      * 가챠정보 > 가챠목록 > 상세정보 > 거래 목록 조회 > 거래 삭제 > 파일 URL 목록 조회
