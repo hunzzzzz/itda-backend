@@ -4,21 +4,21 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.moira.itda.domain.user.mysuggest.mapper.MySuggestMapper">
-    <!-- 마이페이지 > 내 거래 목록 > 거래 제안 목록 탭 > 거래 제안 목록 조회 > 거래 목록 조회 > totalElements 계산 -->
+    <!-- 마이페이지 > 내 거래 목록 > 제안 > 거래 제안 목록 조회 > totalElements 계산 -->
     <select id="selectTradeSuggestListCnt">
-        SELECT COUNT(*) FROM TRADE_SUGGEST WHERE user_id = #{userId}
+        SELECT COUNT(id) FROM TRADE_SUGGEST WHERE user_id = #{userId}
     </select>
 
-    <!-- 마이페이지 > 내 거래 목록 > 거래 제안 목록 탭 > 거래 제안 목록 조회 > 거래 목록 조회 -->
+    <!-- 마이페이지 > 내 거래 목록 > 제안 > 거래 제안 목록 조회 -->
     <select id="selectTradeSuggestList" resultType="com.moira.itda.domain.user.mysuggest.dto.response.MySuggestResponse">
-        SELECT
+        SELECT DISTINCT
                T.id                AS trade_id
              , T.status            AS trade_status
              , T.type
              , T.user_id
              , U.nickname          AS user_nickname
              , T.file_id
-             , F.file_url
+             , (SELECT file_url FROM IMAGE_FILE WHERE file_id = T.file_id ORDER BY created_at ASC LIMIT 1) AS file_url
              , T.created_at        AS trade_created_at
              , TS.gacha_id
              , TS.id               AS suggest_id
@@ -38,7 +38,9 @@
         FROM TRADE_SUGGEST TS
         INNER JOIN TRADE T       ON T.id      = TS.trade_id
         INNER JOIN USER U        ON U.id      = T.user_id
-        LEFT JOIN IMAGE_FILE F   ON F.file_id = T.file_id
+        WHERE TS.user_id = #{userId}
+        ORDER BY TS.created_at DESC
+        LIMIT #{pageSize} OFFSET #{offset}
     </select>
 
     <!-- 마이페이지 > 내 거래 목록 > 제안 > 거래 제안 취소 > status 조회 -->

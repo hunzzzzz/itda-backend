@@ -11,7 +11,7 @@ interface MySuggestMapper {
     fun selectTradeSuggestListCnt(userId: String): Long
 
     /**
-     * 마이페이지 > 내 거래 목록 > 제안 > 거래 제안 목록 조회 > totalElements 계산
+     * 마이페이지 > 내 거래 목록 > 제안 > 거래 제안 목록 조회
      */
     fun selectTradeSuggestList(userId: String, pageSize: Int, offset: Int): List<MySuggestResponse>
 
