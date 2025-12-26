@@ -39,10 +39,10 @@
          AND status  != 'CANCELED'
          AND status  != 'REJECTED'
         <choose>
-            <when test="type = 'PURCHASE'">
+            <when test="type == 'PURCHASE'">
                 AND purchase_item_id = #{purchaseItemId}
             </when>
-            <when test="type = 'EXCHANGE'">
+            <when test="type == 'EXCHANGE'">
                 AND suggested_item_id = #{suggestedItemId}
             </when>
         </choose>

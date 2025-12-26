@@ -95,9 +95,16 @@ class GachaDetailController(
     @GetMapping("/api/gacha/{gachaId}/trades")
     fun getTrades(
         @PathVariable gachaId: String,
-        @RequestParam(required = false, defaultValue = "1") page: Int
+        @RequestParam(required = false, defaultValue = "1") page: Int,
+        @RequestParam(required = false, defaultValue = "N") onlyPending: String,
+        @RequestParam(required = false) gachaItemId: Long?
     ): ResponseEntity<TradePageResponse> {
-        val response = gachaDetailService.getTrades(gachaId = gachaId, page = page)
+        val response = gachaDetailService.getTrades(
+            gachaId = gachaId,
+            page = page,
+            onlyPending = onlyPending,
+            gachaItemId = gachaItemId
+        )
 
         return ResponseEntity.ok(response)
     }

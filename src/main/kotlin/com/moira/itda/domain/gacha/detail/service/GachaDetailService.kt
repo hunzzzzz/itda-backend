@@ -106,15 +106,19 @@ class GachaDetailService(
      * 가챠정보 > 가챠목록 > 상세정보 > 거래 목록 조회
      */
     @Transactional(readOnly = true)
-    fun getTrades(gachaId: String, page: Int): TradePageResponse {
+    fun getTrades(gachaId: String, page: Int, onlyPending: String, gachaItemId: Long?): TradePageResponse {
         // [1] 변수 세팅
         val pageSize = GACHA_DETAIL_TRADE_PAGE_SIZE
         val offset = offsetPaginationHandler.getOffset(page = page, pageSize = pageSize)
 
         // [2] 조회
-        val totalElements = gachaDetailMapper.selectTradeCnt(gachaId = gachaId)
+        val totalElements = gachaDetailMapper.selectTradeCnt(
+            gachaId = gachaId, onlyPending = onlyPending, gachaItemId = gachaItemId
+        )
         val trades = gachaDetailMapper.selectTradeList(
             gachaId = gachaId,
+            onlyPending = onlyPending,
+            gachaItemId = gachaItemId,
             pageSize = pageSize,
             offset = offset
         )
