@@ -4,7 +4,6 @@ import com.moira.itda.domain.user.mytradesuggest.dto.response.ChatRoomIdResponse
 import com.moira.itda.domain.user.mytradesuggest.dto.response.SuggestPageResponse
 import com.moira.itda.domain.user.mytradesuggest.mapper.MyTradeSuggestMapper
 import com.moira.itda.global.entity.ChatRoom
-import com.moira.itda.global.entity.TradeType
 import com.moira.itda.global.exception.ErrorCode
 import com.moira.itda.global.exception.ItdaException
 import com.moira.itda.global.pagination.component.OffsetPaginationHandler
@@ -56,8 +55,9 @@ class MyTradeSuggestService(
             ?: throw ItdaException(ErrorCode.USER_NOT_FOUND)
 
         // [3] ChatRoom 저장
-        // TODO: 수정 필요
-        val chatRoom = ChatRoom.from(tradeId = tradeId, sellerId = userId, buyerId = buyerId)
+        val chatRoom = ChatRoom.from(
+            tradeId = tradeId, tradeSuggestId = suggestId, sellerId = userId, buyerId = buyerId
+        )
         myTradeSuggestMapper.insertChatRoom(chatRoom = chatRoom)
 
         return ChatRoomIdResponse(chatRoomId = chatRoom.id)

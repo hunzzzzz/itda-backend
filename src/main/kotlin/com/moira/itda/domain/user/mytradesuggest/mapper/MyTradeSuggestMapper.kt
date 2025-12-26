@@ -27,13 +27,12 @@ interface MyTradeSuggestMapper {
     fun selectTradeSuggestUserId(tradeId: String, suggestId: String): String?
 
     /**
-     * 마이페이지 > 내 거래 목록 조회 > 제안 목록 모달 > 제안 거절 > status 변경 (REJECTED)
-     */
-    fun updateTradeSuggestStatusRejected(tradeId: String, suggestId: String)
-
-
-    /**
      * 마이페이지 > 내 거래 목록 조회 > 제안 목록 모달 > 제안 승인 > ChatRoom 저장
      */
     fun insertChatRoom(chatRoom: ChatRoom)
+
+    /**
+     * 마이페이지 > 내 거래 목록 조회 > 제안 목록 모달 > 제안 거절 > status 변경 (REJECTED)
+     */
+    fun updateTradeSuggestStatusRejected(tradeId: String, suggestId: String)
 }
