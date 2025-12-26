@@ -29,7 +29,7 @@ class MyTradeService(
         val pageSize = MY_TRADE_LIST_PAGE_SIZE
         val offset = offsetPaginationHandler.getOffset(page = page, pageSize = pageSize)
 
-        // [2] 거래 목록 조회
+        // [3] 거래 목록 조회
         val totalElements = myTradeMapper.selectTradeListCnt(userId = userId, type = type)
         val tradeList = myTradeMapper.selectTradeList(
             userId = userId,
@@ -38,7 +38,7 @@ class MyTradeService(
             offset = offset
         )
 
-        // [3] 거래 아이템 목록 조회
+        // [4] 거래 아이템 목록 조회
         val contents = tradeList.map {
             MyTradeContentResponse(
                 trade = it,
@@ -46,14 +46,14 @@ class MyTradeService(
             )
         }
 
-        // [4] 오프셋 기반 페이지네이션 구현
+        // [5] 오프셋 기반 페이지네이션 구현
         val pageResponse = offsetPaginationHandler.getPageResponse(
             page = page,
             pageSize = pageSize,
             totalElements = totalElements
         )
 
-        // [5] DTO 병합 후 리턴
+        // [6] DTO 병합 후 리턴
         return MyTradePageResponse(content = contents, page = pageResponse)
     }
 }
