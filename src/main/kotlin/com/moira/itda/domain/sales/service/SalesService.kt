@@ -6,7 +6,7 @@ import com.moira.itda.domain.sales.dto.response.SalesItemResponse
 import com.moira.itda.domain.sales.dto.response.GachaIdResponse
 import com.moira.itda.global.entity.Trade
 import com.moira.itda.global.entity.TradeHopeMethod
-import com.moira.itda.global.entity.TradeSalesItem
+import com.moira.itda.global.entity.TradeItem
 import com.moira.itda.global.exception.ErrorCode
 import com.moira.itda.global.exception.ItdaException
 import org.springframework.stereotype.Service
@@ -88,10 +88,10 @@ class SalesService(
         )
         salesMapper.insertTrade(trade = trade)
 
-        // [4] SalesItem 저장
+        // [4] TradeItem 저장
         request.items.forEach { item ->
-            val tradeSalesItem = TradeSalesItem.fromSalesItemAddRequest(gachaId = gachaId, tradeId = tradeId, request = item)
-            salesMapper.insertTradeSalesItem(tradeSalesItem = tradeSalesItem)
+            val tradeSalesItem = TradeItem.fromSalesItemAddRequest(gachaId = gachaId, tradeId = tradeId, request = item)
+            salesMapper.insertTradeItem(tradeItem = tradeSalesItem)
         }
 
         // [5] gachaId 리턴

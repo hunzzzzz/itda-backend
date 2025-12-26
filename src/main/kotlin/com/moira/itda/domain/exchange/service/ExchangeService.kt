@@ -4,14 +4,14 @@ import com.moira.itda.domain.exchange.dto.request.ExchangeAddRequest
 import com.moira.itda.domain.exchange.dto.response.ExchangeItemResponse
 import com.moira.itda.domain.exchange.dto.response.GachaIdResponse
 import com.moira.itda.domain.exchange.mapper.ExchangeMapper
-import com.moira.itda.global.entity.TradeExchangeItem
 import com.moira.itda.global.entity.Trade
 import com.moira.itda.global.entity.TradeHopeMethod
+import com.moira.itda.global.entity.TradeItem
 import com.moira.itda.global.exception.ErrorCode
 import com.moira.itda.global.exception.ItdaException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.util.UUID
+import java.util.*
 
 @Service
 class ExchangeService(
@@ -89,12 +89,12 @@ class ExchangeService(
         )
         exchangeMapper.insertTrade(trade = trade)
 
-        // [4] ExchangeItem 저장
+        // [4] TradeItem 저장
         request.items.forEach { item ->
-            val tradeExchangeItem = TradeExchangeItem.fromExchangeItemAddRequest(
+            val tradeExchangeItem = TradeItem.fromExchangeItemAddRequest(
                 tradeId = tradeId, gachaId = gachaId, request = item
             )
-            exchangeMapper.insertTradeExchangeItem(tradeExchangeItem = tradeExchangeItem)
+            exchangeMapper.insertTradeItem(tradeItem = tradeExchangeItem)
         }
 
         // [5] gachaId 리턴

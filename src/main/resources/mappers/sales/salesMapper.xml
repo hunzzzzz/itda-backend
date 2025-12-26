@@ -67,27 +67,35 @@
         )
     </insert>
 
-    <!-- 판매등록 > TradeSalesItem 저장 -->
-    <insert id="insertTradeSalesItem">
-        INSERT INTO TRADE_SALES_ITEM (
-               trade_id
+    <!-- 판매등록 > TradeItem 저장 -->
+    <insert id="insertTradeItem">
+        INSERT INTO TRADE_ITEM (
+               id
+             , trade_id
              , gacha_id
-             , gacha_item_id
-             , count
-             , current_count
-             , price
+             , type
              , created_at
              , updated_at
+             , purchase_item_id
+             , purchase_count
+             , purchase_current_count
+             , purchase_price
+             , exchange_give_item_id
+             , exchange_want_item_id
         )
         VALUES (
-               #{tradeId}
+               #{id}
+             , #{tradeId}
              , #{gachaId}
-             , #{gachaItemId}
-             , #{count}
-             , #{currentCount}
-             , #{price}
+             , #{type}
              , #{createdAt}
              , #{updatedAt}
+             , #{purchaseItemId}
+             , #{purchaseCount}
+             , #{purchaseCurrentCount}
+             , #{purchasePrice}
+             , #{exchangeGiveItemId}
+             , #{exchangeWantItemId}
         )
     </insert>
 </mapper>

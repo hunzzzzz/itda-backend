@@ -2,7 +2,7 @@ package com.moira.itda.domain.exchange.mapper
 
 import com.moira.itda.domain.exchange.dto.response.ExchangeItemResponse
 import com.moira.itda.global.entity.Trade
-import com.moira.itda.global.entity.TradeExchangeItem
+import com.moira.itda.global.entity.TradeItem
 import org.apache.ibatis.annotations.Mapper
 
 @Mapper
@@ -33,7 +33,7 @@ interface ExchangeMapper {
     fun insertTrade(trade: Trade)
 
     /**
-     * 교환등록 > TradeExchangeItem 저장
+     * 교환등록 > TradeItem 저장
      */
-    fun insertTradeExchangeItem(tradeExchangeItem: TradeExchangeItem)
+    fun insertTradeItem(tradeItem: TradeItem)
 }
