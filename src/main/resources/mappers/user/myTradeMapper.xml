@@ -20,7 +20,7 @@
              , T.title
              , T.content
              , T.file_id
-             , F.file_url
+             , (SELECT file_url FROM IMAGE_FILE WHERE file_id = T.file_id ORDER BY created_at ASC LIMIT 1) AS file_url
              , T.hope_method
              , T.hope_location
              , T.hope_address
@@ -29,8 +29,6 @@
              , (SELECT COUNT(id) FROM TRADE_SUGGEST WHERE trade_id = T.id AND status != 'CANCELED') AS suggest_count
              , T.created_at
         FROM TRADE T
-        LEFT JOIN IMAGE_FILE F
-         ON F.file_id = T.file_id
         WHERE user_id = #{userId}
          AND type = #{type}
         ORDER BY created_at DESC
