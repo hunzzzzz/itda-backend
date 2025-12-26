@@ -41,27 +41,18 @@
         LEFT JOIN IMAGE_FILE F   ON F.file_id = T.file_id
     </select>
 
-    <!-- 마이페이지 > 내 거래 목록 > 거래 제안 목록 탭 > 거래 제안 취소 > 구매 status 조회 -->
-    <select id="selectPurchaseSuggestStatus" resultType="java.lang.String">
-        SELECT status FROM TRADE_PURCHASE_SUGGEST
+    <!-- 마이페이지 > 내 거래 목록 > 제안 > 거래 제안 취소 > status 조회 -->
+    <select id="selectTradeSuggestStatus" resultType="java.lang.String">
+        SELECT status FROM TRADE_SUGGEST
         WHERE id = #{suggestId} AND user_id = #{userId}
     </select>
 
-    <!-- 마이페이지 > 내 거래 목록 > 거래 제안 목록 탭 > 거래 제안 취소 > 교환 status 조회 -->
-    <select id="selectExchangeSuggestStatus" resultType="java.lang.String">
-        SELECT status FROM TRADE_EXCHANGE_SUGGEST
-        WHERE id = #{suggestId} AND user_id = #{userId}
-    </select>
-
-    <!-- 마이페이지 > 내 거래 목록 > 거래 제안 목록 탭 > 거래 제안 취소 > 구매 status 변경 -->
-    <update id="updatePurchaseSuggestStatusCanceled">
-        UPDATE TRADE_PURCHASE_SUGGEST SET status = 'CANCELED'
-        WHERE id = #{suggestId} AND user_id = #{userId}
-    </update>
-
-    <!-- 마이페이지 > 내 거래 목록 > 거래 제안 목록 탭 > 거래 제안 취소 > 교환 status 변경  -->
-    <update id="updateExchangeSuggestStatusCanceled">
-        UPDATE TRADE_EXCHANGE_SUGGEST SET status = 'CANCELED'
+    <!-- 마이페이지 > 내 거래 목록 > 제안 > 거래 제안 취소 > status 변경 (CANCELED) -->
+    <update id="updateTradeSuggestStatusCanceled">
+        UPDATE TRADE_SUGGEST
+        SET
+               status     = 'CANCELED'
+             , updated_at = CURRENT_TIMESTAMP
         WHERE id = #{suggestId} AND user_id = #{userId}
     </update>
 </mapper>

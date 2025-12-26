@@ -16,23 +16,12 @@ interface MySuggestMapper {
     fun selectTradeSuggestList(userId: String, pageSize: Int, offset: Int): List<MySuggestResponse>
 
     /**
-     * 마이페이지 > 내 거래 목록 > 거래 제안 목록 탭 > 거래 제안 취소 > 구매 status 조회
+     * 마이페이지 > 내 거래 목록 > 제안 > 거래 제안 취소 > status 조회
      */
-    fun selectPurchaseSuggestStatus(userId: String, suggestId: String): String?
+    fun selectTradeSuggestStatus(userId: String, suggestId: String): String?
 
     /**
-     * 마이페이지 > 내 거래 목록 > 거래 제안 목록 탭 > 거래 제안 취소 > 교환 status 조회
+     * 마이페이지 > 내 거래 목록 > 제안 > 거래 제안 취소 > status 변경 (CANCELED)
      */
-    fun selectExchangeSuggestStatus(userId: String, suggestId: String): String?
-
-    /**
-     * 마이페이지 > 내 거래 목록 > 거래 제안 목록 탭 > 거래 제안 취소 > 구매 status 변경
-     */
-    fun updatePurchaseSuggestStatusCanceled(userId: String, suggestId: String)
-
-    /**
-     * 마이페이지 > 내 거래 목록 > 거래 제안 목록 탭 > 거래 제안 취소 > 교환 status 변경
-     */
-    fun updateExchangeSuggestStatusCanceled(userId: String, suggestId: String)
-
+    fun updateTradeSuggestStatusCanceled(userId: String, suggestId: String)
 }

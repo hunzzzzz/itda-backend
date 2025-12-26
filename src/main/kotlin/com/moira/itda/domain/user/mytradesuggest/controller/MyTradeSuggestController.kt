@@ -38,7 +38,7 @@ class MyTradeSuggestController(
     fun approve(
         @UserPrincipal userAuth: UserAuth,
         @PathVariable tradeId: String,
-        @PathVariable suggestId: Long
+        @PathVariable suggestId: String
     ): ResponseEntity<ChatRoomIdResponse> {
         val response = myTradeSuggestService.approve(userId = userAuth.userId, tradeId = tradeId, suggestId = suggestId)
 
@@ -51,7 +51,7 @@ class MyTradeSuggestController(
     @PutMapping("/api/me/trade/{tradeId}/suggest/{suggestId}/reject")
     fun reject(
         @PathVariable tradeId: String,
-        @PathVariable suggestId: Long
+        @PathVariable suggestId: String
     ): ResponseEntity<Nothing> {
         myTradeSuggestService.reject(tradeId = tradeId, suggestId = suggestId)
 

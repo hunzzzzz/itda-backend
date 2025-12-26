@@ -44,29 +44,15 @@ class MySuggestService(
     }
 
     /**
-     * 마이페이지 > 내 거래 목록 > 거래 제안 목록 탭 > 거래 제안 취소
+     * 마이페이지 > 내 거래 목록 > 제안 > 거래 제안 취소
      */
     @Transactional
-    fun cancelSuggest(userId: String, suggestId: String, type: String) {
-        // [1] type에 대한 유효성 검사
-        if (type != "PURCHASE" && type != "EXCHANGE") {
-            throw ItdaException(ErrorCode.INVALID_SUGGEST_TYPE)
-        }
+    fun cancelSuggest(userId: String, suggestId: String) {
+        // [1] status 조회
+        val status = mySuggestMapper.selectTradeSuggestStatus(userId = userId, suggestId = suggestId)
+            ?: throw ItdaException(ErrorCode.SUGGEST_NOT_FOUND)
 
-        // [2] status 조회
-        val status = when (type) {
-            "PURCHASE" -> {
-                mySuggestMapper.selectPurchaseSuggestStatus(userId = userId, suggestId = suggestId)
-            }
-
-            "EXCHANGE" -> {
-                mySuggestMapper.selectExchangeSuggestStatus(userId = userId, suggestId = suggestId)
-            }
-
-            else -> null
-        } ?: throw ItdaException(ErrorCode.SUGGEST_NOT_FOUND)
-
-        // [3] status에 대한 유효성 검사
+        // [2] status에 대한 유효성 검사
         when (status) {
             TradeSuggestStatus.APPROVED.name -> {
                 throw ItdaException(ErrorCode.CANNOT_CANCEL_APPROVED_SUGGEST)
@@ -81,15 +67,7 @@ class MySuggestService(
             }
         }
 
-        // [4] 거래 제안 취소
-        when (type) {
-            "PURCHASE" -> {
-                mySuggestMapper.updatePurchaseSuggestStatusCanceled(userId = userId, suggestId = suggestId)
-            }
-
-            "EXCHANGE" -> {
-                mySuggestMapper.updateExchangeSuggestStatusCanceled(userId = userId, suggestId = suggestId)
-            }
-        }
+        // [3] 거래 제안 취소
+        mySuggestMapper.updateTradeSuggestStatusCanceled(userId = userId, suggestId = suggestId)
     }
 }
