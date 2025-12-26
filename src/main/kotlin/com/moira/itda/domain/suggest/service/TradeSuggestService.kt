@@ -45,7 +45,7 @@ class TradeSuggestService(
         if (tradeSuggestMapper.selectTradeSuggestChk(
                 userId = userId,
                 tradeId = tradeId,
-                type = TradeSuggestType.PURCHASE,
+                type = TradeSuggestType.PURCHASE.name,
                 purchaseItemId = request.gachaItemId,
                 suggestedItemId = null,
             ) > 0
@@ -103,7 +103,7 @@ class TradeSuggestService(
             if (tradeSuggestMapper.selectTradeSuggestChk(
                     userId = userId,
                     tradeId = tradeId,
-                    type = TradeSuggestType.EXCHANGE,
+                    type = TradeSuggestType.EXCHANGE.name,
                     purchaseItemId = null,
                     suggestedItemId = request.suggestedItemId
                 ) > 0

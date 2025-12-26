@@ -27,7 +27,7 @@ interface TradeSuggestMapper {
     fun selectTradeSuggestChk(
         userId: String,
         tradeId: String,
-        type: TradeSuggestType,
+        type: String,
         purchaseItemId: Long?,
         suggestedItemId: Long?
     ): Long
