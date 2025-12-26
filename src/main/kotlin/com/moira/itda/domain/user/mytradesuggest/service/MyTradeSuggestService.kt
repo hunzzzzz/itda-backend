@@ -60,6 +60,7 @@ class MyTradeSuggestService(
         )
         myTradeSuggestMapper.insertChatRoom(chatRoom = chatRoom)
 
+        // [4] 채팅방 ID 리턴
         return ChatRoomIdResponse(chatRoomId = chatRoom.id)
     }
 
