@@ -11,6 +11,7 @@ import com.moira.itda.global.entity.TradeStatus
 import com.moira.itda.global.entity.TradeType
 import com.moira.itda.global.exception.ErrorCode
 import com.moira.itda.global.exception.ItdaException
+import com.moira.itda.global.file.component.AwsS3Handler
 import com.moira.itda.global.pagination.component.OffsetPaginationHandler
 import com.moira.itda.global.pagination.component.PageSizeConstant.Companion.GACHA_DETAIL_TRADE_PAGE_SIZE
 import jakarta.servlet.http.HttpServletRequest
@@ -21,6 +22,7 @@ import java.time.ZonedDateTime
 
 @Service
 class GachaDetailService(
+    private val awsS3Handler: AwsS3Handler,
     private val cookieHandler: CookieHandler,
     private val gachaDetailMapper: GachaDetailMapper,
     private val offsetPaginationHandler: OffsetPaginationHandler
@@ -199,7 +201,11 @@ class GachaDetailService(
             }
         }
 
-        // [7] Trade 삭제
+        // [7] 이미지 파일 삭제 (AWS S3)
+        gachaDetailMapper.selectTradeFileUrlList(tradeId = tradeId)
+            .forEach { awsS3Handler.delete(fileUrl = it) }
+
+        // [8] Trade 삭제
         gachaDetailMapper.deleteTrade(tradeId = tradeId)
     }
 }

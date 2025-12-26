@@ -93,6 +93,11 @@ interface GachaDetailMapper {
     fun deleteTradeExchangeItem(tradeId: String)
 
     /**
+     * 가챠정보 > 가챠목록 > 상세정보 > 거래 목록 조회 > 거래 삭제 > 파일 URL 목록 조회
+     */
+    fun selectTradeFileUrlList(tradeId: String): List<String>
+
+    /**
      * 가챠정보 > 가챠목록 > 상세정보 > 거래 목록 조회 > 거래 삭제 > Trade 삭제
      */
     fun deleteTrade(tradeId: String)

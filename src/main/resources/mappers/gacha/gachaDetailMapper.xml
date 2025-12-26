@@ -189,6 +189,13 @@
         DELETE FROM TRADE_EXCHANGE_ITEM WHERE trade_id = #{tradeId}
     </delete>
 
+    <select id="selectTradeFileUrlList" resultType="java.lang.String">
+        SELECT F.file_url
+        FROM IMAGE_FILE F
+        INNER JOIN TRADE T ON T.file_id = F.file_id
+        WHERE T.id = #{tradeId}
+    </select>
+
     <!-- 가챠정보 > 가챠목록 > 상세정보 > 거래 목록 조회 > 거래 삭제 > Trade 삭제 -->
     <delete id="deleteTrade">
         DELETE FROM TRADE WHERE id = #{tradeId}
