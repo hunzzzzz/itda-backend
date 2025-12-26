@@ -70,4 +70,27 @@ class MySuggestService(
         // [3] 거래 제안 취소
         mySuggestMapper.updateTradeSuggestStatusCanceled(userId = userId, suggestId = suggestId)
     }
+
+    /**
+     * 마이페이지 > 내 거래 목록 > 제안 > 거래 제안 삭제
+     */
+    @Transactional
+    fun deleteSuggest(userId: String, suggestId: String) {
+        // [1] status 조회
+        val status = mySuggestMapper.selectTradeSuggestStatus(userId = userId, suggestId = suggestId)
+            ?: throw ItdaException(ErrorCode.SUGGEST_NOT_FOUND)
+
+        // [2] status에 대한 유효성 검사
+        when (status) {
+            TradeSuggestStatus.APPROVED.name -> {
+                throw ItdaException(ErrorCode.CANNOT_DELETE_APPROVED_SUGGEST)
+            }
+            TradeSuggestStatus.PENDING.name -> {
+                throw ItdaException(ErrorCode.CANNOT_DELETE_PENDING_SUGGEST)
+            }
+        }
+
+        // [3] TradeSuggest 삭제
+        mySuggestMapper.deleteTradeSuggest(userId = userId, suggestId = suggestId)
+    }
 }

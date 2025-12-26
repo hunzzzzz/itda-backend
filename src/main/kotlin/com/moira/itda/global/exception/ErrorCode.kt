@@ -320,29 +320,34 @@ enum class ErrorCode(
         message = "이미 해당 제품에 교환 제안을 하였습니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
-    INVALID_SUGGEST_TYPE(
-        code = "T0021",
-        message = "유효하지 않은 거래 타입입니다.",
-        httpStatus = HttpStatus.BAD_REQUEST
-    ),
     TRADE_NOT_FOUND(
-        code = "T0022",
+        code = "T0021",
         message = "존재하지 않는 거래입니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
     CANNOT_DELETE_TRADE_WHEN_STATUS_IS_COMPLETED(
-        code = "T0023",
+        code = "T0022",
         message = "이미 완료된 거래는 삭제할 수 없습니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
     CANNOT_DELETE_TRADE_OF_OTHERS(
-        code = "T0024",
+        code = "T0023",
         message = "다른 유저가 업로드한 거래를 삭제할 수 없습니다.",
         httpStatus = HttpStatus.FORBIDDEN
     ),
     CANNOT_DELETE_TRADE_WHEN_APPROVED_SUGGEST_EXISTS(
-        code = "T0025",
+        code = "T0024",
         message = "이미 승인된 거래 제안이 있어 삭제할 수 없습니다.",
+        httpStatus = HttpStatus.BAD_REQUEST
+    ),
+    CANNOT_DELETE_APPROVED_SUGGEST(
+        code = "T0025",
+        message = "이미 승인된 거래 제안은 삭제할 수 없습니다.",
+        httpStatus = HttpStatus.BAD_REQUEST
+    ),
+    CANNOT_DELETE_PENDING_SUGGEST(
+        code = "T0026",
+        message = "제안 취소를 먼저 진행해주세요.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
 

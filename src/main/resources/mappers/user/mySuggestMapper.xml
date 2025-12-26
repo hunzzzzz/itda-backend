@@ -55,4 +55,10 @@
              , updated_at = CURRENT_TIMESTAMP
         WHERE id = #{suggestId} AND user_id = #{userId}
     </update>
+
+    <!-- 마이페이지 > 내 거래 목록 > 제안 > 거래 제안 삭제 > TradeSuggest 삭제 -->
+    <delete id="deleteTradeSuggest">
+        DELETE FROM TRADE_SUGGEST
+        WHERE id = #{suggestId} AND user_id = #{userId}
+    </delete>
 </mapper>
