@@ -123,17 +123,17 @@
              , TI.type
              , TI.created_at
              , TI.updated_at
-             , TI.purchase_item_id
-             , GI_P.name                   AS purchase_item_name
-             , TI.purchase_count
-             , TI.purchase_current_count
-             , TI.purchase_price
+             , TI.sales_item_id
+             , GI_S.name                   AS sales_item_name
+             , TI.sales_count
+             , TI.sales_current_count
+             , TI.sales_price
              , TI.exchange_give_item_id
              , GI_E1.name                  AS exchange_give_item_name
              , TI.exchange_want_item_id
              , GI_E2.name                  AS exchange_want_item_name
         FROM TRADE_ITEM TI
-        LEFT JOIN GACHA_ITEM GI_P  ON GI_P.id  = TI.purchase_item_id
+        LEFT JOIN GACHA_ITEM GI_S  ON GI_S.id  = TI.sales_item_id
         LEFT JOIN GACHA_ITEM GI_E1 ON GI_E1.id = TI.exchange_give_item_id
         LEFT JOIN GACHA_ITEM GI_E2 ON GI_E2.id = TI.exchange_want_item_id
         WHERE TI.trade_id  = #{tradeId}

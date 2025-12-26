@@ -10,12 +10,12 @@ data class MyTradeItemResponse(
     val type: TradeItemType,
     val createdAt: ZonedDateTime,
     val updatedAt: ZonedDateTime,
-    // 구매 관련
-    val purchaseItemId: Long?,
-    val purchaseItemName: String?,
-    val purchaseCount: Int?,
-    val purchaseCurrentCount: Int?,
-    val purchasePrice: Int?,
+    // 판매 관련
+    val salesItemId: Long?,
+    val salesItemName: String?,
+    val salesCount: Int?,
+    val salesCurrentCount: Int?,
+    val salesPrice: Int?,
     // 교환 관련
     val exchangeGiveItemId: Long?,
     val exchangeGiveItemName: String?,

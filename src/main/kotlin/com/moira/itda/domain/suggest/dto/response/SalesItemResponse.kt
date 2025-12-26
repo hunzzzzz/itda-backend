@@ -3,11 +3,11 @@ package com.moira.itda.domain.suggest.dto.response
 import java.time.ZonedDateTime
 
 data class SalesItemResponse(
-    val tradeSalesItemId: Long,
-    val gachaId: String,
+    val tradeItemId: String,
     val tradeId: String,
-    val gachaItemId: Long,
-    val gachaItemName: String,
+    val gachaId: String,
+    val salesItemId: Long,
+    val salesItemName: String,
     val price: Int,
     val count: Int,
     val currentCount: Int,
