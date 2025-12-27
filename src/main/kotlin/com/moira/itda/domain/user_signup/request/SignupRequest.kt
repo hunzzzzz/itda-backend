@@ -1,4 +1,4 @@
-package com.moira.itda.domain.user.signup.dto.request
+package com.moira.itda.domain.user_signup.request
 
 data class SignupRequest(
     val email: String,

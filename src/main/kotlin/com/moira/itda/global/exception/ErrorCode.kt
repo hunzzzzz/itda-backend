@@ -20,36 +20,58 @@ enum class ErrorCode(
     ),
 
     // 유저 관련 에러코드
-    ALREADY_USING_NICKNAME(
+    USING_NICKNAME(
         code = "U0001",
         message = "이미 사용 중인 닉네임입니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
-    ALREADY_USING_EMAIL(
+    USING_EMAIL(
         code = "U0002",
         message = "이미 사용 중인 이메일입니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
-    INVALID_EMAIL(
+    NO_EMAIL(
         code = "U0003",
-        message = "유효하지 않은 이메일입니다.",
+        message = "이메일은 필수 입력 항목입니다.",
+        httpStatus = HttpStatus.BAD_REQUEST
+    ),
+    INVALID_EMAIL(
+        code = "U0004",
+        message = "유효하지 않은 이메일 형식입니다.",
+        httpStatus = HttpStatus.BAD_REQUEST
+    ),
+    NO_PASSWORD(
+        code = "U0005",
+        message = "비밀번호는 필수 입력 항목입니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
     INVALID_PASSWORD(
-        code = "U0004",
+        code = "U0006",
         message = "유효하지 않은 비밀번호입니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
-    INVALID_NAME(
-        code = "U0005",
-        message = "유효하지 않은 이름입니다.",
+    NO_USER_NAME(
+        code = "U0007",
+        message = "이름은 필수 입력 항목입니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
-    INVALID_NICKNAME(
-        code = "U0006",
-        message = "유효하지 않은 닉네임입니다.",
+    NO_NICKNAME(
+        code = "U0008",
+        message = "닉네임은 필수 입력 항목입니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
+    EXPIRED_IDENTIFY_CODE(
+        code = "U0009",
+        message = "코드가 만료되었습니다. 본인인증을 다시 진행해주세요.",
+        httpStatus = HttpStatus.BAD_REQUEST
+    ),
+    INCORRECT_IDENTIFY_CODE(
+        code = "U0010",
+        message = "코드가 일치하지 않습니다. 다시 확인해주세요.",
+        httpStatus = HttpStatus.BAD_REQUEST
+    ),
+
+
     LOGIN_ERROR(
         code = "U0007",
         message = "이메일 혹은 비밀번호를 잘못 입력하였습니다.",

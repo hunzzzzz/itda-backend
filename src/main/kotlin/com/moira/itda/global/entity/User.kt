@@ -1,6 +1,6 @@
 package com.moira.itda.global.entity
 
-import com.moira.itda.domain.user.signup.dto.request.SignupRequest
+import com.moira.itda.domain.user_signup.request.SignupRequest
 import org.springframework.security.crypto.password.PasswordEncoder
 import java.time.ZonedDateTime
 import java.util.*
@@ -20,13 +20,13 @@ data class User(
     val updatedAt: ZonedDateTime
 ) {
     companion object {
-        fun fromSignupRequest(request: SignupRequest, passwordEncoder: PasswordEncoder): User {
+        fun fromRequest(request: SignupRequest, encoder: PasswordEncoder): User {
             return User(
                 id = UUID.randomUUID().toString(),
                 role = UserRole.USER,
                 status = UserStatus.ACTIVE,
                 email = request.email,
-                password = passwordEncoder.encode(request.password),
+                password = encoder.encode(request.password),
                 name = request.name,
                 nickname = request.nickname,
                 fileId = null,

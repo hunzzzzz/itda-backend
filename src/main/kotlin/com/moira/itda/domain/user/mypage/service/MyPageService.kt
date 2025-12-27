@@ -56,7 +56,7 @@ class MyPageService(
     fun updateNickname(userId: String, request: NicknameUpdateRequest) {
         // [1] 유효성 검사
         if (myPageMapper.selectNicknameChk(nickname = request.newNickname) > 0) {
-            throw ItdaException(ErrorCode.ALREADY_USING_NICKNAME)
+            throw ItdaException(ErrorCode.USING_NICKNAME)
         }
 
         // [2] 닉네임 변경
