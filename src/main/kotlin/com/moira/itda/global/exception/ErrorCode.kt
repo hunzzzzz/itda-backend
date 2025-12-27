@@ -357,7 +357,7 @@ enum class ErrorCode(
         message = "유효하지 않은 채팅 상태 코드입니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
-    CANNOT_CANCEL_ENDED_CHAT(
+    ALREADY_ENDED_CHAT(
         code = "C0002",
         message = "이미 종료된 채팅방입니다.",
         httpStatus = HttpStatus.BAD_REQUEST

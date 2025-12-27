@@ -2,21 +2,17 @@ package com.moira.itda.domain.user.mychat.controller
 
 import com.moira.itda.domain.user.mychat.dto.request.ChatMessageRequest
 import com.moira.itda.domain.user.mychat.dto.request.TradeCancelRequest
+import com.moira.itda.domain.user.mychat.dto.request.TradeCompleteRequest
 import com.moira.itda.domain.user.mychat.dto.response.ChatMessageResponse
-import com.moira.itda.domain.user.mychat.dto.response.MyChatPageResponse
 import com.moira.itda.domain.user.mychat.dto.response.ChatRoomResponse
+import com.moira.itda.domain.user.mychat.dto.response.MyChatPageResponse
 import com.moira.itda.domain.user.mychat.service.MyChatService
 import com.moira.itda.global.auth.aop.UserPrincipal
 import com.moira.itda.global.auth.dto.UserAuth
 import org.springframework.http.ResponseEntity
 import org.springframework.messaging.handler.annotation.DestinationVariable
 import org.springframework.messaging.handler.annotation.MessageMapping
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PutMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 /**
  * 마이페이지 > 내 거래 목록 조회 > 채팅
@@ -70,13 +66,28 @@ class MyChatController(
     }
 
     /**
+     * 마이페이지 > 내 거래 목록 > 채팅 > 채팅 목록 조회 > 채팅방 > 거래 완료
+     */
+    @PutMapping("/api/me/trade/chat/{chatRoomId}/complete")
+    fun completeTrade(
+        @PathVariable chatRoomId: String,
+        @RequestBody request: TradeCompleteRequest
+    ): ResponseEntity<Nothing> {
+        myChatService.completeTrade(chatRoomId = chatRoomId, request = request)
+
+        return ResponseEntity.ok(null)
+    }
+
+    /**
      * 마이페이지 > 내 거래 목록 > 채팅 > 채팅 목록 조회 > 채팅방 > 거래 취소
      */
     @PutMapping("/api/me/trade/chat/{chatRoomId}/cancel")
     fun cancelTrade(
         @PathVariable chatRoomId: String,
         @RequestBody request: TradeCancelRequest
-    ) {
+    ): ResponseEntity<Nothing> {
         myChatService.cancelTrade(chatRoomId = chatRoomId, request = request)
+
+        return ResponseEntity.ok(null)
     }
 }

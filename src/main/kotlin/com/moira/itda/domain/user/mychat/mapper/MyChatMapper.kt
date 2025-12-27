@@ -5,6 +5,7 @@ import com.moira.itda.domain.user.mychat.dto.response.MyChatResponse
 import com.moira.itda.domain.user.mychat.dto.response.ChatRoomResponse
 import com.moira.itda.global.entity.ChatMessage
 import com.moira.itda.global.entity.TradeCancelHistory
+import com.moira.itda.global.entity.TradeCompleteHistory
 import org.apache.ibatis.annotations.Mapper
 
 @Mapper
@@ -35,17 +36,29 @@ interface MyChatMapper {
     fun insertChatMessage(chatMessage: ChatMessage)
 
     /**
+     * 마이페이지 > 내 거래 목록 > 채팅 > 채팅 목록 조회 > 채팅방 > 거래 완료 > 채팅방 status 조회
      * 마이페이지 > 내 거래 목록 > 채팅 > 채팅 목록 조회 > 채팅방 > 거래 취소 > 채팅방 status 조회
      */
     fun selectChatStatus(chatRoomId: String): String?
 
     /**
+     * 마이페이지 > 내 거래 목록 > 채팅 > 채팅 목록 조회 > 채팅방 > 거래 완료 > TradeCompleteHistory 저장
+     */
+    fun insertTradeCompleteHistory(tradeCompleteHistory: TradeCompleteHistory)
+
+    /**
+     * 마이페이지 > 내 거래 목록 > 채팅 > 채팅 목록 조회 > 채팅방 > 거래 완료 > ChatRoom의 status 변경
+     * 마이페이지 > 내 거래 목록 > 채팅 > 채팅 목록 조회 > 채팅방 > 거래 취소 > ChatRoom의 status 변경
+     */
+    fun updateChatRoomStatusEnded(chatRoomId: String)
+
+    /**
+     * 마이페이지 > 내 거래 목록 > 채팅 > 채팅 목록 조회 > 채팅방 > 거래 완료 > Trade의 status 변경
+     */
+    fun updateTradeStatusCompleted(tradeId: String)
+
+    /**
      * 마이페이지 > 내 거래 목록 > 채팅 > 채팅 목록 조회 > 채팅방 > 거래 취소 > TradeCancelHistory 저장
      */
     fun insertTradeCancelHistory(tradeCancelHistory: TradeCancelHistory)
-
-    /**
-     * 마이페이지 > 내 거래 목록 > 채팅 > 채팅 목록 조회 > 채팅방 > 거래 취소 > ChatRoom의 status 변경
-     */
-    fun updateChatRoomStatus(chatRoomId: String)
 }

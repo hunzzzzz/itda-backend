@@ -2,13 +2,15 @@ package com.moira.itda.domain.user.mychat.service
 
 import com.moira.itda.domain.user.mychat.dto.request.ChatMessageRequest
 import com.moira.itda.domain.user.mychat.dto.request.TradeCancelRequest
+import com.moira.itda.domain.user.mychat.dto.request.TradeCompleteRequest
 import com.moira.itda.domain.user.mychat.dto.response.ChatMessageResponse
-import com.moira.itda.domain.user.mychat.dto.response.MyChatPageResponse
 import com.moira.itda.domain.user.mychat.dto.response.ChatRoomResponse
+import com.moira.itda.domain.user.mychat.dto.response.MyChatPageResponse
 import com.moira.itda.domain.user.mychat.mapper.MyChatMapper
 import com.moira.itda.global.entity.ChatMessage
 import com.moira.itda.global.entity.ChatStatus
 import com.moira.itda.global.entity.TradeCancelHistory
+import com.moira.itda.global.entity.TradeCompleteHistory
 import com.moira.itda.global.exception.ErrorCode
 import com.moira.itda.global.exception.ItdaException
 import com.moira.itda.global.pagination.component.OffsetPaginationHandler
@@ -77,6 +79,32 @@ class MyChatService(
     }
 
     /**
+     * 마이페이지 > 내 거래 목록 > 채팅 > 채팅 목록 조회 > 채팅방 > 거래 완료
+     */
+    @Transactional
+    fun completeTrade(chatRoomId: String, request: TradeCompleteRequest) {
+        // [1] 유효성 검사 (status)
+        val status = myChatMapper.selectChatStatus(chatRoomId = chatRoomId)
+            ?: throw ItdaException(ErrorCode.INVALID_CHAT_STATUS)
+
+        if (status == ChatStatus.ENDED.name) {
+            throw ItdaException(ErrorCode.ALREADY_ENDED_CHAT)
+        }
+
+        // [2] TradeCompleHistory 저장
+        val tradeCompleteHistory = TradeCompleteHistory.fromTradeCompleteRequest(
+            chatRoomId = chatRoomId, request = request
+        )
+        myChatMapper.insertTradeCompleteHistory(tradeCompleteHistory = tradeCompleteHistory)
+
+        // [3] ChatRoom의 status 변경
+        myChatMapper.updateChatRoomStatusEnded(chatRoomId = chatRoomId)
+
+        // [4] Trade의 status 변경
+        myChatMapper.updateTradeStatusCompleted(tradeId = request.tradeId)
+    }
+
+    /**
      * 마이페이지 > 내 거래 목록 > 채팅 > 채팅 목록 조회 > 채팅방 > 거래 취소
      */
     @Transactional
@@ -86,7 +114,7 @@ class MyChatService(
             ?: throw ItdaException(ErrorCode.INVALID_CHAT_STATUS)
 
         if (status == ChatStatus.ENDED.name) {
-            throw ItdaException(ErrorCode.CANNOT_CANCEL_ENDED_CHAT)
+            throw ItdaException(ErrorCode.ALREADY_ENDED_CHAT)
         }
 
         // [2] TradeCancelHistory 저장
@@ -94,6 +122,6 @@ class MyChatService(
         myChatMapper.insertTradeCancelHistory(tradeCancelHistory = tradeCancelHistory)
 
         // [3] ChatRoom의 status 변경
-        myChatMapper.updateChatRoomStatus(chatRoomId = chatRoomId)
+        myChatMapper.updateChatRoomStatusEnded(chatRoomId = chatRoomId)
     }
 }
