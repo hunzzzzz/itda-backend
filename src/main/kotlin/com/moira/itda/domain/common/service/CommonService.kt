@@ -3,6 +3,7 @@ package com.moira.itda.domain.common.service
 import com.moira.itda.domain.common.dto.request.ImageFileUploadRequest
 import com.moira.itda.domain.common.dto.response.CodeDetailResponse
 import com.moira.itda.domain.common.dto.response.FileIdResponse
+import com.moira.itda.domain.common.dto.response.ImageFileUrlResponse
 import com.moira.itda.domain.common.mapper.CommonMapper
 import com.moira.itda.global.entity.ImageFile
 import com.moira.itda.global.exception.ErrorCode
@@ -43,8 +44,6 @@ class CommonService(
             val originalFileName = file.originalFilename ?: throw ItdaException(ErrorCode.INVALID_FILE)
             val extension = originalFileName.substring(originalFileName.lastIndexOf(".") + 1).lowercase()
 
-            println(extension)
-
             if (extension.isEmpty() || !ALLOWED_EXTENSIONS.contains(extension)) {
                 throw ItdaException(ErrorCode.UNSUPPORTED_FILE_EXTENSION)
             }
@@ -77,6 +76,13 @@ class CommonService(
         }
 
         return FileIdResponse(fileId = fileId)
+    }
+
+    /**
+     * 공통 > 이미지 목록 조회
+     */
+    fun getImages(fileId: String): List<ImageFileUrlResponse> {
+        return commonMapper.selectImageFileUrl(fileId = fileId)
     }
 
     /**
