@@ -1,8 +1,8 @@
 package com.moira.itda.domain.user.mychat.mapper
 
 import com.moira.itda.domain.user.mychat.dto.response.ChatMessageResponse
-import com.moira.itda.domain.user.mychat.dto.response.MyChatResponse
 import com.moira.itda.domain.user.mychat.dto.response.ChatRoomResponse
+import com.moira.itda.domain.user.mychat.dto.response.MyChatResponse
 import com.moira.itda.global.entity.ChatMessage
 import com.moira.itda.global.entity.TradeCancelHistory
 import com.moira.itda.global.entity.TradeCompleteHistory
@@ -47,18 +47,23 @@ interface MyChatMapper {
     fun insertTradeCompleteHistory(tradeCompleteHistory: TradeCompleteHistory)
 
     /**
+     * 마이페이지 > 내 거래 목록 > 채팅 > 채팅 목록 조회 > 채팅방 > 거래 완료 > Trade의 status 변경
+     */
+    fun updateTradeStatusCompleted(tradeId: String)
+
+    /**
      * 마이페이지 > 내 거래 목록 > 채팅 > 채팅 목록 조회 > 채팅방 > 거래 완료 > ChatRoom의 status 변경
      * 마이페이지 > 내 거래 목록 > 채팅 > 채팅 목록 조회 > 채팅방 > 거래 취소 > ChatRoom의 status 변경
      */
     fun updateChatRoomStatusEnded(chatRoomId: String)
 
     /**
-     * 마이페이지 > 내 거래 목록 > 채팅 > 채팅 목록 조회 > 채팅방 > 거래 완료 > Trade의 status 변경
-     */
-    fun updateTradeStatusCompleted(tradeId: String)
-
-    /**
      * 마이페이지 > 내 거래 목록 > 채팅 > 채팅 목록 조회 > 채팅방 > 거래 취소 > TradeCancelHistory 저장
      */
     fun insertTradeCancelHistory(tradeCancelHistory: TradeCancelHistory)
+
+    /**
+     * 마이페이지 > 내 거래 목록 > 채팅 > 채팅 목록 조회 > 채팅방 > 거래 취소 > TradeSuggest의 status 변경
+     */
+    fun updateTradeSuggestStatusCanceled(tradeSuggestId: String)
 }

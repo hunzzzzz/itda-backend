@@ -123,5 +123,8 @@ class MyChatService(
 
         // [3] ChatRoom의 status 변경
         myChatMapper.updateChatRoomStatusEnded(chatRoomId = chatRoomId)
+
+        // [4] TradeSuggest의 status 변경
+        myChatMapper.updateTradeSuggestStatusCanceled(tradeSuggestId = request.tradeSuggestId)
     }
 }
