@@ -1,6 +1,6 @@
 package com.moira.itda.global.entity
 
-import com.moira.itda.domain.user.mychat.dto.request.ChatMessageRequest
+import com.moira.itda.domain.user_temp.mychat.dto.request.ChatMessageRequest
 import java.time.ZonedDateTime
 
 data class ChatMessage(

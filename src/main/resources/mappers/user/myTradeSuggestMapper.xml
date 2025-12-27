@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.moira.itda.domain.user.mytradesuggest.mapper.MyTradeSuggestMapper">
+<mapper namespace="com.moira.itda.domain.user_temp.mytradesuggest.mapper.MyTradeSuggestMapper">
     <!-- 마이페이지 > 내 거래 목록 조회 > 제안 목록 모달 > 제안 목록 조회 > totalElements 계산 -->
     <select id="selectTradeSuggestListCnt">
         SELECT COUNT(id) FROM TRADE_SUGGEST
@@ -11,7 +11,7 @@
     </select>
 
     <!-- 마이페이지 > 내 거래 목록 조회 > 제안 목록 모달 > 제안 목록 조회 -->
-    <select id="selectTradeSuggestList" resultType="com.moira.itda.domain.user.mytradesuggest.dto.response.TradeSuggestResponse">
+    <select id="selectTradeSuggestList" resultType="com.moira.itda.domain.user_temp.mytradesuggest.dto.response.TradeSuggestResponse">
         SELECT
                TS.id                           AS suggest_id
              , TS.trade_id
