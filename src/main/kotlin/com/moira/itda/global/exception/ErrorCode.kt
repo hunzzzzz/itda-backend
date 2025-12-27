@@ -325,19 +325,19 @@ enum class ErrorCode(
         message = "존재하지 않는 거래입니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
-    CANNOT_DELETE_TRADE_WHEN_STATUS_IS_COMPLETED(
+    CANNOT_UPDATE_TRADE_WHEN_STATUS_IS_COMPLETED(
         code = "T0022",
-        message = "이미 완료된 거래는 삭제할 수 없습니다.",
+        message = "이미 완료된 거래는 수정/삭제할 수 없습니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
-    CANNOT_DELETE_TRADE_OF_OTHERS(
+    CANNOT_UPDATE_TRADE_OF_OTHERS(
         code = "T0023",
-        message = "다른 유저가 업로드한 거래를 삭제할 수 없습니다.",
+        message = "다른 유저가 업로드한 거래를 수정/삭제할 수 없습니다.",
         httpStatus = HttpStatus.FORBIDDEN
     ),
-    CANNOT_DELETE_TRADE_WHEN_APPROVED_SUGGEST_EXISTS(
+    CANNOT_UPDATE_TRADE_WHEN_APPROVED_SUGGEST_EXISTS(
         code = "T0024",
-        message = "이미 승인된 거래 제안이 있어 삭제할 수 없습니다.",
+        message = "이미 승인된 거래 제안이 있어 수정/삭제할 수 없습니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
     CANNOT_DELETE_APPROVED_SUGGEST(

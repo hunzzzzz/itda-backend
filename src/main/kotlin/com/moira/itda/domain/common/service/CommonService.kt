@@ -43,6 +43,8 @@ class CommonService(
             val originalFileName = file.originalFilename ?: throw ItdaException(ErrorCode.INVALID_FILE)
             val extension = originalFileName.substring(originalFileName.lastIndexOf(".") + 1).lowercase()
 
+            println(extension)
+
             if (extension.isEmpty() || !ALLOWED_EXTENSIONS.contains(extension)) {
                 throw ItdaException(ErrorCode.UNSUPPORTED_FILE_EXTENSION)
             }
