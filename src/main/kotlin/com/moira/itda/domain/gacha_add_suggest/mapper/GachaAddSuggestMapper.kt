@@ -1,5 +1,6 @@
 package com.moira.itda.domain.gacha_add_suggest.mapper
 
+import com.moira.itda.domain.gacha_add_suggest.dto.response.AdminGachaAddSuggestResponse
 import com.moira.itda.domain.gacha_add_suggest.dto.response.MyGachaAddSuggestResponse
 import com.moira.itda.global.entity.GachaAddSuggest
 import org.apache.ibatis.annotations.Mapper
@@ -22,4 +23,11 @@ interface GachaAddSuggestMapper {
      * 마이페이지 > 정보등록요청 결과 > 정보등록요청 목록 조회
      */
     fun selectGachaAddSuggestList(userId: String, pageSize: Int, offset: Int): List<MyGachaAddSuggestResponse>
+
+    // ------------------------------------------------------------------------------------ //
+
+    /**
+     * 어드민 > 정보등록요청 > 정보등록요청 목록 조회
+     */
+    fun selectAdminGachaAddSuggestList(): List<AdminGachaAddSuggestResponse>
 }

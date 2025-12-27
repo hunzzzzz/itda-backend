@@ -2,6 +2,7 @@ package com.moira.itda.domain.gacha_add_suggest.service
 
 import com.moira.itda.domain.gacha_add_suggest.component.GachaAddSuggestValidator
 import com.moira.itda.domain.gacha_add_suggest.dto.request.GachaAddSuggestRequest
+import com.moira.itda.domain.gacha_add_suggest.dto.response.AdminGachaAddSuggestResponse
 import com.moira.itda.domain.gacha_add_suggest.dto.response.MyGachaAddSuggestPageResponse
 import com.moira.itda.domain.gacha_add_suggest.mapper.GachaAddSuggestMapper
 import com.moira.itda.global.entity.GachaAddSuggest
@@ -13,8 +14,8 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class GachaAddSuggestService(
     private val mapper: GachaAddSuggestMapper,
+    private val offsetPaginationHandler: OffsetPaginationHandler,
     private val validator: GachaAddSuggestValidator,
-    private val offsetPaginationHandler: OffsetPaginationHandler
 ) {
     /**
      * 정보등록요청
@@ -53,5 +54,13 @@ class GachaAddSuggestService(
 
         // [4] DTO 병합 후 리턴
         return MyGachaAddSuggestPageResponse(content = content, page = pageResponse)
+    }
+
+    /**
+     * 어드민 > 정보등록요청
+     */
+    @Transactional(readOnly = true)
+    fun getAll(): List<AdminGachaAddSuggestResponse> {
+        return mapper.selectAdminGachaAddSuggestList()
     }
 }
