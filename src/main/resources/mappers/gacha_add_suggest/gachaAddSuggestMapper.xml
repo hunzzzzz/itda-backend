@@ -29,4 +29,34 @@
              , #{processedAt}
         )
     </insert>
+
+    <!-- 마이페이지 > 정보등록요청 결과 > 정보등록요청 목록 조회 > totalElements 계산 -->
+    <select id="selectGachaAddSuggestListCnt">
+        SELECT COUNT(id) FROM GACHA_ADD_SUGGEST WHERE user_id = #{userId}
+    </select>
+
+    <!-- 마이페이지 > 정보등록요청 결과 > 정보등록요청 목록 조회 -->
+    <select id="selectGachaAddSuggestList" resultType="com.moira.itda.domain.gacha_add_suggest.dto.response.MyGachaAddSuggestResponse">
+        SELECT
+               S.id
+             , S.status
+             , S.content
+             , S.file_id
+             , F.file_url
+             , S.admin_comment
+             , S.receive_email_yn
+             , S.requested_at
+             , S.processed_at
+        FROM GACHA_ADD_SUGGEST S
+        LEFT JOIN (
+            SELECT
+                   file_id
+                 , file_url
+                 , ROW_NUMBER() OVER (PARTITION BY file_id ORDER BY created_at ASC) AS row_num
+            FROM IMAGE_FILE
+        ) F ON F.file_id = S.file_id AND F.row_num = 1
+        WHERE S.user_id = #{userId}
+        ORDER BY S.requested_at DESC
+        LIMIT #{pageSize} OFFSET #{offset}
+    </select>
 </mapper>
