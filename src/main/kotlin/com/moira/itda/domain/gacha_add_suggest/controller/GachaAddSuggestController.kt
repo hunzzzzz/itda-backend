@@ -1,7 +1,7 @@
-package com.moira.itda.domain.info.controller
+package com.moira.itda.domain.gacha_add_suggest.controller
 
-import com.moira.itda.domain.info.dto.request.GachaInfoAddRequest
-import com.moira.itda.domain.info.service.GachaInfoAddService
+import com.moira.itda.domain.gacha_add_suggest.dto.request.GachaAddSuggestRequest
+import com.moira.itda.domain.gacha_add_suggest.service.GachaAddSuggestService
 import com.moira.itda.global.auth.aop.UserPrincipal
 import com.moira.itda.global.auth.dto.UserAuth
 import org.springframework.http.HttpStatus
@@ -11,21 +11,21 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 
 /**
- * 정보등록요청 탭
+ * 정보등록요청
  */
 @RestController
-class GachaInfoAddController(
-    private val gachaInfoAddService: GachaInfoAddService
+class GachaAddSuggestController(
+    private val gachaAddSuggestService: GachaAddSuggestService
 ) {
     /**
-     * 정보등록요청 탭 > 정보등록요청
+     * 정보등록요청
      */
-    @PostMapping("/api/gacha/info/add")
+    @PostMapping("/api/gacha/suggest/add")
     fun add(
         @UserPrincipal userAuth: UserAuth,
-        @RequestBody request: GachaInfoAddRequest
+        @RequestBody request: GachaAddSuggestRequest
     ): ResponseEntity<Nothing> {
-        gachaInfoAddService.add(userId = userAuth.userId, request = request)
+        gachaAddSuggestService.add(userId = userAuth.userId, request = request)
 
         return ResponseEntity.status(HttpStatus.CREATED).body(null)
     }

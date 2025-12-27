@@ -1,14 +1,13 @@
 package com.moira.itda.global.entity
 
-import com.moira.itda.domain.info.dto.request.GachaInfoAddRequest
+import com.moira.itda.domain.gacha_add_suggest.dto.request.GachaAddSuggestRequest
 import java.time.ZonedDateTime
-import java.util.UUID
+import java.util.*
 
-data class GachaInfoAdd(
+data class GachaAddSuggest(
     val id: String,
     val userId: String,
     val status: GachaInfoStatus,
-    val type: GachaInfoType,
     val content: String,
     val fileId: String?,
     val adminComment: String?,
@@ -17,12 +16,11 @@ data class GachaInfoAdd(
     val processedAt: ZonedDateTime?
 ) {
     companion object {
-        fun fromGachaInfoAddRequest(userId: String, request: GachaInfoAddRequest): GachaInfoAdd {
-            return GachaInfoAdd(
+        fun fromRequest(userId: String, request: GachaAddSuggestRequest): GachaAddSuggest {
+            return GachaAddSuggest(
                 id = UUID.randomUUID().toString(),
                 userId = userId,
                 status = GachaInfoStatus.PENDING,
-                type = GachaInfoType.valueOf(request.type),
                 content = request.content,
                 fileId = request.fileId,
                 adminComment = null,

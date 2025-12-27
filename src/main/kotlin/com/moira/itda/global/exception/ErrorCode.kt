@@ -146,7 +146,7 @@ enum class ErrorCode(
     ),
     FILE_NOT_FOUND(
         code = "F0006",
-        message = "존재하지 않는 파일입니다.",
+        message = "이미지 파일이 존재하지 않습니다. 파일 ID를 다시 확인해주세요.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
 
@@ -314,7 +314,7 @@ enum class ErrorCode(
         code = "T0019",
         message = "이미 해당 제품에 구매 제안을 하였습니다.",
         httpStatus = HttpStatus.BAD_REQUEST
-    ), 
+    ),
     ALREADY_SUGGESTED_EXCHANGE_ON_THE_TRADE_ITEM(
         code = "T0020",
         message = "이미 해당 제품에 교환 제안을 하였습니다.",
@@ -363,21 +363,15 @@ enum class ErrorCode(
         httpStatus = HttpStatus.BAD_REQUEST
     ),
 
-    // 정보 등록/수정 요청 관련 에러코드
-    INVALID_GACHA_INFO_TYPE(
-        code = "I0001",
-        message = "유효하지 않은 요청 타입입니다.",
+    // 정보등록요청 관련 에러코드
+    INVALID_GACHA_ADD_SUGGEST_CONTENT(
+        code = "GAS001",
+        message = "정보등록요청 내용은 필수 입력 항목입니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
-    GACHA_INFO_CONTENT_IS_MANDATORY(
-        code = "I0002",
-        message = "요청 내용은 필수 입력 항목입니다.",
-        httpStatus = HttpStatus.BAD_REQUEST
-    ),
-    INVALID_GACHA_INFO_MESSAGE_YN(
-        code = "I0003",
-        message = "유효하지 않은 메시지 수신 여부입니다. (Y/N)",
+    INVALID_GACHA_ADD_SUGGEST_MESSAGE_YN(
+        code = "GAS002",
+        message = "메시지 수신 여부는 필수 입력 항목입니다. (Y or N)",
         httpStatus = HttpStatus.BAD_REQUEST
     )
-
 }

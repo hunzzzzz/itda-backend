@@ -18,6 +18,11 @@ interface CommonMapper {
     fun selectImageFileUrl(fileId: String): List<ImageFileUrlResponse>
 
     /**
+     * 공통 > 파일 ID 존재 여부 확인
+     */
+    fun selectFileIdChk(fileId: String): Int
+
+    /**
      * 공통 > 공통코드 조회 > 세부코드 목록 조회
      */
     fun selectCodeDetailList(key: String): List<CodeDetailResponse>

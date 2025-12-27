@@ -31,6 +31,10 @@
         SELECT file_url FROM IMAGE_FILE WHERE file_id = #{fileId}
     </select>
 
+    <select id="selectFileIdChk">
+        SELECT COUNT(id) FROM IMAGE_FILE WHERE file_id = #{fileId}
+    </select>
+
     <!-- 공통 > 공통코드 조회 > 세부코드 목록 조회 -->
     <select id="selectCodeDetailList" resultType="com.moira.itda.domain.common.dto.response.CodeDetailResponse">
         SELECT
