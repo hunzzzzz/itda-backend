@@ -8,6 +8,7 @@ import com.moira.itda.domain.user.mychat.dto.response.TradeSuggestResponse
 import com.moira.itda.domain.user.mychat.mapper.MyChatMapper
 import com.moira.itda.global.entity.ChatMessage
 import com.moira.itda.global.entity.ChatStatus
+import com.moira.itda.global.entity.TradeCancelHistory
 import com.moira.itda.global.exception.ErrorCode
 import com.moira.itda.global.exception.ItdaException
 import com.moira.itda.global.pagination.component.OffsetPaginationHandler
@@ -75,6 +76,9 @@ class MyChatService(
         messageTemplate.convertAndSend("/sub/chat/$chatRoomId/message", chatMessage)
     }
 
+    /**
+     * 마이페이지 > 내 거래 목록 > 채팅 > 채팅 목록 조회 > 채팅방 > 거래 취소
+     */
     @Transactional
     fun cancelTrade(chatRoomId: String, request: TradeCancelRequest) {
         // [1] 유효성 검사 (status)
@@ -85,6 +89,9 @@ class MyChatService(
             throw ItdaException(ErrorCode.CANNOT_CANCEL_ENDED_CHAT)
         }
 
+        // [2] TradeCancelHistory 저장
+        val tradeCancelHistory = TradeCancelHistory.fromTradeCancelRequest(chatRoomId = chatRoomId, request = request)
 
+        myChatMapper.insertTradeCancelHistory(tradeCancelHistory = tradeCancelHistory)
     }
 }

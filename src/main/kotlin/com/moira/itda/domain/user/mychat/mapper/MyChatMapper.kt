@@ -4,6 +4,7 @@ import com.moira.itda.domain.user.mychat.dto.response.ChatMessageResponse
 import com.moira.itda.domain.user.mychat.dto.response.MyChatResponse
 import com.moira.itda.domain.user.mychat.dto.response.TradeSuggestResponse
 import com.moira.itda.global.entity.ChatMessage
+import com.moira.itda.global.entity.TradeCancelHistory
 import org.apache.ibatis.annotations.Mapper
 
 @Mapper
@@ -34,7 +35,12 @@ interface MyChatMapper {
     fun insertChatMessage(chatMessage: ChatMessage)
 
     /**
-     *
+     * 마이페이지 > 내 거래 목록 > 채팅 > 채팅 목록 조회 > 채팅방 > 거래 취소 > 채팅방 status 조회
      */
     fun selectChatStatus(chatRoomId: String): String?
+
+    /**
+     * 마이페이지 > 내 거래 목록 > 채팅 > 채팅 목록 조회 > 채팅방 > 거래 취소 > TradeCancelHistory 저장
+     */
+    fun insertTradeCancelHistory(tradeCancelHistory: TradeCancelHistory)
 }

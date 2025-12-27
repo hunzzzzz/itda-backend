@@ -3,6 +3,7 @@ package com.moira.itda.domain.user.mychat.dto.response
 data class TradeSuggestResponse(
     // 거래 관련 정보
     val tradeId: String,
+    val gachaId: String,
     val tradeStatus: String,
     val tradeType: String,
     val tradeTitle: String,
