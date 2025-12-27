@@ -24,7 +24,7 @@
              , password
              , name
              , nickname
-             , image_url
+             , file_id
              , refresh_token
              , last_login_at
              , created_at
@@ -38,7 +38,7 @@
              , #{password}
              , #{name}
              , #{nickname}
-             , #{imageUrl}
+             , #{fileId}
              , #{refreshToken}
              , #{lastLoginAt}
              , #{createdAt}
