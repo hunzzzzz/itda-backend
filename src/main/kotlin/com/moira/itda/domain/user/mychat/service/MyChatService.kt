@@ -4,7 +4,7 @@ import com.moira.itda.domain.user.mychat.dto.request.ChatMessageRequest
 import com.moira.itda.domain.user.mychat.dto.request.TradeCancelRequest
 import com.moira.itda.domain.user.mychat.dto.response.ChatMessageResponse
 import com.moira.itda.domain.user.mychat.dto.response.MyChatPageResponse
-import com.moira.itda.domain.user.mychat.dto.response.TradeSuggestResponse
+import com.moira.itda.domain.user.mychat.dto.response.ChatRoomResponse
 import com.moira.itda.domain.user.mychat.mapper.MyChatMapper
 import com.moira.itda.global.entity.ChatMessage
 import com.moira.itda.global.entity.ChatStatus
@@ -51,7 +51,7 @@ class MyChatService(
      * 마이페이지 > 내 거래 목록 > 채팅 > 채팅 목록 조회 > 채팅방 > 거래 제안 정보 조회
      */
     @Transactional(readOnly = true)
-    fun getTradeSuggest(chatRoomId: String): TradeSuggestResponse {
+    fun getTradeSuggest(chatRoomId: String): ChatRoomResponse {
         return myChatMapper.selectTradeSuggest(chatRoomId = chatRoomId)
     }
 
@@ -91,7 +91,9 @@ class MyChatService(
 
         // [2] TradeCancelHistory 저장
         val tradeCancelHistory = TradeCancelHistory.fromTradeCancelRequest(chatRoomId = chatRoomId, request = request)
-
         myChatMapper.insertTradeCancelHistory(tradeCancelHistory = tradeCancelHistory)
+
+        // [3] ChatRoom의 status 변경
+        myChatMapper.updateChatRoomStatus(chatRoomId = chatRoomId)
     }
 }

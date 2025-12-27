@@ -2,7 +2,7 @@ package com.moira.itda.domain.user.mychat.mapper
 
 import com.moira.itda.domain.user.mychat.dto.response.ChatMessageResponse
 import com.moira.itda.domain.user.mychat.dto.response.MyChatResponse
-import com.moira.itda.domain.user.mychat.dto.response.TradeSuggestResponse
+import com.moira.itda.domain.user.mychat.dto.response.ChatRoomResponse
 import com.moira.itda.global.entity.ChatMessage
 import com.moira.itda.global.entity.TradeCancelHistory
 import org.apache.ibatis.annotations.Mapper
@@ -22,7 +22,7 @@ interface MyChatMapper {
     /**
      * 마이페이지 > 내 거래 목록 > 채팅 > 채팅 목록 조회 > 채팅방 > 거래 제안 정보 조회
      */
-    fun selectTradeSuggest(chatRoomId: String): TradeSuggestResponse
+    fun selectTradeSuggest(chatRoomId: String): ChatRoomResponse
 
     /**
      * 마이페이지 > 내 거래 목록 > 채팅 > 채팅 목록 조회 > 채팅방 > 이전 채팅 목록 조회
@@ -43,4 +43,9 @@ interface MyChatMapper {
      * 마이페이지 > 내 거래 목록 > 채팅 > 채팅 목록 조회 > 채팅방 > 거래 취소 > TradeCancelHistory 저장
      */
     fun insertTradeCancelHistory(tradeCancelHistory: TradeCancelHistory)
+
+    /**
+     * 마이페이지 > 내 거래 목록 > 채팅 > 채팅 목록 조회 > 채팅방 > 거래 취소 > ChatRoom의 status 변경
+     */
+    fun updateChatRoomStatus(chatRoomId: String)
 }

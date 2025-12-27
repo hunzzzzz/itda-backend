@@ -54,9 +54,11 @@
     </select>
 
     <!-- 마이페이지 > 내 거래 목록 > 채팅 > 채팅 목록 조회 > 채팅방 > 거래 제안 정보 조회 -->
-    <select id="selectTradeSuggest" resultType="com.moira.itda.domain.user.mychat.dto.response.TradeSuggestResponse">
+    <select id="selectTradeSuggest" resultType="com.moira.itda.domain.user.mychat.dto.response.ChatRoomResponse">
         SELECT
-               CR.trade_id
+               CR.id                            AS chat_room_id
+             , CR.status                        AS chat_room_status
+             , CR.trade_id
              , T.gacha_id
              , T.status                         AS trade_status
              , T.type                           AS trade_type
@@ -148,4 +150,11 @@
              , #{canceledAt}
         )
     </insert>
+
+    <!-- 마이페이지 > 내 거래 목록 > 채팅 > 채팅 목록 조회 > 채팅방 > 거래 취소 > ChatRoom의 status 변경 -->
+    <update id="updateChatRoomStatus">
+        UPDATE CHAT_ROOM
+        SET status = 'ENDED'
+        WHERE id = #{chatRoomId}
+    </update>
 </mapper>

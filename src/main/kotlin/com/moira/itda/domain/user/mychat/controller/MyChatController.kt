@@ -4,7 +4,7 @@ import com.moira.itda.domain.user.mychat.dto.request.ChatMessageRequest
 import com.moira.itda.domain.user.mychat.dto.request.TradeCancelRequest
 import com.moira.itda.domain.user.mychat.dto.response.ChatMessageResponse
 import com.moira.itda.domain.user.mychat.dto.response.MyChatPageResponse
-import com.moira.itda.domain.user.mychat.dto.response.TradeSuggestResponse
+import com.moira.itda.domain.user.mychat.dto.response.ChatRoomResponse
 import com.moira.itda.domain.user.mychat.service.MyChatService
 import com.moira.itda.global.auth.aop.UserPrincipal
 import com.moira.itda.global.auth.dto.UserAuth
@@ -41,8 +41,8 @@ class MyChatController(
     /**
      * 마이페이지 > 내 거래 목록 > 채팅 > 채팅 목록 조회 > 채팅방 > 거래 제안 정보 조회
      */
-    @GetMapping("/api/me/trade/chat/{chatRoomId}/trade")
-    fun getTradeSuggest(@PathVariable chatRoomId: String): ResponseEntity<TradeSuggestResponse> {
+    @GetMapping("/api/me/trade/chat/{chatRoomId}")
+    fun getTradeSuggest(@PathVariable chatRoomId: String): ResponseEntity<ChatRoomResponse> {
         val response = myChatService.getTradeSuggest(chatRoomId = chatRoomId)
 
         return ResponseEntity.ok(response)

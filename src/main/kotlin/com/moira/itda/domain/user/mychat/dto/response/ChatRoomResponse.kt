@@ -1,6 +1,9 @@
 package com.moira.itda.domain.user.mychat.dto.response
 
-data class TradeSuggestResponse(
+data class ChatRoomResponse(
+    // 채팅방 관련 정보
+    val chatRoomId: String,
+    val chatRoomStatus: String,
     // 거래 관련 정보
     val tradeId: String,
     val gachaId: String,
