@@ -24,19 +24,6 @@ class MyPageService(
     private val passwordRegex =
         Regex("^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()\\-_+=\\[\\]{}|;:',.<>?/`~])(?=.*\\d)?[A-Za-z\\d!@#$%^&*()\\-_+=\\[\\]{}|;:',.<>?/`~]{8,16}$")
 
-    /**
-     * 마이페이지 > 닉네임 변경
-     */
-    @Transactional
-    fun updateNickname(userId: String, request: NicknameUpdateRequest) {
-        // [1] 유효성 검사
-        if (myPageMapper.selectNicknameChk(nickname = request.newNickname) > 0) {
-            throw ItdaException(ErrorCode.USING_NICKNAME)
-        }
-
-        // [2] 닉네임 변경
-        myPageMapper.updateNickname(userId = userId, newNickname = request.newNickname)
-    }
 
     /**
      * 마이페이지 > 비밀번호 변경

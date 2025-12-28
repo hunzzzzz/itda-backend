@@ -7,6 +7,7 @@ import com.moira.itda.domain.user.dto.response.LoginResponse
 import com.moira.itda.domain.user.dto.response.MyPageResponse
 import com.moira.itda.domain.user.dto.response.TokenRefreshResponse
 import com.moira.itda.domain.user.service.UserService
+import com.moira.itda.domain.user_temp.mypage.dto.request.NicknameUpdateRequest
 import com.moira.itda.global.auth.aop.UserPrincipal
 import com.moira.itda.global.auth.dto.UserAuth
 import jakarta.servlet.http.HttpServletRequest
@@ -125,8 +126,21 @@ class UserController(
     fun updateProfileImage(
         @UserPrincipal userAuth: UserAuth,
         @RequestBody request: ProfileImageUpdateRequest
-    ): ResponseEntity<Nothing> {
+    ): ResponseEntity<Nothing?> {
         service.updateProfileImage(userId = userAuth.userId, request = request)
+
+        return ResponseEntity.ok(null)
+    }
+
+    /**
+     * 마이페이지 > 닉네임 변경
+     */
+    @PutMapping("/api/me/nickname")
+    fun updateNickname(
+        @UserPrincipal userAuth: UserAuth,
+        @RequestBody request: NicknameUpdateRequest
+    ): ResponseEntity<Nothing?> {
+        service.updateNickname(userId = userAuth.userId, request = request)
 
         return ResponseEntity.ok(null)
     }

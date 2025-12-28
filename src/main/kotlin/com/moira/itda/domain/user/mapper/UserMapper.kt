@@ -11,6 +11,7 @@ import java.time.ZonedDateTime
 interface UserMapper {
     /**
      * 회원가입 > 닉네임 중복 확인
+     * 마이페이지 > 닉네임 변경 > 닉네임 존재 여부 확인
      */
     fun selectNicknameChk(nickname: String): Boolean
 
@@ -80,7 +81,12 @@ interface UserMapper {
     /**
      * 마이페이지 > 프로필 사진 변경 > 파일 ID 수정
      */
-    fun updateFileId(userId: String, fileId: String)
+    fun updateFileId(userId: String, newFileId: String)
+
+    /**
+     * 마이페이지 > 닉네임 변경
+     */
+    fun updateNickname(userId: String, newNickname: String)
 
     // ---------------------------------------------------------------------------------------------- //
 

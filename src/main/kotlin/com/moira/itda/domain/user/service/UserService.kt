@@ -3,12 +3,13 @@ package com.moira.itda.domain.user.service
 import com.moira.itda.domain.user.component.IdentifyCodeGenerator
 import com.moira.itda.domain.user.component.UserValidator
 import com.moira.itda.domain.user.dto.request.LoginRequest
+import com.moira.itda.domain.user.dto.request.ProfileImageUpdateRequest
 import com.moira.itda.domain.user.dto.request.SignupRequest
 import com.moira.itda.domain.user.dto.response.LoginResponse
 import com.moira.itda.domain.user.dto.response.MyPageResponse
 import com.moira.itda.domain.user.dto.response.TokenRefreshResponse
 import com.moira.itda.domain.user.mapper.UserMapper
-import com.moira.itda.domain.user.dto.request.ProfileImageUpdateRequest
+import com.moira.itda.domain.user_temp.mypage.dto.request.NicknameUpdateRequest
 import com.moira.itda.global.auth.component.CookieHandler
 import com.moira.itda.global.auth.component.JwtProvider
 import com.moira.itda.global.entity.User
@@ -248,6 +249,18 @@ class UserService(
         }
 
         // [3] 파일 ID 수정
-        mapper.updateFileId(userId = userId, fileId = request.fileId)
+        mapper.updateFileId(userId = userId, newFileId = request.fileId)
+    }
+
+    /**
+     * 마이페이지 > 닉네임 변경
+     */
+    @Transactional
+    fun updateNickname(userId: String, request: NicknameUpdateRequest) {
+        // [1] 유효성 검사
+        validator.validateNickname(nickname = request.newNickname)
+
+        // [2] 닉네임 변경
+        mapper.updateNickname(userId = userId, newNickname = request.newNickname)
     }
 }
