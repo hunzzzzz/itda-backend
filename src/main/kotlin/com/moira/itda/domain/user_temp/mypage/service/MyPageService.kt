@@ -3,7 +3,7 @@ package com.moira.itda.domain.user_temp.mypage.service
 import com.moira.itda.domain.user.service.UserService
 import com.moira.itda.domain.user_temp.mypage.dto.request.NicknameUpdateRequest
 import com.moira.itda.domain.user_temp.mypage.dto.request.PasswordUpdateRequest
-import com.moira.itda.domain.user_temp.mypage.dto.request.ProfileImageUpdateRequest
+import com.moira.itda.domain.user.dto.request.ProfileImageUpdateRequest
 import com.moira.itda.domain.user.dto.response.MyPageResponse
 import com.moira.itda.domain.user_temp.mypage.mapper.MyPageMapper
 import com.moira.itda.global.exception.ErrorCode
@@ -23,23 +23,6 @@ class MyPageService(
 ) {
     private val passwordRegex =
         Regex("^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()\\-_+=\\[\\]{}|;:',.<>?/`~])(?=.*\\d)?[A-Za-z\\d!@#$%^&*()\\-_+=\\[\\]{}|;:',.<>?/`~]{8,16}$")
-
-    /**
-     * 마이페이지 > 프로필 사진 변경
-     */
-    @Transactional
-    fun updateProfileImage(userId: String, request: ProfileImageUpdateRequest) {
-        // [1] 기존 프로필 사진 URL 조회
-        val currentImageUrl = myPageMapper.selectCurrentFileUrl(userId = userId)
-
-        // [2] 기존 프로필 사진 삭제 (AWS S3)
-        if (currentImageUrl != null) {
-            awsS3Handler.delete(fileUrl = currentImageUrl)
-        }
-
-        // [3] 파일 ID 수정
-        myPageMapper.updateFileId(userId = userId, newFileId = request.fileId)
-    }
 
     /**
      * 마이페이지 > 닉네임 변경

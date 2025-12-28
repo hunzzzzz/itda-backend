@@ -1,6 +1,7 @@
 package com.moira.itda.domain.user.controller
 
 import com.moira.itda.domain.user.dto.request.LoginRequest
+import com.moira.itda.domain.user.dto.request.ProfileImageUpdateRequest
 import com.moira.itda.domain.user.dto.request.SignupRequest
 import com.moira.itda.domain.user.dto.response.LoginResponse
 import com.moira.itda.domain.user.dto.response.MyPageResponse
@@ -115,5 +116,18 @@ class UserController(
         val response = service.getMyProfile(userId = userAuth.userId)
 
         return ResponseEntity.ok(response)
+    }
+
+    /**
+     * 마이페이지 > 프로필 사진 변경
+     */
+    @PutMapping("/api/me/image")
+    fun updateProfileImage(
+        @UserPrincipal userAuth: UserAuth,
+        @RequestBody request: ProfileImageUpdateRequest
+    ): ResponseEntity<Nothing> {
+        service.updateProfileImage(userId = userAuth.userId, request = request)
+
+        return ResponseEntity.ok(null)
     }
 }

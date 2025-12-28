@@ -8,6 +8,7 @@ import com.moira.itda.domain.user.dto.response.LoginResponse
 import com.moira.itda.domain.user.dto.response.MyPageResponse
 import com.moira.itda.domain.user.dto.response.TokenRefreshResponse
 import com.moira.itda.domain.user.mapper.UserMapper
+import com.moira.itda.domain.user.dto.request.ProfileImageUpdateRequest
 import com.moira.itda.global.auth.component.CookieHandler
 import com.moira.itda.global.auth.component.JwtProvider
 import com.moira.itda.global.entity.User
@@ -15,6 +16,7 @@ import com.moira.itda.global.entity.UserSignupIdentifyCode
 import com.moira.itda.global.entity.UserStatus
 import com.moira.itda.global.exception.ErrorCode
 import com.moira.itda.global.exception.ItdaException
+import com.moira.itda.global.file.component.AwsS3Handler
 import io.jsonwebtoken.ExpiredJwtException
 import io.jsonwebtoken.MalformedJwtException
 import io.jsonwebtoken.UnsupportedJwtException
@@ -30,6 +32,7 @@ import java.time.format.DateTimeFormatter
 
 @Service
 class UserService(
+    private val awsS3Handler: AwsS3Handler,
     private val cookieHandler: CookieHandler,
     private val encoder: PasswordEncoder,
     private val jwtProvider: JwtProvider,
@@ -227,6 +230,24 @@ class UserService(
      */
     @Transactional(readOnly = true)
     fun getMyProfile(userId: String): MyPageResponse {
+        // [1] 조회
         return mapper.selectMyPageResponse(userId = userId) ?: throw ItdaException(ErrorCode.USER_NOT_FOUND)
+    }
+
+    /**
+     * 마이페이지 > 프로필 사진 변경
+     */
+    @Transactional
+    fun updateProfileImage(userId: String, request: ProfileImageUpdateRequest) {
+        // [1] 기존 프로필 사진 URL 조회
+        val currentImageUrl = mapper.selectCurrentFileUrl(userId = userId)
+
+        // [2] 기존 프로필 사진 삭제 (AWS S3)
+        if (currentImageUrl != null) {
+            awsS3Handler.delete(fileUrl = currentImageUrl)
+        }
+
+        // [3] 파일 ID 수정
+        mapper.updateFileId(userId = userId, fileId = request.fileId)
     }
 }

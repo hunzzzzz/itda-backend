@@ -72,6 +72,16 @@ interface UserMapper {
      */
     fun selectMyPageResponse(userId: String): MyPageResponse?
 
+    /**
+     * 마이페이지 > 프로필 사진 변경 > 현재 프로필 사진의 URL 조회
+     */
+    fun selectCurrentFileUrl(userId: String): String?
+
+    /**
+     * 마이페이지 > 프로필 사진 변경 > 파일 ID 수정
+     */
+    fun updateFileId(userId: String, fileId: String)
+
     // ---------------------------------------------------------------------------------------------- //
 
     /**
