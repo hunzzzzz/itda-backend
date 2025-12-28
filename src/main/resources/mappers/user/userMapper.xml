@@ -190,6 +190,20 @@
         WHERE id = #{userId}
     </update>
 
+    <!-- 마이페이지 > 비밀번호 변경 > 현재 비밀번호 조회 -->
+    <select id="selectCurrentPassword" resultType="java.lang.String">
+        SELECT password FROM USER WHERE id = #{userId}
+    </select>
+
+    <!-- 마이페이지 > 비밀번호 변경 -->
+    <update id="updatePassword">
+        UPDATE USER
+        SET
+               password   = #{newPassword}
+             , updated_at = CURRENT_TIMESTAMP
+        WHERE id = #{userId}
+    </update>
+
     <!-- ====================================================================================================== -->
 
     <!-- 스케쥴러 (30분 간격) > UserSignupIdentifyCode 삭제 -->

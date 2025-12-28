@@ -47,7 +47,7 @@ enum class ErrorCode(
     ),
     INVALID_PASSWORD(
         code = "U0006",
-        message = "유효하지 않은 비밀번호입니다.",
+        message = "비밀번호는 8자리 이상, 16자리 이하의 영어 대소문자, 숫자, 특수문자가 포함된 문자열이어야 합니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
     NO_USER_NAME(

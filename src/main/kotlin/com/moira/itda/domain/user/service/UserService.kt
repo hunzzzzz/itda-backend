@@ -2,14 +2,11 @@ package com.moira.itda.domain.user.service
 
 import com.moira.itda.domain.user.component.IdentifyCodeGenerator
 import com.moira.itda.domain.user.component.UserValidator
-import com.moira.itda.domain.user.dto.request.LoginRequest
-import com.moira.itda.domain.user.dto.request.ProfileImageUpdateRequest
-import com.moira.itda.domain.user.dto.request.SignupRequest
+import com.moira.itda.domain.user.dto.request.*
 import com.moira.itda.domain.user.dto.response.LoginResponse
 import com.moira.itda.domain.user.dto.response.MyPageResponse
 import com.moira.itda.domain.user.dto.response.TokenRefreshResponse
 import com.moira.itda.domain.user.mapper.UserMapper
-import com.moira.itda.domain.user_temp.mypage.dto.request.NicknameUpdateRequest
 import com.moira.itda.global.auth.component.CookieHandler
 import com.moira.itda.global.auth.component.JwtProvider
 import com.moira.itda.global.entity.User
@@ -262,5 +259,31 @@ class UserService(
 
         // [2] 닉네임 변경
         mapper.updateNickname(userId = userId, newNickname = request.newNickname)
+    }
+
+    /**
+     * 마이페이지 > 비밀번호 변경
+     */
+    @Transactional
+    fun updatePassword(
+        userId: String,
+        request: PasswordUpdateRequest,
+        httpRes: HttpServletResponse
+    ) {
+        // [1] 현재 비밀번호 조회
+        val currentPassword = mapper.selectCurrentPassword(userId = userId)
+
+        // [2] 유효성 검사
+        validator.validatePasswordUpdate(
+            oldRaw = request.oldPassword,
+            oldEncoded = currentPassword,
+            new = request.newPassword
+        )
+
+        // [3] 비밀번호 변경
+        mapper.updatePassword(userId = userId, newPassword = encoder.encode(request.newPassword))
+
+        // [4] 로그아웃 메서드 호출
+        this.logout(userId = userId, httpRes = httpRes)
     }
 }

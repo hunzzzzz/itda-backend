@@ -1,13 +1,10 @@
 package com.moira.itda.domain.user.controller
 
-import com.moira.itda.domain.user.dto.request.LoginRequest
-import com.moira.itda.domain.user.dto.request.ProfileImageUpdateRequest
-import com.moira.itda.domain.user.dto.request.SignupRequest
+import com.moira.itda.domain.user.dto.request.*
 import com.moira.itda.domain.user.dto.response.LoginResponse
 import com.moira.itda.domain.user.dto.response.MyPageResponse
 import com.moira.itda.domain.user.dto.response.TokenRefreshResponse
 import com.moira.itda.domain.user.service.UserService
-import com.moira.itda.domain.user_temp.mypage.dto.request.NicknameUpdateRequest
 import com.moira.itda.global.auth.aop.UserPrincipal
 import com.moira.itda.global.auth.dto.UserAuth
 import jakarta.servlet.http.HttpServletRequest
@@ -141,6 +138,20 @@ class UserController(
         @RequestBody request: NicknameUpdateRequest
     ): ResponseEntity<Nothing?> {
         service.updateNickname(userId = userAuth.userId, request = request)
+
+        return ResponseEntity.ok(null)
+    }
+
+    /**
+     * 마이페이지 > 비밀번호 변경
+     */
+    @PutMapping("/api/me/password")
+    fun updatePassword(
+        @UserPrincipal userAuth: UserAuth,
+        @RequestBody request: PasswordUpdateRequest,
+        httpRes: HttpServletResponse
+    ): ResponseEntity<Nothing> {
+        service.updatePassword(userId = userAuth.userId, request = request, httpRes = httpRes)
 
         return ResponseEntity.ok(null)
     }

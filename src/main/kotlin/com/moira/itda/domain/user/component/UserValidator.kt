@@ -4,10 +4,12 @@ import com.moira.itda.domain.user.dto.request.SignupRequest
 import com.moira.itda.domain.user.mapper.UserMapper
 import com.moira.itda.global.exception.ErrorCode
 import com.moira.itda.global.exception.ItdaException
+import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Component
 
 @Component
 class UserValidator(
+    private val encoder: PasswordEncoder,
     private val mapper: UserMapper
 ) {
     private val emailRegex =
@@ -16,7 +18,7 @@ class UserValidator(
         Regex("^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()\\-_+=\\[\\]{}|;:',.<>?/`~])(?=.*\\d)?[A-Za-z\\d!@#$%^&*()\\-_+=\\[\\]{}|;:',.<>?/`~]{8,16}$")
 
     /**
-     * 회원가입 > 닉네임 중복 확인
+     * 닉네임 중복 확인
      */
     fun validateNickname(nickname: String) {
         if (mapper.selectNicknameChk(nickname = nickname)) {
@@ -25,7 +27,7 @@ class UserValidator(
     }
 
     /**
-     * 회원가입 > 이메일 중복 확인
+     * 이메일 중복 확인
      */
     fun validateEmail(email: String) {
         if (mapper.selectEmailChk(email = email)) {
@@ -64,6 +66,24 @@ class UserValidator(
         }
         if (mapper.selectNicknameChk(nickname = request.nickname)) {
             throw ItdaException(ErrorCode.USING_NICKNAME)
+        }
+    }
+
+    /**
+     * 비밀번호 변경 > 유효성 검사
+     */
+    fun validatePasswordUpdate(oldRaw: String, oldEncoded: String, new: String) {
+        // 비밀번호 입력값 검증
+        if (oldRaw.isBlank() || new.isBlank() || !passwordRegex.matches(new)) {
+            throw ItdaException(ErrorCode.INVALID_PASSWORD)
+        }
+        // 기존 비밀번호 일치 여부 검증
+        if (!encoder.matches(oldRaw, oldEncoded)) {
+            throw ItdaException(ErrorCode.PASSWORD_NOT_MATCH)
+        }
+        // 기존 비밀번호와 새로운 비밀번호가 다른지 여부 검증
+        if (oldRaw == new) {
+            throw ItdaException(ErrorCode.CANNOT_UPDATE_WITH_SAME_PASSWORD)
         }
     }
 }
