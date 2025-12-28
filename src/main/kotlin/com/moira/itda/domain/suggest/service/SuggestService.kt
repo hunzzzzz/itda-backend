@@ -1,7 +1,10 @@
 package com.moira.itda.domain.suggest.service
 
-import com.moira.itda.domain.suggest.mapper.SuggestMapper
+import com.moira.itda.domain.suggest.dto.request.TradeSuggestYnRequest
+import com.moira.itda.domain.suggest.dto.response.ChatRoomIdResponse
 import com.moira.itda.domain.suggest.dto.response.TradeSuggestPageResponse
+import com.moira.itda.domain.suggest.mapper.SuggestMapper
+import com.moira.itda.global.entity.ChatRoom
 import com.moira.itda.global.pagination.component.OffsetPaginationHandler
 import com.moira.itda.global.pagination.component.PageSizeConstant.Companion.MY_TRADE_SUGGEST_LIST_PAGE_SIZE
 import org.springframework.stereotype.Service
@@ -36,5 +39,44 @@ class SuggestService(
 
         // [4] DTO 병합 후 리턴
         return TradeSuggestPageResponse(content = content, page = pageResponse)
+    }
+
+    /**
+     * 내 활동 > 판매/교환 > 제안 목록 조회 모달 > 제안 승인
+     */
+    @Transactional
+    fun approve(userId: String, tradeId: String, request: TradeSuggestYnRequest): ChatRoomIdResponse {
+        // [1] 변수 세팅
+        val tradeItemId = request.tradeItemId
+        val tradeSuggestId = request.tradeSuggestId
+        val buyerId = request.userId
+
+        // [2] TradeSuggest의 상태값을 APPROVED로 변경
+        mapper.updateTradeSuggestStatusApproved(suggestId = tradeSuggestId)
+
+        // [3] ChatRoom 저장
+        val chatRoom = ChatRoom.from(
+            tradeId = tradeId,
+            tradeItemId = tradeItemId,
+            tradeSuggestId = tradeSuggestId,
+            sellerId = userId,
+            buyerId = buyerId
+        )
+        mapper.insertChatRoom(chatRoom = chatRoom)
+
+        // [4] 채팅방 ID 리턴
+        return ChatRoomIdResponse(chatRoomId = chatRoom.id)
+    }
+
+    /**
+     * 내 활동 > 판매/교환 > 제안 목록 조회 모달 > 제안 거절
+     */
+    @Transactional
+    fun reject(tradeId: String, request: TradeSuggestYnRequest) {
+        // [1] 변수 세팅
+        val suggestId = request.tradeSuggestId
+
+        // [2] TradeSuggest의 상태값을 REJECTED로 변경
+        mapper.updateTradeSuggestStatusRejected(suggestId = suggestId)
     }
 }
