@@ -97,11 +97,12 @@ class MyChatService(
         )
         myChatMapper.insertTradeCompleteHistory(tradeCompleteHistory = tradeCompleteHistory)
 
-        // [3] ChatRoom의 status 변경
+        // [3] ChatRoom의 status 변경 (ENDED)
         myChatMapper.updateChatRoomStatusEnded(chatRoomId = chatRoomId)
 
-        // [4] Trade의 status 변경
+        // [4] Trade의 status 변경 (COMPLETED)
         myChatMapper.updateTradeStatusCompleted(tradeId = request.tradeId)
+        myChatMapper.updateTradeItemStatusCompleted(tradeItemId = request.tradeItemId)
     }
 
     /**
@@ -121,10 +122,10 @@ class MyChatService(
         val tradeCancelHistory = TradeCancelHistory.fromTradeCancelRequest(chatRoomId = chatRoomId, request = request)
         myChatMapper.insertTradeCancelHistory(tradeCancelHistory = tradeCancelHistory)
 
-        // [3] ChatRoom의 status 변경
+        // [3] ChatRoom의 status 변경 (ENDED)
         myChatMapper.updateChatRoomStatusEnded(chatRoomId = chatRoomId)
 
-        // [4] TradeSuggest의 status 변경
+        // [4] TradeSuggest의 status 변경 (CANCELED)
         myChatMapper.updateTradeSuggestStatusCanceled(tradeSuggestId = request.tradeSuggestId)
     }
 }

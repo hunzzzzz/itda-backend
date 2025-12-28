@@ -56,7 +56,11 @@ class MyTradeSuggestService(
 
         // [3] ChatRoom 저장
         val chatRoom = ChatRoom.from(
-            tradeId = tradeId, tradeSuggestId = suggestId, sellerId = userId, buyerId = buyerId
+            tradeId = tradeId,
+            tradeItemId = "", // TODO
+            tradeSuggestId = suggestId,
+            sellerId = userId,
+            buyerId = buyerId
         )
         myTradeSuggestMapper.insertChatRoom(chatRoom = chatRoom)
 

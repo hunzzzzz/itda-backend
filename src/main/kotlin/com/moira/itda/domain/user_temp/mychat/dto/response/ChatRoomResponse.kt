@@ -6,6 +6,7 @@ data class ChatRoomResponse(
     val chatRoomStatus: String,
     // 거래 관련 정보
     val tradeId: String,
+    val tradeItemId: String,
     val gachaId: String,
     val tradeStatus: String,
     val tradeType: String,

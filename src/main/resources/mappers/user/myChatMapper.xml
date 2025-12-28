@@ -59,6 +59,7 @@
                CR.id                            AS chat_room_id
              , CR.status                        AS chat_room_status
              , CR.trade_id
+             , CR.trade_item_id
              , T.gacha_id
              , T.status                         AS trade_status
              , T.type                           AS trade_type
@@ -154,7 +155,20 @@
 
     <!-- 마이페이지 > 내 거래 목록 > 채팅 > 채팅 목록 조회 > 채팅방 > 거래 완료 > Trade의 status 변경 -->
     <update id="updateTradeStatusCompleted">
-        UPDATE TRADE SET status = 'COMPLETED' WHERE id = #{tradeId}
+        UPDATE TRADE
+        SET
+               status     = 'COMPLETED'
+             , updated_at = CURRENT_TIMESTAMP
+        WHERE id = #{tradeId}
+    </update>
+
+    <!-- 마이페이지 > 내 거래 목록 > 채팅 > 채팅 목록 조회 > 채팅방 > 거래 완료 > TradeItem의 status 변경 -->
+    <update id="updateTradeItemStatusCompleted">
+        UPDATE TRADE_ITEM
+        SET
+               status     = 'COMPLETED'
+             , updated_at = CURRENT_TIMESTAMP
+        WHERE id = #{tradeItemId}
     </update>
 
     <!-- 마이페이지 > 내 거래 목록 > 채팅 > 채팅 목록 조회 > 채팅방 > 거래 취소 > TradeCancelHistory 저장 -->

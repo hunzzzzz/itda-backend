@@ -52,6 +52,11 @@ interface MyChatMapper {
     fun updateTradeStatusCompleted(tradeId: String)
 
     /**
+     * 마이페이지 > 내 거래 목록 > 채팅 > 채팅 목록 조회 > 채팅방 > 거래 완료 > TradeItem의 status 변경
+     */
+    fun updateTradeItemStatusCompleted(tradeItemId: String)
+
+    /**
      * 마이페이지 > 내 거래 목록 > 채팅 > 채팅 목록 조회 > 채팅방 > 거래 완료 > ChatRoom의 status 변경
      * 마이페이지 > 내 거래 목록 > 채팅 > 채팅 목록 조회 > 채팅방 > 거래 취소 > ChatRoom의 status 변경
      */
