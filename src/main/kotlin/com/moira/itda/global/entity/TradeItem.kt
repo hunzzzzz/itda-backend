@@ -10,6 +10,7 @@ data class TradeItem(
     val tradeId: String,
     val gachaId: String,
     val type: TradeItemType,
+    val status: TradeStatus,
     val createdAt: ZonedDateTime,
     val updatedAt: ZonedDateTime,
     // 구매 관련
@@ -28,6 +29,7 @@ data class TradeItem(
                 tradeId = tradeId,
                 gachaId = gachaId,
                 type = TradeItemType.SALES,
+                status = TradeStatus.PENDING,
                 createdAt = ZonedDateTime.now(),
                 updatedAt = ZonedDateTime.now(),
                 salesItemId = request.gachaItemId,
@@ -45,6 +47,7 @@ data class TradeItem(
                 tradeId = tradeId,
                 gachaId = gachaId,
                 type = TradeItemType.EXCHANGE,
+                status = TradeStatus.PENDING,
                 createdAt = ZonedDateTime.now(),
                 updatedAt = ZonedDateTime.now(),
                 salesItemId = null,

@@ -74,6 +74,7 @@
              , trade_id
              , gacha_id
              , type
+             , status
              , created_at
              , updated_at
              , sales_item_id
@@ -88,6 +89,7 @@
              , #{tradeId}
              , #{gachaId}
              , #{type}
+             , #{status}
              , #{createdAt}
              , #{updatedAt}
              , #{salesItemId}

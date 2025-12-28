@@ -42,6 +42,7 @@
              , TI.trade_id
              , TI.gacha_id
              , TI.type
+             , TI.status
              , TI.created_at
              , TI.updated_at
              , TI.sales_item_id

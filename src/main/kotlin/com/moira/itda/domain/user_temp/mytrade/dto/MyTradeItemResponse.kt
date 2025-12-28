@@ -1,13 +1,13 @@
 package com.moira.itda.domain.user_temp.mytrade.dto
 
-import com.moira.itda.global.entity.TradeItemType
 import java.time.ZonedDateTime
 
 data class MyTradeItemResponse(
     val id: String,
     val tradeId: String,
     val gachaId: String,
-    val type: TradeItemType,
+    val type: String,
+    val status: String,
     val createdAt: ZonedDateTime,
     val updatedAt: ZonedDateTime,
     // 판매 관련

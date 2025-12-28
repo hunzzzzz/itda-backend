@@ -8,6 +8,7 @@ data class TradeItemResponse(
     val tradeId: String,
     val gachaId: String,
     val type: TradeItemType,
+    val status: String,
     val createdAt: ZonedDateTime,
     val updatedAt: ZonedDateTime,
     // 구매 관련
