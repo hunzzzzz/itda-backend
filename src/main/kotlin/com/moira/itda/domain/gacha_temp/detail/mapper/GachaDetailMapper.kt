@@ -2,27 +2,11 @@ package com.moira.itda.domain.gacha_temp.detail.mapper
 
 import com.moira.itda.domain.gacha_temp.detail.dto.response.TradeItemResponse
 import com.moira.itda.domain.gacha_temp.detail.dto.response.TradeResponse
-import com.moira.itda.global.entity.GachaWish
 import com.moira.itda.global.entity.Trade
 import org.apache.ibatis.annotations.Mapper
 
 @Mapper
 interface GachaDetailMapper {
-    /**
-     * 가챠정보 > 가챠목록 > 상세정보 > 즐겨찾기 여부 조회
-     */
-    fun selectGachaWishChk(userId: String, gachaId: String): String
-
-    /**
-     * 가챠정보 > 가챠목록 > 상세정보 > 즐겨찾기 > GachaWish 저장
-     */
-    fun insertGachaWish(gachaWish: GachaWish)
-
-    /**
-     * 가챠정보 > 가챠목록 > 상세정보 > 즐겨찾기 > GachaWish 삭제
-     */
-    fun deleteGachaWish(userId: String, gachaId: String)
-
     /**
      * 가챠정보 > 가챠목록 > 상세정보 > 교환 > 진행 중인 교환글 존재 여부 확인
      */

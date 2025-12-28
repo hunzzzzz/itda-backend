@@ -1,10 +1,8 @@
 package com.moira.itda.domain.gacha_temp.detail.service
 
-import com.moira.itda.domain.gacha_temp.detail.dto.response.GachaWishCheckResponse
 import com.moira.itda.domain.gacha_temp.detail.dto.response.TradeContentResponse
 import com.moira.itda.domain.gacha_temp.detail.dto.response.TradePageResponse
 import com.moira.itda.domain.gacha_temp.detail.mapper.GachaDetailMapper
-import com.moira.itda.global.entity.GachaWish
 import com.moira.itda.global.entity.TradeStatus
 import com.moira.itda.global.exception.ErrorCode
 import com.moira.itda.global.exception.ItdaException
@@ -13,7 +11,6 @@ import com.moira.itda.global.pagination.component.OffsetPaginationHandler
 import com.moira.itda.global.pagination.component.PageSizeConstant.Companion.GACHA_DETAIL_TRADE_PAGE_SIZE
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.time.ZonedDateTime
 
 @Service
 class GachaDetailService(
@@ -21,35 +18,6 @@ class GachaDetailService(
     private val gachaDetailMapper: GachaDetailMapper,
     private val offsetPaginationHandler: OffsetPaginationHandler
 ) {
-    /**
-     * 가챠정보 > 가챠목록 > 상세정보 > 즐겨찾기 여부 조회
-     */
-    @Transactional(readOnly = true)
-    fun checkWish(userId: String, gachaId: String): GachaWishCheckResponse {
-        val wishYn = gachaDetailMapper.selectGachaWishChk(userId = userId, gachaId = gachaId)
-
-        return GachaWishCheckResponse(wishYn = wishYn)
-    }
-
-    /**
-     * 가챠정보 > 가챠목록 > 상세정보 > 즐겨찾기
-     */
-    @Transactional
-    fun wish(userId: String, gachaId: String) {
-        // [1] 즐겨찾기 여부 조회
-        val wishYn = this.checkWish(userId = userId, gachaId = gachaId).wishYn
-
-        // [2-1] GachaWish 저장
-        if ("N" == wishYn) {
-            val gachaWish = GachaWish(id = null, userId = userId, gachaId = gachaId, createdAt = ZonedDateTime.now())
-            gachaDetailMapper.insertGachaWish(gachaWish = gachaWish)
-        }
-        // [2-2] GachaWish 삭제
-        else {
-            gachaDetailMapper.deleteGachaWish(userId = userId, gachaId = gachaId)
-        }
-    }
-
     /**
      * 가챠정보 > 가챠목록 > 상세정보 > 교환 > 진행 중인 교환글 존재 여부 확인
      */
