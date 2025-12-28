@@ -32,6 +32,11 @@ interface GachaMapper {
     fun selectGachaItemList(gachaId: String): List<GachaItemResponse>
 
     /**
+     * 가챠정보 > 가챠 목록 > 상세정보 > 내 가챠 이력 조회
+     */
+    fun selectGachaPickHistoryList(gachaId: String, userId: String): List<Long>
+
+    /**
      * 가챠정보 > 가챠 목록 > 상세정보 > 조회수 증가
      */
     fun updateViewCount(gachaId: String)

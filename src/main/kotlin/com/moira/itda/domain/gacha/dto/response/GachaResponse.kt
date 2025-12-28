@@ -12,6 +12,7 @@ data class GachaResponse(
     val price: Int,
     val viewCount: Int,
     val wishCount: Int,
+    val totalPickCount: Int?, // 가챠 목록 조회 시에는 사용되지 않는 필드 (null)
     val createdAt: ZonedDateTime,
     val updatedAt: ZonedDateTime
 )

@@ -1,8 +1,10 @@
 package com.moira.itda.domain.gacha.controller
 
-import com.moira.itda.domain.gacha.service.GachaService
-import com.moira.itda.domain.gacha.dto.response.GachaPageResponse
 import com.moira.itda.domain.gacha.dto.response.GachaDetailResponse
+import com.moira.itda.domain.gacha.dto.response.GachaPageResponse
+import com.moira.itda.domain.gacha.service.GachaService
+import com.moira.itda.global.auth.aop.UserPrincipal
+import com.moira.itda.global.auth.dto.UserAuth
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.http.ResponseEntity
@@ -38,11 +40,13 @@ class GachaController(
      */
     @GetMapping("/api/gacha/{gachaId}")
     fun get(
+        @UserPrincipal userAuth: UserAuth,
         @PathVariable gachaId: String,
         httpReq: HttpServletRequest,
         httpRes: HttpServletResponse
     ): ResponseEntity<GachaDetailResponse> {
         val response = service.get(
+            userId = userAuth.userId,
             gachaId = gachaId,
             httpReq = httpReq,
             httpRes = httpRes

@@ -16,7 +16,7 @@ class GachaPickService(
     @Transactional
     fun pick(userId: String, gachaId: String, request: GachaPickRequest) {
         // [1] 해당 유저의 기존 GachaPickHistory 삭제
-        mapper.deleteGachaPickHistory(userId = userId)
+        mapper.deleteGachaPickHistory(gachaId = gachaId, userId = userId)
 
         // [2] GachaPickHistory 저장
         request.gachaItemIdList.forEach { gachaItemId ->
