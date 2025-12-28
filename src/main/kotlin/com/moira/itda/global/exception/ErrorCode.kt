@@ -70,18 +70,19 @@ enum class ErrorCode(
         message = "코드가 일치하지 않습니다. 다시 확인해주세요.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
-
-
     LOGIN_ERROR(
-        code = "U0007",
+        code = "U0011",
         message = "이메일 혹은 비밀번호를 잘못 입력하였습니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
     USER_NOT_FOUND(
-        code = "U0010",
-        message = "존재하지 않는 유저입니다.",
+        code = "U0012",
+        message = "존재하지 않는 유저입니다. 에러가 지속되는 경우 고객센터로 문의해주세요.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
+
+
+
     PASSWORD_NOT_MATCH(
         code = "U0011",
         message = "비밀번호가 일치하지 않습니다.",

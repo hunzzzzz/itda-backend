@@ -145,6 +145,25 @@
 
     <!-- ====================================================================================================== -->
 
+    <!-- 마이페이지 > 내 프로필 조회 -->
+    <select id="selectMyPageResponse" resultType="com.moira.itda.domain.user.dto.response.MyPageResponse">
+        SELECT
+               U.id AS user_id
+             , U.role
+             , U.status
+             , U.email
+             , U.name
+             , U.nickname
+             , U.file_id
+             , (SELECT file_url FROM IMAGE_FILE WHERE file_id = U.file_id ORDER BY created_at ASC LIMIT 1) AS image_file_url
+             , U.last_login_at
+             , U.created_at
+        FROM USER U
+        WHERE U.id = #{userId}
+    </select>
+
+    <!-- ====================================================================================================== -->
+
     <!-- 스케쥴러 (30분 간격) > UserSignupIdentifyCode 삭제 -->
     <delete id="deleteUserSignupIdentifyCode">
         DELETE FROM USER_SIGNUP_IDENTIFY_CODE

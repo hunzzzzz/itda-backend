@@ -3,7 +3,7 @@ package com.moira.itda.domain.user_temp.mypage.controller
 import com.moira.itda.domain.user_temp.mypage.dto.request.NicknameUpdateRequest
 import com.moira.itda.domain.user_temp.mypage.dto.request.PasswordUpdateRequest
 import com.moira.itda.domain.user_temp.mypage.dto.request.ProfileImageUpdateRequest
-import com.moira.itda.domain.user_temp.mypage.dto.response.MyPageResponse
+import com.moira.itda.domain.user.dto.response.MyPageResponse
 import com.moira.itda.domain.user_temp.mypage.service.MyPageService
 import com.moira.itda.global.auth.aop.UserPrincipal
 import com.moira.itda.global.auth.dto.UserAuth
@@ -21,16 +21,6 @@ import org.springframework.web.bind.annotation.RestController
 class MyPageController(
     private val myPageService: MyPageService
 ) {
-    /**
-     * 마이페이지 > 내 프로필 조회
-     */
-    @GetMapping("/api/me")
-    fun getMyProfile(@UserPrincipal userAuth: UserAuth): ResponseEntity<MyPageResponse> {
-        val response = myPageService.getMyProfile(userId = userAuth.userId)
-
-        return ResponseEntity.ok(response)
-    }
-
     /**
      * 마이페이지 > 프로필 사진 변경
      */

@@ -1,15 +1,9 @@
 package com.moira.itda.domain.user_temp.mypage.mapper
 
-import com.moira.itda.domain.user_temp.mypage.dto.response.MyPageResponse
 import org.apache.ibatis.annotations.Mapper
 
 @Mapper
 interface MyPageMapper {
-    /**
-     * 마이페이지 > 내 프로필 조회
-     */
-    fun selectMyPageResponse(userId: String): MyPageResponse?
-
     /**
      * 마이페이지 > 프로필 사진 변경 > 현재 프로필 사진 Url 조회
      */

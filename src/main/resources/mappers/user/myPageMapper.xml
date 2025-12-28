@@ -4,25 +4,6 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.moira.itda.domain.user_temp.mypage.mapper.MyPageMapper">
-    <!-- 마이페이지 > 내 프로필 조회 -->
-    <select id="selectMyPageResponse" resultType="com.moira.itda.domain.user_temp.mypage.dto.response.MyPageResponse">
-        SELECT
-               U.id AS userId
-             , U.role
-             , U.status
-             , U.email
-             , U.name
-             , U.nickname
-             , U.file_id
-             , F.file_url AS imageFileUrl
-             , U.last_login_at
-             , U.created_at
-        FROM USER U
-        LEFT JOIN IMAGE_FILE F
-         ON F.file_id = U.file_id
-        WHERE U.id = #{userId}
-    </select>
-
     <!-- 마이페이지 > 프로피 사진 변경 > 파일 ID 수정 -->
     <select id="selectCurrentFileUrl" resultType="java.lang.String">
         SELECT F.file_url

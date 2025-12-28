@@ -1,5 +1,6 @@
 package com.moira.itda.domain.user.mapper
 
+import com.moira.itda.domain.user.dto.response.MyPageResponse
 import com.moira.itda.global.entity.User
 import com.moira.itda.global.entity.UserLoginHistory
 import com.moira.itda.global.entity.UserSignupIdentifyCode
@@ -63,6 +64,13 @@ interface UserMapper {
      * 로그아웃 > RefreshToken 초기화
      */
     fun updateRefreshTokenNull(userId: String)
+
+    // ---------------------------------------------------------------------------------------------- //
+
+    /**
+     * 마이페이지 > 내 프로필 조회
+     */
+    fun selectMyPageResponse(userId: String): MyPageResponse?
 
     // ---------------------------------------------------------------------------------------------- //
 

@@ -4,7 +4,7 @@ import com.moira.itda.domain.user.service.UserService
 import com.moira.itda.domain.user_temp.mypage.dto.request.NicknameUpdateRequest
 import com.moira.itda.domain.user_temp.mypage.dto.request.PasswordUpdateRequest
 import com.moira.itda.domain.user_temp.mypage.dto.request.ProfileImageUpdateRequest
-import com.moira.itda.domain.user_temp.mypage.dto.response.MyPageResponse
+import com.moira.itda.domain.user.dto.response.MyPageResponse
 import com.moira.itda.domain.user_temp.mypage.mapper.MyPageMapper
 import com.moira.itda.global.exception.ErrorCode
 import com.moira.itda.global.exception.ItdaException
@@ -23,14 +23,6 @@ class MyPageService(
 ) {
     private val passwordRegex =
         Regex("^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()\\-_+=\\[\\]{}|;:',.<>?/`~])(?=.*\\d)?[A-Za-z\\d!@#$%^&*()\\-_+=\\[\\]{}|;:',.<>?/`~]{8,16}$")
-
-    /**
-     * 마이페이지 > 내 프로필 조회
-     */
-    @Transactional(readOnly = true)
-    fun getMyProfile(userId: String): MyPageResponse {
-        return myPageMapper.selectMyPageResponse(userId = userId) ?: throw ItdaException(ErrorCode.USER_NOT_FOUND)
-    }
 
     /**
      * 마이페이지 > 프로필 사진 변경

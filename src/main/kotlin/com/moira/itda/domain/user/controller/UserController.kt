@@ -3,6 +3,7 @@ package com.moira.itda.domain.user.controller
 import com.moira.itda.domain.user.dto.request.LoginRequest
 import com.moira.itda.domain.user.dto.request.SignupRequest
 import com.moira.itda.domain.user.dto.response.LoginResponse
+import com.moira.itda.domain.user.dto.response.MyPageResponse
 import com.moira.itda.domain.user.dto.response.TokenRefreshResponse
 import com.moira.itda.domain.user.service.UserService
 import com.moira.itda.global.auth.aop.UserPrincipal
@@ -102,6 +103,16 @@ class UserController(
         httpRes: HttpServletResponse
     ): ResponseEntity<TokenRefreshResponse> {
         val response = service.refresh(httpReq = httpReq, httpRes = httpRes)
+
+        return ResponseEntity.ok(response)
+    }
+
+    /**
+     * 마이페이지 > 내 프로필 조회
+     */
+    @GetMapping("/api/me")
+    fun getMyProfile(@UserPrincipal userAuth: UserAuth): ResponseEntity<MyPageResponse> {
+        val response = service.getMyProfile(userId = userAuth.userId)
 
         return ResponseEntity.ok(response)
     }

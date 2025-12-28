@@ -5,6 +5,7 @@ import com.moira.itda.domain.user.component.UserValidator
 import com.moira.itda.domain.user.dto.request.LoginRequest
 import com.moira.itda.domain.user.dto.request.SignupRequest
 import com.moira.itda.domain.user.dto.response.LoginResponse
+import com.moira.itda.domain.user.dto.response.MyPageResponse
 import com.moira.itda.domain.user.dto.response.TokenRefreshResponse
 import com.moira.itda.domain.user.mapper.UserMapper
 import com.moira.itda.global.auth.component.CookieHandler
@@ -219,5 +220,13 @@ class UserService(
             }
 
         return TokenRefreshResponse(accessToken = "")
+    }
+
+    /**
+     * 마이페이지 > 내 프로필 조회
+     */
+    @Transactional(readOnly = true)
+    fun getMyProfile(userId: String): MyPageResponse {
+        return mapper.selectMyPageResponse(userId = userId) ?: throw ItdaException(ErrorCode.USER_NOT_FOUND)
     }
 }
