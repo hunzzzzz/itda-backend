@@ -1,8 +1,8 @@
-package com.moira.itda.domain.user_temp.mytradesuggest.dto.response
+package com.moira.itda.domain.suggest.dto.response
 
 import com.moira.itda.global.pagination.dto.PageResponse
 
-data class SuggestPageResponse(
+data class TradeSuggestPageResponse(
     val content: List<TradeSuggestResponse>,
     val page: PageResponse
 )

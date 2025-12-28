@@ -1,12 +1,13 @@
 package com.moira.itda.domain.user_temp.mytradesuggest.controller
 
 import com.moira.itda.domain.user_temp.mytradesuggest.dto.response.ChatRoomIdResponse
-import com.moira.itda.domain.user_temp.mytradesuggest.dto.response.SuggestPageResponse
 import com.moira.itda.domain.user_temp.mytradesuggest.service.MyTradeSuggestService
 import com.moira.itda.global.auth.aop.UserPrincipal
 import com.moira.itda.global.auth.dto.UserAuth
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.*
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PutMapping
+import org.springframework.web.bind.annotation.RestController
 
 /**
  * 마이페이지 > 내 거래 목록 조회 > 제안 목록 모달
@@ -15,22 +16,6 @@ import org.springframework.web.bind.annotation.*
 class MyTradeSuggestController(
     private val myTradeSuggestService: MyTradeSuggestService
 ) {
-    /**
-     * 마이페이지 > 내 거래 목록 조회 > 제안 목록 모달 > 제안 목록 조회
-     */
-    @GetMapping("/api/me/trade/{tradeId}")
-    fun getMyTradeSuggests(
-        @PathVariable tradeId: String,
-        @RequestParam(required = false, defaultValue = "1") page: Int
-    ): ResponseEntity<SuggestPageResponse> {
-        val response = myTradeSuggestService.getMyTradeSuggests(
-            tradeId = tradeId,
-            page = page,
-        )
-
-        return ResponseEntity.ok(response)
-    }
-
     /**
      * 마이페이지 > 내 거래 목록 조회 > 제안 목록 모달 > 제안 승인
      */

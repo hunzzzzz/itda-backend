@@ -1,21 +1,10 @@
 package com.moira.itda.domain.user_temp.mytradesuggest.mapper
 
-import com.moira.itda.domain.user_temp.mytradesuggest.dto.response.TradeSuggestResponse
 import com.moira.itda.global.entity.ChatRoom
 import org.apache.ibatis.annotations.Mapper
 
 @Mapper
 interface MyTradeSuggestMapper {
-    /**
-     * 마이페이지 > 내 거래 목록 조회 > 제안 목록 모달 > 제안 목록 조회 > totalElements 계산
-     */
-    fun selectTradeSuggestListCnt(tradeId: String): Long
-
-    /**
-     * 마이페이지 > 내 거래 목록 조회 > 제안 목록 모달 > 제안 목록 조회
-     */
-    fun selectTradeSuggestList(tradeId: String, pageSize: Int, offset: Int): List<TradeSuggestResponse>
-
     /**
      * 마이페이지 > 내 거래 목록 조회 > 제안 목록 모달 > 제안 승인 > status 변경 (APPROVED)
      */

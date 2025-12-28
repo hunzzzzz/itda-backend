@@ -1,4 +1,4 @@
-package com.moira.itda.domain.user_temp.mytradesuggest.dto.response
+package com.moira.itda.domain.suggest.dto.response
 
 import java.time.ZonedDateTime
 
@@ -6,6 +6,7 @@ data class TradeSuggestResponse(
     // 제안 관련 (공통)
     val suggestId: String,
     val tradeId: String,
+    val tradeItemId: String,
     val gachaId: String,
     val type: String,
     val status: String,
