@@ -29,7 +29,8 @@ interface TradeSuggestMapper {
         tradeId: String,
         type: String,
         purchaseItemId: Long?,
-        suggestedItemId: Long?
+        exchangeSellerItemId: Long?,
+        exchangeSuggestedItemId: Long?
     ): Long
 
     /**

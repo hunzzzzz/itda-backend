@@ -69,7 +69,7 @@ class MyPageController(
         myPageService.updatePassword(
             userId = userAuth.userId,
             request = request,
-            httpServletResponse = httpServletResponse
+            httpRes = httpServletResponse
         )
 
         return ResponseEntity.ok(null)

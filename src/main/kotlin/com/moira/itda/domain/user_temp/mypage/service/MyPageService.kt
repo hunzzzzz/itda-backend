@@ -1,6 +1,6 @@
 package com.moira.itda.domain.user_temp.mypage.service
 
-import com.moira.itda.domain.user_temp.logout.service.LogoutService
+import com.moira.itda.domain.user.service.UserService
 import com.moira.itda.domain.user_temp.mypage.dto.request.NicknameUpdateRequest
 import com.moira.itda.domain.user_temp.mypage.dto.request.PasswordUpdateRequest
 import com.moira.itda.domain.user_temp.mypage.dto.request.ProfileImageUpdateRequest
@@ -17,9 +17,9 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class MyPageService(
     private val awsS3Handler: AwsS3Handler,
-    private val logoutService: LogoutService,
     private val myPageMapper: MyPageMapper,
-    private val passwordEncoder: PasswordEncoder
+    private val passwordEncoder: PasswordEncoder,
+    private val userService: UserService
 ) {
     private val passwordRegex =
         Regex("^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()\\-_+=\\[\\]{}|;:',.<>?/`~])(?=.*\\d)?[A-Za-z\\d!@#$%^&*()\\-_+=\\[\\]{}|;:',.<>?/`~]{8,16}$")
@@ -70,7 +70,7 @@ class MyPageService(
     fun updatePassword(
         userId: String,
         request: PasswordUpdateRequest,
-        httpServletResponse: HttpServletResponse
+        httpRes: HttpServletResponse
     ) {
         // [1] 현재 비밀번호 조회
         val currentPassword = myPageMapper.selectCurrentPassword(userId = userId)
@@ -90,6 +90,6 @@ class MyPageService(
         myPageMapper.updatePassword(userId = userId, newPassword = passwordEncoder.encode(request.newPassword))
 
         // [4] 로그아웃 서비스 호출
-        logoutService.logout(userId = userId, httpServletResponse = httpServletResponse)
+        userService.logout(userId = userId, httpRes = httpRes)
     }
 }

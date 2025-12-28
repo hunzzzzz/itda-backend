@@ -47,7 +47,8 @@ class TradeSuggestService(
                 tradeId = tradeId,
                 type = TradeSuggestType.PURCHASE.name,
                 purchaseItemId = request.gachaItemId,
-                suggestedItemId = null,
+                exchangeSellerItemId = null,
+                exchangeSuggestedItemId = null
             ) > 0
         ) {
             throw ItdaException(ErrorCode.ALREADY_SUGGESTED_PURCHASE_ON_THE_TRADE_ITEM)
@@ -99,17 +100,16 @@ class TradeSuggestService(
         if (tradeSuggestMapper.selectTradeStatus(tradeId = tradeId) != TradeStatus.PENDING.name) {
             throw ItdaException(ErrorCode.SUGGEST_ONLY_WHEN_TRADE_IS_PENDING)
         }
-        if (request.changeYn == "Y") {
-            if (tradeSuggestMapper.selectTradeSuggestChk(
-                    userId = userId,
-                    tradeId = tradeId,
-                    type = TradeSuggestType.EXCHANGE.name,
-                    purchaseItemId = null,
-                    suggestedItemId = request.suggestedItemId
-                ) > 0
-            ) {
-                throw ItdaException(ErrorCode.ALREADY_SUGGESTED_EXCHANGE_ON_THE_TRADE_ITEM)
-            }
+        if (tradeSuggestMapper.selectTradeSuggestChk(
+                userId = userId,
+                tradeId = tradeId,
+                type = TradeSuggestType.EXCHANGE.name,
+                purchaseItemId = null,
+                exchangeSellerItemId = request.sellerItemId,
+                exchangeSuggestedItemId = request.suggestedItemId
+            ) > 0
+        ) {
+            throw ItdaException(ErrorCode.ALREADY_SUGGESTED_EXCHANGE_ON_THE_TRADE_ITEM)
         }
     }
 

@@ -11,7 +11,7 @@ data class UserLoginHistory(
     val loginAt: ZonedDateTime
 ) {
     companion object {
-        fun fromLoginRequest(
+        fun from(
             userId: String,
             successYn: String,
             ipAddress: String,

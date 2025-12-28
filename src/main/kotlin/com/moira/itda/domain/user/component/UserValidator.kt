@@ -1,14 +1,14 @@
 package com.moira.itda.domain.user.component
 
+import com.moira.itda.domain.user.dto.request.SignupRequest
 import com.moira.itda.domain.user.mapper.UserMapper
-import com.moira.itda.domain.user.request.SignupRequest
 import com.moira.itda.global.exception.ErrorCode
 import com.moira.itda.global.exception.ItdaException
 import org.springframework.stereotype.Component
 
 @Component
 class UserValidator(
-    private val mapper: UserMapper,
+    private val mapper: UserMapper
 ) {
     private val emailRegex =
         Regex("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$")

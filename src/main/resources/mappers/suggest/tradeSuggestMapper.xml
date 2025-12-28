@@ -43,7 +43,8 @@
                 AND purchase_item_id = #{purchaseItemId}
             </when>
             <when test='type == "EXCHANGE"'>
-                AND suggested_item_id = #{suggestedItemId}
+                AND exchange_seller_item_id    = #{exchangeSellerItemId}
+                AND exchange_suggested_item_id = #{exchangeSuggestedItemId}
             </when>
         </choose>
     </select>
@@ -81,6 +82,7 @@
                id
              , user_id
              , trade_id
+             , trade_item_id
              , gacha_id
              , type
              , status
@@ -101,6 +103,7 @@
                #{id}
              , #{userId}
              , #{tradeId}
+             , #{tradeItemId}
              , #{gachaId}
              , #{type}
              , #{status}
