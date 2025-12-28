@@ -11,12 +11,12 @@ interface UserMapper {
     /**
      * 회원가입 > 닉네임 중복 확인
      */
-    fun selectNicknameChk(nickname: String): Int
+    fun selectNicknameChk(nickname: String): Boolean
 
     /**
      * 회원가입 > 이메일 중복 확인
      */
-    fun selectEmailChk(email: String): Int
+    fun selectEmailChk(email: String): Boolean
 
     /**
      * 회원가입 > 본인인증 > UserSignupIdentifyCode 저장

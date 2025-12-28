@@ -19,7 +19,7 @@ class UserValidator(
      * 회원가입 > 닉네임 중복 확인
      */
     fun validateNickname(nickname: String) {
-        if (mapper.selectNicknameChk(nickname = nickname) > 0) {
+        if (mapper.selectNicknameChk(nickname = nickname)) {
             throw ItdaException(ErrorCode.USING_NICKNAME)
         }
     }
@@ -28,7 +28,7 @@ class UserValidator(
      * 회원가입 > 이메일 중복 확인
      */
     fun validateEmail(email: String) {
-        if (mapper.selectEmailChk(email = email) > 0) {
+        if (mapper.selectEmailChk(email = email)) {
             throw ItdaException(ErrorCode.USING_EMAIL)
         }
     }
@@ -44,7 +44,7 @@ class UserValidator(
         if (!emailRegex.matches(request.email)) {
             throw ItdaException(ErrorCode.INVALID_EMAIL)
         }
-        if (mapper.selectEmailChk(email = request.email) > 0) {
+        if (mapper.selectEmailChk(email = request.email)) {
             throw ItdaException(ErrorCode.USING_EMAIL)
         }
         // 비밀번호
@@ -62,7 +62,7 @@ class UserValidator(
         if (request.nickname.isBlank()) {
             throw ItdaException(ErrorCode.NO_NICKNAME)
         }
-        if (mapper.selectNicknameChk(nickname = request.nickname) > 0) {
+        if (mapper.selectNicknameChk(nickname = request.nickname)) {
             throw ItdaException(ErrorCode.USING_NICKNAME)
         }
     }

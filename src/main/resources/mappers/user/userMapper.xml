@@ -5,13 +5,17 @@
 
 <mapper namespace="com.moira.itda.domain.user.mapper.UserMapper">
     <!-- 회원가입 > 닉네임 중복 확인 -->
-    <select id="selectNicknameChk">
-        SELECT COUNT(id) FROM USER WHERE nickname = #{nickname}
+    <select id="selectNicknameChk" resultType="java.lang.Boolean">
+        SELECT EXISTS (
+            SELECT 1 FROM USER WHERE nickname = #{nickname}
+        )
     </select>
 
     <!-- 회원가입 > 이메일 중복 확인 -->
-    <select id="selectEmailChk">
-        SELECT COUNT(id) FROM USER WHERE email = #{email}
+    <select id="selectEmailChk" resultType="java.lang.Boolean">
+        SELECT EXISTS (
+            SELECT 1 FROM USER WHERE email = #{email}
+        )
     </select>
 
     <!-- 회원가입 > 본인인증 > UserSignupIdentifyCode 저장 -->
