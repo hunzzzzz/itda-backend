@@ -1,11 +1,11 @@
-package com.moira.itda.domain.suggest.controller
+package com.moira.itda.domain.suggest_temp.controller
 
-import com.moira.itda.domain.suggest.dto.request.ExchangeSuggestRequest
-import com.moira.itda.domain.suggest.dto.request.PurchaseSuggestRequest
-import com.moira.itda.domain.suggest.dto.response.ExchangeItemResponse
-import com.moira.itda.domain.suggest.dto.response.GachaItemResponse
-import com.moira.itda.domain.suggest.dto.response.SalesItemResponse
-import com.moira.itda.domain.suggest.service.TradeSuggestService
+import com.moira.itda.domain.suggest_temp.dto.request.ExchangeSuggestRequest
+import com.moira.itda.domain.suggest_temp.dto.request.PurchaseSuggestRequest
+import com.moira.itda.domain.suggest_temp.dto.response.ExchangeItemResponse
+import com.moira.itda.domain.suggest_temp.dto.response.GachaItemResponse
+import com.moira.itda.domain.suggest_temp.dto.response.SalesItemResponse
+import com.moira.itda.domain.suggest_temp.service.TradeSuggestService
 import com.moira.itda.global.auth.aop.UserPrincipal
 import com.moira.itda.global.auth.dto.UserAuth
 import org.springframework.http.ResponseEntity

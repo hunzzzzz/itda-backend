@@ -1,11 +1,11 @@
-package com.moira.itda.domain.suggest.service
+package com.moira.itda.domain.suggest_temp.service
 
-import com.moira.itda.domain.suggest.dto.request.ExchangeSuggestRequest
-import com.moira.itda.domain.suggest.dto.request.PurchaseSuggestRequest
-import com.moira.itda.domain.suggest.dto.response.ExchangeItemResponse
-import com.moira.itda.domain.suggest.dto.response.GachaItemResponse
-import com.moira.itda.domain.suggest.dto.response.SalesItemResponse
-import com.moira.itda.domain.suggest.mapper.TradeSuggestMapper
+import com.moira.itda.domain.suggest_temp.dto.request.ExchangeSuggestRequest
+import com.moira.itda.domain.suggest_temp.dto.request.PurchaseSuggestRequest
+import com.moira.itda.domain.suggest_temp.dto.response.ExchangeItemResponse
+import com.moira.itda.domain.suggest_temp.dto.response.GachaItemResponse
+import com.moira.itda.domain.suggest_temp.dto.response.SalesItemResponse
+import com.moira.itda.domain.suggest_temp.mapper.TradeSuggestMapper
 import com.moira.itda.global.entity.TradeStatus
 import com.moira.itda.global.entity.TradeSuggest
 import com.moira.itda.global.entity.TradeSuggestType

@@ -1,4 +1,4 @@
-package com.moira.itda.domain.suggest.dto.response
+package com.moira.itda.domain.suggest_temp.dto.response
 
 data class GachaItemResponse(
     val gachaItemId: Long,

@@ -1,10 +1,9 @@
-package com.moira.itda.domain.suggest.mapper
+package com.moira.itda.domain.suggest_temp.mapper
 
-import com.moira.itda.domain.suggest.dto.response.ExchangeItemResponse
-import com.moira.itda.domain.suggest.dto.response.GachaItemResponse
-import com.moira.itda.domain.suggest.dto.response.SalesItemResponse
+import com.moira.itda.domain.suggest_temp.dto.response.ExchangeItemResponse
+import com.moira.itda.domain.suggest_temp.dto.response.GachaItemResponse
+import com.moira.itda.domain.suggest_temp.dto.response.SalesItemResponse
 import com.moira.itda.global.entity.TradeSuggest
-import com.moira.itda.global.entity.TradeSuggestType
 import org.apache.ibatis.annotations.Mapper
 
 @Mapper
