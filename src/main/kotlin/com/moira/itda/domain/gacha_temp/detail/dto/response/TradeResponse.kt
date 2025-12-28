@@ -1,4 +1,4 @@
-package com.moira.itda.domain.gacha.detail.dto.response
+package com.moira.itda.domain.gacha_temp.detail.dto.response
 
 import com.moira.itda.global.entity.TradeHopeMethod
 import java.time.ZonedDateTime

@@ -1,9 +1,9 @@
-package com.moira.itda.domain.gacha.detail.controller
+package com.moira.itda.domain.gacha_temp.detail.controller
 
-import com.moira.itda.domain.gacha.detail.dto.response.GachaDetailResponse
-import com.moira.itda.domain.gacha.detail.dto.response.GachaWishCheckResponse
-import com.moira.itda.domain.gacha.detail.dto.response.TradePageResponse
-import com.moira.itda.domain.gacha.detail.service.GachaDetailService
+import com.moira.itda.domain.gacha_temp.detail.dto.response.GachaDetailResponse
+import com.moira.itda.domain.gacha_temp.detail.dto.response.GachaWishCheckResponse
+import com.moira.itda.domain.gacha_temp.detail.dto.response.TradePageResponse
+import com.moira.itda.domain.gacha_temp.detail.service.GachaDetailService
 import com.moira.itda.global.auth.aop.UserPrincipal
 import com.moira.itda.global.auth.dto.UserAuth
 import jakarta.servlet.http.HttpServletRequest

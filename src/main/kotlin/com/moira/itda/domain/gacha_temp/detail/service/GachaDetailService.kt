@@ -1,10 +1,10 @@
-package com.moira.itda.domain.gacha.detail.service
+package com.moira.itda.domain.gacha_temp.detail.service
 
-import com.moira.itda.domain.gacha.detail.dto.response.GachaDetailResponse
-import com.moira.itda.domain.gacha.detail.dto.response.GachaWishCheckResponse
-import com.moira.itda.domain.gacha.detail.dto.response.TradeContentResponse
-import com.moira.itda.domain.gacha.detail.dto.response.TradePageResponse
-import com.moira.itda.domain.gacha.detail.mapper.GachaDetailMapper
+import com.moira.itda.domain.gacha_temp.detail.dto.response.GachaDetailResponse
+import com.moira.itda.domain.gacha_temp.detail.dto.response.GachaWishCheckResponse
+import com.moira.itda.domain.gacha_temp.detail.dto.response.TradeContentResponse
+import com.moira.itda.domain.gacha_temp.detail.dto.response.TradePageResponse
+import com.moira.itda.domain.gacha_temp.detail.mapper.GachaDetailMapper
 import com.moira.itda.global.auth.component.CookieHandler
 import com.moira.itda.global.entity.GachaWish
 import com.moira.itda.global.entity.TradeStatus

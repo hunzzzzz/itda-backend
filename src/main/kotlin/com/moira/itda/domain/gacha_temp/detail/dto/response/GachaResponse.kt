@@ -1,4 +1,4 @@
-package com.moira.itda.domain.gacha.list.dto.response
+package com.moira.itda.domain.gacha_temp.detail.dto.response
 
 import java.time.ZonedDateTime
 
@@ -11,7 +11,5 @@ data class GachaResponse(
     val fileUrl: String,
     val price: Int,
     val viewCount: Int,
-    val wishCount: Int,
-    val createdAt: ZonedDateTime,
-    val updatedAt: ZonedDateTime
+    val createdAt: ZonedDateTime
 )

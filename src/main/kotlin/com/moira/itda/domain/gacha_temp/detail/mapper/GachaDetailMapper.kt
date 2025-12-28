@@ -1,9 +1,9 @@
-package com.moira.itda.domain.gacha.detail.mapper
+package com.moira.itda.domain.gacha_temp.detail.mapper
 
-import com.moira.itda.domain.gacha.detail.dto.response.GachaItemResponse
-import com.moira.itda.domain.gacha.detail.dto.response.GachaResponse
-import com.moira.itda.domain.gacha.detail.dto.response.TradeItemResponse
-import com.moira.itda.domain.gacha.detail.dto.response.TradeResponse
+import com.moira.itda.domain.gacha_temp.detail.dto.response.GachaItemResponse
+import com.moira.itda.domain.gacha_temp.detail.dto.response.GachaResponse
+import com.moira.itda.domain.gacha_temp.detail.dto.response.TradeItemResponse
+import com.moira.itda.domain.gacha_temp.detail.dto.response.TradeResponse
 import com.moira.itda.global.entity.GachaWish
 import com.moira.itda.global.entity.Trade
 import org.apache.ibatis.annotations.Mapper

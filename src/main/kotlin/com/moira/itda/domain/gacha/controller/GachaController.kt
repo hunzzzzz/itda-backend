@@ -1,21 +1,21 @@
-package com.moira.itda.domain.gacha.list.controller
+package com.moira.itda.domain.gacha.controller
 
-import com.moira.itda.domain.gacha.list.dto.response.GachaPageResponse
-import com.moira.itda.domain.gacha.list.service.GachaListService
+import com.moira.itda.domain.gacha.service.GachaService
+import com.moira.itda.domain.gacha.dto.response.GachaPageResponse
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 /**
- * 가챠정보 탭 > 가챠목록 페이지
+ * 가챠정보 > 가챠 목록
  */
 @RestController
-class GachaListController(
-    private val gachaListService: GachaListService
+class GachaController(
+    private val service: GachaService
 ) {
     /**
-     * 가챠정보 > 가챠목록 > 전체 목록 조회
+     * 가챠정보 > 가챠 목록
      */
     @GetMapping("/api/gacha")
     fun getAll(
@@ -23,7 +23,7 @@ class GachaListController(
         @RequestParam(required = false, defaultValue = "1") page: Int,
         @RequestParam(required = false, defaultValue = "LATEST") sort: String
     ): ResponseEntity<GachaPageResponse> {
-        val response = gachaListService.getAll(keyword = keyword, page = page, sort = sort)
+        val response = service.getAll(keyword = keyword, page = page, sort = sort)
 
         return ResponseEntity.ok(response)
     }
