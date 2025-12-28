@@ -1,4 +1,4 @@
-package com.moira.itda.domain.gacha_temp.detail.dto.response
+package com.moira.itda.domain.gacha.dto.response
 
 data class GachaDetailResponse(
     val gacha: GachaResponse,

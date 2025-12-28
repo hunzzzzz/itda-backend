@@ -32,7 +32,7 @@
              , G.title
              , G.manufacturer
              , G.file_id
-             , (SELECT file_url FROM ITDA.IMAGE_FILE WHERE file_id = G.file_id ORDER BY created_at ASC LIMIT 1) AS file_url             , G.price
+             , (SELECT file_url FROM IMAGE_FILE WHERE file_id = G.file_id ORDER BY created_at ASC LIMIT 1) AS file_url             , G.price
              , G.view_count
              , (SELECT COUNT(id) FROM GACHA_WISH WHERE gacha_id = G.id) AS wish_count
              , G.created_at
@@ -61,4 +61,36 @@
         </choose>
         LIMIT #{pageSize} OFFSET #{offset}
     </select>
+
+    <!-- 가챠정보 > 가챠 목록 > 상세정보 > 상세정보 조회 -->
+    <select id="selectGacha" resultType="com.moira.itda.domain.gacha.dto.response.GachaResponse">
+        SELECT
+               G.id AS gacha_id
+             , G.status
+             , G.title
+             , G.manufacturer
+             , G.file_id
+             , (SELECT file_url FROM IMAGE_FILE WHERE file_id = G.file_id ORDER BY created_at ASC LIMIT 1) AS file_url             , G.price
+             , G.view_count
+             , (SELECT COUNT(id) FROM GACHA_WISH WHERE gacha_id = G.id) AS wish_count
+             , G.created_at
+             , G.updated_at
+        FROM GACHA G
+        WHERE G.id = #{gachaId}
+    </select>
+
+    <!-- 가챠정보 > 가챠 목록 > 상세정보 > 하위 아이템 목록 조회 -->
+    <select id="selectGachaItemList" resultType="com.moira.itda.domain.gacha.dto.response.GachaItemResponse">
+        SELECT
+               id AS gacha_item_id
+             , name
+        FROM GACHA_ITEM
+        WHERE gacha_id = #{gachaId}
+        ORDER BY created_at ASC
+    </select>
+
+    <!-- 가챠정보 > 가챠 목록 > 상세정보 > 조회수 증가 -->
+    <update id="updateViewCount">
+        UPDATE GACHA SET view_count = view_count + 1 WHERE id = #{gachaId}
+    </update>
 </mapper>

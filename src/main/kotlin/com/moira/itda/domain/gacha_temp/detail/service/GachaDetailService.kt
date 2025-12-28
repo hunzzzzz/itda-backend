@@ -1,11 +1,9 @@
 package com.moira.itda.domain.gacha_temp.detail.service
 
-import com.moira.itda.domain.gacha_temp.detail.dto.response.GachaDetailResponse
 import com.moira.itda.domain.gacha_temp.detail.dto.response.GachaWishCheckResponse
 import com.moira.itda.domain.gacha_temp.detail.dto.response.TradeContentResponse
 import com.moira.itda.domain.gacha_temp.detail.dto.response.TradePageResponse
 import com.moira.itda.domain.gacha_temp.detail.mapper.GachaDetailMapper
-import com.moira.itda.global.auth.component.CookieHandler
 import com.moira.itda.global.entity.GachaWish
 import com.moira.itda.global.entity.TradeStatus
 import com.moira.itda.global.exception.ErrorCode
@@ -13,8 +11,6 @@ import com.moira.itda.global.exception.ItdaException
 import com.moira.itda.global.file.component.AwsS3Handler
 import com.moira.itda.global.pagination.component.OffsetPaginationHandler
 import com.moira.itda.global.pagination.component.PageSizeConstant.Companion.GACHA_DETAIL_TRADE_PAGE_SIZE
-import jakarta.servlet.http.HttpServletRequest
-import jakarta.servlet.http.HttpServletResponse
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.ZonedDateTime
@@ -22,37 +18,9 @@ import java.time.ZonedDateTime
 @Service
 class GachaDetailService(
     private val awsS3Handler: AwsS3Handler,
-    private val cookieHandler: CookieHandler,
     private val gachaDetailMapper: GachaDetailMapper,
     private val offsetPaginationHandler: OffsetPaginationHandler
 ) {
-    /**
-     * 가챠정보 > 가챠목록 > 상세정보
-     */
-    @Transactional
-    fun get(
-        gachaId: String,
-        httpServletRequest: HttpServletRequest,
-        httpServletResponse: HttpServletResponse
-    ): GachaDetailResponse {
-        // [1] 상세정보 조회
-        val gacha = gachaDetailMapper.selectGacha(gachaId = gachaId)
-            ?: throw ItdaException(ErrorCode.GACHA_NOT_FOUND)
-        val items = gachaDetailMapper.selectGachaItemList(gachaId = gachaId)
-
-        // [2] 쿠키에 GachaId 여부 확인
-        if (!cookieHandler.checkGachaIdInCookie(gachaId = gachaId, request = httpServletRequest)) {
-            // [2-1] 쿠키에 GachaId가 없다면 조회수 증가
-            gachaDetailMapper.updateViewCount(gachaId = gachaId)
-
-            // [2-2] 쿠키에 GachaId 추가 (조회수 체크용)
-            cookieHandler.putGachaIdInCookie(gachaId = gachaId, response = httpServletResponse)
-        }
-
-        // [3] 상세정보 리턴
-        return GachaDetailResponse(gacha = gacha, items = items)
-    }
-
     /**
      * 가챠정보 > 가챠목록 > 상세정보 > 즐겨찾기 여부 조회
      */

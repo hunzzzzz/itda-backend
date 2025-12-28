@@ -1,13 +1,10 @@
 package com.moira.itda.domain.gacha_temp.detail.controller
 
-import com.moira.itda.domain.gacha_temp.detail.dto.response.GachaDetailResponse
 import com.moira.itda.domain.gacha_temp.detail.dto.response.GachaWishCheckResponse
 import com.moira.itda.domain.gacha_temp.detail.dto.response.TradePageResponse
 import com.moira.itda.domain.gacha_temp.detail.service.GachaDetailService
 import com.moira.itda.global.auth.aop.UserPrincipal
 import com.moira.itda.global.auth.dto.UserAuth
-import jakarta.servlet.http.HttpServletRequest
-import jakarta.servlet.http.HttpServletResponse
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -19,24 +16,6 @@ import org.springframework.web.bind.annotation.*
 class GachaDetailController(
     private val gachaDetailService: GachaDetailService
 ) {
-    /**
-     * 가챠정보 > 가챠목록 > 상세정보
-     */
-    @GetMapping("/api/gacha/{gachaId}")
-    fun get(
-        @PathVariable gachaId: String,
-        httpServletRequest: HttpServletRequest,
-        httpServletResponse: HttpServletResponse
-    ): ResponseEntity<GachaDetailResponse> {
-        val response = gachaDetailService.get(
-            gachaId = gachaId,
-            httpServletRequest = httpServletRequest,
-            httpServletResponse = httpServletResponse
-        )
-
-        return ResponseEntity.ok(response)
-    }
-
     /**
      * 가챠정보 > 가챠목록 > 상세정보 > 즐겨찾기 여부 조회
      */

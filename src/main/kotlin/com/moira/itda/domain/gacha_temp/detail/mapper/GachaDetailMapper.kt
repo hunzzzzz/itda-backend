@@ -1,7 +1,5 @@
 package com.moira.itda.domain.gacha_temp.detail.mapper
 
-import com.moira.itda.domain.gacha_temp.detail.dto.response.GachaItemResponse
-import com.moira.itda.domain.gacha_temp.detail.dto.response.GachaResponse
 import com.moira.itda.domain.gacha_temp.detail.dto.response.TradeItemResponse
 import com.moira.itda.domain.gacha_temp.detail.dto.response.TradeResponse
 import com.moira.itda.global.entity.GachaWish
@@ -10,21 +8,6 @@ import org.apache.ibatis.annotations.Mapper
 
 @Mapper
 interface GachaDetailMapper {
-    /**
-     * 가챠정보 > 가챠목록 > 상세정보 > 가챠 조회
-     */
-    fun selectGacha(gachaId: String): GachaResponse?
-
-    /**
-     * 가챠정보 > 가챠목록 > 상세정보 > 아이템 목록 조회
-     */
-    fun selectGachaItemList(gachaId: String): List<GachaItemResponse>
-
-    /**
-     * 가챠정보 > 가챠목록 > 상세정보 > 조회수 증가
-     */
-    fun updateViewCount(gachaId: String)
-
     /**
      * 가챠정보 > 가챠목록 > 상세정보 > 즐겨찾기 여부 조회
      */
