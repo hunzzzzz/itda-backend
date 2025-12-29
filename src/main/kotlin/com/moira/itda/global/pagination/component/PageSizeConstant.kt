@@ -15,7 +15,7 @@ class PageSizeConstant {
         const val MY_GACHA_ADD_SUGGEST_PAGE_SIZE = 5
 
         // 마이페이지 > 즐겨찾기 가챠 목록 조회
-        const val MY_WISH_GACHA_LIST_PAGE_SIZE = 10
+        const val MY_WISH_GACHA_LIST_PAGE_SIZE = 6
 
         // 마이페이지 > 내 거래 목록 조회 > 판매/교환 목록 조회
         const val MY_TRADE_LIST_PAGE_SIZE = 10
