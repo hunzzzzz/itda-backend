@@ -5,21 +5,26 @@
 
 <mapper namespace="com.moira.itda.domain.trade.mapper.TradeMapper">
     <!-- 가챠정보 > 가챠 목록 > 상세정보 > 교환 > 진행 중인 교환글 존재 여부 확인 -->
-    <select id="selectTradeExchangeChk">
-        SELECT COUNT(id) FROM TRADE
-        WHERE gacha_id = #{gachaId}
-         AND  user_id  = #{userId}
-         AND  status   = 'PENDING'
-         AND  type     = 'EXCHANGE'
+    <select id="selectTradeExchangeChk" resultType="java.lang.Boolean">
+        SELECT EXISTS (
+            SELECT 1 FROM TRADE
+            WHERE gacha_id = #{gachaId}
+             AND  user_id  = #{userId}
+             AND  status   = 'PENDING'
+             AND  type     = 'EXCHANGE'
+        )
     </select>
 
     <!-- 가챠정보 > 가챠 목록 > 상세정보 > 판매 > 진행 중인 판매글 존재 여부 확인 -->
     <select id="selectTradeSalesChk">
-        SELECT COUNT(id) FROM TRADE
-        WHERE gacha_id = #{gachaId}
-         AND   user_id = #{userId}
-         AND   status  = 'PENDING'
-         AND   type    = 'SALES'
+        SELECT EXISTS (
+            SELECT 1 FROM TRADE
+            WHERE gacha_id = #{gachaId}
+             AND  user_id  = #{userId}
+             AND  status   = 'PENDING'
+             AND  type     = 'SALES'
+        )
+
     </select>
 
     <!-- 교환등록 > Trade 저장 -->
