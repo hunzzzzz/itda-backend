@@ -2,10 +2,12 @@ package com.moira.itda.domain.trade.service
 
 import com.moira.itda.domain.trade.component.TradeValidator
 import com.moira.itda.domain.trade.dto.request.ExchangeAddRequest
+import com.moira.itda.domain.trade.dto.request.SalesAddRequest
 import com.moira.itda.domain.trade.dto.response.GachaIdResponse
 import com.moira.itda.domain.trade.mapper.TradeMapper
 import com.moira.itda.global.entity.Trade
 import com.moira.itda.global.entity.TradeItem
+import com.moira.itda.global.entity.TradeType
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -41,13 +43,39 @@ class TradeService(
         validator.validateExchange(userId = userId, gachaId = gachaId, request = request)
 
         // [2] Trade 저장
-        val trade = Trade.fromRequest(userId = userId, gachaId = gachaId, request = request)
+        val trade = Trade.fromRequest(type = TradeType.EXCHANGE, userId = userId, gachaId = gachaId, request = request)
         mapper.insertTrade(trade = trade)
 
         // [3] TradeItem 저장
         request.items.forEach { item ->
-            val tradeExchangeItem = TradeItem.fromRequest(tradeId = trade.id, gachaId = gachaId, request = item)
+            val tradeExchangeItem = TradeItem.fromRequest(
+                tradeId = trade.id, gachaId = gachaId, request = item
+            )
             mapper.insertTradeItem(tradeItem = tradeExchangeItem)
+        }
+
+        // [4] gachaId 리턴
+        return GachaIdResponse(gachaId = gachaId)
+    }
+
+    /**
+     * 판매등록
+     */
+    @Transactional
+    fun sale(userId: String, gachaId: String, request: SalesAddRequest): GachaIdResponse {
+        // [1] 유효성 검사
+        validator.validateSales(userId = userId, gachaId = gachaId, request = request)
+
+        // [2] Trade 저장
+        val trade = Trade.fromRequest(type = TradeType.SALES, userId = userId, gachaId = gachaId, request = request)
+        mapper.insertTrade(trade = trade)
+
+        // [3] TradeItem 저장
+        request.items.forEach { item ->
+            val tradeSalesItem = TradeItem.fromRequest(
+                gachaId = gachaId, tradeId = trade.id, request = item
+            )
+            mapper.insertTradeItem(tradeItem = tradeSalesItem)
         }
 
         // [4] gachaId 리턴

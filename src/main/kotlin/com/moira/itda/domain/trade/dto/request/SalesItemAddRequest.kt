@@ -1,4 +1,4 @@
-package com.moira.itda.domain.sales.dto.request
+package com.moira.itda.domain.trade.dto.request
 
 data class SalesItemAddRequest(
     val gachaItemId: Long,

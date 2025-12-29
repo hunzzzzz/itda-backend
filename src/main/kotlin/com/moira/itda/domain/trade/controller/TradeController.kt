@@ -1,10 +1,12 @@
 package com.moira.itda.domain.trade.controller
 
-import com.moira.itda.domain.trade.dto.response.GachaIdResponse
 import com.moira.itda.domain.trade.dto.request.ExchangeAddRequest
+import com.moira.itda.domain.trade.dto.request.SalesAddRequest
+import com.moira.itda.domain.trade.dto.response.GachaIdResponse
 import com.moira.itda.domain.trade.service.TradeService
 import com.moira.itda.global.auth.aop.UserPrincipal
 import com.moira.itda.global.auth.dto.UserAuth
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
@@ -52,6 +54,20 @@ class TradeController(
     ): ResponseEntity<GachaIdResponse> {
         val response = service.exchange(userId = userAuth.userId, gachaId = gachaId, request = request)
 
-        return ResponseEntity.ok(response)
+        return ResponseEntity.status(HttpStatus.CREATED).body(response)
+    }
+
+    /**
+     * 판매등록
+     */
+    @PostMapping("/api/gacha/{gachaId}/sales")
+    fun sale(
+        @UserPrincipal userAuth: UserAuth,
+        @PathVariable gachaId: String,
+        @RequestBody request: SalesAddRequest
+    ): ResponseEntity<GachaIdResponse> {
+        val response = service.sale(userId = userAuth.userId, gachaId = gachaId, request = request)
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(response)
     }
 }

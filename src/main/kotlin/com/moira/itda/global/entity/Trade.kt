@@ -1,7 +1,6 @@
 package com.moira.itda.global.entity
 
-import com.moira.itda.domain.sales.dto.request.SalesAddRequest
-import com.moira.itda.domain.trade.dto.request.ExchangeAddRequest
+import com.moira.itda.domain.trade.dto.request.TradeAddRequest
 import java.time.ZonedDateTime
 import java.util.*
 
@@ -23,36 +22,12 @@ data class Trade(
     val updatedAt: ZonedDateTime
 ) {
     companion object {
-        fun fromSalesAddRequest(userId: String, gachaId: String, tradeId: String, request: SalesAddRequest): Trade {
-            return Trade(
-                id = tradeId,
-                gachaId = gachaId,
-                userId = userId,
-                type = TradeType.SALES,
-                status = TradeStatus.PENDING,
-                title = request.title,
-                content = request.content,
-                fileId = request.fileId,
-                hopeMethod = TradeHopeMethod.valueOf(request.hopeMethod),
-                hopeLocation = request.hopeLocation,
-                hopeAddress = request.hopeAddress,
-                hopeLocationLatitude = request.hopeLocationLatitude,
-                hopeLocationLongitude = request.hopeLocationLongitude,
-                createdAt = ZonedDateTime.now(),
-                updatedAt = ZonedDateTime.now()
-            )
-        }
-
-        fun fromRequest(
-            userId: String,
-            gachaId: String,
-            request: ExchangeAddRequest
-        ): Trade {
+        fun fromRequest(type: TradeType, userId: String, gachaId: String, request: TradeAddRequest): Trade {
             return Trade(
                 id = UUID.randomUUID().toString(),
                 gachaId = gachaId,
                 userId = userId,
-                type = TradeType.EXCHANGE,
+                type = type,
                 status = TradeStatus.PENDING,
                 title = request.title,
                 content = request.content,

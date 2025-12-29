@@ -1,6 +1,6 @@
 package com.moira.itda.domain.trade.dto.request
 
-data class ExchangeAddRequest(
+data class SalesAddRequest(
     override val title: String,
     override val content: String,
     override val fileId: String,
@@ -9,5 +9,5 @@ data class ExchangeAddRequest(
     override val hopeAddress: String?,
     override val hopeLocationLatitude: String?,
     override val hopeLocationLongitude: String?,
-    val items: List<ExchangeItemAddRequest>
+    val items: List<SalesItemAddRequest>
 ) : TradeAddRequest
