@@ -2,12 +2,15 @@ package com.moira.itda.domain.gacha.mapper
 
 import com.moira.itda.domain.gacha.dto.response.GachaItemResponse
 import com.moira.itda.domain.gacha.dto.response.GachaResponse
+import com.moira.itda.domain.gacha.dto.response.TargetGachaItemResponse
+import com.moira.itda.domain.gacha.dto.response.TargetGachaResponse
 import org.apache.ibatis.annotations.Mapper
 
 @Mapper
 interface GachaMapper {
     /**
      * 가챠정보 > 가챠 목록 > 가챠 목록 조회 > totalElements 계산
+     * 교환/판매 대상 지정 모달 > 즐겨찾기 목록 > 가챠 목록 조회 > totalElements 계산
      */
     fun selectGachaListCnt(keyword: String): Long
 
@@ -20,6 +23,8 @@ interface GachaMapper {
         offset: Int,
         sort: String
     ): List<GachaResponse>
+
+    // --------------------------------------------------------------------------------------------------- //
 
     /**
      * 가챠정보 > 가챠 목록 > 상세정보 > 상세정보 조회
@@ -40,4 +45,27 @@ interface GachaMapper {
      * 가챠정보 > 가챠 목록 > 상세정보 > 조회수 증가
      */
     fun updateViewCount(gachaId: String)
+
+    // --------------------------------------------------------------------------------------------------- //
+
+    /**
+     * 교환/판매 대상 지정 모달 > 가챠 목록 > 가챠 목록 조회
+     */
+    fun selectTargetGachaList(keyword: String, pageSize: Int, offset: Int): List<TargetGachaResponse>
+
+    /**
+     * 교환/판매 대상 지정 모달 > 가챠 목록 > 하위 아이템 목록 조회
+     * 교환/판매 대상 지정 모달 > 즐겨찾기 가챠 목록 > 하위 아이템 목록 조회
+     */
+    fun selectTargetGachaItemList(gachaId: String): List<TargetGachaItemResponse>
+
+    /**
+     * 교환/판매 대상 지정 모달 > 즐겨찾기 가챠 목록 > 가챠 목록 조회 > totalElements 계산
+     */
+    fun selectTargetWishGachaListCnt(userId: String): Long
+
+    /**
+     * 교환/판매 대상 지정 모달 > 즐겨찾기 가챠 목록 > 가챠 목록 조회
+     */
+    fun selectTargetWishGachaList(userId: String, pageSize: Int, offset: Int): List<TargetGachaResponse>
 }
