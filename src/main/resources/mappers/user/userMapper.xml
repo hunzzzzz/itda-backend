@@ -164,11 +164,10 @@
 
     <!-- 마이페이지 > 프로필 사진 변경 > 현재 프로필 사진의 URL 조회 -->
     <select id="selectCurrentFileUrl" resultType="java.lang.String">
-        SELECT F.file_url
-        FROM IMAGE_FILE F
-         LEFT JOIN USER U ON U.file_id = F.file_id
-        WHERE U.id = #{userId}
-        ORDER BY F.created_at DESC
+        SELECT file_url
+        FROM IMAGE_FILE
+        WHERE file_id = (SELECT file_id FROM USER WHERE id = #{userId}
+        ORDER BY created_At DESC
         LIMIT 1
     </select>
 
