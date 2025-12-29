@@ -81,4 +81,17 @@ class GachaController(
 
         return ResponseEntity.ok(response)
     }
+
+    /**
+     * 마이페이지 > 즐겨찾기 > 즐겨찾기 가챠 목록
+     */
+    @GetMapping("/api/me/wish")
+    fun getWishGachaList(
+        @UserPrincipal userAuth: UserAuth,
+        @RequestParam(required = false, defaultValue = "1") page: Int
+    ): ResponseEntity<GachaPageResponse> {
+        val response = service.getWishGachaList(userId = userAuth.userId, page = page)
+
+        return ResponseEntity.ok(response)
+    }
 }

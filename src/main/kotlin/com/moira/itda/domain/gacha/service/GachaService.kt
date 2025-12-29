@@ -1,17 +1,14 @@
 package com.moira.itda.domain.gacha.service
 
 import com.moira.itda.domain.gacha.component.GachaValidator
-import com.moira.itda.domain.gacha.dto.response.GachaPageResponse
+import com.moira.itda.domain.gacha.dto.response.*
 import com.moira.itda.domain.gacha.mapper.GachaMapper
-import com.moira.itda.domain.gacha.dto.response.GachaDetailResponse
-import com.moira.itda.domain.gacha.dto.response.TargetContentResponse
-import com.moira.itda.domain.gacha.dto.response.TargetGachaResponse
-import com.moira.itda.domain.gacha.dto.response.TargetPageResponse
 import com.moira.itda.global.auth.component.CookieHandler
 import com.moira.itda.global.exception.ErrorCode
 import com.moira.itda.global.exception.ItdaException
 import com.moira.itda.global.pagination.component.OffsetPaginationHandler
 import com.moira.itda.global.pagination.component.PageSizeConstant.Companion.GACHA_LIST_PAGE_SIZE
+import com.moira.itda.global.pagination.component.PageSizeConstant.Companion.MY_WISH_GACHA_LIST_PAGE_SIZE
 import com.moira.itda.global.pagination.component.PageSizeConstant.Companion.TRADE_TARGET_PAGE_SIZE
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
@@ -147,7 +144,7 @@ class GachaService(
         val offset = offsetPaginationHandler.getOffset(page = page, pageSize = pageSize)
 
         // [2] 가챠 목록 조회
-        val totalElements = mapper.selectTargetWishGachaListCnt(userId = userId)
+        val totalElements = mapper.selectWishGachaListCnt(userId = userId)
         val gachaList = mapper.selectTargetWishGachaList(
             userId = userId,
             pageSize = pageSize,
@@ -163,5 +160,27 @@ class GachaService(
             totalElements = totalElements,
             contents = contents
         )
+    }
+
+    /**
+     * 마이페이지 > 즐겨찾기 > 즐겨찾기 가챠 목록
+     */
+    @Transactional(readOnly = true)
+    fun getWishGachaList(userId: String, page: Int): GachaPageResponse {
+        // [1] 변수 세팅
+        val pageSize = MY_WISH_GACHA_LIST_PAGE_SIZE
+        val offset = offsetPaginationHandler.getOffset(page = page, pageSize = pageSize)
+
+        // [2] 가챠 목록 조회
+        val totalElements = mapper.selectWishGachaListCnt(userId = userId)
+        val gachaList = mapper.selectWishGachaList(userId = userId, pageSize = pageSize, offset = offset)
+
+        // [3] 오프셋 기반 페이지네이션 구현
+        val pageResponse = offsetPaginationHandler.getPageResponse(
+            page = page, pageSize = pageSize, totalElements = totalElements
+        )
+
+        // [4] DTO 병합 후 리턴
+        return GachaPageResponse(content = gachaList, page = pageResponse)
     }
 }
