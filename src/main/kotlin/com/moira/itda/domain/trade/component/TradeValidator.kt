@@ -47,7 +47,7 @@ class TradeValidator(
         if (request.fileId.isBlank()) {
             throw ItdaException(ErrorCode.NO_TRADE_FILE_ID)
         }
-        if (commonMapper.selectFileIdChk(fileId = request.fileId) < 1) {
+        if (!commonMapper.selectFileIdChk(fileId = request.fileId)) {
             throw ItdaException(ErrorCode.FILE_NOT_FOUND)
         }
         // 거래 희망 방식

@@ -59,7 +59,7 @@ class SalesService(
 
         // 진행 중인 판매글이 있는지 검증
         if (salesMapper.selectSalesChk(userId = userId, gachaId = gachaId) > 0) {
-            throw ItdaException(ErrorCode.ALREADY_PENDING_SALES)
+            throw ItdaException(ErrorCode.PENDING_SALES_EXISTS)
         }
 
         // 이미지 파일 검증

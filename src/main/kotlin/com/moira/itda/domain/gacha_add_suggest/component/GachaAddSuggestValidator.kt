@@ -16,7 +16,7 @@ class GachaAddSuggestValidator(
     fun validate(request: GachaAddSuggestRequest) {
         // 파일 ID
         if (request.fileId != null) {
-            if (commonMapper.selectFileIdChk(fileId = request.fileId) < 1) {
+            if (!commonMapper.selectFileIdChk(fileId = request.fileId)) {
                 throw ItdaException(ErrorCode.FILE_NOT_FOUND)
             }
         }

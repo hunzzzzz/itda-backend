@@ -31,8 +31,11 @@
         SELECT file_url FROM IMAGE_FILE WHERE file_id = #{fileId}
     </select>
 
-    <select id="selectFileIdChk">
-        SELECT COUNT(id) FROM IMAGE_FILE WHERE file_id = #{fileId}
+    <!-- 공통 > 파일 ID 존재 여부 확인 -->
+    <select id="selectFileIdChk" resultType="java.lang.Boolean">
+        SELECT EXISTS (
+            SELECT 1 FROM IMAGE_FILE WHERE file_id = #{fileId}
+        )
     </select>
 
     <!-- 공통 > 공통코드 조회 > 세부코드 목록 조회 -->
