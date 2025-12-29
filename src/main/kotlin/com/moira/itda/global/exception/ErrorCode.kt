@@ -80,19 +80,19 @@ enum class ErrorCode(
         message = "존재하지 않는 유저입니다. 에러가 지속되는 경우 고객센터로 문의해주세요.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
-
-
-
     PASSWORD_NOT_MATCH(
-        code = "U0011",
+        code = "U0013",
         message = "비밀번호가 일치하지 않습니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
-    CANNOT_UPDATE_WITH_SAME_PASSWORD(
-        code = "U0012",
+    SAME_PASSWORD(
+        code = "U0014",
         message = "동일한 비밀번호로 변경할 수 업습니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
+
+
+
     INVALID_BAN_REASON(
         code = "U0013",
         message = "계정 정지 사유는 필수 입력 항목입니다.",
@@ -191,6 +191,18 @@ enum class ErrorCode(
     ),
 
     // 가챠 관련 에러코드
+    PENDING_SALES_EXISTS(
+        code = "G0001",
+        message = "이미 해당 가챠 관련 상품을 판매중입니다.",
+        httpStatus = HttpStatus.BAD_REQUEST
+    ),
+    PENDING_EXCHANGE_EXISTS(
+        code = "G0002",
+        message = "이미 해당 가챠 관련 상품을 교환중입니다.",
+        httpStatus = HttpStatus.BAD_REQUEST
+    ),
+
+
     INVALID_GACHA_TITLE(
         code = "G0001",
         message = "유효하지 않은 가챠 제목입니다.",
@@ -226,16 +238,6 @@ enum class ErrorCode(
         message = "존재하지 않는 가챠입니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
-    ALREADY_PENDING_SALES(
-        code = "G0008",
-        message = "이미 해당 가챠 관련 상품을 판매중입니다.",
-        httpStatus = HttpStatus.BAD_REQUEST
-    ),
-    ALREADY_PENDING_EXCHANGE(
-        code = "G0009",
-        message = "이미 해당 가챠 관련 상품을 교환중입니다.",
-        httpStatus = HttpStatus.BAD_REQUEST
-    ),
     GACHA_ITEM_NOT_FOUND(
         code = "G0010",
         message = "존재하지 않는 가챠 아이템입니다.",
@@ -243,19 +245,19 @@ enum class ErrorCode(
     ),
 
     // 거래 관련 에러코드
-    INVALID_TRADE_TITLE(
+    NO_TRADE_TITLE(
         code = "T0001",
-        message = "유효하지 않은 거래 제목입니다.",
+        message = "거래 제목은 필수 입력 항목입니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
-    INVALID_TRADE_CONTENT(
+    NO_TRADE_CONTENT(
         code = "T0002",
-        message = "유효하지 않은 거래 내용입니다.",
+        message = "거래 내용은 필수 입력 항목입니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
-    INVALID_TRADE_FILE_ID(
+    NO_TRADE_FILE_ID(
         code = "T0003",
-        message = "유효하지 않은 거래 이미지 파일 정보입니다.",
+        message = "거래 이미지 파일 정보는 필수 입력 항목입니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
     INVALID_TRADE_HOPE_METHOD(
@@ -268,6 +270,9 @@ enum class ErrorCode(
         message = "거래 아이템 정보가 없습니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
+
+
+
     INVALID_TRADE_ITEM_COUNT(
         code = "T0006",
         message = "유효하지 않은 거래 수량입니다.",

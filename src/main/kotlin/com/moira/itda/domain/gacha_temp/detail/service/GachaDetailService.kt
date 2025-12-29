@@ -19,26 +19,6 @@ class GachaDetailService(
     private val offsetPaginationHandler: OffsetPaginationHandler
 ) {
     /**
-     * 가챠정보 > 가챠목록 > 상세정보 > 교환 > 진행 중인 교환글 존재 여부 확인
-     */
-    @Transactional(readOnly = true)
-    fun checkExchange(userId: String, gachaId: String) {
-        if (gachaDetailMapper.selectExchangeChk(userId = userId, gachaId = gachaId) > 0) {
-            throw ItdaException(ErrorCode.ALREADY_PENDING_EXCHANGE)
-        }
-    }
-
-    /**
-     * 가챠정보 > 가챠목록 > 상세정보 > 판매 > 진행 중인 판매글 존재 여부 확인
-     */
-    @Transactional(readOnly = true)
-    fun checkSales(userId: String, gachaId: String) {
-        if (gachaDetailMapper.selectSalesChk(userId = userId, gachaId = gachaId) > 0) {
-            throw ItdaException(ErrorCode.ALREADY_PENDING_SALES)
-        }
-    }
-
-    /**
      * 가챠정보 > 가챠목록 > 상세정보 > 거래 목록 조회
      */
     @Transactional(readOnly = true)

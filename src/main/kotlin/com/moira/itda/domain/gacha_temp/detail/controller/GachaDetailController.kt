@@ -16,32 +16,6 @@ class GachaDetailController(
     private val gachaDetailService: GachaDetailService
 ) {
     /**
-     * 가챠정보 > 가챠목록 > 상세정보 > 교환 > 진행 중인 교환글 존재 여부 확인
-     */
-    @GetMapping("/api/exchange/gacha/{gachaId}/check")
-    fun checkExchange(
-        @UserPrincipal userAuth: UserAuth,
-        @PathVariable gachaId: String
-    ): ResponseEntity<Nothing> {
-        gachaDetailService.checkExchange(userId = userAuth.userId, gachaId = gachaId)
-
-        return ResponseEntity.ok(null)
-    }
-
-    /**
-     * 가챠정보 > 가챠목록 > 상세정보 > 판매 > 진행 중인 판매글 존재 여부 확인
-     */
-    @GetMapping("/api/sales/gacha/{gachaId}/check")
-    fun checkSales(
-        @UserPrincipal userAuth: UserAuth,
-        @PathVariable gachaId: String
-    ): ResponseEntity<Nothing> {
-        gachaDetailService.checkSales(userId = userAuth.userId, gachaId = gachaId)
-
-        return ResponseEntity.ok(null)
-    }
-
-    /**
      * 가챠정보 > 가챠목록 > 상세정보 > 거래 목록 조회
      */
     @GetMapping("/api/gacha/{gachaId}/trades")

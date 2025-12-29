@@ -3,35 +3,23 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.moira.itda.domain.exchange.mapper.ExchangeMapper">
-    <!-- 교환등록 > 하위 아이템 목록 조회 -->
-    <select id="selectGachaItemList" resultType="com.moira.itda.domain.exchange.dto.response.ExchangeItemResponse">
-        SELECT
-               id AS gachaItemId
-             , name
-        FROM GACHA_ITEM
+<mapper namespace="com.moira.itda.domain.trade.mapper.TradeMapper">
+    <!-- 가챠정보 > 가챠 목록 > 상세정보 > 교환 > 진행 중인 교환글 존재 여부 확인 -->
+    <select id="selectTradeExchangeChk">
+        SELECT COUNT(id) FROM TRADE
         WHERE gacha_id = #{gachaId}
-        ORDER BY created_at ASC
-    </select>
-    
-    <!-- 교환등록 > 가챠 아이템 존재 여부 확인 -->
-    <select id="selectGachaItemIdChk">
-        SELECT COUNT(id) FROM GACHA_ITEM WHERE gacha_id = #{gachaId} AND id = #{gachaItemId}
+         AND  user_id  = #{userId}
+         AND  status   = 'PENDING'
+         AND  type     = 'EXCHANGE'
     </select>
 
-    <!-- 교환등록 > 진행 중인 교환글 존재 여부 확인 -->
-    <select id="selectExchangeChk">
-        SELECT COUNT(id)
-        FROM TRADE
+    <!-- 가챠정보 > 가챠 목록 > 상세정보 > 판매 > 진행 중인 판매글 존재 여부 확인 -->
+    <select id="selectTradeSalesChk">
+        SELECT COUNT(id) FROM TRADE
         WHERE gacha_id = #{gachaId}
-        AND   user_id  = #{userId}
-        AND   status   = 'PENDING'
-        AND   type     = 'EXCHANGE'
-    </select>
-
-    <!-- 교환등록 > 파일 ID 존재 여부 조회 -->
-    <select id="selectImageFileCnt">
-        SELECT COUNT(id) FROM IMAGE_FILE WHERE file_id = #{fileId}
+         AND   user_id = #{userId}
+         AND   status  = 'PENDING'
+         AND   type    = 'SALES'
     </select>
 
     <!-- 교환등록 > Trade 저장 -->

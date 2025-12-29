@@ -1,8 +1,9 @@
 package com.moira.itda.global.entity
 
-import com.moira.itda.domain.exchange.dto.request.ExchangeAddRequest
 import com.moira.itda.domain.sales.dto.request.SalesAddRequest
+import com.moira.itda.domain.trade.dto.request.ExchangeAddRequest
 import java.time.ZonedDateTime
+import java.util.*
 
 data class Trade(
     val id: String,
@@ -42,14 +43,13 @@ data class Trade(
             )
         }
 
-        fun fromExchangeAddRequest(
+        fun fromRequest(
             userId: String,
             gachaId: String,
-            tradeId: String,
             request: ExchangeAddRequest
         ): Trade {
             return Trade(
-                id = tradeId,
+                id = UUID.randomUUID().toString(),
                 gachaId = gachaId,
                 userId = userId,
                 type = TradeType.EXCHANGE,

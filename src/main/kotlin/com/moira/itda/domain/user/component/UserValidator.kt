@@ -83,7 +83,7 @@ class UserValidator(
         }
         // 기존 비밀번호와 새로운 비밀번호가 다른지 여부 검증
         if (oldRaw == new) {
-            throw ItdaException(ErrorCode.CANNOT_UPDATE_WITH_SAME_PASSWORD)
+            throw ItdaException(ErrorCode.SAME_PASSWORD)
         }
     }
 }

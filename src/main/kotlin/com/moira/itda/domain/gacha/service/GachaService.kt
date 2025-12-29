@@ -183,4 +183,12 @@ class GachaService(
         // [4] DTO 병합 후 리턴
         return GachaPageResponse(content = gachaList, page = pageResponse)
     }
+
+    /**
+     * 교환등록 > 가챠 하위 아이템 목록 조회
+     */
+    @Transactional(readOnly = true)
+    fun getGachaItemList(gachaId: String): List<GachaItemNameResponse> {
+        return mapper.selectGachaItemNameList(gachaId = gachaId)
+    }
 }

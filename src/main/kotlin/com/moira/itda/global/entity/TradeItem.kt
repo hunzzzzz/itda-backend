@@ -1,7 +1,7 @@
 package com.moira.itda.global.entity
 
-import com.moira.itda.domain.exchange.dto.request.ExchangeItemAddRequest
 import com.moira.itda.domain.sales.dto.request.SalesItemAddRequest
+import com.moira.itda.domain.trade.dto.request.ExchangeItemAddRequest
 import java.time.ZonedDateTime
 import java.util.*
 
@@ -41,7 +41,7 @@ data class TradeItem(
             )
         }
 
-        fun fromExchangeItemAddRequest(tradeId: String, gachaId: String, request: ExchangeItemAddRequest): TradeItem {
+        fun fromRequest(tradeId: String, gachaId: String, request: ExchangeItemAddRequest): TradeItem {
             return TradeItem(
                 id = UUID.randomUUID().toString(),
                 tradeId = tradeId,

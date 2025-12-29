@@ -31,13 +31,13 @@ class SalesService(
     private fun validate(userId: String, gachaId: String, request: SalesAddRequest) {
         // 필드값 검증
         if (request.title.isBlank()) {
-            throw ItdaException(ErrorCode.INVALID_TRADE_TITLE)
+            throw ItdaException(ErrorCode.NO_TRADE_TITLE)
         }
         if (request.content.isBlank()) {
-            throw ItdaException(ErrorCode.INVALID_TRADE_CONTENT)
+            throw ItdaException(ErrorCode.NO_TRADE_CONTENT)
         }
         if (request.fileId.isBlank()) {
-            throw ItdaException(ErrorCode.INVALID_TRADE_FILE_ID)
+            throw ItdaException(ErrorCode.NO_TRADE_FILE_ID)
         }
         try {
             TradeHopeMethod.valueOf(request.hopeMethod)

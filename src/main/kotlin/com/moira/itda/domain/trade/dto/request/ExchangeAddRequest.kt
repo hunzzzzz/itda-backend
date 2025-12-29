@@ -1,4 +1,4 @@
-package com.moira.itda.domain.exchange.dto.request
+package com.moira.itda.domain.trade.dto.request
 
 data class ExchangeAddRequest(
     val title: String,

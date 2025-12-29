@@ -1,9 +1,10 @@
 package com.moira.itda.domain.gacha.controller
 
 import com.moira.itda.domain.gacha.dto.response.GachaDetailResponse
+import com.moira.itda.domain.gacha.dto.response.GachaItemNameResponse
 import com.moira.itda.domain.gacha.dto.response.GachaPageResponse
-import com.moira.itda.domain.gacha.service.GachaService
 import com.moira.itda.domain.gacha.dto.response.TargetPageResponse
+import com.moira.itda.domain.gacha.service.GachaService
 import com.moira.itda.global.auth.aop.UserPrincipal
 import com.moira.itda.global.auth.dto.UserAuth
 import jakarta.servlet.http.HttpServletRequest
@@ -91,6 +92,16 @@ class GachaController(
         @RequestParam(required = false, defaultValue = "1") page: Int
     ): ResponseEntity<GachaPageResponse> {
         val response = service.getWishGachaList(userId = userAuth.userId, page = page)
+
+        return ResponseEntity.ok(response)
+    }
+
+    /**
+     * 교환등록 > 가챠 하위 아이템 목록 조회
+     */
+    @GetMapping("/api/gacha/{gachaId}/items")
+    fun getGachaItemList(@PathVariable gachaId: String): ResponseEntity<List<GachaItemNameResponse>> {
+        val response = service.getGachaItemList(gachaId = gachaId)
 
         return ResponseEntity.ok(response)
     }
