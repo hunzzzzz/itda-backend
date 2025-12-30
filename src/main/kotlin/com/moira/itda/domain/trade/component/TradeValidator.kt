@@ -145,12 +145,7 @@ class TradeValidator(
             throw ItdaException(ErrorCode.NO_TRADE_ITEMS)
         }
 
-        // [3] 진행 중인 교환글 존재 여부 검증
-        if (mapper.selectTradeExchangeChk(userId = userId, gachaId = gachaId)) {
-            throw ItdaException(ErrorCode.PENDING_EXCHANGE_EXISTS)
-        }
-
-        // [4] 상태값 및 권한 검증
+        // [3] 상태값 및 권한 검증
         this.validateStatusAndRole(userId = userId, trade = trade)
     }
 

@@ -245,13 +245,15 @@
     <update id="updateTrade">
         UPDATE TRADE
         SET
-               title                   = #{title}
-             , content                 = #{content}
-             , file_id                 = #{fileId}
-             , hope_method             = #{hopeMethod}
-             , hope_address            = #{hopeAddress}
-             , hope_location_latitude  = #{hopeLocationLatitude}
-             , hope_location_longitude = #{hopeLocationLongitude}
+               title                   = #{request.title}
+             , content                 = #{request.content}
+             , file_id                 = #{request.fileId}
+             , hope_method             = #{request.hopeMethod}
+             , hope_location           = #{request.hopeLocation}
+             , hope_address            = #{request.hopeAddress}
+             , hope_location_latitude  = #{request.hopeLocationLatitude}
+             , hope_location_longitude = #{request.hopeLocationLongitude}
+             , updated_at              = CURRENT_TIMESTAMP
         WHERE id = #{tradeId}
     </update>
 
@@ -259,9 +261,10 @@
     <update id="updateTradeExchangeItem">
         UPDATE TRADE_ITEM
         SET
-               give_item_id = #{giveItemId}
-             , want_item_id = #{wantItemId}
-        WHERE id = #{tradeItemId}
+               exchange_give_item_id = #{request.giveItemId}
+             , exchange_want_item_id = #{request.wantItemId}
+             , updated_at            = CURRENT_TIMESTAMP
+        WHERE id = #{request.tradeItemId}
     </update>
 
     <!-- 가챠정보 > 가챠 목록 > 상세정보 > 교환 수정 > APPROVED된 제안 여부 조회 -->
