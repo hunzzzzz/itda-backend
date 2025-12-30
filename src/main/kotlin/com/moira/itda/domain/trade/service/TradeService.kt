@@ -7,6 +7,7 @@ import com.moira.itda.domain.trade.dto.request.ExchangeUpdateRequest
 import com.moira.itda.domain.trade.dto.request.SalesAddRequest
 import com.moira.itda.domain.trade.dto.response.GachaIdResponse
 import com.moira.itda.domain.trade.dto.response.TradeContentResponse
+import com.moira.itda.domain.trade.dto.response.TradeDetailContentResponse
 import com.moira.itda.domain.trade.dto.response.TradePageResponse
 import com.moira.itda.domain.trade.mapper.TradeMapper
 import com.moira.itda.global.entity.Trade
@@ -132,6 +133,24 @@ class TradeService(
 
         // [5] DTO 병합 후 리턴
         return TradePageResponse(content = contents, page = pageResponse)
+    }
+
+    /**
+     * 가챠정보 > 가챠 목록 > 상세정보 > 교환 수정 > 거래 정보 조회
+     */
+    @Transactional(readOnly = true)
+    fun getTrade(tradeId: String, gachaId: String): TradeDetailContentResponse {
+        // [1] Trade 조회
+        val trade = mapper.selectTradeResponse(tradeId = tradeId)
+
+        // [2] 이미지 파일 URL 리스트 조회
+        trade.fileUrlList = commonMapper.selectImageFileUrl(fileId = trade.fileId).map { it.fileUrl }
+
+        // [3] TradeItem 리스트 조회
+        val itemList = mapper.selectTradeItemList(tradeId = tradeId, gachaId = gachaId)
+
+        // [4] DTO 병합 후 리턴
+        return TradeDetailContentResponse(trade = trade, itemList = itemList)
     }
 
     /**
