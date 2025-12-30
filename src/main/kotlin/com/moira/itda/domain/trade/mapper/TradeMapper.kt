@@ -43,11 +43,13 @@ interface TradeMapper {
     fun updateTradeExchangeItem(@Param("request") request: ExchangeItemUpdateRequest)
 
     /**
+     * 가챠정보 > 가챠 목록 > 상세정보 > 교환 수정 > Trade 조회
      * 가챠정보 > 가챠 목록 > 상세정보 > 거래 삭제 > Trade 조회
      */
     fun selectTrade(tradeId: String): Trade?
 
     /**
+     * 가챠정보 > 가챠 목록 > 상세정보 > 교환 수정 > APPROVED된 제안 여부 조회
      * 가챠정보 > 가챠 목록 > 상세정보 > 거래 삭제 > APPROVED된 제안 여부 조회
      */
     fun selectTradeSuggestApprovedChk(tradeId: String): Boolean

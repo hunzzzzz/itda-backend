@@ -29,7 +29,7 @@ class TradeService(
     @Transactional(readOnly = true)
     fun checkTradeExchange(userId: String, gachaId: String) {
         // [1] 유효성 검사
-        validator.validateTradeExchange(userId = userId, gachaId = gachaId)
+        validator.validateExchangeExists(userId = userId, gachaId = gachaId)
     }
 
     /**
@@ -38,7 +38,7 @@ class TradeService(
     @Transactional(readOnly = true)
     fun checkTradeSales(userId: String, gachaId: String) {
         // [1] 유효성 검사
-        validator.validateTradeSales(userId = userId, gachaId = gachaId)
+        validator.validateSalesExists(userId = userId, gachaId = gachaId)
     }
 
     /**
@@ -94,13 +94,16 @@ class TradeService(
      */
     @Transactional
     fun updateExchange(userId: String, gachaId: String, tradeId: String, request: ExchangeUpdateRequest) {
-        // [1] 유효성 검사
-        validator.validateExchange(userId = userId, gachaId = gachaId, request = request)
+        // [1] Trade 조회
+        val trade = mapper.selectTrade(tradeId = tradeId) ?: throw ItdaException(ErrorCode.TRADE_NOT_FOUND)
 
-        // [2] Trade 수정
+        // [2] 유효성 검사
+        validator.validateExchange(userId = userId, gachaId = gachaId, trade = trade, request = request)
+
+        // [3] Trade 수정
         mapper.updateTrade(tradeId = tradeId, request = request)
 
-        // [3] TradeItem 수정
+        // [4] TradeItem 수정
         request.items.forEach { item -> mapper.updateTradeExchangeItem(request = item) }
     }
 
