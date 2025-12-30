@@ -5,7 +5,9 @@ import com.moira.itda.domain.trade.dto.request.ExchangeAddRequest
 import com.moira.itda.domain.trade.dto.request.SalesAddRequest
 import com.moira.itda.domain.trade.dto.request.TradeAddRequest
 import com.moira.itda.domain.trade.mapper.TradeMapper
+import com.moira.itda.global.entity.Trade
 import com.moira.itda.global.entity.TradeHopeMethod
+import com.moira.itda.global.entity.TradeStatus
 import com.moira.itda.global.exception.ErrorCode
 import com.moira.itda.global.exception.ItdaException
 import org.springframework.stereotype.Component
@@ -91,17 +93,37 @@ class TradeValidator(
         for (item in request.items) {
             // 아이템 수량
             if (item.count < 1) {
-                throw ItdaException(ErrorCode.INVALID_TRADE_ITEM_COUNT)
+                throw ItdaException(ErrorCode.INVALID_TRADE_COUNT)
             }
             // 아이템 가격
             if (item.price < 1) {
-                throw ItdaException(ErrorCode.INVALID_TRADE_ITEM_PRICE)
+                throw ItdaException(ErrorCode.INVALID_TRADE_PRICE)
             }
         }
 
         // 진행 중인 판매글 존재 여부 검증
         if (mapper.selectTradeSalesChk(userId = userId, gachaId = gachaId)) {
             throw ItdaException(ErrorCode.PENDING_SALES_EXISTS)
+        }
+    }
+
+    /**
+     * 거래 삭제 > 유효성 검사
+     */
+    fun validateDeleteTrade(userId: String, trade: Trade) {
+        // [1] 거래 status에 대한 유효성 검사 (COMPLETED된 거래가 있는지)
+        if (trade.status == TradeStatus.COMPLETED) {
+            throw ItdaException(ErrorCode.COMPLETED_TRADE)
+        }
+
+        // [2] 삭제 권한에 대한 유효성 검사 (업로드한 유저 = 요청 유저인지)
+        if (trade.userId != userId) {
+            throw ItdaException(ErrorCode.OTHERS_TRADE)
+        }
+
+        // [3] 제안 목록에 대한 유효성 검사 (APPROVED된 제안이 있는지)
+        if (mapper.selectTradeSuggestApprovedChk(tradeId = trade.id)) {
+            throw ItdaException(ErrorCode.APPROVED_SUGGEST_EXISTS)
         }
     }
 }

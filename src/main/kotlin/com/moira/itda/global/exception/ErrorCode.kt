@@ -270,24 +270,39 @@ enum class ErrorCode(
         message = "거래 아이템 정보가 없습니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
-
-
-
-    INVALID_TRADE_ITEM_COUNT(
+    INVALID_TRADE_COUNT(
         code = "T0006",
         message = "유효하지 않은 거래 수량입니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
-    INVALID_TRADE_ITEM_PRICE(
+    INVALID_TRADE_PRICE(
         code = "T0007",
         message = "유효하지 않은 거래 가격입니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
-    CANNOT_LOAD_TRADE_LIST(
+    TRADE_NOT_FOUND(
         code = "T0008",
-        message = "거래 목록을 불러올 수 없습니다. 잠시 후 다시 시도해주세요.",
-        httpStatus = HttpStatus.INTERNAL_SERVER_ERROR
+        message = "잘못된 거래 정보입니다.",
+        httpStatus = HttpStatus.BAD_REQUEST
     ),
+    COMPLETED_TRADE(
+        code = "T0009",
+        message = "이미 완료된 거래는 수정/삭제할 수 없습니다.",
+        httpStatus = HttpStatus.BAD_REQUEST
+    ),
+    OTHERS_TRADE(
+        code = "T0010",
+        message = "다른 유저가 업로드한 거래를 수정/삭제할 수 없습니다.",
+        httpStatus = HttpStatus.FORBIDDEN
+    ),
+    APPROVED_SUGGEST_EXISTS(
+        code = "T0011",
+        message = "이미 승인된 거래 제안이 있어 수정/삭제할 수 없습니다.",
+        httpStatus = HttpStatus.BAD_REQUEST
+    ),
+
+
+
     INVALID_TRADE_TYPE(
         code = "T0009",
         message = "유효하지 않은 거래 종류입니다.",
@@ -346,26 +361,6 @@ enum class ErrorCode(
     ALREADY_SUGGESTED_EXCHANGE_ON_THE_TRADE_ITEM(
         code = "T0020",
         message = "이미 해당 제품에 교환 제안을 하였습니다.",
-        httpStatus = HttpStatus.BAD_REQUEST
-    ),
-    TRADE_NOT_FOUND(
-        code = "T0021",
-        message = "존재하지 않는 거래입니다.",
-        httpStatus = HttpStatus.BAD_REQUEST
-    ),
-    CANNOT_UPDATE_TRADE_WHEN_STATUS_IS_COMPLETED(
-        code = "T0022",
-        message = "이미 완료된 거래는 수정/삭제할 수 없습니다.",
-        httpStatus = HttpStatus.BAD_REQUEST
-    ),
-    CANNOT_UPDATE_TRADE_OF_OTHERS(
-        code = "T0023",
-        message = "다른 유저가 업로드한 거래를 수정/삭제할 수 없습니다.",
-        httpStatus = HttpStatus.FORBIDDEN
-    ),
-    CANNOT_UPDATE_TRADE_WHEN_APPROVED_SUGGEST_EXISTS(
-        code = "T0024",
-        message = "이미 승인된 거래 제안이 있어 수정/삭제할 수 없습니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
     CANNOT_DELETE_APPROVED_SUGGEST(

@@ -1,5 +1,6 @@
 package com.moira.itda.domain.trade.service
 
+import com.moira.itda.domain.common.mapper.CommonMapper
 import com.moira.itda.domain.trade.component.TradeValidator
 import com.moira.itda.domain.trade.dto.request.ExchangeAddRequest
 import com.moira.itda.domain.trade.dto.request.SalesAddRequest
@@ -8,11 +9,16 @@ import com.moira.itda.domain.trade.mapper.TradeMapper
 import com.moira.itda.global.entity.Trade
 import com.moira.itda.global.entity.TradeItem
 import com.moira.itda.global.entity.TradeType
+import com.moira.itda.global.exception.ErrorCode
+import com.moira.itda.global.exception.ItdaException
+import com.moira.itda.global.file.component.AwsS3Handler
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
 class TradeService(
+    private val awsS3Handler: AwsS3Handler,
+    private val commonMapper: CommonMapper,
     private val mapper: TradeMapper,
     private val validator: TradeValidator
 ) {
@@ -80,5 +86,28 @@ class TradeService(
 
         // [4] gachaId 리턴
         return GachaIdResponse(gachaId = gachaId)
+    }
+
+    /**
+     * 가챠정보 > 가챠 목록 > 상세정보 > 거래 삭제
+     */
+    @Transactional
+    fun deleteTrade(userId: String, tradeId: String) {
+        // [1] Trade 조회
+        val trade = mapper.selectTrade(tradeId = tradeId) ?: throw ItdaException(ErrorCode.TRADE_NOT_FOUND)
+
+        // [2] 유효성 검사
+        validator.validateDeleteTrade(userId = userId, trade = trade)
+
+        // [3] TradeSuggest, TradeItem 삭제
+        mapper.deleteTradeSuggest(tradeId = tradeId)
+        mapper.deleteTradeItem(tradeId = tradeId)
+
+        // [4] 이미지 파일 삭제 (AWS S3)
+        commonMapper.selectImageFileUrl(fileId = trade.fileId)
+            .forEach { awsS3Handler.delete(fileUrl = it.fileUrl) }
+
+        // [5] Trade 삭제
+        mapper.deleteTrade(tradeId = tradeId)
     }
 }

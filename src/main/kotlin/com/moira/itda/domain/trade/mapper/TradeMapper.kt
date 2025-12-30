@@ -25,4 +25,29 @@ interface TradeMapper {
      * 교환등록 > TradeItem 저장
      */
     fun insertTradeItem(tradeItem: TradeItem)
+
+    /**
+     * 가챠정보 > 가챠 목록 > 상세정보 > 거래 삭제 > Trade 조회
+     */
+    fun selectTrade(tradeId: String): Trade?
+
+    /**
+     * 가챠정보 > 가챠 목록 > 상세정보 > 거래 삭제 > APPROVED된 제안 여부 조회
+     */
+    fun selectTradeSuggestApprovedChk(tradeId: String): Boolean
+
+    /**
+     * 가챠정보 > 가챠 목록 > 상세정보 > 거래 삭제 > TradeSuggest 삭제
+     */
+    fun deleteTradeSuggest(tradeId: String)
+
+    /**
+     * 가챠정보 > 가챠 목록 > 상세정보 > 거래 삭제 > TradeItem 삭제
+     */
+    fun deleteTradeItem(tradeId: String)
+
+    /**
+     * 가챠정보 > 가챠 목록 > 상세정보 > 거래 삭제 > Trade 삭제
+     */
+    fun deleteTrade(tradeId: String)
 }

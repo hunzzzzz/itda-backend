@@ -70,4 +70,18 @@ class TradeController(
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response)
     }
+
+    /**
+     * 가챠정보 > 가챠 목록 > 상세정보 > 거래 삭제
+     */
+    @DeleteMapping("/api/gacha/{gachaId}/trades/{tradeId}")
+    fun deleteTrade(
+        @UserPrincipal userAuth: UserAuth,
+        @PathVariable gachaId: String,
+        @PathVariable tradeId: String
+    ): ResponseEntity<Nothing?> {
+        service.deleteTrade(userId = userAuth.userId, tradeId = tradeId)
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null)
+    }
 }
