@@ -3,6 +3,7 @@ package com.moira.itda.domain.trade.service
 import com.moira.itda.domain.common.mapper.CommonMapper
 import com.moira.itda.domain.trade.component.TradeValidator
 import com.moira.itda.domain.trade.dto.request.ExchangeAddRequest
+import com.moira.itda.domain.trade.dto.request.ExchangeUpdateRequest
 import com.moira.itda.domain.trade.dto.request.SalesAddRequest
 import com.moira.itda.domain.trade.dto.response.GachaIdResponse
 import com.moira.itda.domain.trade.mapper.TradeMapper
@@ -86,6 +87,21 @@ class TradeService(
 
         // [4] gachaId 리턴
         return GachaIdResponse(gachaId = gachaId)
+    }
+
+    /**
+     * 가챠정보 > 가챠 목록 > 상세정보 > 교환 수정
+     */
+    @Transactional
+    fun updateExchange(userId: String, gachaId: String, tradeId: String, request: ExchangeUpdateRequest) {
+        // [1] 유효성 검사
+        validator.validateExchange(userId = userId, gachaId = gachaId, request = request)
+
+        // [2] Trade 수정
+        mapper.updateTrade(tradeId = tradeId, request = request)
+
+        // [3] TradeItem 수정
+        request.items.forEach { item -> mapper.updateTradeExchangeItem(request = item) }
     }
 
     /**

@@ -2,6 +2,7 @@ package com.moira.itda.domain.trade.component
 
 import com.moira.itda.domain.common.mapper.CommonMapper
 import com.moira.itda.domain.trade.dto.request.ExchangeAddRequest
+import com.moira.itda.domain.trade.dto.request.ExchangeUpdateRequest
 import com.moira.itda.domain.trade.dto.request.SalesAddRequest
 import com.moira.itda.domain.trade.dto.request.TradeRequest
 import com.moira.itda.domain.trade.mapper.TradeMapper
@@ -39,7 +40,7 @@ class TradeValidator(
      * 교환등록 > 유효성 검사 > 공통
      * 판매등록 > 유효성 검사 > 공통
      */
-    fun validateTradeCommon(request: TradeRequest) {
+    fun validateTradeCommon(request: TradeRequest, fileIdCheck: Boolean = true) {
         // 거래 제목
         if (request.title.isBlank()) {
             throw ItdaException(ErrorCode.NO_TRADE_TITLE)
@@ -49,11 +50,13 @@ class TradeValidator(
             throw ItdaException(ErrorCode.NO_TRADE_CONTENT)
         }
         // 거래 파일 ID
-        if (request.fileId.isBlank()) {
-            throw ItdaException(ErrorCode.NO_TRADE_FILE_ID)
-        }
-        if (!commonMapper.selectFileIdChk(fileId = request.fileId)) {
-            throw ItdaException(ErrorCode.FILE_NOT_FOUND)
+        if (fileIdCheck) {
+            if (request.fileId.isBlank()) {
+                throw ItdaException(ErrorCode.NO_TRADE_FILE_ID)
+            }
+            if (!commonMapper.selectFileIdChk(fileId = request.fileId)) {
+                throw ItdaException(ErrorCode.FILE_NOT_FOUND)
+            }
         }
         // 거래 희망 방식
         runCatching { TradeHopeMethod.valueOf(request.hopeMethod) }
@@ -104,6 +107,24 @@ class TradeValidator(
         // 진행 중인 판매글 존재 여부 검증
         if (mapper.selectTradeSalesChk(userId = userId, gachaId = gachaId)) {
             throw ItdaException(ErrorCode.PENDING_SALES_EXISTS)
+        }
+    }
+
+    /**
+     * 교환 수정 > 유효성 검사
+     */
+    fun validateExchange(userId: String, gachaId: String, request: ExchangeUpdateRequest) {
+        // 공통 유효성 검사
+        this.validateTradeCommon(request = request, fileIdCheck = request.imageChangeYn == "Y")
+
+        // 교환 하위 아이템
+        if (request.items.isEmpty()) {
+            throw ItdaException(ErrorCode.NO_TRADE_ITEMS)
+        }
+
+        // 진행 중인 교환글 존재 여부 검증
+        if (mapper.selectTradeExchangeChk(userId = userId, gachaId = gachaId)) {
+            throw ItdaException(ErrorCode.PENDING_EXCHANGE_EXISTS)
         }
     }
 

@@ -1,8 +1,11 @@
 package com.moira.itda.domain.trade.mapper
 
+import com.moira.itda.domain.trade.dto.request.ExchangeItemUpdateRequest
+import com.moira.itda.domain.trade.dto.request.TradeRequest
 import com.moira.itda.global.entity.Trade
 import com.moira.itda.global.entity.TradeItem
 import org.apache.ibatis.annotations.Mapper
+import org.apache.ibatis.annotations.Param
 
 @Mapper
 interface TradeMapper {
@@ -25,6 +28,19 @@ interface TradeMapper {
      * 교환등록 > TradeItem 저장
      */
     fun insertTradeItem(tradeItem: TradeItem)
+
+    /**
+     * 가챠정보 > 가챠 목록 > 상세정보 > 교환 수정 > Trade 수정
+     */
+    fun updateTrade(
+        @Param("tradeId") tradeId: String,
+        @Param("request") request: TradeRequest
+    )
+
+    /**
+     * 가챠정보 > 가챠 목록 > 상세정보 > 교환 수정 > TradeItem 수정 (교환)
+     */
+    fun updateTradeExchangeItem(@Param("request") request: ExchangeItemUpdateRequest)
 
     /**
      * 가챠정보 > 가챠 목록 > 상세정보 > 거래 삭제 > Trade 조회

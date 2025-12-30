@@ -1,6 +1,7 @@
 package com.moira.itda.domain.trade.controller
 
 import com.moira.itda.domain.trade.dto.request.ExchangeAddRequest
+import com.moira.itda.domain.trade.dto.request.ExchangeUpdateRequest
 import com.moira.itda.domain.trade.dto.request.SalesAddRequest
 import com.moira.itda.domain.trade.dto.response.GachaIdResponse
 import com.moira.itda.domain.trade.service.TradeService
@@ -69,6 +70,21 @@ class TradeController(
         val response = service.sale(userId = userAuth.userId, gachaId = gachaId, request = request)
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response)
+    }
+
+    /**
+     * 가챠정보 > 가챠 목록 > 상세정보 > 교환 수정
+     */
+    @PutMapping("/api/gacha/{gachaId}/trades/{tradeId}/exchange")
+    fun updateExchange(
+        @UserPrincipal userAuth: UserAuth,
+        @PathVariable tradeId: String,
+        @PathVariable gachaId: String,
+        @RequestBody request: ExchangeUpdateRequest
+    ): ResponseEntity<Nothing?> {
+        service.updateExchange(userId = userAuth.userId, tradeId = tradeId, gachaId = gachaId, request = request)
+
+        return ResponseEntity.ok(null)
     }
 
     /**
