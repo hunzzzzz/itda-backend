@@ -1,10 +1,10 @@
-package com.moira.itda.domain.gacha_temp.detail.dto.response
+package com.moira.itda.domain.trade.dto.response
 
 import com.moira.itda.global.entity.TradeItemType
 import java.time.ZonedDateTime
 
 data class TradeItemResponse(
-    val id: String,
+    val tradeItemId: String,
     val tradeId: String,
     val gachaId: String,
     val type: TradeItemType,

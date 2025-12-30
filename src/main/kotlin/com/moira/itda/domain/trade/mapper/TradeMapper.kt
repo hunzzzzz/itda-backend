@@ -1,7 +1,9 @@
 package com.moira.itda.domain.trade.mapper
 
+import com.moira.itda.domain.trade.dto.response.TradeResponse
 import com.moira.itda.domain.trade.dto.request.ExchangeItemUpdateRequest
 import com.moira.itda.domain.trade.dto.request.TradeRequest
+import com.moira.itda.domain.trade.dto.response.TradeItemResponse
 import com.moira.itda.global.entity.Trade
 import com.moira.itda.global.entity.TradeItem
 import org.apache.ibatis.annotations.Mapper
@@ -28,6 +30,27 @@ interface TradeMapper {
      * 교환등록 > TradeItem 저장
      */
     fun insertTradeItem(tradeItem: TradeItem)
+
+    /**
+     * 가챠정보 > 가챠 목록 > 상세정보 > 거래 목록 조회 > totalElements 계산
+     */
+    fun selectTradeListCnt(gachaId: String, onlyPending: String, gachaItemId: Long?): Long
+
+    /**
+     * 가챠정보 > 가챠 목록 > 상세정보 > 거래 목록 조회
+     */
+    fun selectTradeList(
+        gachaId: String,
+        onlyPending: String,
+        gachaItemId: Long?,
+        pageSize: Int,
+        offset: Int
+    ): List<TradeResponse>
+
+    /**
+     * 가챠정보 > 가챠 목록 > 상세정보 > 거래 목록 조회 > 하위 교환/판매 정보 조회
+     */
+    fun selectTradeItemList(tradeId: String, gachaId: String): List<TradeItemResponse>
 
     /**
      * 가챠정보 > 가챠 목록 > 상세정보 > 교환 수정 > Trade 수정

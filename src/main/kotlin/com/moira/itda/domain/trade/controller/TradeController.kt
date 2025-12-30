@@ -1,5 +1,6 @@
 package com.moira.itda.domain.trade.controller
 
+import com.moira.itda.domain.trade.dto.response.TradePageResponse
 import com.moira.itda.domain.trade.dto.request.ExchangeAddRequest
 import com.moira.itda.domain.trade.dto.request.ExchangeUpdateRequest
 import com.moira.itda.domain.trade.dto.request.SalesAddRequest
@@ -70,6 +71,26 @@ class TradeController(
         val response = service.sale(userId = userAuth.userId, gachaId = gachaId, request = request)
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response)
+    }
+
+    /**
+     * 가챠정보 > 가챠 목록 > 상세정보 > 거래 목록 조회
+     */
+    @GetMapping("/api/gacha/{gachaId}/trades")
+    fun getTrades(
+        @PathVariable gachaId: String,
+        @RequestParam(required = false, defaultValue = "1") page: Int,
+        @RequestParam(required = false, defaultValue = "N") onlyPending: String,
+        @RequestParam(required = false) gachaItemId: Long?
+    ): ResponseEntity<TradePageResponse> {
+        val response = service.getTradeList(
+            gachaId = gachaId,
+            page = page,
+            onlyPending = onlyPending,
+            gachaItemId = gachaItemId
+        )
+
+        return ResponseEntity.ok(response)
     }
 
     /**
