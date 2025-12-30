@@ -3,7 +3,7 @@ package com.moira.itda.domain.trade.component
 import com.moira.itda.domain.common.mapper.CommonMapper
 import com.moira.itda.domain.trade.dto.request.ExchangeAddRequest
 import com.moira.itda.domain.trade.dto.request.SalesAddRequest
-import com.moira.itda.domain.trade.dto.request.TradeAddRequest
+import com.moira.itda.domain.trade.dto.request.TradeRequest
 import com.moira.itda.domain.trade.mapper.TradeMapper
 import com.moira.itda.global.entity.Trade
 import com.moira.itda.global.entity.TradeHopeMethod
@@ -39,7 +39,7 @@ class TradeValidator(
      * 교환등록 > 유효성 검사 > 공통
      * 판매등록 > 유효성 검사 > 공통
      */
-    fun validateTradeCommon(request: TradeAddRequest) {
+    fun validateTradeCommon(request: TradeRequest) {
         // 거래 제목
         if (request.title.isBlank()) {
             throw ItdaException(ErrorCode.NO_TRADE_TITLE)

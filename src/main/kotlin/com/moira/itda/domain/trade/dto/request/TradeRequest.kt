@@ -1,6 +1,6 @@
 package com.moira.itda.domain.trade.dto.request
 
-interface TradeAddRequest {
+interface TradeRequest {
     val title: String
     val content: String
     val fileId: String

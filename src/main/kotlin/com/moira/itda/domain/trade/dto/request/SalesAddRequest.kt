@@ -10,4 +10,4 @@ data class SalesAddRequest(
     override val hopeLocationLatitude: String?,
     override val hopeLocationLongitude: String?,
     val items: List<SalesItemAddRequest>
-) : TradeAddRequest
+) : TradeRequest
