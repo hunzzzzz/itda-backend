@@ -139,16 +139,28 @@ class TradeService(
      */
     @Transactional
     fun updateExchange(userId: String, gachaId: String, tradeId: String, request: ExchangeUpdateRequest) {
+        println("imageChangeYn : ${request.imageChangeYn}")
+
         // [1] Trade 조회
         val trade = mapper.selectTrade(tradeId = tradeId) ?: throw ItdaException(ErrorCode.TRADE_NOT_FOUND)
+
+        println("기존 fileId: ${trade.fileId}")
+        println("신규 fileId: ${request.fileId}")
 
         // [2] 유효성 검사
         validator.validateExchange(userId = userId, gachaId = gachaId, trade = trade, request = request)
 
-        // [3] Trade 수정
+        // [3] 사용자가 이미지를 변경한 경우, 기존 이미지 파일 삭제 (AWS S3, DB)
+        if (request.imageChangeYn == "Y") {
+            val oldFileId = trade.fileId
+            commonMapper.selectImageFileUrl(fileId = oldFileId).forEach { awsS3Handler.delete(it.fileUrl) }
+            commonMapper.deleteImageFile(fileId = oldFileId)
+        }
+
+        // [4] Trade 수정
         mapper.updateTrade(tradeId = tradeId, request = request)
 
-        // [4] TradeItem 수정
+        // [5] TradeItem 수정
         request.items.forEach { item -> mapper.updateTradeExchangeItem(request = item) }
     }
 

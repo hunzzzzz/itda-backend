@@ -38,6 +38,11 @@
         )
     </select>
 
+    <!-- 공통 > ImageFile 삭제 -->
+    <delete id="deleteImageFile">
+        DELETE FROM IMAGE_FILE WHERE file_id = #{fileId}
+    </delete>
+
     <!-- 공통 > 공통코드 조회 > 세부코드 목록 조회 -->
     <select id="selectCodeDetailList" resultType="com.moira.itda.domain.common.dto.response.CodeDetailResponse">
         SELECT

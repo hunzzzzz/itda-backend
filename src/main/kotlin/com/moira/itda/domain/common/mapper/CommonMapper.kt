@@ -23,6 +23,11 @@ interface CommonMapper {
     fun selectFileIdChk(fileId: String): Boolean
 
     /**
+     * 공통 > ImageFile 삭제
+     */
+    fun deleteImageFile(fileId: String)
+
+    /**
      * 공통 > 공통코드 조회 > 세부코드 목록 조회
      */
     fun selectCodeDetailList(key: String): List<CodeDetailResponse>
