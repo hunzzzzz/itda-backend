@@ -97,7 +97,9 @@ class GachaController(
     }
 
     /**
+     * 거래 제안 모달 > 가챠 하위 아이템 목록 조회
      * 교환등록 > 가챠 하위 아이템 목록 조회
+     * 판매등록 > 가챠 하위 아이템 목록 조회
      */
     @GetMapping("/api/gacha/{gachaId}/items")
     fun getGachaItemList(@PathVariable gachaId: String): ResponseEntity<List<GachaItemNameResponse>> {

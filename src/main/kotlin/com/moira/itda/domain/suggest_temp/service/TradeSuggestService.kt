@@ -64,14 +64,6 @@ class TradeSuggestService(
     }
 
     /**
-     * 거래 제안 모달 > 하위 아이템 목록 조회
-     */
-    @Transactional(readOnly = true)
-    fun getGachaItemList(tradeId: String): List<GachaItemResponse> {
-        return tradeSuggestMapper.selectGachaItemList(tradeId = tradeId)
-    }
-
-    /**
      * 거래 제안 모달 > 교환 제안 > 유효성 검사
      */
     fun validate(userId: String, tradeId: String, request: ExchangeSuggestRequest) {

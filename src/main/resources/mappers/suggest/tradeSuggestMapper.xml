@@ -30,14 +30,6 @@
         </choose>
     </select>
 
-    <!-- 거래 제안 모달 > 하위 아이템 목록 조회 -->
-    <select id="selectGachaItemList" resultType="com.moira.itda.domain.suggest_temp.dto.response.GachaItemResponse">
-        SELECT GI.id AS gachaItemId, GI.name
-        FROM GACHA_ITEM GI
-        WHERE GI.gacha_id = (SELECT gacha_id FROM TRADE WHERE id = #{tradeId})
-        ORDER BY GI.created_at ASC
-    </select>
-
     <!-- 거래 제안 모달 > 구매 제안 > TradeSuggest 저장 -->
     <!-- 거래 제안 모달 > 교환 제안 > TradeSuggest 저장 -->
     <insert id="insertTradeSuggest">

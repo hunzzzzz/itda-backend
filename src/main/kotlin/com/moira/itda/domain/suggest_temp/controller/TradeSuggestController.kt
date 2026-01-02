@@ -31,16 +31,6 @@ class TradeSuggestController(
     }
 
     /**
-     * 거래 제안 모달 > 하위 아이템 목록 조회
-     */
-    @GetMapping("/api/trade/{tradeId}/gacha/items")
-    fun getGachaItems(@PathVariable tradeId: String): ResponseEntity<List<GachaItemResponse>> {
-        val response = tradeSuggestService.getGachaItemList(tradeId = tradeId)
-
-        return ResponseEntity.ok(response)
-    }
-
-    /**
      * 거래 제안 모달 > 교환 제안
      */
     @PostMapping("/api/trade/{tradeId}/suggest/exchange")

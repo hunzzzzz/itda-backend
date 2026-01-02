@@ -26,11 +26,6 @@ interface TradeSuggestMapper {
     ): Long
 
     /**
-     * 거래 제안 모달 > 하위 아이템 목록 조회
-     */
-    fun selectGachaItemList(tradeId: String): List<GachaItemResponse>
-
-    /**
      * 거래 제안 모달 > 구매 제안 > TradeSuggest 저장
      * 거래 제안 모달 > 교환 제안 > TradeSuggest 저장
      */
