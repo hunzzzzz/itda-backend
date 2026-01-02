@@ -1,15 +1,15 @@
-package com.moira.itda.domain.user_temp.mychat.mapper
+package com.moira.itda.domain.chat.mapper
 
-import com.moira.itda.domain.user_temp.mychat.dto.response.ChatMessageResponse
-import com.moira.itda.domain.user_temp.mychat.dto.response.ChatRoomResponse
-import com.moira.itda.domain.user_temp.mychat.dto.response.MyChatResponse
+import com.moira.itda.domain.chat.dto.response.ChatMessageResponse
+import com.moira.itda.domain.chat.dto.response.ChatRoomResponse
+import com.moira.itda.domain.chat.dto.response.MyChatResponse
 import com.moira.itda.global.entity.ChatMessage
 import com.moira.itda.global.entity.TradeCancelHistory
 import com.moira.itda.global.entity.TradeCompleteHistory
 import org.apache.ibatis.annotations.Mapper
 
 @Mapper
-interface MyChatMapper {
+interface ChatMapper {
     /**
      * 마이페이지 > 내 거래 목록 > 채팅 > 채팅 목록 조회 > totalElements 계산
      */

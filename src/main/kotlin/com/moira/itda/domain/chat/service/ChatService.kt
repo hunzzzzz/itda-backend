@@ -1,12 +1,12 @@
-package com.moira.itda.domain.user_temp.mychat.service
+package com.moira.itda.domain.chat.service
 
-import com.moira.itda.domain.user_temp.mychat.dto.request.ChatMessageRequest
-import com.moira.itda.domain.user_temp.mychat.dto.request.TradeCancelRequest
-import com.moira.itda.domain.user_temp.mychat.dto.request.TradeCompleteRequest
-import com.moira.itda.domain.user_temp.mychat.dto.response.ChatMessageResponse
-import com.moira.itda.domain.user_temp.mychat.dto.response.ChatRoomResponse
-import com.moira.itda.domain.user_temp.mychat.dto.response.MyChatPageResponse
-import com.moira.itda.domain.user_temp.mychat.mapper.MyChatMapper
+import com.moira.itda.domain.chat.dto.request.ChatMessageRequest
+import com.moira.itda.domain.chat.dto.request.TradeCancelRequest
+import com.moira.itda.domain.chat.dto.request.TradeCompleteRequest
+import com.moira.itda.domain.chat.dto.response.ChatMessageResponse
+import com.moira.itda.domain.chat.dto.response.ChatRoomResponse
+import com.moira.itda.domain.chat.dto.response.MyChatPageResponse
+import com.moira.itda.domain.chat.mapper.ChatMapper
 import com.moira.itda.global.entity.ChatMessage
 import com.moira.itda.global.entity.ChatStatus
 import com.moira.itda.global.entity.TradeCancelHistory
@@ -20,8 +20,8 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
-class MyChatService(
-    private val myChatMapper: MyChatMapper,
+class ChatService(
+    private val chatMapper: ChatMapper,
     private val offsetPaginationHandler: OffsetPaginationHandler,
     private val messageTemplate: SimpMessagingTemplate
 ) {
@@ -35,8 +35,8 @@ class MyChatService(
         val offset = offsetPaginationHandler.getOffset(page = page, pageSize = pageSize)
 
         // [2] 채팅방 정보 조회
-        val totalElements = myChatMapper.selectChatRoomListCnt(userId = userId)
-        val content = myChatMapper.selectChatRoomList(
+        val totalElements = chatMapper.selectChatRoomListCnt(userId = userId)
+        val content = chatMapper.selectChatRoomList(
             userId = userId, pageSize = pageSize, offset = offset
         )
 
@@ -54,7 +54,7 @@ class MyChatService(
      */
     @Transactional(readOnly = true)
     fun getTradeSuggest(chatRoomId: String): ChatRoomResponse {
-        return myChatMapper.selectTradeSuggest(chatRoomId = chatRoomId)
+        return chatMapper.selectTradeSuggest(chatRoomId = chatRoomId)
     }
 
     /**
@@ -62,7 +62,7 @@ class MyChatService(
      */
     @Transactional(readOnly = true)
     fun getChatMessageList(chatRoomId: String): List<ChatMessageResponse> {
-        return myChatMapper.selectChatMessageList(chatRoomId = chatRoomId)
+        return chatMapper.selectChatMessageList(chatRoomId = chatRoomId)
     }
 
     /**
@@ -72,7 +72,7 @@ class MyChatService(
     fun sendMessage(chatRoomId: String, request: ChatMessageRequest) {
         // [1] ChatMessage 저장
         val chatMessage = ChatMessage.fromChatMessageRequest(chatRoomId = chatRoomId, request = request)
-        myChatMapper.insertChatMessage(chatMessage = chatMessage)
+        chatMapper.insertChatMessage(chatMessage = chatMessage)
 
         // [2] /sub/chat/${chatRoomId}/message를 구독중인 사람들에게 메시지 전달
         messageTemplate.convertAndSend("/sub/chat/$chatRoomId/message", chatMessage)
@@ -84,7 +84,7 @@ class MyChatService(
     @Transactional
     fun completeTrade(chatRoomId: String, request: TradeCompleteRequest) {
         // [1] 유효성 검사 (status)
-        val status = myChatMapper.selectChatStatus(chatRoomId = chatRoomId)
+        val status = chatMapper.selectChatStatus(chatRoomId = chatRoomId)
             ?: throw ItdaException(ErrorCode.INVALID_CHAT_STATUS)
 
         if (status == ChatStatus.ENDED.name) {
@@ -95,14 +95,14 @@ class MyChatService(
         val tradeCompleteHistory = TradeCompleteHistory.fromTradeCompleteRequest(
             chatRoomId = chatRoomId, request = request
         )
-        myChatMapper.insertTradeCompleteHistory(tradeCompleteHistory = tradeCompleteHistory)
+        chatMapper.insertTradeCompleteHistory(tradeCompleteHistory = tradeCompleteHistory)
 
         // [3] ChatRoom의 status 변경 (ENDED)
-        myChatMapper.updateChatRoomStatusEnded(chatRoomId = chatRoomId)
+        chatMapper.updateChatRoomStatusEnded(chatRoomId = chatRoomId)
 
         // [4] Trade의 status 변경 (COMPLETED)
-        myChatMapper.updateTradeStatusCompleted(tradeId = request.tradeId)
-        myChatMapper.updateTradeItemStatusCompleted(tradeItemId = request.tradeItemId)
+        chatMapper.updateTradeStatusCompleted(tradeId = request.tradeId)
+        chatMapper.updateTradeItemStatusCompleted(tradeItemId = request.tradeItemId)
     }
 
     /**
@@ -111,7 +111,7 @@ class MyChatService(
     @Transactional
     fun cancelTrade(chatRoomId: String, request: TradeCancelRequest) {
         // [1] 유효성 검사 (status)
-        val status = myChatMapper.selectChatStatus(chatRoomId = chatRoomId)
+        val status = chatMapper.selectChatStatus(chatRoomId = chatRoomId)
             ?: throw ItdaException(ErrorCode.INVALID_CHAT_STATUS)
 
         if (status == ChatStatus.ENDED.name) {
@@ -120,12 +120,12 @@ class MyChatService(
 
         // [2] TradeCancelHistory 저장
         val tradeCancelHistory = TradeCancelHistory.fromTradeCancelRequest(chatRoomId = chatRoomId, request = request)
-        myChatMapper.insertTradeCancelHistory(tradeCancelHistory = tradeCancelHistory)
+        chatMapper.insertTradeCancelHistory(tradeCancelHistory = tradeCancelHistory)
 
         // [3] ChatRoom의 status 변경 (ENDED)
-        myChatMapper.updateChatRoomStatusEnded(chatRoomId = chatRoomId)
+        chatMapper.updateChatRoomStatusEnded(chatRoomId = chatRoomId)
 
         // [4] TradeSuggest의 status 변경 (CANCELED)
-        myChatMapper.updateTradeSuggestStatusCanceled(tradeSuggestId = request.tradeSuggestId)
+        chatMapper.updateTradeSuggestStatusCanceled(tradeSuggestId = request.tradeSuggestId)
     }
 }

@@ -3,14 +3,14 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.moira.itda.domain.user_temp.mychat.mapper.MyChatMapper">
+<mapper namespace="com.moira.itda.domain.chat.mapper.ChatMapper">
     <!-- 마이페이지 > 내 거래 목록 > 채팅 > 채팅 목록 조회 > totalElements 계산 -->
     <select id="selectChatRoomListCnt">
         SELECT COUNT(id) FROM CHAT_ROOM WHERE seller_id = #{userId} OR buyer_id = #{userId}
     </select>
 
     <!-- 마이페이지 > 내 거래 목록 > 채팅 > 채팅 목록 조회 -->
-    <select id="selectChatRoomList" resultType="com.moira.itda.domain.user_temp.mychat.dto.response.MyChatResponse">
+    <select id="selectChatRoomList" resultType="com.moira.itda.domain.chat.dto.response.MyChatResponse">
         WITH MY_CHAT_ROOM AS (
             SELECT
                    id
@@ -54,7 +54,7 @@
     </select>
 
     <!-- 마이페이지 > 내 거래 목록 > 채팅 > 채팅 목록 조회 > 채팅방 > 거래 제안 정보 조회 -->
-    <select id="selectTradeSuggest" resultType="com.moira.itda.domain.user_temp.mychat.dto.response.ChatRoomResponse">
+    <select id="selectTradeSuggest" resultType="com.moira.itda.domain.chat.dto.response.ChatRoomResponse">
         SELECT
                CR.id                            AS chat_room_id
              , CR.status                        AS chat_room_status
@@ -93,7 +93,7 @@
     </select>
 
     <!-- 마이페이지 > 내 거래 목록 > 채팅 > 채팅 목록 조회 > 채팅방 > 이전 채팅 목록 조회 -->
-    <select id="selectChatMessageList" resultType="com.moira.itda.domain.user_temp.mychat.dto.response.ChatMessageResponse">
+    <select id="selectChatMessageList" resultType="com.moira.itda.domain.chat.dto.response.ChatMessageResponse">
         SELECT
                CM.id      AS chatMessageId
              , CM.sender_id
