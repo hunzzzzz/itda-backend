@@ -55,8 +55,9 @@ interface TradeMapper {
     /**
      * 가챠정보 > 가챠 목록 > 상세정보 > 거래 목록 조회 > 하위 교환/판매 정보 조회
      * 가챠정보 > 가챠 목록 > 상세정보 > 교환 수정 > 거래 정보 조회 > 하위 교환/판매 정보 조회
+     * 내 활동 > 내 거래 목록 조회 > 하위 교환/판매 정보 조회
      */
-    fun selectTradeItemList(tradeId: String, gachaId: String): List<TradeItemResponse>
+    fun selectTradeItemList(tradeId: String): List<TradeItemResponse>
 
     // ---------------------------------------------------------------------------------- //
 
@@ -106,4 +107,16 @@ interface TradeMapper {
      * 가챠정보 > 가챠 목록 > 상세정보 > 거래 삭제 > Trade 삭제
      */
     fun deleteTrade(tradeId: String)
+
+    // ---------------------------------------------------------------------------------- //
+
+    /**
+     * 내 활동 > 내 거래 목록 조회 > totalElements 계산
+     */
+    fun selectMyTradeListCnt(userId: String, type: String): Long
+
+    /**
+     * 내 활동 > 내 거래 목록 조회
+     */
+    fun selectMyTradeList(userId: String, type: String, pageSize: Int, offset: Int): List<TradeResponse>
 }

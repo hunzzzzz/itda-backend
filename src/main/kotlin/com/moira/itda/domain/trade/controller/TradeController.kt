@@ -135,4 +135,18 @@ class TradeController(
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null)
     }
+
+    /**
+     * 내 활동 > 내 거래 목록 조회
+     */
+    @GetMapping("/api/me/trade")
+    fun getTrades(
+        @UserPrincipal userAuth: UserAuth,
+        @RequestParam(required = false, defaultValue = "1") page: Int,
+        @RequestParam(required = true, defaultValue = "SALES") type: String
+    ): ResponseEntity<TradePageResponse> {
+        val response = service.getMyTradeList(userId = userAuth.userId, page = page, type = type)
+
+        return ResponseEntity.ok(response)
+    }
 }

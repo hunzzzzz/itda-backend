@@ -12,12 +12,14 @@ import com.moira.itda.domain.trade.dto.response.TradePageResponse
 import com.moira.itda.domain.trade.mapper.TradeMapper
 import com.moira.itda.global.entity.Trade
 import com.moira.itda.global.entity.TradeItem
+import com.moira.itda.global.entity.TradeItemType
 import com.moira.itda.global.entity.TradeType
 import com.moira.itda.global.exception.ErrorCode
 import com.moira.itda.global.exception.ItdaException
 import com.moira.itda.global.file.component.AwsS3Handler
 import com.moira.itda.global.pagination.component.OffsetPaginationHandler
 import com.moira.itda.global.pagination.component.PageSizeConstant.Companion.GACHA_DETAIL_TRADE_PAGE_SIZE
+import com.moira.itda.global.pagination.component.PageSizeConstant.Companion.MY_TRADE_LIST_PAGE_SIZE
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -120,7 +122,7 @@ class TradeService(
         val contents = trades.map { trade ->
             TradeContentResponse(
                 trade = trade,
-                itemList = mapper.selectTradeItemList(tradeId = trade.tradeId, gachaId = gachaId)
+                itemList = mapper.selectTradeItemList(tradeId = trade.tradeId)
             )
         }
 
@@ -147,7 +149,7 @@ class TradeService(
         trade.fileUrlList = commonMapper.selectImageFileUrl(fileId = trade.fileId).map { it.fileUrl }
 
         // [3] TradeItem 리스트 조회
-        val itemList = mapper.selectTradeItemList(tradeId = tradeId, gachaId = gachaId)
+        val itemList = mapper.selectTradeItemList(tradeId = tradeId)
 
         // [4] DTO 병합 후 리턴
         return TradeDetailContentResponse(trade = trade, itemList = itemList)
@@ -204,5 +206,46 @@ class TradeService(
 
         // [5] Trade 삭제
         mapper.deleteTrade(tradeId = tradeId)
+    }
+
+    /**
+     * 내 활동 > 내 거래 목록 조회
+     */
+    @Transactional(readOnly = true)
+    fun getMyTradeList(userId: String, page: Int, type: String): TradePageResponse {
+        // [1] 유효성 검사
+        kotlin.runCatching { TradeItemType.valueOf(type) }
+            .onFailure { throw ItdaException(ErrorCode.INVALID_TRADE_TYPE) }
+
+        // [2] 변수 세팅
+        val pageSize = MY_TRADE_LIST_PAGE_SIZE
+        val offset = offsetPaginationHandler.getOffset(page = page, pageSize = pageSize)
+
+        // [3] 거래 목록 조회
+        val totalElements = mapper.selectMyTradeListCnt(userId = userId, type = type)
+        val tradeList = mapper.selectMyTradeList(
+            userId = userId,
+            type = type,
+            pageSize = pageSize,
+            offset = offset
+        )
+
+        // [3] 하위 교환/판매 목록 조회
+        val contents = tradeList.map { trade ->
+            TradeContentResponse(
+                trade = trade,
+                itemList = mapper.selectTradeItemList(tradeId = trade.tradeId)
+            )
+        }
+
+        // [4] 오프셋 기반 페이지네이션 구현
+        val pageResponse = offsetPaginationHandler.getPageResponse(
+            pageSize = pageSize,
+            page = page,
+            totalElements = totalElements
+        )
+
+        // [5] DTO 병합 후 리턴
+        return TradePageResponse(content = contents, page = pageResponse)
     }
 }

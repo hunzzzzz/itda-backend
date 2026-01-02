@@ -300,14 +300,16 @@ enum class ErrorCode(
         message = "이미 승인된 거래 제안이 있어 수정/삭제할 수 없습니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
-
-
-
     INVALID_TRADE_TYPE(
-        code = "T0009",
-        message = "유효하지 않은 거래 종류입니다.",
+        code = "T0012",
+        message = "유효하지 않은 거래 종류 파라미터입니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
+
+
+
+
+
     TRADE_COUNT_SHOULD_BE_LARGER_THAN_ZERO(
         code = "T0010",
         message = "거래 수량은 0보다 커야 합니다.",
