@@ -334,6 +334,11 @@ enum class ErrorCode(
         message = "이미 해당 거래 상품에 교환 제안을 하였습니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
+    PENDING_SUGGEST_EXISTS(
+        code = "T0019",
+        message = "현재 진행 중인 거래 제안이 있어 수정/삭제할 수 없습니다. 해당 제안을 거절한 후 수정/삭제가 가능합니다.",
+        httpStatus = HttpStatus.BAD_REQUEST
+    ),
 
 
     SUGGEST_NOT_FOUND(

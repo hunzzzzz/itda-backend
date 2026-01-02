@@ -69,19 +69,24 @@ class TradeValidator(
      * 거래 삭제 > 유효성 검사 > 공통
      */
     private fun validateStatusAndRole(userId: String, trade: Trade) {
-        // [1]
+        // [1] COMPLETED된 거래는 수정 및 삭제 불가능
         if (trade.status == TradeStatus.COMPLETED) {
             throw ItdaException(ErrorCode.COMPLETED_TRADE)
         }
 
-        // [2] 삭제 권한에 대한 유효성 검사 (업로드한 유저 = 요청 유저인지)
+        // [2] 수정 및 삭제 권한 검증
         if (trade.userId != userId) {
             throw ItdaException(ErrorCode.OTHERS_TRADE)
         }
 
-        // [3] 제안 목록에 대한 유효성 검사 (APPROVED된 제안이 있는지)
+        // [3] APPROVED된 제안이 존재하는 경우 거래 수정 및 삭제 불가능
         if (mapper.selectTradeSuggestApprovedChk(tradeId = trade.id)) {
             throw ItdaException(ErrorCode.APPROVED_SUGGEST_EXISTS)
+        }
+
+        // [4] PENDING된 제안이 존재하는 경우 거래 수정 및 삭제 불가능
+        if (mapper.selectTradeSuggestPendingChk(tradeId = trade.id)) {
+            throw ItdaException(ErrorCode.PENDING_SUGGEST_EXISTS)
         }
     }
 

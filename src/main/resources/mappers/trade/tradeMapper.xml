@@ -277,6 +277,15 @@
         )
     </select>
 
+    <!-- 가챠정보 > 가챠 목록 > 상세정보 > 교환 수정 > PENDING 제안 여부 조회 -->
+    <!-- 가챠정보 > 가챠 목록 > 상세정보 > 거래 삭제 > PENDING 제안 여부 조회 -->
+    <select id="selectTradeSuggestPendingChk">
+        SELECT EXISTS (
+            SELECT 1 FROM TRADE_SUGGEST
+            WHERE trade_id = #{tradeId} AND status = 'PENDING'
+        )
+    </select>
+
     <!-- 가챠정보 > 가챠 목록 > 상세정보 > 거래 삭제 > TradeSuggest 삭제 -->
     <delete id="deleteTradeSuggest">
         DELETE FROM TRADE_SUGGEST WHERE trade_id = #{tradeId}
