@@ -1,8 +1,5 @@
 package com.moira.itda.global.file.component
 
-import com.amazonaws.services.s3.AmazonS3
-import com.amazonaws.services.s3.model.ObjectMetadata
-import com.amazonaws.services.s3.model.PutObjectRequest
 import com.moira.itda.global.exception.ErrorCode
 import com.moira.itda.global.exception.ItdaException
 import com.moira.itda.global.file.dto.FileInfo
@@ -12,10 +9,15 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 import org.springframework.web.multipart.MultipartFile
 import org.springframework.web.util.UriComponentsBuilder
+import software.amazon.awssdk.core.sync.RequestBody
+import software.amazon.awssdk.services.s3.S3Client
+import software.amazon.awssdk.services.s3.model.DeleteObjectRequest
+import software.amazon.awssdk.services.s3.model.GetUrlRequest
+import software.amazon.awssdk.services.s3.model.PutObjectRequest
 
 @Component
 class AwsS3Handler(
-    private val amazonS3: AmazonS3
+    private val s3Client: S3Client
 ) {
     @Value("\${cloud.aws.s3.bucketName}")
     private lateinit var bucketName: String
@@ -38,27 +40,41 @@ class AwsS3Handler(
                 // S3 객체 Key (디렉터리/파일명)
                 val s3Key = "${targetDir}/${storedFileName}"
 
-                // [2] Metadata 생성
-                val metadata = ObjectMetadata()
-                metadata.contentType = file.contentType
-                metadata.contentLength = file.size
+                // [2] PutObjectRequest 생성
+                val s3Object = PutObjectRequest.builder()
+                    .bucket(bucketName)
+                    .key(s3Key)
+                    .contentType(file.contentType)
+                    .contentLength(file.size)
+                    .build()
 
-                // [3] 업로드
-                val s3Object = PutObjectRequest(bucketName, s3Key, inputStream, metadata)
-                amazonS3.putObject(s3Object)
+                // [3] AWS S3 이미지 저장
+                val response = s3Client.putObject(s3Object, RequestBody.fromBytes(file.bytes))
 
-                // [4] S3 Url 생성
-                val url = amazonS3.getUrl(bucketName, s3Key)
-                val fileUrl = url.toString()
+                // [4] 응답값 검증
+                if (response.sdkHttpResponse().isSuccessful) {
+                    // [4-1] 성공 시, 이미지 URL 추출
+                    val urlRequest = GetUrlRequest.builder()
+                        .bucket(bucketName)
+                        .key(s3Key)
+                        .build()
 
-                // [5] FileInfo 객체 생성 및 리턴
-                return FileInfo(
-                    fileId = fileId,
-                    originalFileName = originalFileName,
-                    storedFileName = storedFileName,
-                    size = file.size,
-                    fileUrl = fileUrl
-                )
+                    val url = s3Client.utilities().getUrl(urlRequest)
+                    val fileUrl = url.toString()
+
+                    // [5] FileInfo 객체 생성 및 리턴
+                    return FileInfo(
+                        fileId = fileId,
+                        originalFileName = originalFileName,
+                        storedFileName = storedFileName,
+                        size = file.size,
+                        fileUrl = fileUrl
+                    )
+                }
+                // [4-2] 실패 시, 에러 처리
+                else {
+                    throw ItdaException(ErrorCode.FILE_SAVE_FAILED)
+                }
             }
         } catch (e: Exception) {
             log.error("파일 저장 실패: {}", e.message, e)
@@ -77,7 +93,12 @@ class AwsS3Handler(
             val s3Key = path.substring(1) // 맨 앞자리 슬래시(/) 제거
 
             // [2] 삭제
-            amazonS3.deleteObject(bucketName, s3Key)
+            val deleteRequest = DeleteObjectRequest.builder()
+                .bucket(bucketName)
+                .key(s3Key)
+                .build()
+
+            s3Client.deleteObject(deleteRequest)
         } catch (e: Exception) {
             log.error("파일 삭제 실패: {}", e.message, e)
             throw ItdaException(ErrorCode.FILE_DELETE_FAILED)
