@@ -118,6 +118,7 @@ class TradeService(
      * 가챠정보 > 가챠 목록 > 상세정보 > 거래 수정 > 거래 아이템 목록 조회
      * 가챠정보 > 가챠 목록 > 상세정보 > 거래 삭제 > 거래 아이템 목록 조회
      */
+    @Transactional(readOnly = true)
     fun getTradeItemList(tradeId: String): List<TradeItemResponse> {
         return mapper.selectTradeItemList(tradeId = tradeId)
     }
