@@ -15,6 +15,9 @@ import com.moira.itda.global.entity.UserStatus
 import com.moira.itda.global.exception.ErrorCode
 import com.moira.itda.global.exception.ItdaException
 import com.moira.itda.global.file.component.AwsS3Handler
+import com.moira.itda.global.mail.component.UserMailSender
+import com.moira.itda.global.mail.context.MailContext
+import com.moira.itda.global.mail.context.MailContext.SIGNUP_MAIL_TEXT
 import io.jsonwebtoken.ExpiredJwtException
 import io.jsonwebtoken.MalformedJwtException
 import io.jsonwebtoken.UnsupportedJwtException
@@ -35,6 +38,7 @@ class UserService(
     private val encoder: PasswordEncoder,
     private val jwtProvider: JwtProvider,
     private val loginHistoryService: LoginHistoryService,
+    private val mailSender: UserMailSender,
     private val mapper: UserMapper,
     private val validator: UserValidator
 ) {
@@ -62,7 +66,12 @@ class UserService(
         val userSignupIdentifyCode = UserSignupIdentifyCode.from(email = email, code = code)
         mapper.insertUserSignupIdentifyCode(userSignupIdentifyCode = userSignupIdentifyCode)
 
-        // TODO: [4] 이메일 전송
+        // [4] 이메일 전송
+        mailSender.send(
+            email = email,
+            subject = MailContext.SIGNUP_MAIL_SUBJECT,
+            text = SIGNUP_MAIL_TEXT.format(code)
+        )
     }
 
     /**
