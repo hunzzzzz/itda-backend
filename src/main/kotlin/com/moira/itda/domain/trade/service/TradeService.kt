@@ -6,6 +6,7 @@ import com.moira.itda.domain.trade.dto.request.ExchangeAddRequest
 import com.moira.itda.domain.trade.dto.request.SalesAddRequest
 import com.moira.itda.domain.trade.dto.response.GachaIdResponse
 import com.moira.itda.domain.trade.dto.response.TradeContentResponse
+import com.moira.itda.domain.trade.dto.response.TradeItemResponse
 import com.moira.itda.domain.trade.dto.response.TradePageResponse
 import com.moira.itda.domain.trade.mapper.TradeMapper
 import com.moira.itda.global.entity.Trade
@@ -98,7 +99,7 @@ class TradeService(
         val contents = trades.map { trade ->
             TradeContentResponse(
                 trade = trade,
-                items = mapper.selectTradeItem(tradeId = trade.tradeId)
+                items = mapper.selectTradeItemList(tradeId = trade.tradeId)
             )
         }
 
@@ -111,6 +112,14 @@ class TradeService(
 
         // [5] DTO 병합 후 리턴
         return TradePageResponse(content = contents, page = pageResponse)
+    }
+
+    /**
+     * 가챠정보 > 가챠 목록 > 상세정보 > 거래 수정 > 거래 아이템 목록 조회
+     * 가챠정보 > 가챠 목록 > 상세정보 > 거래 삭제 > 거래 아이템 목록 조회
+     */
+    fun getTradeItemList(tradeId: String): List<TradeItemResponse> {
+        return mapper.selectTradeItemList(tradeId = tradeId)
     }
 
 //
@@ -231,7 +240,7 @@ class TradeService(
         val contents = tradeList.map { trade ->
             TradeContentResponse(
                 trade = trade,
-                items = mapper.selectTradeItem(tradeId = trade.tradeId)
+                items = mapper.selectTradeItemList(tradeId = trade.tradeId)
             )
         }
 

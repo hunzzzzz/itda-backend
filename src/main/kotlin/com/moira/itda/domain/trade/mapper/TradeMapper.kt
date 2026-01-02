@@ -44,12 +44,11 @@ interface TradeMapper {
     ): List<TradeResponse>
 
     /**
-     * 가챠정보 > 가챠 목록 > 상세정보 > 거래 목록 조회 > 하위 교환/판매 정보 조회
-     * 가챠정보 > 가챠 목록 > 상세정보 > 거래 수정 > 거래 정보 조회 > 하위 교환/판매 정보 조회
-     * 내 활동 > 내 거래 목록 조회 > 하위 교환/판매 정보 조회
-     * 거래 제안 모달 > 거래 정보 조회
+     * 가챠정보 > 가챠 목록 > 상세정보 > 거래 목록 조회 > 거래 아이템 목록 조회
+     * 가챠정보 > 가챠 목록 > 상세정보 > 거래 수정 > 거래 아이템 목록 조회
+     * 가챠정보 > 가챠 목록 > 상세정보 > 거래 삭제 > 거래 아이템 목록 조회
      */
-    fun selectTradeItem(tradeId: String): List<TradeItemResponse>
+    fun selectTradeItemList(tradeId: String): List<TradeItemResponse>
 
     // ---------------------------------------------------------------------------------- //
 
