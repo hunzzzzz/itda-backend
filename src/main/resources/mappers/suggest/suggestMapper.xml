@@ -84,4 +84,69 @@
              , updated_at = CURRENT_TIMESTAMP
         WHERE id = #{suggestId}
     </update>
+
+    <!-- 거래 제안 모달 > 구매 제안 > 거래 status 조회 -->
+    <!-- 거래 제안 모달 > 교환 제안 > 거래 status 조회 -->
+    <select id="selectTradeStatus" resultType="java.lang.String">
+        SELECT status FROM TRADE where id = #{tradeId}
+    </select>
+
+    <!-- 거래 제안 모달 > 구매 제안 > 구매 제안 여부 확인 -->
+    <select id="selectTradePurchaseSuggestChk" resultType="java.lang.Boolean">
+        SELECT EXISTS (
+            SELECT 1 FROM TRADE_SUGGEST
+            WHERE trade_id = #{tradeId}
+             AND user_id = #{userId}
+             AND status != 'CANCELED'
+             AND status != 'REJECTED'
+             AND purchase_item_id = #{purchaseItemId}
+        )
+    </select>
+
+    <!-- 거래 제안 모달 > 구매 제안 > TradeSuggest 저장 -->
+    <!-- 거래 제안 모달 > 교환 제안 > TradeSuggest 저장 -->
+    <insert id="insertTradeSuggest">
+        INSERT INTO TRADE_SUGGEST (
+               id
+             , user_id
+             , trade_id
+             , trade_item_id
+             , gacha_id
+             , type
+             , status
+             , content
+             , created_at
+             , updated_at
+             , purchase_item_id
+             , purchase_original_price
+             , purchase_count
+             , purchase_discount_yn
+             , purchase_discount_price
+             , exchange_seller_item_id
+             , exchange_original_item_id
+             , exchange_suggested_item_id
+             , exchange_change_yn
+        )
+        VALUES (
+               #{id}
+             , #{userId}
+             , #{tradeId}
+             , #{tradeItemId}
+             , #{gachaId}
+             , #{type}
+             , #{status}
+             , #{content}
+             , #{createdAt}
+             , #{updatedAt}
+             , #{purchaseItemId}
+             , #{purchaseOriginalPrice}
+             , #{purchaseCount}
+             , #{purchaseDiscountYn}
+             , #{purchaseDiscountPrice}
+             , #{exchangeSellerItemId}
+             , #{exchangeOriginalItemId}
+             , #{exchangeSuggestedItemId}
+             , #{exchangeChangeYn}
+        )
+    </insert>
 </mapper>

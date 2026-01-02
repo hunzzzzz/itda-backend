@@ -305,26 +305,28 @@ enum class ErrorCode(
         message = "유효하지 않은 거래 종류 파라미터입니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
-
-
-
-
-
-    TRADE_COUNT_SHOULD_BE_LARGER_THAN_ZERO(
-        code = "T0010",
-        message = "거래 수량은 0보다 커야 합니다.",
+    INVALID_SUGGEST_COUNT(
+        code = "T0013",
+        message = "유효하지 않은 제안 수량입니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
-    SHOULD_TYPE_PRICE_WHEN_YOU_WANT_NEGOTIATION(
-        code = "T0011",
+    NO_NEGOTIATION_PRICE(
+        code = "T0014",
         message = "네고 희망을 체크한 경우, 네고 희망 가격을 입력해야 합니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
-    DISCOUNT_PRICE_SHOULD_BE_LESS_THAN_ORIGINAL_PRICE(
-        code = "T0012",
+    INVALID_DISCOUNT_PRICE(
+        code = "T0015",
         message = "네고 희망 가격은 원래 가격보다 작아야 합니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
+    ALREADY_SUGGESTED_PURCHASE(
+        code = "T0016",
+        message = "이미 해당 거래 상품에 구매 제안을 하였습니다.",
+        httpStatus = HttpStatus.BAD_REQUEST
+    ),
+
+
     SUGGEST_NOT_FOUND(
         code = "T0013",
         message = "존재하지 않는 거래 제안입니다.",
@@ -350,16 +352,8 @@ enum class ErrorCode(
         message = "'다른 아이템으로 교환 제시'를 선택한 경우, 기존 항목과 다른 아이템을 선택해야 합니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
-    SUGGEST_ONLY_WHEN_TRADE_IS_PENDING(
-        code = "T0018",
-        message = "진행 중인 거래에 대해서만 교환 및 판매 제안이 가능합니다.",
-        httpStatus = HttpStatus.BAD_REQUEST
-    ),
-    ALREADY_SUGGESTED_PURCHASE_ON_THE_TRADE_ITEM(
-        code = "T0019",
-        message = "이미 해당 제품에 구매 제안을 하였습니다.",
-        httpStatus = HttpStatus.BAD_REQUEST
-    ),
+
+
     ALREADY_SUGGESTED_EXCHANGE_ON_THE_TRADE_ITEM(
         code = "T0020",
         message = "이미 해당 제품에 교환 제안을 하였습니다.",

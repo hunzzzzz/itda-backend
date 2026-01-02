@@ -1,10 +1,13 @@
 package com.moira.itda.domain.suggest.service
 
+import com.moira.itda.domain.suggest.component.SuggestValidator
 import com.moira.itda.domain.suggest.dto.request.TradeSuggestYnRequest
 import com.moira.itda.domain.suggest.dto.response.ChatRoomIdResponse
 import com.moira.itda.domain.suggest.dto.response.TradeSuggestPageResponse
 import com.moira.itda.domain.suggest.mapper.SuggestMapper
+import com.moira.itda.domain.suggest_temp.dto.request.PurchaseSuggestRequest
 import com.moira.itda.global.entity.ChatRoom
+import com.moira.itda.global.entity.TradeSuggest
 import com.moira.itda.global.pagination.component.OffsetPaginationHandler
 import com.moira.itda.global.pagination.component.PageSizeConstant.Companion.MY_TRADE_SUGGEST_LIST_PAGE_SIZE
 import org.springframework.stereotype.Service
@@ -12,9 +15,28 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 class SuggestService(
+    private val mapper: SuggestMapper,
     private val offsetPaginationHandler: OffsetPaginationHandler,
-    private val mapper: SuggestMapper
+    private val validator: SuggestValidator
 ) {
+    /**
+     * 거래 제안 모달 > 구매 제안
+     */
+    @Transactional
+    fun purchaseSuggest(userId: String, tradeId: String, request: PurchaseSuggestRequest) {
+        // [1] 유효성 검사
+        validator.validatePurchaseSuggest(userId = userId, tradeId = tradeId, request = request)
+
+        // [2] TradeSuggest 저장
+        val tradeSuggest = TradeSuggest.fromPurchaseSuggestRequest(
+            userId = userId,
+            tradeId = tradeId,
+            request = request
+        )
+
+        mapper.insertTradeSuggest(tradeSuggest = tradeSuggest)
+    }
+
     /**
      * 내 활동 > 판매/교환 > 제안 목록 조회 모달 > 제안 목록 조회
      */
