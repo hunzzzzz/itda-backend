@@ -166,7 +166,7 @@
     <select id="selectCurrentFileUrl" resultType="java.lang.String">
         SELECT file_url
         FROM IMAGE_FILE
-        WHERE file_id = (SELECT file_id FROM USER WHERE id = #{userId}
+        WHERE file_id = (SELECT file_id FROM USER WHERE id = #{userId})
         ORDER BY created_At DESC
         LIMIT 1
     </select>
