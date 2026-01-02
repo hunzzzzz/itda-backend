@@ -92,7 +92,6 @@ enum class ErrorCode(
     ),
 
 
-
     INVALID_BAN_REASON(
         code = "U0013",
         message = "계정 정지 사유는 필수 입력 항목입니다.",
@@ -325,6 +324,16 @@ enum class ErrorCode(
         message = "이미 해당 거래 상품에 구매 제안을 하였습니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
+    SAME_EXCHANGE_NEGOTIATION_ITEM(
+        code = "T0017",
+        message = "'다른 아이템으로 교환 제시'를 선택한 경우, 기존 항목과 다른 아이템을 선택해야 합니다.",
+        httpStatus = HttpStatus.BAD_REQUEST
+    ),
+    ALREADY_SUGGESTED_EXCHANGE(
+        code = "T0018",
+        message = "이미 해당 거래 상품에 교환 제안을 하였습니다.",
+        httpStatus = HttpStatus.BAD_REQUEST
+    ),
 
 
     SUGGEST_NOT_FOUND(
@@ -345,18 +354,6 @@ enum class ErrorCode(
     ALREADY_CANCELED_SUGGEST(
         code = "T0016",
         message = "이미 취소된 거래 제안입니다.",
-        httpStatus = HttpStatus.BAD_REQUEST
-    ),
-    EXCHANGING_ITEMS_ID_SHOULD_NOT_BE_SAME_WHEN_YOU_WANT_NEGOTIATION(
-        code = "T0017",
-        message = "'다른 아이템으로 교환 제시'를 선택한 경우, 기존 항목과 다른 아이템을 선택해야 합니다.",
-        httpStatus = HttpStatus.BAD_REQUEST
-    ),
-
-
-    ALREADY_SUGGESTED_EXCHANGE_ON_THE_TRADE_ITEM(
-        code = "T0020",
-        message = "이미 해당 제품에 교환 제안을 하였습니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
     CANNOT_DELETE_APPROVED_SUGGEST(

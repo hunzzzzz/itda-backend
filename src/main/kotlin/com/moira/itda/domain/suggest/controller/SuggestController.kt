@@ -1,18 +1,16 @@
 package com.moira.itda.domain.suggest.controller
 
+import com.moira.itda.domain.suggest.dto.request.ExchangeSuggestRequest
+import com.moira.itda.domain.suggest.dto.request.PurchaseSuggestRequest
 import com.moira.itda.domain.suggest.dto.request.TradeSuggestYnRequest
 import com.moira.itda.domain.suggest.dto.response.ChatRoomIdResponse
 import com.moira.itda.domain.suggest.dto.response.TradeSuggestPageResponse
 import com.moira.itda.domain.suggest.service.SuggestService
-import com.moira.itda.domain.suggest_temp.dto.request.PurchaseSuggestRequest
 import com.moira.itda.global.auth.aop.UserPrincipal
 import com.moira.itda.global.auth.dto.UserAuth
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
-/**
- * 내 활동 > 판매/교환 > 제안 목록 조회 모달
- */
 @RestController
 class SuggestController(
     private val service: SuggestService
@@ -27,6 +25,20 @@ class SuggestController(
         @RequestBody request: PurchaseSuggestRequest
     ): ResponseEntity<Nothing?> {
         service.purchaseSuggest(userId = userAuth.userId, tradeId = tradeId, request = request)
+
+        return ResponseEntity.ok(null)
+    }
+
+    /**
+     * 거래 제안 모달 > 교환 제안
+     */
+    @PostMapping("/api/trade/{tradeId}/suggest/exchange")
+    fun exchangeSuggest(
+        @UserPrincipal userAuth: UserAuth,
+        @PathVariable tradeId: String,
+        @RequestBody request: ExchangeSuggestRequest
+    ): ResponseEntity<Nothing?> {
+        service.exchangeSuggest(userId = userAuth.userId, tradeId = tradeId, request = request)
 
         return ResponseEntity.ok(null)
     }

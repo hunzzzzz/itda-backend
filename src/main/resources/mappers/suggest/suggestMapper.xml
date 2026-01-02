@@ -95,11 +95,24 @@
     <select id="selectTradePurchaseSuggestChk" resultType="java.lang.Boolean">
         SELECT EXISTS (
             SELECT 1 FROM TRADE_SUGGEST
-            WHERE trade_id = #{tradeId}
-             AND user_id = #{userId}
-             AND status != 'CANCELED'
-             AND status != 'REJECTED'
-             AND purchase_item_id = #{purchaseItemId}
+            WHERE trade_id         = #{tradeId}
+             AND  user_id          = #{userId}
+             AND  status          != 'CANCELED'
+             AND  status          != 'REJECTED'
+             AND  purchase_item_id = #{purchaseItemId}
+        )
+    </select>
+
+    <!-- 거래 제안 모달 > 교환 제안 > 교환 제안 여부 확인 -->
+    <select id="selectTradeExchangeSuggestChk" resultType="java.lang.Boolean">
+        SELECT EXISTS (
+            SELECT 1 FROM TRADE_SUGGEST
+            WHERE trade_id                   = #{tradeId}
+             AND  user_id                    = #{userId}
+             AND  status                    != 'CANCELED'
+             AND  status                    != 'REJECTED'
+             AND  exchange_seller_item_id    = #{exchangeSellerItemId}
+             AND  exchange_suggested_item_id = #{exchangeSuggestedItemId}
         )
     </select>
 

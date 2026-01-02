@@ -44,6 +44,16 @@ interface SuggestMapper {
     fun selectTradePurchaseSuggestChk(userId: String, tradeId: String, purchaseItemId: Long): Boolean
 
     /**
+     * 거래 제안 모달 > 교환 제안 > 교환 제안 여부 확인
+     */
+    fun selectTradeExchangeSuggestChk(
+        userId: String,
+        tradeId: String,
+        exchangeSellerItemId: Long,
+        exchangeSuggestedItemId: Long
+    ): Boolean
+
+    /**
      * 거래 제안 모달 > 구매 제안 > TradeSuggest 저장
      * 거래 제안 모달 > 교환 제안 > TradeSuggest 저장
      */

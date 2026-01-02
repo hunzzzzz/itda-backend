@@ -1,11 +1,12 @@
 package com.moira.itda.domain.suggest.service
 
 import com.moira.itda.domain.suggest.component.SuggestValidator
+import com.moira.itda.domain.suggest.dto.request.ExchangeSuggestRequest
+import com.moira.itda.domain.suggest.dto.request.PurchaseSuggestRequest
 import com.moira.itda.domain.suggest.dto.request.TradeSuggestYnRequest
 import com.moira.itda.domain.suggest.dto.response.ChatRoomIdResponse
 import com.moira.itda.domain.suggest.dto.response.TradeSuggestPageResponse
 import com.moira.itda.domain.suggest.mapper.SuggestMapper
-import com.moira.itda.domain.suggest_temp.dto.request.PurchaseSuggestRequest
 import com.moira.itda.global.entity.ChatRoom
 import com.moira.itda.global.entity.TradeSuggest
 import com.moira.itda.global.pagination.component.OffsetPaginationHandler
@@ -34,6 +35,22 @@ class SuggestService(
             request = request
         )
 
+        mapper.insertTradeSuggest(tradeSuggest = tradeSuggest)
+    }
+
+    /**
+     * 거래 제안 모달 > 교환 제안
+     */
+    fun exchangeSuggest(userId: String, tradeId: String, request: ExchangeSuggestRequest) {
+        // [1] 유효성 검사
+        validator.validateExchangeSuggest(userId = userId, tradeId = tradeId, request = request)
+
+        // [2] TradeSuggest 저장
+        val tradeSuggest = TradeSuggest.fromExchangeSuggestRequest(
+            userId = userId,
+            tradeId = tradeId,
+            request = request
+        )
         mapper.insertTradeSuggest(tradeSuggest = tradeSuggest)
     }
 

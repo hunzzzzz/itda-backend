@@ -1,4 +1,4 @@
-package com.moira.itda.domain.suggest_temp.dto.request
+package com.moira.itda.domain.suggest.dto.request
 
 data class ExchangeSuggestRequest(
     val gachaId: String,

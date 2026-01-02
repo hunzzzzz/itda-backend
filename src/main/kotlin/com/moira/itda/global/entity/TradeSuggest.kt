@@ -1,7 +1,7 @@
 package com.moira.itda.global.entity
 
-import com.moira.itda.domain.suggest_temp.dto.request.ExchangeSuggestRequest
-import com.moira.itda.domain.suggest_temp.dto.request.PurchaseSuggestRequest
+import com.moira.itda.domain.suggest.dto.request.ExchangeSuggestRequest
+import com.moira.itda.domain.suggest.dto.request.PurchaseSuggestRequest
 import java.time.ZonedDateTime
 import java.util.*
 
