@@ -11,7 +11,7 @@ data class TradeResponse(
     val type: String,
     val status: String,
     val title: String,
-    val content: String,
+    val content: String?,
     val fileId: String,
     val fileUrl: String,
     val hopeMethod: TradeHopeMethod,

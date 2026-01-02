@@ -11,7 +11,7 @@ data class Trade(
     val type: TradeType,
     val status: TradeStatus,
     val title: String,
-    val content: String,
+    val content: String?,
     val fileId: String,
     val hopeMethod: TradeHopeMethod,
     val hopeLocation: String?,

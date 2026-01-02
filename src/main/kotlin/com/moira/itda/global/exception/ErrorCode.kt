@@ -189,18 +189,6 @@ enum class ErrorCode(
         httpStatus = HttpStatus.BAD_REQUEST
     ),
 
-    // 가챠 관련 에러코드
-    PENDING_SALES_EXISTS(
-        code = "G0001",
-        message = "이미 해당 가챠 관련 상품을 판매중입니다.",
-        httpStatus = HttpStatus.BAD_REQUEST
-    ),
-    PENDING_EXCHANGE_EXISTS(
-        code = "G0002",
-        message = "이미 해당 가챠 관련 상품을 교환중입니다.",
-        httpStatus = HttpStatus.BAD_REQUEST
-    ),
-
 
     INVALID_GACHA_TITLE(
         code = "G0001",
@@ -237,11 +225,6 @@ enum class ErrorCode(
         message = "존재하지 않는 가챠입니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
-    GACHA_ITEM_NOT_FOUND(
-        code = "G0010",
-        message = "존재하지 않는 가챠 아이템입니다.",
-        httpStatus = HttpStatus.BAD_REQUEST
-    ),
 
     // 거래 관련 에러코드
     NO_TRADE_TITLE(
@@ -249,48 +232,38 @@ enum class ErrorCode(
         message = "거래 제목은 필수 입력 항목입니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
-    NO_TRADE_CONTENT(
-        code = "T0002",
-        message = "거래 내용은 필수 입력 항목입니다.",
-        httpStatus = HttpStatus.BAD_REQUEST
-    ),
     NO_TRADE_FILE_ID(
-        code = "T0003",
+        code = "T0002",
         message = "거래 이미지 파일 정보는 필수 입력 항목입니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
     INVALID_TRADE_HOPE_METHOD(
-        code = "T0004",
+        code = "T0003",
         message = "유효하지 않은 거래 희망 방법입니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
     NO_TRADE_ITEMS(
-        code = "T0005",
+        code = "T0004",
         message = "거래 아이템 정보가 없습니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
-    INVALID_TRADE_COUNT(
-        code = "T0006",
-        message = "유효하지 않은 거래 수량입니다.",
-        httpStatus = HttpStatus.BAD_REQUEST
-    ),
     INVALID_TRADE_PRICE(
-        code = "T0007",
+        code = "T0005",
         message = "유효하지 않은 거래 가격입니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
     TRADE_NOT_FOUND(
-        code = "T0008",
+        code = "T0006",
         message = "잘못된 거래 정보입니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
     COMPLETED_TRADE(
-        code = "T0009",
+        code = "T0007",
         message = "이미 완료된 거래는 수정/삭제할 수 없습니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
     OTHERS_TRADE(
-        code = "T0010",
+        code = "T0008",
         message = "다른 유저가 업로드한 거래를 수정/삭제할 수 없습니다.",
         httpStatus = HttpStatus.FORBIDDEN
     ),

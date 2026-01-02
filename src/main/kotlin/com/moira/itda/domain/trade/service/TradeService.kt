@@ -23,49 +23,27 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 class TradeService(
-    private val awsS3Handler: AwsS3Handler,
     private val commonMapper: CommonMapper,
     private val offsetPaginationHandler: OffsetPaginationHandler,
     private val mapper: TradeMapper,
+    private val s3Handler: AwsS3Handler,
     private val validator: TradeValidator
 ) {
-    /**
-     * 가챠정보 > 가챠 목록 > 상세정보 > 교환 > 진행 중인 교환글 존재 여부 확인
-     */
-    @Transactional(readOnly = true)
-    fun checkTradeExchange(userId: String, gachaId: String) {
-        // [1] 유효성 검사
-        validator.validateExchangeExists(userId = userId, gachaId = gachaId)
-    }
-
-    /**
-     * 가챠정보 > 가챠 목록 > 상세정보 > 판매 > 진행 중인 판매글 존재 여부 확인
-     */
-    @Transactional(readOnly = true)
-    fun checkTradeSales(userId: String, gachaId: String) {
-        // [1] 유효성 검사
-        validator.validateSalesExists(userId = userId, gachaId = gachaId)
-    }
-
     /**
      * 교환등록
      */
     @Transactional
     fun exchange(userId: String, gachaId: String, request: ExchangeAddRequest): GachaIdResponse {
         // [1] 유효성 검사
-        validator.validateExchange(userId = userId, gachaId = gachaId, request = request)
+        validator.validateExchangeAdd(request = request)
 
         // [2] Trade 저장
         val trade = Trade.fromRequest(type = TradeType.EXCHANGE, userId = userId, gachaId = gachaId, request = request)
         mapper.insertTrade(trade = trade)
 
         // [3] TradeItem 저장
-        request.items.forEach { item ->
-            val tradeExchangeItem = TradeItem.fromRequest(
-                tradeId = trade.id, gachaId = gachaId, request = item
-            )
-            mapper.insertTradeItem(tradeItem = tradeExchangeItem)
-        }
+        val tradeItem = TradeItem.fromRequest(tradeId = trade.id, gachaId = gachaId, request = request)
+        mapper.insertTradeItem(tradeItem = tradeItem)
 
         // [4] gachaId 리턴
         return GachaIdResponse(gachaId = gachaId)
@@ -77,19 +55,15 @@ class TradeService(
     @Transactional
     fun sale(userId: String, gachaId: String, request: SalesAddRequest): GachaIdResponse {
         // [1] 유효성 검사
-        validator.validateSales(userId = userId, gachaId = gachaId, request = request)
+        validator.validateSalesAdd(request = request)
 
         // [2] Trade 저장
         val trade = Trade.fromRequest(type = TradeType.SALES, userId = userId, gachaId = gachaId, request = request)
         mapper.insertTrade(trade = trade)
 
         // [3] TradeItem 저장
-        request.items.forEach { item ->
-            val tradeSalesItem = TradeItem.fromRequest(
-                gachaId = gachaId, tradeId = trade.id, request = item
-            )
-            mapper.insertTradeItem(tradeItem = tradeSalesItem)
-        }
+        val tradeItem = TradeItem.fromRequest(tradeId = trade.id, gachaId = gachaId, request = request)
+        mapper.insertTradeItem(tradeItem = tradeItem)
 
         // [4] gachaId 리턴
         return GachaIdResponse(gachaId = gachaId)
@@ -167,7 +141,7 @@ class TradeService(
         // [3] 사용자가 이미지를 변경한 경우, 기존 이미지 파일 삭제 (AWS S3, DB)
         if (request.imageChangeYn == "Y") {
             val oldFileId = trade.fileId
-            commonMapper.selectImageFileUrl(fileId = oldFileId).forEach { awsS3Handler.delete(it.fileUrl) }
+            commonMapper.selectImageFileUrl(fileId = oldFileId).forEach { s3Handler.delete(it.fileUrl) }
             commonMapper.deleteImageFile(fileId = oldFileId)
         }
 
@@ -192,7 +166,7 @@ class TradeService(
         // [3] 사용자가 이미지를 변경한 경우, 기존 이미지 파일 삭제 (AWS S3, DB)
         if (request.imageChangeYn == "Y") {
             val oldFileId = trade.fileId
-            commonMapper.selectImageFileUrl(fileId = oldFileId).forEach { awsS3Handler.delete(it.fileUrl) }
+            commonMapper.selectImageFileUrl(fileId = oldFileId).forEach { s3Handler.delete(it.fileUrl) }
             commonMapper.deleteImageFile(fileId = oldFileId)
         }
 
@@ -220,7 +194,7 @@ class TradeService(
 
         // [4] 이미지 파일 삭제 (AWS S3)
         commonMapper.selectImageFileUrl(fileId = trade.fileId)
-            .forEach { awsS3Handler.delete(fileUrl = it.fileUrl) }
+            .forEach { s3Handler.delete(fileUrl = it.fileUrl) }
 
         // [5] Trade 삭제
         mapper.deleteTrade(tradeId = tradeId)

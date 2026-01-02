@@ -16,24 +16,6 @@ class TradeValidator(
     private val commonMapper: CommonMapper
 ) {
     /**
-     * 진행 중인 교환글 존재 여부 확인
-     */
-    fun validateExchangeExists(userId: String, gachaId: String) {
-        if (mapper.selectTradeExchangeChk(userId = userId, gachaId = gachaId)) {
-            throw ItdaException(ErrorCode.PENDING_EXCHANGE_EXISTS)
-        }
-    }
-
-    /**
-     * 진행 중인 판매글 존재 여부 확인
-     */
-    fun validateSalesExists(userId: String, gachaId: String) {
-        if (mapper.selectTradeSalesChk(userId = userId, gachaId = gachaId)) {
-            throw ItdaException(ErrorCode.PENDING_SALES_EXISTS)
-        }
-    }
-
-    /**
      * 교환등록 > 유효성 검사 > 공통
      * 판매등록 > 유효성 검사 > 공통
      * 교환 수정 > 유효성 검사 > 공통
@@ -42,10 +24,6 @@ class TradeValidator(
         // 거래 제목
         if (request.title.isBlank()) {
             throw ItdaException(ErrorCode.NO_TRADE_TITLE)
-        }
-        // 거래 내용
-        if (request.content.isBlank()) {
-            throw ItdaException(ErrorCode.NO_TRADE_CONTENT)
         }
         // 거래 파일 ID
         if (fileIdCheck) {
@@ -59,6 +37,8 @@ class TradeValidator(
         // 거래 희망 방식
         runCatching { TradeHopeMethod.valueOf(request.hopeMethod) }
             .onFailure { throw ItdaException(ErrorCode.INVALID_TRADE_HOPE_METHOD) }
+
+        // TODO: 직거래 선택 시, 좌표 검증 로직 필요
     }
 
     /**
@@ -90,48 +70,21 @@ class TradeValidator(
     /**
      * 교환등록 > 유효성 검사
      */
-    fun validateExchange(userId: String, gachaId: String, request: ExchangeAddRequest) {
-        // [1] 사용자 입력값에 대한 유효성 검사
+    fun validateExchangeAdd(request: ExchangeAddRequest) {
+        // [1] 사용자 입력값에 대한 공통 유효성 검사
         this.validateRequestData(request = request)
-
-        // [2] 교환 하위 아이템 목록 존재 여부 검증
-        if (request.items.isEmpty()) {
-            throw ItdaException(ErrorCode.NO_TRADE_ITEMS)
-        }
-
-        // [3] 진행 중인 교환글 존재 여부 검증
-        if (mapper.selectTradeExchangeChk(userId = userId, gachaId = gachaId)) {
-            throw ItdaException(ErrorCode.PENDING_EXCHANGE_EXISTS)
-        }
     }
 
     /**
      * 판매등록 > 유효성 검사
      */
-    fun validateSales(userId: String, gachaId: String, request: SalesAddRequest) {
-        // [1] 사용자 입력값에 대한 유효성 검사
+    fun validateSalesAdd(request: SalesAddRequest) {
+        // [1] 사용자 입력값에 대한 공통 유효성 검사
         this.validateRequestData(request = request)
 
-        // [2] 판매 하위 아이템 목록 존재 여부 검증
-        if (request.items.isEmpty()) {
-            throw ItdaException(ErrorCode.NO_TRADE_ITEMS)
-        }
-
-        // [3] 판매 하위 아이템에 대한 수량, 가격 검증
-        for (item in request.items) {
-            // 아이템 수량
-            if (item.count < 1) {
-                throw ItdaException(ErrorCode.INVALID_TRADE_COUNT)
-            }
-            // 아이템 가격
-            if (item.price < 1) {
-                throw ItdaException(ErrorCode.INVALID_TRADE_PRICE)
-            }
-        }
-
-        // [4] 진행 중인 판매글 존재 여부 검증
-        if (mapper.selectTradeSalesChk(userId = userId, gachaId = gachaId)) {
-            throw ItdaException(ErrorCode.PENDING_SALES_EXISTS)
+        // [2] 판매 하위 아이템에 대한 수량, 가격 검증
+        if (request.price < 1) {
+            throw ItdaException(ErrorCode.INVALID_TRADE_PRICE)
         }
     }
 

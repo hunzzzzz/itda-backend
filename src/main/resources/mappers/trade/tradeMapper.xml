@@ -4,29 +4,8 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.moira.itda.domain.trade.mapper.TradeMapper">
-    <!-- 가챠정보 > 가챠 목록 > 상세정보 > 교환 > 진행 중인 교환글 존재 여부 확인 -->
-    <select id="selectTradeExchangeChk" resultType="java.lang.Boolean">
-        SELECT EXISTS (
-            SELECT 1 FROM TRADE
-            WHERE gacha_id = #{gachaId}
-             AND  user_id  = #{userId}
-             AND  status   = 'PENDING'
-             AND  type     = 'EXCHANGE'
-        )
-    </select>
-
-    <!-- 가챠정보 > 가챠 목록 > 상세정보 > 판매 > 진행 중인 판매글 존재 여부 확인 -->
-    <select id="selectTradeSalesChk">
-        SELECT EXISTS (
-            SELECT 1 FROM TRADE
-            WHERE gacha_id = #{gachaId}
-             AND  user_id  = #{userId}
-             AND  status   = 'PENDING'
-             AND  type     = 'SALES'
-        )
-    </select>
-
     <!-- 교환등록 > Trade 저장 -->
+    <!-- 판매등록 > Trade 저장 -->
     <insert id="insertTrade">
         INSERT INTO TRADE (
                id
@@ -65,6 +44,7 @@
     </insert>
 
     <!-- 교환등록 > TradeItem 저장 -->
+    <!-- 판매등록 > TradeItem 저장 -->
     <insert id="insertTradeItem">
         INSERT INTO TRADE_ITEM (
                id
@@ -75,8 +55,6 @@
              , created_at
              , updated_at
              , sales_item_id
-             , sales_count
-             , sales_current_count
              , sales_price
              , exchange_give_item_id
              , exchange_want_item_id
@@ -90,13 +68,13 @@
              , #{createdAt}
              , #{updatedAt}
              , #{salesItemId}
-             , #{salesCount}
-             , #{salesCurrentCount}
              , #{salesPrice}
              , #{exchangeGiveItemId}
              , #{exchangeWantItemId}
         )
     </insert>
+
+    <!-- ================================================================================= -->
 
     <!-- 가챠정보 > 가챠 목록 > 상세정보 > 거래 목록 조회 > totalElements 계산 -->
     <select id="selectTradeListCnt">
@@ -204,8 +182,6 @@
              , TI.updated_at
              , TI.sales_item_id
              , GI_S.name                   AS sales_item_name
-             , TI.sales_count
-             , TI.sales_current_count
              , TI.sales_price
              , TI.exchange_give_item_id
              , GI_E1.name                  AS exchange_give_item_name

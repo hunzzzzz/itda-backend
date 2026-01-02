@@ -20,35 +20,9 @@ class TradeController(
     private val service: TradeService
 ) {
     /**
-     * 가챠정보 > 가챠 목록 > 상세정보 > 교환 > 진행 중인 교환글 존재 여부 확인
-     */
-    @GetMapping("/api/gacha/{gachaId}/check/exchange")
-    fun checkTradeExchange(
-        @UserPrincipal userAuth: UserAuth,
-        @PathVariable gachaId: String
-    ): ResponseEntity<Nothing> {
-        service.checkTradeExchange(userId = userAuth.userId, gachaId = gachaId)
-
-        return ResponseEntity.ok(null)
-    }
-
-    /**
-     * 가챠정보 > 가챠 목록 > 상세정보 > 판매 > 진행 중인 판매글 존재 여부 확인
-     */
-    @GetMapping("/api/gacha/{gachaId}/check/sales")
-    fun checkTradeSales(
-        @UserPrincipal userAuth: UserAuth,
-        @PathVariable gachaId: String
-    ): ResponseEntity<Nothing> {
-        service.checkTradeSales(userId = userAuth.userId, gachaId = gachaId)
-
-        return ResponseEntity.ok(null)
-    }
-
-    /**
      * 교환등록
      */
-    @PostMapping("/api/gacha/{gachaId}/exchange")
+    @PostMapping("/api/gacha/{gachaId}/trade/exchange")
     fun exchange(
         @UserPrincipal userAuth: UserAuth,
         @PathVariable gachaId: String,
@@ -62,7 +36,7 @@ class TradeController(
     /**
      * 판매등록
      */
-    @PostMapping("/api/gacha/{gachaId}/sales")
+    @PostMapping("/api/gacha/{gachaId}/trade/sales")
     fun sale(
         @UserPrincipal userAuth: UserAuth,
         @PathVariable gachaId: String,

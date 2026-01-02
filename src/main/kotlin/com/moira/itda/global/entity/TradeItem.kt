@@ -1,7 +1,7 @@
 package com.moira.itda.global.entity
 
-import com.moira.itda.domain.trade.dto.request.SalesItemAddRequest
-import com.moira.itda.domain.trade.dto.request.ExchangeItemAddRequest
+import com.moira.itda.domain.trade.dto.request.ExchangeAddRequest
+import com.moira.itda.domain.trade.dto.request.SalesAddRequest
 import java.time.ZonedDateTime
 import java.util.*
 
@@ -15,15 +15,13 @@ data class TradeItem(
     val updatedAt: ZonedDateTime,
     // 구매 관련
     val salesItemId: Long?,
-    val salesCount: Int?,
-    val salesCurrentCount: Int?,
     val salesPrice: Int?,
     // 교환 관련
     val exchangeGiveItemId: Long?,
     val exchangeWantItemId: Long?
 ) {
     companion object {
-        fun fromRequest(tradeId: String, gachaId: String, request: SalesItemAddRequest): TradeItem {
+        fun fromRequest(tradeId: String, gachaId: String, request: SalesAddRequest): TradeItem {
             return TradeItem(
                 id = UUID.randomUUID().toString(),
                 tradeId = tradeId,
@@ -33,15 +31,13 @@ data class TradeItem(
                 createdAt = ZonedDateTime.now(),
                 updatedAt = ZonedDateTime.now(),
                 salesItemId = request.gachaItemId,
-                salesCount = request.count,
-                salesCurrentCount = request.count,
                 salesPrice = request.price,
                 exchangeGiveItemId = null,
                 exchangeWantItemId = null,
             )
         }
 
-        fun fromRequest(tradeId: String, gachaId: String, request: ExchangeItemAddRequest): TradeItem {
+        fun fromRequest(tradeId: String, gachaId: String, request: ExchangeAddRequest): TradeItem {
             return TradeItem(
                 id = UUID.randomUUID().toString(),
                 tradeId = tradeId,
@@ -51,8 +47,6 @@ data class TradeItem(
                 createdAt = ZonedDateTime.now(),
                 updatedAt = ZonedDateTime.now(),
                 salesItemId = null,
-                salesCount = null,
-                salesCurrentCount = null,
                 salesPrice = null,
                 exchangeGiveItemId = request.giveItemId,
                 exchangeWantItemId = request.wantItemId,

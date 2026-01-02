@@ -14,8 +14,6 @@ data class TradeItemResponse(
     // 구매 관련
     val salesItemId: Long?,
     val salesItemName: String?,
-    val salesCount: Int?,
-    val salesCurrentCount: Int?,
     val salesPrice: Int?,
     // 교환 관련
     val exchangeGiveItemId: Long?,
