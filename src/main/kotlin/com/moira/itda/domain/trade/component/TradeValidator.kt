@@ -18,7 +18,6 @@ class TradeValidator(
     /**
      * 교환등록 > 유효성 검사 > 공통
      * 판매등록 > 유효성 검사 > 공통
-     * 교환 수정 > 유효성 검사 > 공통
      */
     private fun validateRequestData(request: TradeRequest, fileIdCheck: Boolean = true) {
         // 거래 제목
@@ -73,6 +72,11 @@ class TradeValidator(
     fun validateExchangeAdd(request: ExchangeAddRequest) {
         // [1] 사용자 입력값에 대한 공통 유효성 검사
         this.validateRequestData(request = request)
+
+        // [2] 교환하고자 하는 하위 아이템이 최소 1개 이상이어야 한다.
+        if (request.items.isEmpty()) {
+            throw ItdaException(ErrorCode.NO_TRADE_ITEMS)
+        }
     }
 
     /**
@@ -82,9 +86,16 @@ class TradeValidator(
         // [1] 사용자 입력값에 대한 공통 유효성 검사
         this.validateRequestData(request = request)
 
-        // [2] 판매 하위 아이템에 대한 수량, 가격 검증
-        if (request.price < 1) {
-            throw ItdaException(ErrorCode.INVALID_TRADE_PRICE)
+        // [2] 판매하고자 하는 하위 아이템이 최소 1개 이상이어야 한다.
+        if (request.items.isEmpty()) {
+            throw ItdaException(ErrorCode.NO_TRADE_ITEMS)
+        }
+
+        // [3] 판매 가격 유효성 검사
+        request.items.forEach { item ->
+            if (item.price < 1 || item.price % 10 != 0) {
+                throw ItdaException(ErrorCode.INVALID_TRADE_PRICE)
+            }
         }
     }
 

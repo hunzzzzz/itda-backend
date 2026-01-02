@@ -8,7 +8,7 @@ data class TradeDetailResponse(
     val type: String,
     val status: String,
     val title: String,
-    val content: String,
+    val content: String?,
     val fileId: String,
     var fileUrlList: List<String>?,
     val hopeMethod: String,

@@ -9,6 +9,5 @@ data class SalesAddRequest(
     override val hopeAddress: String?,
     override val hopeLocationLatitude: String?,
     override val hopeLocationLongitude: String?,
-    val gachaItemId: Long,
-    val price: Int
+    val items: List<SalesItemAddRequest>
 ) : TradeRequest

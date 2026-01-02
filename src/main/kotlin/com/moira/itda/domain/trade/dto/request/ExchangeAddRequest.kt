@@ -9,6 +9,5 @@ data class ExchangeAddRequest(
     override val hopeAddress: String?,
     override val hopeLocationLatitude: String?,
     override val hopeLocationLongitude: String?,
-    val giveItemId: Long,
-    val wantItemId: Long
+    val items: List<ExchangeItemAddRequest>
 ) : TradeRequest

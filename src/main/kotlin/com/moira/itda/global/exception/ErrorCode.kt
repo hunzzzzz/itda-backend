@@ -249,7 +249,7 @@ enum class ErrorCode(
     ),
     INVALID_TRADE_PRICE(
         code = "T0005",
-        message = "유효하지 않은 거래 가격입니다.",
+        message = "유효하지 않은 거래 가격입니다. 거래 가격은 0 혹은 음수가 될 수 없으며, 10원 단위에서 절삭해야 합니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
     TRADE_NOT_FOUND(

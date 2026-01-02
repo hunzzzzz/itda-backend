@@ -1,7 +1,7 @@
 package com.moira.itda.global.entity
 
-import com.moira.itda.domain.trade.dto.request.ExchangeAddRequest
-import com.moira.itda.domain.trade.dto.request.SalesAddRequest
+import com.moira.itda.domain.trade.dto.request.ExchangeItemAddRequest
+import com.moira.itda.domain.trade.dto.request.SalesItemAddRequest
 import java.time.ZonedDateTime
 import java.util.*
 
@@ -21,7 +21,7 @@ data class TradeItem(
     val exchangeWantItemId: Long?
 ) {
     companion object {
-        fun fromRequest(tradeId: String, gachaId: String, request: SalesAddRequest): TradeItem {
+        fun fromRequest(tradeId: String, gachaId: String, request: SalesItemAddRequest): TradeItem {
             return TradeItem(
                 id = UUID.randomUUID().toString(),
                 tradeId = tradeId,
@@ -37,7 +37,7 @@ data class TradeItem(
             )
         }
 
-        fun fromRequest(tradeId: String, gachaId: String, request: ExchangeAddRequest): TradeItem {
+        fun fromRequest(tradeId: String, gachaId: String, request: ExchangeItemAddRequest): TradeItem {
             return TradeItem(
                 id = UUID.randomUUID().toString(),
                 tradeId = tradeId,
