@@ -5,6 +5,7 @@ import com.moira.itda.domain.trade.dto.request.ExchangeUpdateRequest
 import com.moira.itda.domain.trade.dto.request.SalesAddRequest
 import com.moira.itda.domain.trade.dto.response.GachaIdResponse
 import com.moira.itda.domain.trade.dto.response.TradeDetailContentResponse
+import com.moira.itda.domain.trade.dto.response.TradeItemResponse
 import com.moira.itda.domain.trade.dto.response.TradePageResponse
 import com.moira.itda.domain.trade.service.TradeService
 import com.moira.itda.global.auth.aop.UserPrincipal
@@ -146,6 +147,16 @@ class TradeController(
         @RequestParam(required = true, defaultValue = "SALES") type: String
     ): ResponseEntity<TradePageResponse> {
         val response = service.getMyTradeList(userId = userAuth.userId, page = page, type = type)
+
+        return ResponseEntity.ok(response)
+    }
+
+    /**
+     * 거래 제안 모달 > 거래 정보 조회
+     */
+    @GetMapping("/api/trade/{tradeId}/suggest")
+    fun getTradeItem(@PathVariable tradeId: String): ResponseEntity<List<TradeItemResponse>> {
+        val response = service.getTradeItemList(tradeId = tradeId)
 
         return ResponseEntity.ok(response)
     }

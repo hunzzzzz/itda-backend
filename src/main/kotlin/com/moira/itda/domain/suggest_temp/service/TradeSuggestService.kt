@@ -2,9 +2,7 @@ package com.moira.itda.domain.suggest_temp.service
 
 import com.moira.itda.domain.suggest_temp.dto.request.ExchangeSuggestRequest
 import com.moira.itda.domain.suggest_temp.dto.request.PurchaseSuggestRequest
-import com.moira.itda.domain.suggest_temp.dto.response.ExchangeItemResponse
 import com.moira.itda.domain.suggest_temp.dto.response.GachaItemResponse
-import com.moira.itda.domain.suggest_temp.dto.response.SalesItemResponse
 import com.moira.itda.domain.suggest_temp.mapper.TradeSuggestMapper
 import com.moira.itda.global.entity.TradeStatus
 import com.moira.itda.global.entity.TradeSuggest
@@ -18,14 +16,6 @@ import org.springframework.transaction.annotation.Transactional
 class TradeSuggestService(
     private val tradeSuggestMapper: TradeSuggestMapper
 ) {
-    /**
-     * 거래 제안 모달 > 판매 정보 조회
-     */
-    @Transactional(readOnly = true)
-    fun getSalesInfo(tradeId: String): List<SalesItemResponse> {
-        return tradeSuggestMapper.selectSalesItem(tradeId = tradeId)
-    }
-
     /**
      * 거래 제안 모달 > 구매 제안 > 유효성 검사
      */
@@ -71,15 +61,6 @@ class TradeSuggestService(
         )
 
         tradeSuggestMapper.insertTradeSuggest(tradeSuggest = tradeSuggest)
-    }
-
-
-    /**
-     * 거래 제안 모달 > 교환 정보 조회
-     */
-    @Transactional(readOnly = true)
-    fun getExchangeInfo(tradeId: String): List<ExchangeItemResponse> {
-        return tradeSuggestMapper.selectExchangeItem(tradeId = tradeId)
     }
 
     /**

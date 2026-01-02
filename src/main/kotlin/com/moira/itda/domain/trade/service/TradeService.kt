@@ -5,10 +5,7 @@ import com.moira.itda.domain.trade.component.TradeValidator
 import com.moira.itda.domain.trade.dto.request.ExchangeAddRequest
 import com.moira.itda.domain.trade.dto.request.ExchangeUpdateRequest
 import com.moira.itda.domain.trade.dto.request.SalesAddRequest
-import com.moira.itda.domain.trade.dto.response.GachaIdResponse
-import com.moira.itda.domain.trade.dto.response.TradeContentResponse
-import com.moira.itda.domain.trade.dto.response.TradeDetailContentResponse
-import com.moira.itda.domain.trade.dto.response.TradePageResponse
+import com.moira.itda.domain.trade.dto.response.*
 import com.moira.itda.domain.trade.mapper.TradeMapper
 import com.moira.itda.global.entity.Trade
 import com.moira.itda.global.entity.TradeItem
@@ -247,5 +244,13 @@ class TradeService(
 
         // [5] DTO 병합 후 리턴
         return TradePageResponse(content = contents, page = pageResponse)
+    }
+
+    /**
+     * 거래 제안 모달 > 거래 정보 조회
+     */
+    @Transactional(readOnly = true)
+    fun getTradeItemList(tradeId: String): List<TradeItemResponse> {
+        return mapper.selectTradeItemList(tradeId = tradeId)
     }
 }

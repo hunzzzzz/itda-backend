@@ -10,25 +10,6 @@
         SELECT status FROM TRADE where id = #{tradeId}
     </select>
 
-    <!-- 거래 제안 모달 > 판매 정보 조회 -->
-    <select id="selectSalesItem" resultType="com.moira.itda.domain.suggest_temp.dto.response.SalesItemResponse">
-        SELECT
-               TI.id                  AS trade_item_id
-             , TI.trade_id
-             , TI.gacha_id
-             , TI.sales_item_id
-             , GI.name                AS sales_item_name
-             , TI.sales_price
-             , TI.sales_count
-             , TI.sales_current_count
-             , TI.created_at
-        FROM TRADE_ITEM TI
-        LEFT JOIN GACHA_ITEM GI
-         ON GI.id = TI.sales_item_id AND GI.gacha_id = TI.gacha_id
-        WHERE TI.trade_id = #{tradeId} AND type = 'SALES'
-        ORDER BY TI.created_at ASC
-    </select>
-
     <!-- 거래 제안 모달 > 구매 제안 > 구매 제안 존재 여부 확인 -->
     <!-- 거래 제안 모달 > 교환 제안 > 교환 제안 존재 여부 확인 -->
     <select id="selectTradeSuggestChk">
@@ -47,24 +28,6 @@
                 AND exchange_suggested_item_id = #{exchangeSuggestedItemId}
             </when>
         </choose>
-    </select>
-
-    <!-- 거래 제안 모달 > 교환 정보 조회 -->
-    <select id="selectExchangeItem" resultType="com.moira.itda.domain.suggest_temp.dto.response.ExchangeItemResponse">
-        SELECT
-               TI.id AS trade_item_id
-             , TI.trade_id
-             , TI.gacha_id
-             , TI.exchange_give_item_id
-             , GI_1.name                   AS exchange_give_item_name
-             , TI.exchange_want_item_id
-             , GI_2.name                   AS exchange_want_item_name
-             , TI.created_at
-        FROM TRADE_ITEM TI
-        LEFT JOIN GACHA_ITEM GI_1 ON GI_1.id = TI.exchange_give_item_id
-        LEFT JOIN GACHA_ITEM GI_2 ON GI_2.id = TI.exchange_want_item_id
-        WHERE TI.trade_id = #{tradeId} AND type = 'EXCHANGE'
-        ORDER BY TI.created_at ASC
     </select>
 
     <!-- 거래 제안 모달 > 하위 아이템 목록 조회 -->
