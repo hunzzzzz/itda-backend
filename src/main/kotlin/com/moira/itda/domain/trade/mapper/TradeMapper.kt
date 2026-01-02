@@ -1,6 +1,7 @@
 package com.moira.itda.domain.trade.mapper
 
 import com.moira.itda.domain.trade.dto.request.ExchangeItemUpdateRequest
+import com.moira.itda.domain.trade.dto.request.SalesItemUpdateRequest
 import com.moira.itda.domain.trade.dto.request.TradeRequest
 import com.moira.itda.domain.trade.dto.response.TradeDetailResponse
 import com.moira.itda.domain.trade.dto.response.TradeItemResponse
@@ -63,12 +64,12 @@ interface TradeMapper {
     // ---------------------------------------------------------------------------------- //
 
     /**
-     * 가챠정보 > 가챠 목록 > 상세정보 > 교환 수정 > 거래 정보 조회
+     * 가챠정보 > 가챠 목록 > 상세정보 > 거래 수정 > 거래 정보 조회
      */
     fun selectTradeResponse(tradeId: String): TradeDetailResponse
 
     /**
-     * 가챠정보 > 가챠 목록 > 상세정보 > 교환 수정 > Trade 수정
+     * 가챠정보 > 가챠 목록 > 상세정보 > 거래 수정 > Trade 수정
      */
     fun updateTrade(
         @Param("tradeId") tradeId: String,
@@ -76,24 +77,29 @@ interface TradeMapper {
     )
 
     /**
-     * 가챠정보 > 가챠 목록 > 상세정보 > 교환 수정 > TradeItem 수정 (교환)
+     * 가챠정보 > 가챠 목록 > 상세정보 > 거래 수정 > TradeItem 수정 (교환)
      */
     fun updateTradeExchangeItem(@Param("request") request: ExchangeItemUpdateRequest)
 
     /**
-     * 가챠정보 > 가챠 목록 > 상세정보 > 교환 수정 > Trade 조회
+     * 가챠정보 > 가챠 목록 > 상세정보 > 거래 수정 > TradeItem 수정 (판매)
+     */
+    fun updateTradeSalesItem(@Param("request") request: SalesItemUpdateRequest)
+
+    /**
+     * 가챠정보 > 가챠 목록 > 상세정보 > 거래 수정 > Trade 조회
      * 가챠정보 > 가챠 목록 > 상세정보 > 거래 삭제 > Trade 조회
      */
     fun selectTrade(tradeId: String): Trade?
 
     /**
-     * 가챠정보 > 가챠 목록 > 상세정보 > 교환 수정 > APPROVED된 제안 여부 조회
+     * 가챠정보 > 가챠 목록 > 상세정보 > 거래 수정 > APPROVED된 제안 여부 조회
      * 가챠정보 > 가챠 목록 > 상세정보 > 거래 삭제 > APPROVED된 제안 여부 조회
      */
     fun selectTradeSuggestApprovedChk(tradeId: String): Boolean
 
     /**
-     * 가챠정보 > 가챠 목록 > 상세정보 > 교환 수정 > PENDING 제안 여부 조회
+     * 가챠정보 > 가챠 목록 > 상세정보 > 거래 수정 > PENDING 제안 여부 조회
      * 가챠정보 > 가챠 목록 > 상세정보 > 거래 삭제 > PENDING 제안 여부 조회
      */
     fun selectTradeSuggestPendingChk(tradeId: String): Boolean

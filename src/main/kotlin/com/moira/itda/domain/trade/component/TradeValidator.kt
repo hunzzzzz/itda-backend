@@ -1,10 +1,7 @@
 package com.moira.itda.domain.trade.component
 
 import com.moira.itda.domain.common.mapper.CommonMapper
-import com.moira.itda.domain.trade.dto.request.ExchangeAddRequest
-import com.moira.itda.domain.trade.dto.request.ExchangeUpdateRequest
-import com.moira.itda.domain.trade.dto.request.SalesAddRequest
-import com.moira.itda.domain.trade.dto.request.TradeRequest
+import com.moira.itda.domain.trade.dto.request.*
 import com.moira.itda.domain.trade.mapper.TradeMapper
 import com.moira.itda.global.entity.Trade
 import com.moira.itda.global.entity.TradeHopeMethod
@@ -141,7 +138,23 @@ class TradeValidator(
     /**
      * 교환 수정 > 유효성 검사
      */
-    fun validateExchange(userId: String, gachaId: String, trade: Trade, request: ExchangeUpdateRequest) {
+    fun validateExchangeUpdate(userId: String, trade: Trade, request: ExchangeUpdateRequest) {
+        // [1] 사용자 입력값에 대한 유효성 검사
+        this.validateRequestData(request = request, fileIdCheck = request.imageChangeYn == "Y")
+
+        // [2] 교환 하위 아이템 목록 존재 여부 검증
+        if (request.items.isEmpty()) {
+            throw ItdaException(ErrorCode.NO_TRADE_ITEMS)
+        }
+
+        // [3] 상태값 및 권한 검증
+        this.validateStatusAndRole(userId = userId, trade = trade)
+    }
+
+    /**
+     * 판매 수정 > 유효성 검사
+     */
+    fun validateSalesUpdate(userId: String, trade: Trade, request: SalesUpdateRequest) {
         // [1] 사용자 입력값에 대한 유효성 검사
         this.validateRequestData(request = request, fileIdCheck = request.imageChangeYn == "Y")
 

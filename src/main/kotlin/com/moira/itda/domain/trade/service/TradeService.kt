@@ -5,6 +5,7 @@ import com.moira.itda.domain.trade.component.TradeValidator
 import com.moira.itda.domain.trade.dto.request.ExchangeAddRequest
 import com.moira.itda.domain.trade.dto.request.ExchangeUpdateRequest
 import com.moira.itda.domain.trade.dto.request.SalesAddRequest
+import com.moira.itda.domain.trade.dto.request.SalesUpdateRequest
 import com.moira.itda.domain.trade.dto.response.*
 import com.moira.itda.domain.trade.mapper.TradeMapper
 import com.moira.itda.global.entity.Trade
@@ -157,16 +158,11 @@ class TradeService(
      */
     @Transactional
     fun updateExchange(userId: String, gachaId: String, tradeId: String, request: ExchangeUpdateRequest) {
-        println("imageChangeYn : ${request.imageChangeYn}")
-
         // [1] Trade 조회
         val trade = mapper.selectTrade(tradeId = tradeId) ?: throw ItdaException(ErrorCode.TRADE_NOT_FOUND)
 
-        println("기존 fileId: ${trade.fileId}")
-        println("신규 fileId: ${request.fileId}")
-
         // [2] 유효성 검사
-        validator.validateExchange(userId = userId, gachaId = gachaId, trade = trade, request = request)
+        validator.validateExchangeUpdate(userId = userId, trade = trade, request = request)
 
         // [3] 사용자가 이미지를 변경한 경우, 기존 이미지 파일 삭제 (AWS S3, DB)
         if (request.imageChangeYn == "Y") {
@@ -180,6 +176,31 @@ class TradeService(
 
         // [5] TradeItem 수정
         request.items.forEach { item -> mapper.updateTradeExchangeItem(request = item) }
+    }
+
+    /**
+     * 가챠정보 > 가챠 목록 > 상세정보 > 판매 수정
+     */
+    @Transactional
+    fun updateSales(userId: String, gachaId: String, tradeId: String, request: SalesUpdateRequest) {
+        // [1] Trade 조회
+        val trade = mapper.selectTrade(tradeId = tradeId) ?: throw ItdaException(ErrorCode.TRADE_NOT_FOUND)
+
+        // [2] 유효성 검사
+        validator.validateSalesUpdate(userId = userId, trade = trade, request = request)
+
+        // [3] 사용자가 이미지를 변경한 경우, 기존 이미지 파일 삭제 (AWS S3, DB)
+        if (request.imageChangeYn == "Y") {
+            val oldFileId = trade.fileId
+            commonMapper.selectImageFileUrl(fileId = oldFileId).forEach { awsS3Handler.delete(it.fileUrl) }
+            commonMapper.deleteImageFile(fileId = oldFileId)
+        }
+
+        // [4] Trade 수정
+        mapper.updateTrade(tradeId = tradeId, request = request)
+
+        // [5] TradeItem 수정
+        request.items.forEach { item -> mapper.updateTradeSalesItem(request = item) }
     }
 
     /**

@@ -3,6 +3,7 @@ package com.moira.itda.domain.trade.controller
 import com.moira.itda.domain.trade.dto.request.ExchangeAddRequest
 import com.moira.itda.domain.trade.dto.request.ExchangeUpdateRequest
 import com.moira.itda.domain.trade.dto.request.SalesAddRequest
+import com.moira.itda.domain.trade.dto.request.SalesUpdateRequest
 import com.moira.itda.domain.trade.dto.response.GachaIdResponse
 import com.moira.itda.domain.trade.dto.response.TradeDetailContentResponse
 import com.moira.itda.domain.trade.dto.response.TradeItemResponse
@@ -14,9 +15,6 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
-/**
- * 가챠정보 > 가챠 목록 > 상세정보 > 교환
- */
 @RestController
 class TradeController(
     private val service: TradeService
@@ -119,6 +117,21 @@ class TradeController(
         @RequestBody request: ExchangeUpdateRequest
     ): ResponseEntity<Nothing?> {
         service.updateExchange(userId = userAuth.userId, tradeId = tradeId, gachaId = gachaId, request = request)
+
+        return ResponseEntity.ok(null)
+    }
+
+    /**
+     * 가챠정보 > 가챠 목록 > 상세정보 > 판매 수정
+     */
+    @PutMapping("/api/gacha/{gachaId}/trades/{tradeId}/sales")
+    fun updateSales(
+        @UserPrincipal userAuth: UserAuth,
+        @PathVariable tradeId: String,
+        @PathVariable gachaId: String,
+        @RequestBody request: SalesUpdateRequest
+    ): ResponseEntity<Nothing?> {
+        service.updateSales(userId = userAuth.userId, tradeId = tradeId, gachaId = gachaId, request = request)
 
         return ResponseEntity.ok(null)
     }
