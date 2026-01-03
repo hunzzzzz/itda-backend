@@ -3,6 +3,7 @@ package com.moira.itda.domain.trade.controller
 import com.moira.itda.domain.trade.dto.request.ExchangeAddRequest
 import com.moira.itda.domain.trade.dto.request.SalesAddRequest
 import com.moira.itda.domain.trade.dto.response.GachaIdResponse
+import com.moira.itda.domain.trade.dto.response.TradeDetailContentResponse
 import com.moira.itda.domain.trade.dto.response.TradeItemResponse
 import com.moira.itda.domain.trade.dto.response.TradePageResponse
 import com.moira.itda.domain.trade.service.TradeService
@@ -65,8 +66,8 @@ class TradeController(
     }
 
     /**
-     * 가챠정보 > 가챠목록 > 상세정보 > 거래 수정 > 거래 아이템 목록 조회
-     * 가챠정보 > 가챠목록 > 상세정보 > 거래 삭제 > 거래 아이템 목록 조회
+     * 가챠정보 > 가챠목록 > 상세정보 > 거래수정 > 거래 아이템 목록 조회
+     * 가챠정보 > 가챠목록 > 상세정보 > 거래삭제 > 거래 아이템 목록 조회
      */
     @GetMapping("/api/trades/{tradeId}/items")
     fun getTradeItemList(
@@ -77,18 +78,16 @@ class TradeController(
         return ResponseEntity.ok(response)
     }
 
-//    /**
-//     * 가챠정보 > 가챠목록 > 상세정보 > 거래 수정 > 거래 정보 조회
-//     */
-//    @GetMapping("/api/gacha/{gachaId}/trades/{tradeId}")
-//    fun getTrade(
-//        @PathVariable tradeId: String,
-//        @PathVariable gachaId: String
-//    ): ResponseEntity<TradeDetailContentResponse> {
-//        val response = service.getTrade(tradeId = tradeId, gachaId = gachaId)
-//
-//        return ResponseEntity.ok(response)
-//    }
+    /**
+     * 가챠정보 > 가챠목록 > 상세정보 > 거래수정 > 거래 정보 조회
+     */
+    @GetMapping("/api/trades/{tradeId}")
+    fun getTrade(@PathVariable tradeId: String): ResponseEntity<TradeDetailContentResponse> {
+        val response = service.getTrade(tradeId = tradeId)
+
+        return ResponseEntity.ok(response)
+    }
+
 //
 //    /**
 //     * 가챠정보 > 가챠목록 > 상세정보 > 교환 수정

@@ -119,12 +119,12 @@ class TradeValidator(
      * 거래삭제 > 유효성 검사 > 공통 (상태값)
      */
     private fun validateStatus(tradeItemId: String) {
-        // APPROVED된 제안이 존재하는 경우 거래 수정 및 삭제 불가능
+        // APPROVED된 제안이 존재하는 경우 거래수정 및 삭제 불가능
         if (mapper.selectTradeSuggestApprovedChk(tradeItemId = tradeItemId)) {
             throw ItdaException(ErrorCode.APPROVED_SUGGEST_EXISTS)
         }
 
-        // PENDING된 제안이 존재하는 경우 거래 수정 및 삭제 불가능
+        // PENDING된 제안이 존재하는 경우 거래수정 및 삭제 불가능
         if (mapper.selectTradeSuggestPendingChk(tradeItemId = tradeItemId)) {
             throw ItdaException(ErrorCode.PENDING_SUGGEST_EXISTS)
         }

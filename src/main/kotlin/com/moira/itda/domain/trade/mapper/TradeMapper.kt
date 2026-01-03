@@ -55,7 +55,7 @@ interface TradeMapper {
     /**
      * 가챠정보 > 가챠목록 > 상세정보 > 거래수정 > 거래 정보 조회
      */
-    fun selectTradeResponse(tradeId: String): TradeDetailResponse
+    fun selectTradeDetail(tradeId: String): TradeDetailResponse
 
     // ---------------------------------------------------------------------------------- //
 

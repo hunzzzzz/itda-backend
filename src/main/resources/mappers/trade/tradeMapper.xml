@@ -174,7 +174,7 @@
     </select>
 
     <!-- 가챠정보 > 가챠목록 > 상세정보 > 거래수정 > 거래 정보 조회 -->
-    <select id="selectTradeResponse" resultType="com.moira.itda.domain.trade.dto.response.TradeDetailResponse">
+    <select id="selectTradeDetail" resultType="com.moira.itda.domain.trade.dto.response.TradeDetailResponse">
         SELECT
                T.id AS trade_id
              , T.gacha_id

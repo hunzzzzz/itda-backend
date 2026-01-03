@@ -4,10 +4,7 @@ import com.moira.itda.domain.common.mapper.CommonMapper
 import com.moira.itda.domain.trade.component.TradeValidator
 import com.moira.itda.domain.trade.dto.request.ExchangeAddRequest
 import com.moira.itda.domain.trade.dto.request.SalesAddRequest
-import com.moira.itda.domain.trade.dto.response.GachaIdResponse
-import com.moira.itda.domain.trade.dto.response.TradeContentResponse
-import com.moira.itda.domain.trade.dto.response.TradeItemResponse
-import com.moira.itda.domain.trade.dto.response.TradePageResponse
+import com.moira.itda.domain.trade.dto.response.*
 import com.moira.itda.domain.trade.mapper.TradeMapper
 import com.moira.itda.global.entity.Trade
 import com.moira.itda.global.entity.TradeItem
@@ -115,33 +112,32 @@ class TradeService(
     }
 
     /**
-     * 가챠정보 > 가챠목록 > 상세정보 > 거래 수정 > 거래 아이템 목록 조회
-     * 가챠정보 > 가챠목록 > 상세정보 > 거래 삭제 > 거래 아이템 목록 조회
+     * 가챠정보 > 가챠목록 > 상세정보 > 거래수정 > 거래 아이템 목록 조회
+     * 가챠정보 > 가챠목록 > 상세정보 > 거래삭제 > 거래 아이템 목록 조회
      */
     @Transactional(readOnly = true)
     fun getTradeItemList(tradeId: String): List<TradeItemResponse> {
         return mapper.selectTradeItemList(tradeId = tradeId)
     }
 
-//
-//    /**
-//     * 가챠정보 > 가챠목록 > 상세정보 > 거래 수정 > 거래 정보 조회
-//     */
-//    @Transactional(readOnly = true)
-//    fun getTrade(tradeId: String, gachaId: String): TradeDetailContentResponse {
-//        // [1] Trade 조회
-//        val trade = mapper.selectTradeResponse(tradeId = tradeId)
-//
-//        // [2] 이미지 파일 URL 리스트 조회
-//        trade.fileUrlList = commonMapper.selectImageFileUrl(fileId = trade.fileId).map { it.fileUrl }
-//
-//        // [3] TradeItem 리스트 조회
-//        val itemList = mapper.selectTradeItemList(tradeId = tradeId)
-//
-//        // [4] DTO 병합 후 리턴
-//        return TradeDetailContentResponse(trade = trade, itemList = itemList)
-//    }
-//
+    /**
+     * 가챠정보 > 가챠목록 > 상세정보 > 거래수정 > 거래 정보 조회
+     */
+    @Transactional(readOnly = true)
+    fun getTrade(tradeId: String): TradeDetailContentResponse {
+        // [1] Trade 조회
+        val trade = mapper.selectTradeDetail(tradeId = tradeId)
+
+        // [2] 이미지 파일 URL 리스트 조회
+        trade.fileUrlList = commonMapper.selectImageFileUrl(fileId = trade.fileId).map { it.fileUrl }
+
+        // [3] TradeItem 리스트 조회
+        val itemList = mapper.selectTradeItemList(tradeId = tradeId)
+
+        // [4] DTO 병합 후 리턴
+        return TradeDetailContentResponse(trade = trade, itemList = itemList)
+    }
+
 //    /**
 //     * 가챠정보 > 가챠목록 > 상세정보 > 교환 수정
 //     */
