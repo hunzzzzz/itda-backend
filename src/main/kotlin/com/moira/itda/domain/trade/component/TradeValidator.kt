@@ -40,31 +40,31 @@ class TradeValidator(
         // TODO: 직거래 선택 시, 좌표 검증 로직 필요
     }
 
-    /**
-     * 교환수정 > 유효성 검사 > 공통
-     * 거래 삭제 > 유효성 검사 > 공통
-     */
-    private fun validateStatusAndRole(userId: String, trade: Trade) {
-        // [1] COMPLETED된 거래는 수정 및 삭제 불가능
-        if (trade.status == TradeStatus.COMPLETED) {
-            throw ItdaException(ErrorCode.COMPLETED_TRADE)
-        }
-
-        // [2] 수정 및 삭제 권한 검증
-        if (trade.userId != userId) {
-            throw ItdaException(ErrorCode.OTHERS_TRADE)
-        }
-
-        // [3] APPROVED된 제안이 존재하는 경우 거래 수정 및 삭제 불가능
-        if (mapper.selectTradeSuggestApprovedChk(tradeId = trade.id)) {
-            throw ItdaException(ErrorCode.APPROVED_SUGGEST_EXISTS)
-        }
-
-        // [4] PENDING된 제안이 존재하는 경우 거래 수정 및 삭제 불가능
-        if (mapper.selectTradeSuggestPendingChk(tradeId = trade.id)) {
-            throw ItdaException(ErrorCode.PENDING_SUGGEST_EXISTS)
-        }
-    }
+//    /**
+//     * 교환수정 > 유효성 검사 > 공통
+//     * 거래 삭제 > 유효성 검사 > 공통
+//     */
+//    private fun validateStatusAndRole(userId: String, trade: Trade) {
+//        // [1] COMPLETED된 거래는 수정 및 삭제 불가능
+//        if (trade.status == TradeStatus.COMPLETED) {
+//            throw ItdaException(ErrorCode.COMPLETED_TRADE)
+//        }
+//
+//        // [2] 수정 및 삭제 권한 검증
+//        if (trade.userId != userId) {
+//            throw ItdaException(ErrorCode.OTHERS_TRADE)
+//        }
+//
+//        // [3] APPROVED된 제안이 존재하는 경우 거래 수정 및 삭제 불가능
+//        if (mapper.selectTradeSuggestApprovedChk(tradeId = trade.id)) {
+//            throw ItdaException(ErrorCode.APPROVED_SUGGEST_EXISTS)
+//        }
+//
+//        // [4] PENDING된 제안이 존재하는 경우 거래 수정 및 삭제 불가능
+//        if (mapper.selectTradeSuggestPendingChk(tradeId = trade.id)) {
+//            throw ItdaException(ErrorCode.PENDING_SUGGEST_EXISTS)
+//        }
+//    }
 
     /**
      * 교환등록 > 유효성 검사
@@ -99,43 +99,43 @@ class TradeValidator(
         }
     }
 
-    /**
-     * 교환 수정 > 유효성 검사
-     */
-    fun validateExchangeUpdate(userId: String, trade: Trade, request: ExchangeUpdateRequest) {
-        // [1] 사용자 입력값에 대한 유효성 검사
-        this.validateRequestData(request = request, fileIdCheck = request.imageChangeYn == "Y")
-
-        // [2] 교환 하위 아이템 목록 존재 여부 검증
-        if (request.items.isEmpty()) {
-            throw ItdaException(ErrorCode.NO_TRADE_ITEMS)
-        }
-
-        // [3] 상태값 및 권한 검증
-        this.validateStatusAndRole(userId = userId, trade = trade)
-    }
-
-    /**
-     * 판매 수정 > 유효성 검사
-     */
-    fun validateSalesUpdate(userId: String, trade: Trade, request: SalesUpdateRequest) {
-        // [1] 사용자 입력값에 대한 유효성 검사
-        this.validateRequestData(request = request, fileIdCheck = request.imageChangeYn == "Y")
-
-        // [2] 교환 하위 아이템 목록 존재 여부 검증
-        if (request.items.isEmpty()) {
-            throw ItdaException(ErrorCode.NO_TRADE_ITEMS)
-        }
-
-        // [3] 상태값 및 권한 검증
-        this.validateStatusAndRole(userId = userId, trade = trade)
-    }
-
-    /**
-     * 거래 삭제 > 유효성 검사
-     */
-    fun validateDeleteTrade(userId: String, trade: Trade) {
-        // [1] 권한 및 상태값 검증
-        this.validateStatusAndRole(userId = userId, trade = trade)
-    }
+//    /**
+//     * 교환 수정 > 유효성 검사
+//     */
+//    fun validateExchangeUpdate(userId: String, trade: Trade, request: ExchangeUpdateRequest) {
+//        // [1] 사용자 입력값에 대한 유효성 검사
+//        this.validateRequestData(request = request, fileIdCheck = request.imageChangeYn == "Y")
+//
+//        // [2] 교환 하위 아이템 목록 존재 여부 검증
+//        if (request.items.isEmpty()) {
+//            throw ItdaException(ErrorCode.NO_TRADE_ITEMS)
+//        }
+//
+//        // [3] 상태값 및 권한 검증
+//        this.validateStatusAndRole(userId = userId, trade = trade)
+//    }
+//
+//    /**
+//     * 판매 수정 > 유효성 검사
+//     */
+//    fun validateSalesUpdate(userId: String, trade: Trade, request: SalesUpdateRequest) {
+//        // [1] 사용자 입력값에 대한 유효성 검사
+//        this.validateRequestData(request = request, fileIdCheck = request.imageChangeYn == "Y")
+//
+//        // [2] 교환 하위 아이템 목록 존재 여부 검증
+//        if (request.items.isEmpty()) {
+//            throw ItdaException(ErrorCode.NO_TRADE_ITEMS)
+//        }
+//
+//        // [3] 상태값 및 권한 검증
+//        this.validateStatusAndRole(userId = userId, trade = trade)
+//    }
+//
+//    /**
+//     * 거래 삭제 > 유효성 검사
+//     */
+//    fun validateDeleteTrade(userId: String, trade: Trade) {
+//        // [1] 권한 및 상태값 검증
+//        this.validateStatusAndRole(userId = userId, trade = trade)
+//    }
 }
