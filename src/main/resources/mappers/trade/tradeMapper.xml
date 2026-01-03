@@ -324,7 +324,9 @@
              , (SELECT COUNT(id) FROM TRADE_SUGGEST WHERE trade_id = T.id AND status != 'CANCELED') AS suggest_count
              , T.created_at
         FROM TRADE T
-        WHERE user_id = #{userId} AND type = #{type}
+        WHERE user_id = #{userId}
+         AND  type    = #{type}
+         AND  status != 'DELETED'
         ORDER BY created_at DESC
         LIMIT #{pageSize} OFFSET #{offset}
     </select>
