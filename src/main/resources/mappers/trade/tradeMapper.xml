@@ -262,6 +262,15 @@
         WHERE id = #{request.tradeItemId}
     </update>
 
+    <!-- 가챠정보 > 가챠목록 > 상세정보 > 거래수정 > TradeItem 수정 (판매) -->
+    <update id="updateTradeItemSales">
+        UPDATE TRADE_ITEM
+        SET
+               sales_price = #{request.price}
+             , updated_at  = CURRENT_TIMESTAMP
+        WHERE id = #{request.tradeItemId}
+    </update>
+
     <!-- 가챠정보 > 가챠목록 > 상세정보 > 거래삭제 > TradeItem의 status를 DELETED로 변경 -->
     <update id="updateTradeItemStatusDeleted">
         UPDATE TRADE_ITEM

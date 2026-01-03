@@ -3,6 +3,7 @@ package com.moira.itda.domain.trade.controller
 import com.moira.itda.domain.trade.dto.request.ExchangeAddRequest
 import com.moira.itda.domain.trade.dto.request.ExchangeUpdateRequest
 import com.moira.itda.domain.trade.dto.request.SalesAddRequest
+import com.moira.itda.domain.trade.dto.request.SalesUpdateRequest
 import com.moira.itda.domain.trade.dto.response.GachaIdResponse
 import com.moira.itda.domain.trade.dto.response.TradeDetailContentResponse
 import com.moira.itda.domain.trade.dto.response.TradeItemResponse
@@ -102,22 +103,21 @@ class TradeController(
 
         return ResponseEntity.ok(null)
     }
-//
-//    /**
-//     * 가챠정보 > 가챠목록 > 상세정보 > 판매 수정
-//     */
-//    @PutMapping("/api/gacha/{gachaId}/trades/{tradeId}/sales")
-//    fun updateSales(
-//        @UserPrincipal userAuth: UserAuth,
-//        @PathVariable tradeId: String,
-//        @PathVariable gachaId: String,
-//        @RequestBody request: SalesUpdateRequest
-//    ): ResponseEntity<Nothing?> {
-//        service.updateSales(userId = userAuth.userId, tradeId = tradeId, gachaId = gachaId, request = request)
-//
-//        return ResponseEntity.ok(null)
-//    }
-//
+
+    /**
+     * 가챠정보 > 가챠목록 > 상세정보 > 판매수정
+     */
+    @PutMapping("/api/trades/{tradeId}/sales")
+    fun updateSales(
+        @UserPrincipal userAuth: UserAuth,
+        @PathVariable tradeId: String,
+        @RequestBody request: SalesUpdateRequest
+    ): ResponseEntity<Nothing?> {
+        service.updateSales(userId = userAuth.userId, tradeId = tradeId, request = request)
+
+        return ResponseEntity.ok(null)
+    }
+
     /**
      * 가챠정보 > 가챠목록 > 상세정보 > 거래삭제
      */

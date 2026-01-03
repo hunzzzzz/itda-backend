@@ -2,9 +2,7 @@ package com.moira.itda.domain.trade.service
 
 import com.moira.itda.domain.common.mapper.CommonMapper
 import com.moira.itda.domain.trade.component.TradeValidator
-import com.moira.itda.domain.trade.dto.request.ExchangeAddRequest
-import com.moira.itda.domain.trade.dto.request.ExchangeUpdateRequest
-import com.moira.itda.domain.trade.dto.request.SalesAddRequest
+import com.moira.itda.domain.trade.dto.request.*
 import com.moira.itda.domain.trade.dto.response.*
 import com.moira.itda.domain.trade.mapper.TradeMapper
 import com.moira.itda.global.entity.Trade
@@ -141,7 +139,73 @@ class TradeService(
     }
 
     /**
-     * 가챠정보 > 가챠목록 > 상세정보 > 교환 수정
+     * 가챠정보 > 가챠목록 > 상세정보 > 교환수정 (공통)
+     * 가챠정보 > 가챠목록 > 상세정보 > 판매수정 (공통)
+     */
+    private fun update(trade: Trade, request: TradeUpdateRequest) {
+        // [3] 사용자가 이미지를 변경한 경우, 기존 이미지 파일 삭제 (AWS S3, DB)
+        if (request.imageChangeYn == "Y") {
+            val oldFileId = trade.fileId
+            commonMapper.selectImageFileUrl(fileId = oldFileId).forEach { s3Handler.delete(it.fileUrl) }
+            commonMapper.deleteImageFile(fileId = oldFileId)
+        }
+
+        // [4] Trade 수정
+        mapper.updateTrade(tradeId = trade.id, request = request)
+
+        if (trade.type == TradeType.EXCHANGE) {
+            request as ExchangeUpdateRequest
+
+            // [5] TradeItem 삭제
+            if (request.deleteItems != null && request.deleteItems.isNotEmpty()) {
+                request.deleteItems.forEach { tradeItemId ->
+                    mapper.updateTradeItemStatusDeleted(tradeItemId = tradeItemId)
+                }
+            }
+
+            // [6] TradeItem 수정
+            if (request.updateItems != null && request.updateItems.isNotEmpty()) {
+                request.updateItems.forEach { item ->
+                    mapper.updateTradeItemExchange(request = item)
+                }
+            }
+
+            // [7] TradeItem 추가
+            if (request.newItems != null && request.newItems.isNotEmpty()) {
+                request.newItems.forEach { item ->
+                    val tradeItem = TradeItem.fromRequest(tradeId = trade.id, gachaId = trade.gachaId, request = item)
+                    mapper.insertTradeItem(tradeItem = tradeItem)
+                }
+            }
+        } else if (trade.type == TradeType.SALES) {
+            request as SalesUpdateRequest
+
+            // [5] TradeItem 삭제
+            if (request.deleteItems != null && request.deleteItems.isNotEmpty()) {
+                request.deleteItems.forEach { tradeItemId ->
+                    mapper.updateTradeItemStatusDeleted(tradeItemId = tradeItemId)
+                }
+            }
+
+            // [6] TradeItem 수정
+            if (request.updateItems != null && request.updateItems.isNotEmpty()) {
+                request.updateItems.forEach { item ->
+                    mapper.updateTradeItemSales(request = item)
+                }
+            }
+
+            // [7] TradeItem 추가
+            if (request.newItems != null && request.newItems.isNotEmpty()) {
+                request.newItems.forEach { item ->
+                    val tradeItem = TradeItem.fromRequest(tradeId = trade.id, gachaId = trade.gachaId, request = item)
+                    mapper.insertTradeItem(tradeItem = tradeItem)
+                }
+            }
+        }
+    }
+
+    /**
+     * 가챠정보 > 가챠목록 > 상세정보 > 교환수정
      */
     @Transactional
     fun updateExchange(userId: String, tradeId: String, request: ExchangeUpdateRequest) {
@@ -152,65 +216,24 @@ class TradeService(
         // [2] 유효성 검사
         validator.validateUpdate(userId = userId, tradeUserId = trade.userId, request = request)
 
-        // [3] 사용자가 이미지를 변경한 경우, 기존 이미지 파일 삭제 (AWS S3, DB)
-        if (request.imageChangeYn == "Y") {
-            val oldFileId = trade.fileId
-
-            commonMapper.selectImageFileUrl(fileId = oldFileId).forEach { s3Handler.delete(it.fileUrl) }
-            commonMapper.deleteImageFile(fileId = oldFileId)
-        }
-
-        // [4] Trade 수정
-        mapper.updateTrade(tradeId = tradeId, request = request)
-
-        // [5] TradeItem 삭제
-        if (request.deleteItems != null && request.deleteItems.isNotEmpty()) {
-            request.deleteItems.forEach { tradeItemId ->
-                mapper.updateTradeItemStatusDeleted(tradeItemId = tradeItemId)
-            }
-        }
-
-        // [6] TradeItem 수정
-        if (request.updateItems != null && request.updateItems.isNotEmpty()) {
-            request.updateItems.forEach { item ->
-                mapper.updateTradeItemExchange(request = item)
-            }
-        }
-
-        // [7] TradeItem 추가
-        if (request.newItems != null && request.newItems.isNotEmpty()) {
-            request.newItems.forEach { item ->
-                val tradeItem = TradeItem.fromRequest(tradeId = tradeId, gachaId = trade.gachaId, request = item)
-                mapper.insertTradeItem(tradeItem = tradeItem)
-            }
-        }
+        // [3] 수정 (공통)
+        this.update(trade = trade, request = request)
     }
 
-//
-//    /**
-//     * 가챠정보 > 가챠목록 > 상세정보 > 판매 수정
-//     */
-//    @Transactional
-//    fun updateSales(userId: String, gachaId: String, tradeId: String, request: SalesUpdateRequest) {
-//        // [1] Trade 조회
-//        val trade = mapper.selectTrade(tradeId = tradeId) ?: throw ItdaException(ErrorCode.TRADE_NOT_FOUND)
-//
-//        // [2] 유효성 검사
-//        validator.validateSalesUpdate(userId = userId, trade = trade, request = request)
-//
-//        // [3] 사용자가 이미지를 변경한 경우, 기존 이미지 파일 삭제 (AWS S3, DB)
-//        if (request.imageChangeYn == "Y") {
-//            val oldFileId = trade.fileId
-//            commonMapper.selectImageFileUrl(fileId = oldFileId).forEach { s3Handler.delete(it.fileUrl) }
-//            commonMapper.deleteImageFile(fileId = oldFileId)
-//        }
-//
-//        // [4] Trade 수정
-//        mapper.updateTrade(tradeId = tradeId, request = request)
-//
-//        // [5] TradeItem 수정
-//        request.items.forEach { item -> mapper.updateTradeSalesItem(request = item) }
-//    }
+    /**
+     * 가챠정보 > 가챠목록 > 상세정보 > 판매수정
+     */
+    @Transactional
+    fun updateSales(userId: String, tradeId: String, request: SalesUpdateRequest) {
+        // [1] Trade 조회
+        val trade = mapper.selectTrade(tradeId = tradeId) ?: throw ItdaException(ErrorCode.TRADE_NOT_FOUND)
+
+        // [2] 유효성 검사
+        validator.validateUpdate(userId = userId, tradeUserId = trade.userId, request = request)
+
+        // [3] 수정 (공통)
+        this.update(trade = trade, request = request)
+    }
 
     /**
      * 가챠정보 > 가챠목록 > 상세정보 > 거래삭제

@@ -1,7 +1,7 @@
 package com.moira.itda.domain.trade.mapper
 
 import com.moira.itda.domain.trade.dto.request.ExchangeItemUpdateRequest
-import com.moira.itda.domain.trade.dto.request.ExchangeUpdateRequest
+import com.moira.itda.domain.trade.dto.request.SalesItemUpdateRequest
 import com.moira.itda.domain.trade.dto.request.TradeRequest
 import com.moira.itda.domain.trade.dto.response.TradeDetailResponse
 import com.moira.itda.domain.trade.dto.response.TradeItemResponse
@@ -84,6 +84,13 @@ interface TradeMapper {
      */
     fun updateTradeItemExchange(
         @Param("request") request: ExchangeItemUpdateRequest
+    )
+
+    /**
+     * 가챠정보 > 가챠목록 > 상세정보 > 거래수정 > TradeItem 수정 (판매)
+     */
+    fun updateTradeItemSales(
+        @Param("request") request: SalesItemUpdateRequest
     )
 
     /**

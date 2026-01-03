@@ -13,8 +13,8 @@ data class ExchangeUpdateRequest(
     override val hopeAddress: String?,
     override val hopeLocationLatitude: String?,
     override val hopeLocationLongitude: String?,
-    val imageChangeYn: String,
+    override val imageChangeYn: String,
     val deleteItems: List<String>?,                     // 삭제한 교환쌍의 id (tradeItemId)
     val updateItems: List<ExchangeItemUpdateRequest>?, // 수정된 교환쌍
     val newItems: List<ExchangeItemAddRequest>?         // 새로 추가된 교환쌍
-) : TradeRequest
+) : TradeUpdateRequest

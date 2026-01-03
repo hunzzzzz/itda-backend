@@ -13,6 +13,8 @@ data class SalesUpdateRequest(
     override val hopeAddress: String?,
     override val hopeLocationLatitude: String?,
     override val hopeLocationLongitude: String?,
-    val imageChangeYn: String,
-    val items: List<SalesItemUpdateRequest>
-) : TradeRequest
+    override val imageChangeYn: String,
+    val deleteItems: List<String>?,
+    val updateItems: List<SalesItemUpdateRequest>?,
+    val newItems: List<SalesItemAddRequest>?
+) : TradeUpdateRequest
