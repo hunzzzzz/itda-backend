@@ -2,6 +2,7 @@ package com.moira.itda.domain.trade.component
 
 import com.moira.itda.domain.common.mapper.CommonMapper
 import com.moira.itda.domain.trade.dto.request.ExchangeAddRequest
+import com.moira.itda.domain.trade.dto.request.ExchangeUpdateRequest
 import com.moira.itda.domain.trade.dto.request.SalesAddRequest
 import com.moira.itda.domain.trade.dto.request.TradeRequest
 import com.moira.itda.domain.trade.mapper.TradeMapper
@@ -51,6 +52,13 @@ class TradeValidator(
         if (request.items.isEmpty()) {
             throw ItdaException(ErrorCode.NO_TRADE_ITEMS)
         }
+
+        // [3] 같은 아이템끼리 교환할 수 없다.
+        request.items.forEach { item ->
+            if (item.giveItemId == item.wantItemId) {
+                throw ItdaException(ErrorCode.SAME_EXCHANGE_ITEMS)
+            }
+        }
     }
 
     /**
@@ -73,21 +81,6 @@ class TradeValidator(
         }
     }
 
-//    /**
-//     * 교환 수정 > 유효성 검사
-//     */
-//    fun validateExchangeUpdate(userId: String, trade: Trade, request: ExchangeUpdateRequest) {
-//        // [1] 사용자 입력값에 대한 유효성 검사
-//        this.validateRequestData(request = request, fileIdCheck = request.imageChangeYn == "Y")
-//
-//        // [2] 교환 하위 아이템 목록 존재 여부 검증
-//        if (request.items.isEmpty()) {
-//            throw ItdaException(ErrorCode.NO_TRADE_ITEMS)
-//        }
-//
-//        // [3] 상태값 및 권한 검증
-//        this.validateStatusAndRole(userId = userId, trade = trade)
-//    }
 //
 //    /**
 //     * 판매 수정 > 유효성 검사
@@ -107,6 +100,7 @@ class TradeValidator(
 //
     /**
      * 거래삭제 > 유효성 검사 > 공통 (권한)
+     * 거래삭제 > 유효성 검사 > 공통 (권한)
      */
     private fun validateRole(userId: String, tradeUserId: String) {
         // 수정 및 삭제 권한 검증
@@ -116,24 +110,59 @@ class TradeValidator(
     }
 
     /**
+     * 거래수정 > 유효성 검사 > 공통 (상태값)
      * 거래삭제 > 유효성 검사 > 공통 (상태값)
      */
     private fun validateStatus(tradeItemId: String) {
-        // APPROVED된 제안이 존재하는 경우 거래수정 및 삭제 불가능
+        // APPROVED된 제안이 존재하는 경우 삭제 불가능
         if (mapper.selectTradeSuggestApprovedChk(tradeItemId = tradeItemId)) {
             throw ItdaException(ErrorCode.APPROVED_SUGGEST_EXISTS)
         }
 
-        // PENDING된 제안이 존재하는 경우 거래수정 및 삭제 불가능
+        // PENDING된 제안이 존재하는 경우 삭제 불가능
         if (mapper.selectTradeSuggestPendingChk(tradeItemId = tradeItemId)) {
             throw ItdaException(ErrorCode.PENDING_SUGGEST_EXISTS)
         }
     }
 
     /**
+     * 거래수정 > 유효성 검사
+     */
+    fun validateUpdate(userId: String, tradeUserId: String, request: ExchangeUpdateRequest) {
+        // [1] 권한 검증
+        this.validateRole(userId = userId, tradeUserId = tradeUserId)
+
+        // [2] 상태값 검증
+        if (request.deleteItems != null && request.deleteItems.isNotEmpty()) {
+            request.deleteItems.forEach { tradeItemId ->
+                this.validateStatus(tradeItemId = tradeItemId)
+            }
+        }
+
+        // [3] 사용자 입력값 검증
+        this.validateRequestData(request = request, fileIdCheck = request.imageChangeYn == "Y")
+
+        // [4] 같은 아이템끼리 교환할 수 없다.
+        if (request.updateItems != null && request.updateItems.isNotEmpty()) {
+            request.updateItems.forEach { item ->
+                if (item.giveItemId == item.wantItemId) {
+                    throw ItdaException(ErrorCode.SAME_EXCHANGE_ITEMS)
+                }
+            }
+        }
+        if (request.newItems != null && request.newItems.isNotEmpty()) {
+            request.newItems.forEach { item ->
+                if (item.giveItemId == item.wantItemId) {
+                    throw ItdaException(ErrorCode.SAME_EXCHANGE_ITEMS)
+                }
+            }
+        }
+    }
+
+    /**
      * 거래삭제 > 유효성 검사
      */
-    fun validateDeleteTrade(userId: String, tradeUserId: String, tradeItemId: String) {
+    fun validateDelete(userId: String, tradeUserId: String, tradeItemId: String) {
         // [1] 권한 검증
         this.validateRole(userId = userId, tradeUserId = tradeUserId)
 

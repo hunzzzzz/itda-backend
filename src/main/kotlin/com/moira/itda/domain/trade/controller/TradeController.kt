@@ -1,6 +1,7 @@
 package com.moira.itda.domain.trade.controller
 
 import com.moira.itda.domain.trade.dto.request.ExchangeAddRequest
+import com.moira.itda.domain.trade.dto.request.ExchangeUpdateRequest
 import com.moira.itda.domain.trade.dto.request.SalesAddRequest
 import com.moira.itda.domain.trade.dto.response.GachaIdResponse
 import com.moira.itda.domain.trade.dto.response.TradeDetailContentResponse
@@ -88,21 +89,19 @@ class TradeController(
         return ResponseEntity.ok(response)
     }
 
-//
-//    /**
-//     * 가챠정보 > 가챠목록 > 상세정보 > 교환 수정
-//     */
-//    @PutMapping("/api/gacha/{gachaId}/trades/{tradeId}/exchange")
-//    fun updateExchange(
-//        @UserPrincipal userAuth: UserAuth,
-//        @PathVariable tradeId: String,
-//        @PathVariable gachaId: String,
-//        @RequestBody request: ExchangeUpdateRequest
-//    ): ResponseEntity<Nothing?> {
-//        service.updateExchange(userId = userAuth.userId, tradeId = tradeId, request = request)
-//
-//        return ResponseEntity.ok(null)
-//    }
+    /**
+     * 가챠정보 > 가챠목록 > 상세정보 > 교환수정
+     */
+    @PutMapping("/api/trades/{tradeId}/exchange")
+    fun updateExchange(
+        @UserPrincipal userAuth: UserAuth,
+        @PathVariable tradeId: String,
+        @RequestBody request: ExchangeUpdateRequest
+    ): ResponseEntity<Nothing?> {
+        service.updateExchange(userId = userAuth.userId, tradeId = tradeId, request = request)
+
+        return ResponseEntity.ok(null)
+    }
 //
 //    /**
 //     * 가챠정보 > 가챠목록 > 상세정보 > 판매 수정

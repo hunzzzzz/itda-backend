@@ -312,6 +312,11 @@ enum class ErrorCode(
         message = "현재 진행 중인 거래 제안이 있어 수정/삭제할 수 없습니다. 해당 제안을 거절한 후 수정/삭제가 가능합니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
+    SAME_EXCHANGE_ITEMS(
+        code = "T0020",
+        message = "동일한 아이템끼리 교환할 수 없습니다.",
+        httpStatus = HttpStatus.BAD_REQUEST
+    ),
 
 
     SUGGEST_NOT_FOUND(

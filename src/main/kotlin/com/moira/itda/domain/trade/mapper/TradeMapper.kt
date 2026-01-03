@@ -1,7 +1,7 @@
 package com.moira.itda.domain.trade.mapper
 
 import com.moira.itda.domain.trade.dto.request.ExchangeItemUpdateRequest
-import com.moira.itda.domain.trade.dto.request.SalesItemUpdateRequest
+import com.moira.itda.domain.trade.dto.request.ExchangeUpdateRequest
 import com.moira.itda.domain.trade.dto.request.TradeRequest
 import com.moira.itda.domain.trade.dto.response.TradeDetailResponse
 import com.moira.itda.domain.trade.dto.response.TradeItemResponse
@@ -24,8 +24,6 @@ interface TradeMapper {
      * 판매등록 > TradeItem 저장
      */
     fun insertTradeItem(tradeItem: TradeItem)
-
-    // ---------------------------------------------------------------------------------- //
 
     /**
      * 가챠정보 > 가챠목록 > 상세정보 > 거래 목록 조회 > totalElements 계산
@@ -50,38 +48,16 @@ interface TradeMapper {
      */
     fun selectTradeItemList(tradeId: String): List<TradeItemResponse>
 
-    // ---------------------------------------------------------------------------------- //
-
     /**
      * 가챠정보 > 가챠목록 > 상세정보 > 거래수정 > 거래 정보 조회
      */
     fun selectTradeDetail(tradeId: String): TradeDetailResponse
 
-    // ---------------------------------------------------------------------------------- //
-
     /**
-     * 가챠정보 > 가챠목록 > 상세정보 > 거래수정 > Trade 수정
+     * 가챠정보 > 가챠목록 > 상세정보 > 거래수정 > Trade 조회
+     * 가챠정보 > 가챠목록 > 상세정보 > 거래삭제 > Trade 조회
      */
-    fun updateTrade(
-        @Param("tradeId") tradeId: String,
-        @Param("request") request: TradeRequest
-    )
-
-    /**
-     * 가챠정보 > 가챠목록 > 상세정보 > 거래수정 > TradeItem 수정 (교환)
-     */
-    fun updateTradeExchangeItem(@Param("request") request: ExchangeItemUpdateRequest)
-
-    /**
-     * 가챠정보 > 가챠목록 > 상세정보 > 거래수정 > TradeItem 수정 (판매)
-     */
-    fun updateTradeSalesItem(@Param("request") request: SalesItemUpdateRequest)
-
-    /**
-     * 가챠정보 > 가챠목록 > 상세정보 > 거래수정 > Trade의 userId 조회
-     * 가챠정보 > 가챠목록 > 상세정보 > 거래삭제 > Trade의 userId 조회
-     */
-    fun selectTradeUserId(tradeId: String): String?
+    fun selectTrade(tradeId: String): Trade?
 
     /**
      * 가챠정보 > 가챠목록 > 상세정보 > 거래수정 > APPROVED된 제안 여부 조회
@@ -96,6 +72,21 @@ interface TradeMapper {
     fun selectTradeSuggestPendingChk(tradeItemId: String): Boolean
 
     /**
+     * 가챠정보 > 가챠목록 > 상세정보 > 거래수정 > Trade 수정
+     */
+    fun updateTrade(
+        @Param("tradeId") tradeId: String,
+        @Param("request") request: TradeRequest
+    )
+
+    /**
+     * 가챠정보 > 가챠목록 > 상세정보 > 거래수정 > TradeItem 수정 (교환)
+     */
+    fun updateTradeItemExchange(
+        @Param("request") request: ExchangeItemUpdateRequest
+    )
+
+    /**
      * 가챠정보 > 가챠목록 > 상세정보 > 거래삭제 > TradeItem의 status를 DELETED로 변경
      */
     fun updateTradeItemStatusDeleted(tradeItemId: String)
@@ -104,11 +95,6 @@ interface TradeMapper {
      * 가챠정보 > 가챠목록 > 상세정보 > 거래삭제 > status가 DELETED가 아닌 TradeItem 존재 여부 확인
      */
     fun selectTradeItemStatusNotDeletedChk(tradeId: String): Boolean
-
-    /**
-     * 가챠정보 > 가챠목록 > 상세정보 > 거래삭제 > tradeId로 fileId 조회
-     */
-    fun selectFileId(tradeId: String): String?
 
     /**
      * 가챠정보 > 가챠목록 > 상세정보 > 거래삭제 > Trade의 status를 DELETED로 변경
