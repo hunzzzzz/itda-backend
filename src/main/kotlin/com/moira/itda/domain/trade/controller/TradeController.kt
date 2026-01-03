@@ -25,7 +25,6 @@ class TradeController(
         @PathVariable gachaId: String,
         @RequestBody request: ExchangeAddRequest
     ): ResponseEntity<GachaIdResponse> {
-        println(request)
         val response = service.exchange(userId = userAuth.userId, gachaId = gachaId, request = request)
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response)
@@ -46,7 +45,7 @@ class TradeController(
     }
 
     /**
-     * 가챠정보 > 가챠 목록 > 상세정보 > 거래 목록 조회
+     * 가챠정보 > 가챠목록 > 상세정보 > 거래 목록 조회
      */
     @GetMapping("/api/gacha/{gachaId}/trades")
     fun getTradeList(
@@ -66,8 +65,8 @@ class TradeController(
     }
 
     /**
-     * 가챠정보 > 가챠 목록 > 상세정보 > 거래 수정 > 거래 아이템 목록 조회
-     * 가챠정보 > 가챠 목록 > 상세정보 > 거래 삭제 > 거래 아이템 목록 조회
+     * 가챠정보 > 가챠목록 > 상세정보 > 거래 수정 > 거래 아이템 목록 조회
+     * 가챠정보 > 가챠목록 > 상세정보 > 거래 삭제 > 거래 아이템 목록 조회
      */
     @GetMapping("/api/trades/{tradeId}/items")
     fun getTradeItemList(
@@ -79,7 +78,7 @@ class TradeController(
     }
 
 //    /**
-//     * 가챠정보 > 가챠 목록 > 상세정보 > 거래 수정 > 거래 정보 조회
+//     * 가챠정보 > 가챠목록 > 상세정보 > 거래 수정 > 거래 정보 조회
 //     */
 //    @GetMapping("/api/gacha/{gachaId}/trades/{tradeId}")
 //    fun getTrade(
@@ -92,7 +91,7 @@ class TradeController(
 //    }
 //
 //    /**
-//     * 가챠정보 > 가챠 목록 > 상세정보 > 교환 수정
+//     * 가챠정보 > 가챠목록 > 상세정보 > 교환 수정
 //     */
 //    @PutMapping("/api/gacha/{gachaId}/trades/{tradeId}/exchange")
 //    fun updateExchange(
@@ -107,7 +106,7 @@ class TradeController(
 //    }
 //
 //    /**
-//     * 가챠정보 > 가챠 목록 > 상세정보 > 판매 수정
+//     * 가챠정보 > 가챠목록 > 상세정보 > 판매 수정
 //     */
 //    @PutMapping("/api/gacha/{gachaId}/trades/{tradeId}/sales")
 //    fun updateSales(
@@ -121,20 +120,20 @@ class TradeController(
 //        return ResponseEntity.ok(null)
 //    }
 //
-//    /**
-//     * 가챠정보 > 가챠 목록 > 상세정보 > 거래 삭제
-//     */
-//    @DeleteMapping("/api/gacha/{gachaId}/trades/{tradeId}")
-//    fun deleteTrade(
-//        @UserPrincipal userAuth: UserAuth,
-//        @PathVariable gachaId: String,
-//        @PathVariable tradeId: String
-//    ): ResponseEntity<Nothing?> {
-//        service.deleteTrade(userId = userAuth.userId, tradeId = tradeId)
-//
-//        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null)
-//    }
-//
+    /**
+     * 가챠정보 > 가챠목록 > 상세정보 > 거래삭제
+     */
+    @DeleteMapping("/api/trades/{tradeId}/items/{tradeItemId}")
+    fun delete(
+        @UserPrincipal userAuth: UserAuth,
+        @PathVariable tradeId: String,
+        @PathVariable tradeItemId: String
+    ): ResponseEntity<Nothing?> {
+        service.delete(userId = userAuth.userId, tradeId = tradeId, tradeItemId = tradeItemId)
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null)
+    }
+
     /**
      * 내 활동 > 내 거래 목록 조회
      */

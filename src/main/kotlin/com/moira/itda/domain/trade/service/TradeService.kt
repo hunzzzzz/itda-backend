@@ -75,7 +75,7 @@ class TradeService(
     }
 
     /**
-     * 가챠정보 > 가챠 목록 > 상세정보 > 거래 목록 조회
+     * 가챠정보 > 가챠목록 > 상세정보 > 거래 목록 조회
      */
     @Transactional(readOnly = true)
     fun getTradeList(gachaId: String, page: Int, onlyPending: String, gachaItemId: Long?): TradePageResponse {
@@ -115,8 +115,8 @@ class TradeService(
     }
 
     /**
-     * 가챠정보 > 가챠 목록 > 상세정보 > 거래 수정 > 거래 아이템 목록 조회
-     * 가챠정보 > 가챠 목록 > 상세정보 > 거래 삭제 > 거래 아이템 목록 조회
+     * 가챠정보 > 가챠목록 > 상세정보 > 거래 수정 > 거래 아이템 목록 조회
+     * 가챠정보 > 가챠목록 > 상세정보 > 거래 삭제 > 거래 아이템 목록 조회
      */
     @Transactional(readOnly = true)
     fun getTradeItemList(tradeId: String): List<TradeItemResponse> {
@@ -125,7 +125,7 @@ class TradeService(
 
 //
 //    /**
-//     * 가챠정보 > 가챠 목록 > 상세정보 > 거래 수정 > 거래 정보 조회
+//     * 가챠정보 > 가챠목록 > 상세정보 > 거래 수정 > 거래 정보 조회
 //     */
 //    @Transactional(readOnly = true)
 //    fun getTrade(tradeId: String, gachaId: String): TradeDetailContentResponse {
@@ -143,7 +143,7 @@ class TradeService(
 //    }
 //
 //    /**
-//     * 가챠정보 > 가챠 목록 > 상세정보 > 교환 수정
+//     * 가챠정보 > 가챠목록 > 상세정보 > 교환 수정
 //     */
 //    @Transactional
 //    fun updateExchange(userId: String, tradeId: String, request: ExchangeUpdateRequest) {
@@ -168,7 +168,7 @@ class TradeService(
 //    }
 //
 //    /**
-//     * 가챠정보 > 가챠 목록 > 상세정보 > 판매 수정
+//     * 가챠정보 > 가챠목록 > 상세정보 > 판매 수정
 //     */
 //    @Transactional
 //    fun updateSales(userId: String, gachaId: String, tradeId: String, request: SalesUpdateRequest) {
@@ -191,30 +191,39 @@ class TradeService(
 //        // [5] TradeItem 수정
 //        request.items.forEach { item -> mapper.updateTradeSalesItem(request = item) }
 //    }
-//
-//    /**
-//     * 가챠정보 > 가챠 목록 > 상세정보 > 거래 삭제
-//     */
-//    @Transactional
-//    fun deleteTrade(userId: String, tradeId: String) {
-//        // [1] Trade 조회
-//        val trade = mapper.selectTrade(tradeId = tradeId) ?: throw ItdaException(ErrorCode.TRADE_NOT_FOUND)
-//
-//        // [2] 유효성 검사
-//        validator.validateDeleteTrade(userId = userId, trade = trade)
-//
-//        // [3] TradeSuggest, TradeItem 삭제
-//        mapper.deleteTradeSuggest(tradeId = tradeId)
-//        mapper.deleteTradeItem(tradeId = tradeId)
-//
-//        // [4] 이미지 파일 삭제 (AWS S3)
-//        commonMapper.selectImageFileUrl(fileId = trade.fileId)
-//            .forEach { s3Handler.delete(fileUrl = it.fileUrl) }
-//
-//        // [5] Trade 삭제
-//        mapper.deleteTrade(tradeId = tradeId)
-//    }
-//
+
+    /**
+     * 가챠정보 > 가챠목록 > 상세정보 > 거래삭제
+     */
+    @Transactional
+    fun delete(userId: String, tradeId: String, tradeItemId: String) {
+        // [1] Trade의 userId 조회
+        val tradeUserId = mapper.selectTradeUserId(tradeId = tradeId)
+            ?: throw ItdaException(ErrorCode.TRADE_NOT_FOUND)
+
+        // [2] 유효성 검사
+        validator.validateDeleteTrade(userId = userId, tradeUserId = tradeUserId, tradeItemId = tradeItemId)
+
+        // [3] TODO: TradeSuggest 삭제 처리
+
+        // [4] TradeItem 삭제 처리 (status: DELETED)
+        mapper.updateTradeItemStatusDeleted(tradeItemId = tradeItemId)
+
+        // [5] 모든 TradeItem이 DELETED이면 Trade 삭제 처리
+        if (!mapper.selectTradeItemStatusNotDeletedChk(tradeId = tradeId)) {
+            // [5-1] 이미지 파일 삭제 (AWS S3)
+            val fileId = mapper.selectFileId(tradeId = tradeId)
+
+            if (fileId != null) {
+                commonMapper.selectImageFileUrl(fileId = fileId)
+                    .forEach { s3Handler.delete(fileUrl = it.fileUrl) }
+            }
+
+            // [5-2] Trade 삭제 처리 (status: ENDED)
+            mapper.updateTradeStatusDeleted(tradeId = tradeId)
+        }
+    }
+
     /**
      * 내 활동 > 내 거래 목록 조회
      */

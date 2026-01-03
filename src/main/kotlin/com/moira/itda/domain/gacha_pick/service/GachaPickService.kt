@@ -11,7 +11,7 @@ class GachaPickService(
     private val mapper: GachaPickMapper
 ) {
     /**
-     * 가챠정보 > 가챠 목록 > 상세정보 > 가챠 이력 저장
+     * 가챠정보 > 가챠목록 > 상세정보 > 가챠 이력 저장
      */
     @Transactional
     fun pick(userId: String, gachaId: String, request: GachaPickRequest) {

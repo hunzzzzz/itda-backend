@@ -4,14 +4,14 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.moira.itda.domain.gacha_wish.mapper.GachaWishMapper">
-    <!-- 가챠정보 > 가챠 목록 > 상세정보 > 즐겨찾기 여부 조회 -->
+    <!-- 가챠정보 > 가챠목록 > 상세정보 > 즐겨찾기 여부 조회 -->
     <select id="selectGachaWishChk" resultType="java.lang.Boolean">
         SELECT EXISTS (
             SELECT 1 FROM GACHA_WISH WHERE user_id = #{userId} AND gacha_id = #{gachaId}
         )
     </select>
 
-    <!-- 가챠정보 > 가챠 목록 > 상세정보 > 즐겨찾기 > GachaWish 저장 -->
+    <!-- 가챠정보 > 가챠목록 > 상세정보 > 즐겨찾기 > GachaWish 저장 -->
     <insert id="insertGachaWish">
         INSERT INTO GACHA_WISH (
                user_id
@@ -25,7 +25,7 @@
         )
     </insert>
 
-    <!-- 가챠정보 > 가챠 목록 > 상세정보 > 즐겨찾기 > GachaWish 삭제 -->
+    <!-- 가챠정보 > 가챠목록 > 상세정보 > 즐겨찾기 > GachaWish 삭제 -->
     <delete id="deleteGachaWish">
         DELETE FROM GACHA_WISH WHERE user_id = #{userId} AND gacha_id = #{gachaId}
     </delete>

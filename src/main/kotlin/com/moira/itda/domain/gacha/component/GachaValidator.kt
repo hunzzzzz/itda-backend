@@ -16,7 +16,7 @@ class GachaValidator {
     )
 
     /**
-     * 가챠정보 > 가챠 목록 > 유효성 검사 (정렬 조건)
+     * 가챠정보 > 가챠목록 > 유효성 검사 (정렬 조건)
      */
     fun validateSort(sort: String) {
         if (!sortList.contains(sort.uppercase())) {

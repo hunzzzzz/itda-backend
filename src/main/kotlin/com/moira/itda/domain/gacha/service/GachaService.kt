@@ -23,7 +23,7 @@ class GachaService(
     private val validator: GachaValidator,
 ) {
     /**
-     * 가챠정보 > 가챠 목록
+     * 가챠정보 > 가챠목록
      */
     @Transactional(readOnly = true)
     fun getGachaList(keyword: String, page: Int, sort: String): GachaPageResponse {
@@ -54,7 +54,7 @@ class GachaService(
     }
 
     /**
-     * 가챠정보 > 가챠 목록 > 상세정보
+     * 가챠정보 > 가챠목록 > 상세정보
      */
     @Transactional
     fun getGacha(
@@ -112,14 +112,14 @@ class GachaService(
     }
 
     /**
-     * 교환/판매 대상 지정 모달 > 가챠 목록
+     * 교환/판매 대상 지정 모달 > 가챠목록
      */
     fun getTargetGachaList(keyword: String, page: Int): TargetPageResponse {
         // [1] 변수 세팅
         val pageSize = TRADE_TARGET_PAGE_SIZE
         val offset = offsetPaginationHandler.getOffset(page = page, pageSize = pageSize)
 
-        // [2] 가챠 목록 조회
+        // [2] 가챠목록 조회
         val totalElements = mapper.selectGachaListCnt(keyword = keyword)
         val gachaList = mapper.selectTargetGachaList(
             keyword = keyword,
@@ -135,7 +135,7 @@ class GachaService(
     }
 
     /**
-     * 교환/판매 대상 지정 모달 > 즐겨찾기 가챠 목록
+     * 교환/판매 대상 지정 모달 > 즐겨찾기 가챠목록
      */
     @Transactional(readOnly = true)
     fun getTargetWishGachaList(userId: String, page: Int): TargetPageResponse {
@@ -143,7 +143,7 @@ class GachaService(
         val pageSize = TRADE_TARGET_PAGE_SIZE
         val offset = offsetPaginationHandler.getOffset(page = page, pageSize = pageSize)
 
-        // [2] 가챠 목록 조회
+        // [2] 가챠목록 조회
         val totalElements = mapper.selectWishGachaListCnt(userId = userId)
         val gachaList = mapper.selectTargetWishGachaList(
             userId = userId,
@@ -163,7 +163,7 @@ class GachaService(
     }
 
     /**
-     * 마이페이지 > 즐겨찾기 > 즐겨찾기 가챠 목록
+     * 마이페이지 > 즐겨찾기 > 즐겨찾기 가챠목록
      */
     @Transactional(readOnly = true)
     fun getWishGachaList(userId: String, page: Int): GachaPageResponse {
@@ -171,7 +171,7 @@ class GachaService(
         val pageSize = MY_WISH_GACHA_LIST_PAGE_SIZE
         val offset = offsetPaginationHandler.getOffset(page = page, pageSize = pageSize)
 
-        // [2] 가챠 목록 조회
+        // [2] 가챠목록 조회
         val totalElements = mapper.selectWishGachaListCnt(userId = userId)
         val gachaList = mapper.selectWishGachaList(userId = userId, pageSize = pageSize, offset = offset)
 

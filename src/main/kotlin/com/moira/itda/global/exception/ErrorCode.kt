@@ -254,7 +254,7 @@ enum class ErrorCode(
     ),
     TRADE_NOT_FOUND(
         code = "T0006",
-        message = "잘못된 거래 정보입니다.",
+        message = "잘못된 거래 정보입니다. 잠시 후 다시 시도해주세요.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
     COMPLETED_TRADE(

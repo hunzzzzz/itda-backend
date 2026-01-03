@@ -16,15 +16,15 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 /**
- * 가챠정보 > 가챠 목록
- * 가챠정보 > 가챠 목록 > 상세정보
+ * 가챠정보 > 가챠목록
+ * 가챠정보 > 가챠목록 > 상세정보
  */
 @RestController
 class GachaController(
     private val service: GachaService
 ) {
     /**
-     * 가챠정보 > 가챠 목록
+     * 가챠정보 > 가챠목록
      */
     @GetMapping("/api/gacha")
     fun getAll(
@@ -38,7 +38,7 @@ class GachaController(
     }
 
     /**
-     * 가챠정보 > 가챠 목록 > 상세정보
+     * 가챠정보 > 가챠목록 > 상세정보
      */
     @GetMapping("/api/gacha/{gachaId}")
     fun get(
@@ -58,7 +58,7 @@ class GachaController(
     }
 
     /**
-     * 교환/판매 대상 지정 모달 > 가챠 목록
+     * 교환/판매 대상 지정 모달 > 가챠목록
      */
     @GetMapping("/api/target/gacha")
     fun getGachaList(
@@ -71,7 +71,7 @@ class GachaController(
     }
 
     /**
-     * 교환/판매 대상 지정 모달 > 즐겨찾기 가챠 목록
+     * 교환/판매 대상 지정 모달 > 즐겨찾기 가챠목록
      */
     @GetMapping("/api/target/wish")
     fun getWishList(
@@ -84,7 +84,7 @@ class GachaController(
     }
 
     /**
-     * 마이페이지 > 즐겨찾기 > 즐겨찾기 가챠 목록
+     * 마이페이지 > 즐겨찾기 > 즐겨찾기 가챠목록
      */
     @GetMapping("/api/me/wish")
     fun getWishGachaList(

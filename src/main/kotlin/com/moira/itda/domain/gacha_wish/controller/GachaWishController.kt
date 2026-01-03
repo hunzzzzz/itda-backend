@@ -15,7 +15,7 @@ class GachaWishController(
     private val service: GachaWishService
 ) {
     /**
-     * 가챠정보 > 가챠 목록 > 상세정보 > 즐겨찾기 여부 조회
+     * 가챠정보 > 가챠목록 > 상세정보 > 즐겨찾기 여부 조회
      */
     @GetMapping("/api/gacha/{gachaId}/wish/check")
     fun checkWish(
@@ -28,7 +28,7 @@ class GachaWishController(
     }
 
     /**
-     * 가챠정보 > 가챠 목록 > 상세정보 > 즐겨찾기
+     * 가챠정보 > 가챠목록 > 상세정보 > 즐겨찾기
      */
     @PutMapping("/api/gacha/{gachaId}/wish")
     fun wish(

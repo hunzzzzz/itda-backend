@@ -1,11 +1,11 @@
 package com.moira.itda.domain.trade.component
 
 import com.moira.itda.domain.common.mapper.CommonMapper
-import com.moira.itda.domain.trade.dto.request.*
+import com.moira.itda.domain.trade.dto.request.ExchangeAddRequest
+import com.moira.itda.domain.trade.dto.request.SalesAddRequest
+import com.moira.itda.domain.trade.dto.request.TradeRequest
 import com.moira.itda.domain.trade.mapper.TradeMapper
-import com.moira.itda.global.entity.Trade
 import com.moira.itda.global.entity.TradeHopeMethod
-import com.moira.itda.global.entity.TradeStatus
 import com.moira.itda.global.exception.ErrorCode
 import com.moira.itda.global.exception.ItdaException
 import org.springframework.stereotype.Component
@@ -39,32 +39,6 @@ class TradeValidator(
 
         // TODO: 직거래 선택 시, 좌표 검증 로직 필요
     }
-
-//    /**
-//     * 교환수정 > 유효성 검사 > 공통
-//     * 거래 삭제 > 유효성 검사 > 공통
-//     */
-//    private fun validateStatusAndRole(userId: String, trade: Trade) {
-//        // [1] COMPLETED된 거래는 수정 및 삭제 불가능
-//        if (trade.status == TradeStatus.COMPLETED) {
-//            throw ItdaException(ErrorCode.COMPLETED_TRADE)
-//        }
-//
-//        // [2] 수정 및 삭제 권한 검증
-//        if (trade.userId != userId) {
-//            throw ItdaException(ErrorCode.OTHERS_TRADE)
-//        }
-//
-//        // [3] APPROVED된 제안이 존재하는 경우 거래 수정 및 삭제 불가능
-//        if (mapper.selectTradeSuggestApprovedChk(tradeId = trade.id)) {
-//            throw ItdaException(ErrorCode.APPROVED_SUGGEST_EXISTS)
-//        }
-//
-//        // [4] PENDING된 제안이 존재하는 경우 거래 수정 및 삭제 불가능
-//        if (mapper.selectTradeSuggestPendingChk(tradeId = trade.id)) {
-//            throw ItdaException(ErrorCode.PENDING_SUGGEST_EXISTS)
-//        }
-//    }
 
     /**
      * 교환등록 > 유효성 검사
@@ -131,11 +105,39 @@ class TradeValidator(
 //        this.validateStatusAndRole(userId = userId, trade = trade)
 //    }
 //
-//    /**
-//     * 거래 삭제 > 유효성 검사
-//     */
-//    fun validateDeleteTrade(userId: String, trade: Trade) {
-//        // [1] 권한 및 상태값 검증
-//        this.validateStatusAndRole(userId = userId, trade = trade)
-//    }
+    /**
+     * 거래삭제 > 유효성 검사 > 공통 (권한)
+     */
+    private fun validateRole(userId: String, tradeUserId: String) {
+        // 수정 및 삭제 권한 검증
+        if (tradeUserId != userId) {
+            throw ItdaException(ErrorCode.OTHERS_TRADE)
+        }
+    }
+
+    /**
+     * 거래삭제 > 유효성 검사 > 공통 (상태값)
+     */
+    private fun validateStatus(tradeItemId: String) {
+        // APPROVED된 제안이 존재하는 경우 거래 수정 및 삭제 불가능
+        if (mapper.selectTradeSuggestApprovedChk(tradeItemId = tradeItemId)) {
+            throw ItdaException(ErrorCode.APPROVED_SUGGEST_EXISTS)
+        }
+
+        // PENDING된 제안이 존재하는 경우 거래 수정 및 삭제 불가능
+        if (mapper.selectTradeSuggestPendingChk(tradeItemId = tradeItemId)) {
+            throw ItdaException(ErrorCode.PENDING_SUGGEST_EXISTS)
+        }
+    }
+
+    /**
+     * 거래삭제 > 유효성 검사
+     */
+    fun validateDeleteTrade(userId: String, tradeUserId: String, tradeItemId: String) {
+        // [1] 권한 검증
+        this.validateRole(userId = userId, tradeUserId = tradeUserId)
+
+        // [2] 상태값 검증
+        this.validateStatus(tradeItemId = tradeItemId)
+    }
 }
