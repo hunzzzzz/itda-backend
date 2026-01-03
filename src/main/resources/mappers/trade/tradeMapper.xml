@@ -123,7 +123,6 @@
         INNER JOIN USER U ON U.id = T.user_id
         WHERE T.gacha_id = #{gachaId}
          AND T.status != 'DELETED'
-         AND EXISTS ( SELECT 1 FROM TRADE_ITEM TI WHERE TI.trade_id = T.id AND status != 'DELETED' )
         <choose>
             <when test='onlyPending == "Y"'>
                 AND T.status = 'PENDING'
@@ -170,6 +169,7 @@
          LEFT JOIN GACHA_ITEM GI_E1 ON GI_E1.id = TI.exchange_give_item_id
          LEFT JOIN GACHA_ITEM GI_E2 ON GI_E2.id = TI.exchange_want_item_id
         WHERE TI.trade_id = #{tradeId}
+         AND  TI.status  != 'DELETED'
         ORDER BY TI.created_at DESC
     </select>
 
