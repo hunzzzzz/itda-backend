@@ -133,6 +133,7 @@
                 AND EXISTS (
                     SELECT 1 FROM TRADE_ITEM TI
                     WHERE TI.trade_id = T.id
+                     AND TI.status != 'DELETED'
                      AND (
                          (T.type = 'SALES'    AND TI.sales_item_id = #{gachaItemId})
                          OR
