@@ -81,7 +81,7 @@ class SuggestService(
     }
 
     /**
-     * 내 활동 > 판매/교환 > 제안 목록 조회 모달 > 제안 승인
+     * 제안목록 조회 모달 > 제안승인
      */
     @Transactional
     fun approve(userId: String, tradeId: String, request: TradeSuggestYnRequest): ChatRoomIdResponse {
@@ -108,7 +108,7 @@ class SuggestService(
     }
 
     /**
-     * 내 활동 > 판매/교환 > 제안 목록 조회 모달 > 제안 거절
+     * 제안목록 조회 모달 > 제안거절
      */
     @Transactional
     fun reject(tradeId: String, request: TradeSuggestYnRequest) {

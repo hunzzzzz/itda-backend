@@ -57,9 +57,9 @@ class SuggestController(
     }
 
     /**
-     * 내 활동 > 판매/교환 > 제안 목록 조회 모달 > 제안 승인
+     * 제안목록 조회 모달 > 제안거절
      */
-    @PostMapping("/api/me/trades/{tradeId}/suggests/approve")
+    @PostMapping("/api/trades/{tradeId}/suggests/approve")
     fun approve(
         @UserPrincipal userAuth: UserAuth,
         @PathVariable tradeId: String,
@@ -75,9 +75,9 @@ class SuggestController(
     }
 
     /**
-     * 내 활동 > 판매/교환 > 제안 목록 조회 모달 > 제안 거절
+     * 제안목록 조회 모달 > 제안거절
      */
-    @PostMapping("/api/me/trades/{tradeId}/suggests/reject")
+    @PostMapping("/api/trades/{tradeId}/suggests/reject")
     fun reject(
         @PathVariable tradeId: String,
         @RequestBody request: TradeSuggestYnRequest
