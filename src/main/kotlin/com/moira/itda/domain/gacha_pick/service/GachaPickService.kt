@@ -19,13 +19,15 @@ class GachaPickService(
         mapper.deleteGachaPickHistory(gachaId = gachaId, userId = userId)
 
         // [2] GachaPickHistory 저장
-        request.gachaItemIdList.forEach { gachaItemId ->
-            val gachaPickHistory = GachaPickHistory.from(
-                gachaId = gachaId,
-                gachaItemId = gachaItemId,
-                userId = userId
-            )
-            mapper.insertGachaPickHistory(gachaPickHistory = gachaPickHistory)
+        request.gachaItems.forEach { (gachaItemId, count) ->
+            repeat(count) {
+                val gachaPickHistory = GachaPickHistory.from(
+                    gachaId = gachaId,
+                    gachaItemId = gachaItemId,
+                    userId = userId
+                )
+                mapper.insertGachaPickHistory(gachaPickHistory = gachaPickHistory)
+            }
         }
     }
 }

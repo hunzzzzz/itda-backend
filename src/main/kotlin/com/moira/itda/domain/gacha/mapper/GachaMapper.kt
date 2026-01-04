@@ -2,6 +2,7 @@ package com.moira.itda.domain.gacha.mapper
 
 import com.moira.itda.domain.gacha.dto.response.GachaItemNameResponse
 import com.moira.itda.domain.gacha.dto.response.GachaItemResponse
+import com.moira.itda.domain.gacha.dto.response.GachaPickedItemResponse
 import com.moira.itda.domain.gacha.dto.response.GachaResponse
 import com.moira.itda.domain.gacha.dto.response.TargetGachaItemResponse
 import com.moira.itda.domain.gacha.dto.response.TargetGachaResponse
@@ -40,7 +41,7 @@ interface GachaMapper {
     /**
      * 가챠정보 > 가챠목록 > 상세정보 > 내 가챠 이력 조회
      */
-    fun selectGachaPickHistoryList(gachaId: String, userId: String): List<Long>
+    fun selectGachaPickHistoryList(gachaId: String, userId: String): List<GachaPickedItemResponse>
 
     /**
      * 가챠정보 > 가챠목록 > 상세정보 > 조회수 증가

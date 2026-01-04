@@ -94,8 +94,14 @@
     </select>
 
     <!-- 가챠정보 > 가챠목록 > 상세정보 > 내 가챠 이력 조회 -->
-    <select id="selectGachaPickHistoryList" resultType="java.lang.Long">
-        SELECT gacha_item_id FROM GACHA_PICK_HISTORY WHERE gacha_id = #{gachaId} AND user_id = #{userId}
+    <select id="selectGachaPickHistoryList" resultType="com.moira.itda.domain.gacha.dto.response.GachaPickedItemResponse">
+        SELECT
+               gacha_item_id
+             , COUNT(gacha_item_id) AS count
+        FROM GACHA_PICK_HISTORY
+        WHERE gacha_id = #{gachaId}
+         AND user_id = #{userId}
+        GROUP BY gacha_id, gacha_item_id, user_id
     </select>
 
     <!-- 가챠정보 > 가챠목록 > 상세정보 > 조회수 증가 -->
