@@ -55,7 +55,7 @@ class SuggestService(
     }
 
     /**
-     * 내 활동 > 판매/교환 > 제안 목록 조회 모달 > 제안 목록 조회
+     * 제안목록 조회 모달 > 제안목록 조회
      */
     @Transactional(readOnly = true)
     fun getSuggestList(tradeId: String, page: Int): TradeSuggestPageResponse {
@@ -63,7 +63,7 @@ class SuggestService(
         val pageSize = MY_TRADE_SUGGEST_LIST_PAGE_SIZE
         val offset = offsetPaginationHandler.getOffset(page = page, pageSize = pageSize)
 
-        // [2] 제안 목록 조회
+        // [2] 제안목록 조회
         val totalElements = mapper.selectTradeSuggestListCnt(tradeId = tradeId)
         val content = mapper.selectTradeSuggestList(
             tradeId = tradeId, pageSize = pageSize, offset = offset

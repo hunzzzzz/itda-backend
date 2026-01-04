@@ -17,7 +17,6 @@ data class TradeSuggestResponse(
     // 구매제안 관련
     val purchaseItemId: Long?,
     val purchaseItemName: String?,
-    val purchaseCount: Int?,
     val purchaseDiscountYn: String?,
     val purchaseDiscountPrice: Int?,
     // 교환제안 관련

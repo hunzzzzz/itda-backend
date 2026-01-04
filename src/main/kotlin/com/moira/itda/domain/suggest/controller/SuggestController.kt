@@ -18,7 +18,7 @@ class SuggestController(
     /**
      * 거래제안 모달 > 구매제안
      */
-    @PostMapping("/api/trade/{tradeId}/suggest/purchase")
+    @PostMapping("/api/trades/{tradeId}/suggest/purchase")
     fun purchaseSuggest(
         @UserPrincipal userAuth: UserAuth,
         @PathVariable tradeId: String,
@@ -32,7 +32,7 @@ class SuggestController(
     /**
      * 거래제안 모달 > 교환제안
      */
-    @PostMapping("/api/trade/{tradeId}/suggest/exchange")
+    @PostMapping("/api/trades/{tradeId}/suggest/exchange")
     fun exchangeSuggest(
         @UserPrincipal userAuth: UserAuth,
         @PathVariable tradeId: String,
@@ -44,9 +44,9 @@ class SuggestController(
     }
 
     /**
-     * 내 활동 > 판매/교환 > 제안 목록 조회 모달 > 제안 목록 조회
+     * 제안목록 조회 모달 > 제안목록 조회
      */
-    @GetMapping("/api/me/trades/{tradeId}/suggests")
+    @GetMapping("/api/trades/{tradeId}/suggests")
     fun getSuggestList(
         @PathVariable tradeId: String,
         @RequestParam(required = false, defaultValue = "1") page: Int
