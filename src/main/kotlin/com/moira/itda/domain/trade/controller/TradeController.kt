@@ -70,6 +70,7 @@ class TradeController(
     /**
      * 가챠정보 > 가챠목록 > 상세정보 > 거래수정 > 거래 아이템 목록 조회
      * 가챠정보 > 가챠목록 > 상세정보 > 거래삭제 > 거래 아이템 목록 조회
+     * 거래 제안 모달 > 거래 아이템 목록 조회
      */
     @GetMapping("/api/trades/{tradeId}/items")
     fun getTradeItemList(
@@ -145,15 +146,4 @@ class TradeController(
 
         return ResponseEntity.ok(response)
     }
-
-//
-//    /**
-//     * 거래 제안 모달 > 거래 정보 조회
-//     */
-//    @GetMapping("/api/trade/{tradeId}/suggest")
-//    fun getTradeItem(@PathVariable tradeId: String): ResponseEntity<List<TradeItemResponse>> {
-//        val response = service.getTradeItemList(tradeId = tradeId)
-//
-//        return ResponseEntity.ok(response)
-//    }
 }

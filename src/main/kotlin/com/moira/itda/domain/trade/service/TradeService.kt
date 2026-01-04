@@ -303,12 +303,4 @@ class TradeService(
         // [6] DTO 병합 후 리턴
         return TradePageResponse(content = contents, page = pageResponse)
     }
-//
-//    /**
-//     * 거래 제안 모달 > 거래 정보 조회
-//     */
-//    @Transactional(readOnly = true)
-//    fun getTradeItemList(tradeId: String): List<TradeItemResponse> {
-//        return mapper.selectTradeItemList(tradeId = tradeId)
-//    }
 }
