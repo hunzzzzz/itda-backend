@@ -21,7 +21,7 @@ class SuggestService(
     private val validator: SuggestValidator
 ) {
     /**
-     * 거래 제안 모달 > 구매 제안
+     * 거래제안 모달 > 구매제안
      */
     @Transactional
     fun purchaseSuggest(userId: String, tradeId: String, request: PurchaseSuggestRequest) {
@@ -39,7 +39,7 @@ class SuggestService(
     }
 
     /**
-     * 거래 제안 모달 > 교환 제안
+     * 거래제안 모달 > 교환제안
      */
     fun exchangeSuggest(userId: String, tradeId: String, request: ExchangeSuggestRequest) {
         // [1] 유효성 검사

@@ -70,7 +70,7 @@ class TradeController(
     /**
      * 가챠정보 > 가챠목록 > 상세정보 > 거래수정 > 거래 아이템 목록 조회
      * 가챠정보 > 가챠목록 > 상세정보 > 거래삭제 > 거래 아이템 목록 조회
-     * 거래 제안 모달 > 거래 아이템 목록 조회
+     * 거래제안 모달 > 거래 아이템 목록 조회
      */
     @GetMapping("/api/trades/{tradeId}/items")
     fun getTradeItemList(

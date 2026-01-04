@@ -5,7 +5,6 @@ data class PurchaseSuggestRequest(
     val gachaItemId: Long,
     val tradeItemId: String,
     val content: String?,
-    val count: Int,
     val originalPrice: Int,
     val discountYn: String,
     val discountPrice: Int?,

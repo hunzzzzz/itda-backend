@@ -15,7 +15,7 @@ class MySuggestController(
     private val mySuggestService: MySuggestService
 ) {
     /**
-     * 마이페이지 > 내 거래 목록 > 제안 > 거래 제안 목록 조회
+     * 마이페이지 > 내 거래 목록 > 제안 > 거래제안 목록 조회
      */
     @GetMapping("/api/me/trade/suggest")
     fun getTradeSuggests(
@@ -28,7 +28,7 @@ class MySuggestController(
     }
 
     /**
-     * 마이페이지 > 내 거래 목록 > 제안 > 거래 제안 취소
+     * 마이페이지 > 내 거래 목록 > 제안 > 거래제안 취소
      */
     @DeleteMapping("/api/me/trade/suggest/{suggestId}/cancel")
     fun cancelSuggest(
@@ -41,7 +41,7 @@ class MySuggestController(
     }
 
     /**
-     * 마이페이지 > 내 거래 목록 > 제안 > 거래 제안 삭제
+     * 마이페이지 > 내 거래 목록 > 제안 > 거래제안 삭제
      */
     @DeleteMapping("/api/me/trade/suggest/{suggestId}/delete")
     fun deleteSuggest(

@@ -18,13 +18,13 @@ data class MySuggestResponse(
     val suggestStatus: String,
     val suggestContent: String?,
     val suggestCreatedAt: ZonedDateTime,
-    // 구매 제안 정보
+    // 구매제안 정보
     val purchaseGachaItemId: Long?,
     val purchaseGachaItemName: String?,
     val purchaseCount: Int?,
     val purchaseDiscountYn: String?,
     val purchaseDiscountPrice: Int?,
-    // 교환 제안 정보
+    // 교환제안 정보
     val exchangeSellerItemId: Long?,
     val exchangeSellerItemName: String?,
     val exchangeSuggestedItemId: Long?,

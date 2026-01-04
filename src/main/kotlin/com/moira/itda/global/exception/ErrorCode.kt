@@ -269,7 +269,7 @@ enum class ErrorCode(
     ),
     APPROVED_SUGGEST_EXISTS(
         code = "T0011",
-        message = "이미 승인된 거래 제안이 있어 수정/삭제할 수 없습니다.",
+        message = "이미 승인된 거래제안이 있어 수정/삭제할 수 없습니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
     INVALID_TRADE_TYPE(
@@ -277,43 +277,38 @@ enum class ErrorCode(
         message = "유효하지 않은 거래 종류 파라미터입니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
-    INVALID_SUGGEST_COUNT(
-        code = "T0013",
-        message = "유효하지 않은 제안 수량입니다.",
-        httpStatus = HttpStatus.BAD_REQUEST
-    ),
     NO_NEGOTIATION_PRICE(
-        code = "T0014",
+        code = "T0013",
         message = "네고 희망을 체크한 경우, 네고 희망 가격을 입력해야 합니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
     INVALID_DISCOUNT_PRICE(
-        code = "T0015",
+        code = "T0014",
         message = "네고 희망 가격은 원래 가격보다 작아야 합니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
     ALREADY_SUGGESTED_PURCHASE(
-        code = "T0016",
-        message = "이미 해당 거래 상품에 구매 제안을 하였습니다.",
+        code = "T0015",
+        message = "이미 해당 거래 상품에 구매제안을 하였습니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
     SAME_EXCHANGE_NEGOTIATION_ITEM(
-        code = "T0017",
+        code = "T0016",
         message = "'다른 아이템으로 교환 제시'를 선택한 경우, 기존 항목과 다른 아이템을 선택해야 합니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
     ALREADY_SUGGESTED_EXCHANGE(
-        code = "T0018",
-        message = "이미 해당 거래 상품에 교환 제안을 하였습니다.",
+        code = "T0017",
+        message = "이미 해당 거래 상품에 교환제안을 하였습니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
     PENDING_SUGGEST_EXISTS(
-        code = "T0019",
-        message = "현재 진행 중인 거래 제안이 있어 수정/삭제할 수 없습니다. 해당 제안을 거절한 후 수정/삭제가 가능합니다.",
+        code = "T0018",
+        message = "현재 진행 중인 거래제안이 있어 수정/삭제할 수 없습니다. 해당 제안을 거절한 후 수정/삭제가 가능합니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
     SAME_EXCHANGE_ITEMS(
-        code = "T0020",
+        code = "T0019",
         message = "동일한 아이템끼리 교환할 수 없습니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
@@ -321,27 +316,27 @@ enum class ErrorCode(
 
     SUGGEST_NOT_FOUND(
         code = "T0013",
-        message = "존재하지 않는 거래 제안입니다.",
+        message = "존재하지 않는 거래제안입니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
     CANNOT_CANCEL_APPROVED_SUGGEST(
         code = "T0014",
-        message = "이미 승인된 거래 제안은 취소할 수 없습니다.",
+        message = "이미 승인된 거래제안은 취소할 수 없습니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
     CANNOT_CANCEL_REJECTED_SUGGEST(
         code = "T0015",
-        message = "이미 거절된 거래 제안은 취소할 수 없습니다.",
+        message = "이미 거절된 거래제안은 취소할 수 없습니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
     ALREADY_CANCELED_SUGGEST(
         code = "T0016",
-        message = "이미 취소된 거래 제안입니다.",
+        message = "이미 취소된 거래제안입니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
     CANNOT_DELETE_APPROVED_SUGGEST(
         code = "T0025",
-        message = "이미 승인된 거래 제안은 삭제할 수 없습니다.",
+        message = "이미 승인된 거래제안은 삭제할 수 없습니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
     CANNOT_DELETE_PENDING_SUGGEST(

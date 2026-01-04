@@ -16,7 +16,7 @@ class SuggestController(
     private val service: SuggestService
 ) {
     /**
-     * 거래 제안 모달 > 구매 제안
+     * 거래제안 모달 > 구매제안
      */
     @PostMapping("/api/trade/{tradeId}/suggest/purchase")
     fun purchaseSuggest(
@@ -30,7 +30,7 @@ class SuggestController(
     }
 
     /**
-     * 거래 제안 모달 > 교환 제안
+     * 거래제안 모달 > 교환제안
      */
     @PostMapping("/api/trade/{tradeId}/suggest/exchange")
     fun exchangeSuggest(

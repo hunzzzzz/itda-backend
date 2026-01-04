@@ -14,13 +14,13 @@ data class TradeSuggestResponse(
     val userNickname: String,
     val content: String?,
     val createdAt: ZonedDateTime,
-    // 구매 제안 관련
+    // 구매제안 관련
     val purchaseItemId: Long?,
     val purchaseItemName: String?,
     val purchaseCount: Int?,
     val purchaseDiscountYn: String?,
     val purchaseDiscountPrice: Int?,
-    // 교환 제안 관련
+    // 교환제안 관련
     val exchangeSellerItemId: Long?,
     val exchangeSellerItemName: String?,
     val exchangeChangeYn: String?,

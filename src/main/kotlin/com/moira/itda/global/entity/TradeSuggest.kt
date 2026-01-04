@@ -16,13 +16,12 @@ data class TradeSuggest(
     val content: String?,
     val createdAt: ZonedDateTime,
     val updatedAt: ZonedDateTime,
-    // 구매 제안 관련
+    // 구매제안 관련
     val purchaseItemId: Long?,
     val purchaseOriginalPrice: Int?,
-    val purchaseCount: Int?,
     val purchaseDiscountYn: String?,
     val purchaseDiscountPrice: Int?,
-    // 교환 제안 관련
+    // 교환제안 관련
     val exchangeSellerItemId: Long?,
     val exchangeOriginalItemId: Long?,
     val exchangeSuggestedItemId: Long?,
@@ -43,7 +42,6 @@ data class TradeSuggest(
                 updatedAt = ZonedDateTime.now(),
                 purchaseItemId = request.gachaItemId,
                 purchaseOriginalPrice = request.originalPrice,
-                purchaseCount = request.count,
                 purchaseDiscountYn = request.discountYn,
                 purchaseDiscountPrice = request.discountPrice,
                 exchangeSellerItemId = null,
@@ -67,7 +65,6 @@ data class TradeSuggest(
                 updatedAt = ZonedDateTime.now(),
                 purchaseItemId = null,
                 purchaseOriginalPrice = null,
-                purchaseCount = null,
                 purchaseDiscountYn = null,
                 purchaseDiscountPrice = null,
                 exchangeSellerItemId = request.sellerItemId,

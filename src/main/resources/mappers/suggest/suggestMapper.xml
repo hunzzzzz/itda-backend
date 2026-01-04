@@ -85,39 +85,39 @@
         WHERE id = #{suggestId}
     </update>
 
-    <!-- 거래 제안 모달 > 구매 제안 > 거래 status 조회 -->
-    <!-- 거래 제안 모달 > 교환 제안 > 거래 status 조회 -->
-    <select id="selectTradeStatus" resultType="java.lang.String">
-        SELECT status FROM TRADE where id = #{tradeId}
+    <!-- 거래제안 모달 > 구매제안 > TradeItem status 조회 -->
+    <!-- 거래제안 모달 > 교환제안 > TradeItem status 조회 -->
+    <select id="selectTradeItemStatus" resultType="java.lang.String">
+        SELECT status FROM TRADE_ITEM where id = #{tradeItemId}
     </select>
 
-    <!-- 거래 제안 모달 > 구매 제안 > 구매 제안 여부 확인 -->
-    <select id="selectTradePurchaseSuggestChk" resultType="java.lang.Boolean">
+    <!-- 거래제안 모달 > 구매제안 > 구매제안 여부 확인 -->
+    <select id="selectTradeSuggestPurchaseChk" resultType="java.lang.Boolean">
         SELECT EXISTS (
             SELECT 1 FROM TRADE_SUGGEST
             WHERE trade_id         = #{tradeId}
+             AND  trade_item_id    = #{tradeItemId}
              AND  user_id          = #{userId}
-             AND  status          != 'CANCELED'
-             AND  status          != 'REJECTED'
+             AND  status          != 'DELETED'
              AND  purchase_item_id = #{purchaseItemId}
         )
     </select>
 
-    <!-- 거래 제안 모달 > 교환 제안 > 교환 제안 여부 확인 -->
-    <select id="selectTradeExchangeSuggestChk" resultType="java.lang.Boolean">
+    <!-- 거래제안 모달 > 교환제안 > 교환제안 여부 확인 -->
+    <select id="selectTradeSuggestExchangeChk" resultType="java.lang.Boolean">
         SELECT EXISTS (
             SELECT 1 FROM TRADE_SUGGEST
             WHERE trade_id                   = #{tradeId}
+             AND  trade_item_id              = #{tradeItemId}
              AND  user_id                    = #{userId}
-             AND  status                    != 'CANCELED'
-             AND  status                    != 'REJECTED'
+             AND  status                    != 'DELETED'
              AND  exchange_seller_item_id    = #{exchangeSellerItemId}
              AND  exchange_suggested_item_id = #{exchangeSuggestedItemId}
         )
     </select>
 
-    <!-- 거래 제안 모달 > 구매 제안 > TradeSuggest 저장 -->
-    <!-- 거래 제안 모달 > 교환 제안 > TradeSuggest 저장 -->
+    <!-- 거래제안 모달 > 구매제안 > TradeSuggest 저장 -->
+    <!-- 거래제안 모달 > 교환제안 > TradeSuggest 저장 -->
     <insert id="insertTradeSuggest">
         INSERT INTO TRADE_SUGGEST (
                id
@@ -132,7 +132,6 @@
              , updated_at
              , purchase_item_id
              , purchase_original_price
-             , purchase_count
              , purchase_discount_yn
              , purchase_discount_price
              , exchange_seller_item_id
@@ -153,7 +152,6 @@
              , #{updatedAt}
              , #{purchaseItemId}
              , #{purchaseOriginalPrice}
-             , #{purchaseCount}
              , #{purchaseDiscountYn}
              , #{purchaseDiscountPrice}
              , #{exchangeSellerItemId}

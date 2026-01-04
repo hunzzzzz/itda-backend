@@ -16,7 +16,7 @@ class MySuggestService(
     private val offsetPaginationHandler: OffsetPaginationHandler
 ) {
     /**
-     * 마이페이지 > 내 거래 목록 > 제안 > 거래 제안 목록 조회
+     * 마이페이지 > 내 거래 목록 > 제안 > 거래제안 목록 조회
      */
     @Transactional(readOnly = true)
     fun getTradeSuggests(userId: String, page: Int): MySuggestPageResponse {
@@ -44,7 +44,7 @@ class MySuggestService(
     }
 
     /**
-     * 마이페이지 > 내 거래 목록 > 제안 > 거래 제안 취소
+     * 마이페이지 > 내 거래 목록 > 제안 > 거래제안 취소
      */
     @Transactional
     fun cancelSuggest(userId: String, suggestId: String) {
@@ -67,12 +67,12 @@ class MySuggestService(
             }
         }
 
-        // [3] 거래 제안 취소
+        // [3] 거래제안 취소
         mySuggestMapper.updateTradeSuggestStatusCanceled(userId = userId, suggestId = suggestId)
     }
 
     /**
-     * 마이페이지 > 내 거래 목록 > 제안 > 거래 제안 삭제
+     * 마이페이지 > 내 거래 목록 > 제안 > 거래제안 삭제
      */
     @Transactional
     fun deleteSuggest(userId: String, suggestId: String) {
