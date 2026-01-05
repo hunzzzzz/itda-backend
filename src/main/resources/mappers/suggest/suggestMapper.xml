@@ -115,6 +115,7 @@
          LEFT JOIN GACHA_ITEM GI_E2 ON GI_E2.id = TS.exchange_suggested_item_id
         WHERE TS.trade_id = #{tradeId}
          AND  TS.status  != 'DELETED'
+         AND  TS.status  != 'CANCELED_BEFORE_RESPONSE'
         ORDER BY TS.created_at DESC
     </select>
 
@@ -211,7 +212,7 @@
     <update id="updateTradeSuggestStatusCBR">
         UPDATE TRADE_SUGGEST
         SET
-               status     = 'CANCELED_BEFOFRE_RESPONSE'
+               status     = 'CANCELED_BEFORE_RESPONSE'
              , updated_at = CURRENT_TIMESTAMP
         WHERE id = #{suggestId}
     </update>

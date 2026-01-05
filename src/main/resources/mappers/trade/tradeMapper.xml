@@ -321,7 +321,12 @@
              , T.hope_address
              , T.hope_location_latitude
              , T.hope_location_longitude
-             , (SELECT COUNT(id) FROM TRADE_SUGGEST WHERE trade_id = T.id AND status != 'CANCELED') AS suggest_count
+             , (
+                   SELECT COUNT(id) FROM TRADE_SUGGEST
+                   WHERE trade_id = T.id
+                    AND status != 'DELETED'
+                    AND status != 'CANCELED_BEFORE_RESPONSE'
+               ) AS suggest_count
              , T.created_at
         FROM TRADE T
         WHERE user_id = #{userId}
