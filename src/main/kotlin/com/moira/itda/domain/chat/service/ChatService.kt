@@ -58,7 +58,7 @@ class ChatService(
     }
 
     /**
-     * 마이페이지 > 내 거래 목록 > 채팅 > 채팅 목록 조회 > 채팅방 > 이전 채팅 목록 조회
+     * 내 활동 > 채팅 > 채팅방 > 이전 채팅 목록 조회
      */
     @Transactional(readOnly = true)
     fun getChatMessageList(chatRoomId: String): List<ChatMessageResponse> {
@@ -66,7 +66,7 @@ class ChatService(
     }
 
     /**
-     * 마이페이지 > 내 거래 목록 > 채팅 > 채팅 목록 조회 > 채팅방 > 메시지 전송
+     * 내 활동 > 채팅 > 채팅방 > 메시지 전송
      */
     @Transactional
     fun sendMessage(chatRoomId: String, request: ChatMessageRequest) {

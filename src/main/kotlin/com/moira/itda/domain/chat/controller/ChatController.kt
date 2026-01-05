@@ -42,7 +42,7 @@ class ChatController(
     }
 
     /**
-     * 마이페이지 > 내 거래 목록 > 채팅 > 채팅 목록 조회 > 채팅방 > 이전 채팅 목록 조회
+     * 내 활동 > 채팅 > 채팅방 > 이전 채팅 목록 조회
      */
     @GetMapping("/api/me/trade/chat/{chatRoomId}/messages")
     fun getChatMessageList(@PathVariable chatRoomId: String): ResponseEntity<List<ChatMessageResponse>> {
@@ -52,7 +52,7 @@ class ChatController(
     }
 
     /**
-     * 마이페이지 > 내 거래 목록 > 채팅 > 채팅 목록 조회 > 채팅방 > 메시지 전송
+     * 내 활동 > 채팅 > 채팅방 > 메시지 전송
      */
     @MessageMapping("/chat/{chatRoomId}/message")
     fun sendMessage(

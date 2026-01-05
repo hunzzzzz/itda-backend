@@ -21,17 +21,17 @@ interface ChatMapper {
     fun selectChatRoomList(userId: String, pageSize: Int, offset: Int): List<MyChatResponse>
 
     /**
-     * 마이페이지 > 내 거래 목록 > 채팅 > 채팅 목록 조회 > 채팅방 > 거래제안 정보 조회
+     * 내 활동 > 채팅 > 채팅방 > 거래제안 정보 조회
      */
     fun selectTradeSuggest(chatRoomId: String): ChatRoomResponse
 
     /**
-     * 마이페이지 > 내 거래 목록 > 채팅 > 채팅 목록 조회 > 채팅방 > 이전 채팅 목록 조회
+     * 내 활동 > 채팅 > 채팅방 > 이전 채팅 목록 조회
      */
     fun selectChatMessageList(chatRoomId: String): List<ChatMessageResponse>
 
     /**
-     * 마이페이지 > 내 거래 목록 > 채팅 > 채팅 목록 조회 > 채팅방 > 메시지 전송 > ChatMessage 저장
+     * 내 활동 > 채팅 > 채팅방 > 메시지 전송 > ChatMessage 저장
      */
     fun insertChatMessage(chatMessage: ChatMessage)
 
