@@ -17,13 +17,16 @@ class PageSizeConstant {
         // 마이페이지 > 즐겨찾기 가챠목록 조회
         const val MY_WISH_GACHA_LIST_PAGE_SIZE = 6
 
-        // 마이페이지 > 내 거래 목록 조회 > 판매/교환 목록 조회
+        // 마이페이지 > 내 활동 > 판매/교환 목록 조회
         const val MY_TRADE_LIST_PAGE_SIZE = 10
 
-        // 마이페이지 > 내 거래 목록 조회 > 제안 목록 조회
-        const val MY_TRADE_SUGGEST_LIST_PAGE_SIZE = 5
+        // 마이페이지 > 내 활동 > 제안 목록 조회
+        const val MY_TRADE_SUGGEST_LIST_PAGE_SIZE = 10
 
-        // 마이페이지 > 내 거래 목록 조회 > 채팅 목록 조회
+        // 마이페이지 > 내 활동 > 채팅 목록 조회
         const val MY_TRADE_CHAT_LIST_PAGE_SIZE = 10
+
+        // 제안목록 조회 모달 > 제안목록 조회
+        const val TRADE_SUGGEST_MODAL_LIST_PAGE_SIZE = 5
     }
 }

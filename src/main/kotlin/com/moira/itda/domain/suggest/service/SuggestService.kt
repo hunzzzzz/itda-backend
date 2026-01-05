@@ -5,12 +5,14 @@ import com.moira.itda.domain.suggest.dto.request.ExchangeSuggestRequest
 import com.moira.itda.domain.suggest.dto.request.PurchaseSuggestRequest
 import com.moira.itda.domain.suggest.dto.request.TradeSuggestYnRequest
 import com.moira.itda.domain.suggest.dto.response.ChatRoomIdResponse
+import com.moira.itda.domain.suggest.dto.response.MyTradeSuggestPageResponse
 import com.moira.itda.domain.suggest.dto.response.TradeSuggestPageResponse
 import com.moira.itda.domain.suggest.mapper.SuggestMapper
 import com.moira.itda.global.entity.ChatRoom
 import com.moira.itda.global.entity.TradeSuggest
 import com.moira.itda.global.pagination.component.OffsetPaginationHandler
 import com.moira.itda.global.pagination.component.PageSizeConstant.Companion.MY_TRADE_SUGGEST_LIST_PAGE_SIZE
+import com.moira.itda.global.pagination.component.PageSizeConstant.Companion.TRADE_SUGGEST_MODAL_LIST_PAGE_SIZE
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -60,13 +62,15 @@ class SuggestService(
     @Transactional(readOnly = true)
     fun getSuggestList(tradeId: String, page: Int): TradeSuggestPageResponse {
         // [1] 변수 세팅
-        val pageSize = MY_TRADE_SUGGEST_LIST_PAGE_SIZE
+        val pageSize = TRADE_SUGGEST_MODAL_LIST_PAGE_SIZE
         val offset = offsetPaginationHandler.getOffset(page = page, pageSize = pageSize)
 
         // [2] 제안목록 조회
         val totalElements = mapper.selectTradeSuggestListCnt(tradeId = tradeId)
         val content = mapper.selectTradeSuggestList(
-            tradeId = tradeId, pageSize = pageSize, offset = offset
+            tradeId = tradeId,
+            pageSize = pageSize,
+            offset = offset
         )
 
         // [3] 오프셋 페이지네이션 적용
@@ -86,9 +90,7 @@ class SuggestService(
     @Transactional
     fun approve(userId: String, tradeId: String, request: TradeSuggestYnRequest): ChatRoomIdResponse {
         // [1] 변수 세팅
-        val tradeItemId = request.tradeItemId
-        val tradeSuggestId = request.tradeSuggestId
-        val buyerId = request.userId
+        val (tradeItemId, tradeSuggestId, buyerId) = request
 
         // [2] TradeSuggest의 상태값을 APPROVED로 변경
         mapper.updateTradeSuggestStatusApproved(suggestId = tradeSuggestId)
@@ -117,5 +119,33 @@ class SuggestService(
 
         // [2] TradeSuggest의 상태값을 REJECTED로 변경
         mapper.updateTradeSuggestStatusRejected(suggestId = suggestId)
+    }
+
+    /**
+     * 내 활동 > 제안 > 내 제안목록 조회
+     */
+    @Transactional(readOnly = true)
+    fun getMySuggestList(userId: String, page: Int): MyTradeSuggestPageResponse {
+        // [1] 변수 세팅
+        val pageSize = MY_TRADE_SUGGEST_LIST_PAGE_SIZE
+        val offset = offsetPaginationHandler.getOffset(page = page, pageSize = pageSize)
+
+        // [2] 거래 정보 조회
+        val totalElements = mapper.selectMyTradeSuggestListCnt(userId = userId)
+        val content = mapper.selectMyTradeSuggestList(
+            userId = userId,
+            pageSize = pageSize,
+            offset = offset
+        )
+
+        // [3] 오프셋 페이지네이션 적용
+        val pageResponse = offsetPaginationHandler.getPageResponse(
+            page = page,
+            pageSize = pageSize,
+            totalElements = totalElements
+        )
+
+        // [4] DTO 병합 후 리턴
+        return MyTradeSuggestPageResponse(content = content, page = pageResponse)
     }
 }
