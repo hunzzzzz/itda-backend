@@ -25,4 +25,6 @@ data class TradeSuggestResponse(
     val exchangeChangeYn: String?,
     val exchangeSuggestedItemId: Long?,
     val exchangeSuggestedItemName: String?,
+    // 취소 사유 (TradeSuggest가 CANCELED인 경우에만)
+    val cancelReason: String?
 )

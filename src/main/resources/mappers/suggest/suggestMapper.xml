@@ -108,11 +108,13 @@
              , TS.exchange_change_yn
              , TS.exchange_suggested_item_id
              , GI_E2.name                      AS exchange_suggested_item_name
+             , CH.cancel_reason
         FROM TRADE_SUGGEST TS
-         LEFT JOIN USER       U     ON U.id     = TS.user_id
-         LEFT JOIN GACHA_ITEM GI_P  ON GI_P.id  = TS.purchase_item_id
-         LEFT JOIN GACHA_ITEM GI_E1 ON GI_E1.id = TS.exchange_seller_item_id
-         LEFT JOIN GACHA_ITEM GI_E2 ON GI_E2.id = TS.exchange_suggested_item_id
+         LEFT JOIN USER                 U     ON U.id                = TS.user_id
+         LEFT JOIN GACHA_ITEM           GI_P  ON GI_P.id             = TS.purchase_item_id
+         LEFT JOIN GACHA_ITEM           GI_E1 ON GI_E1.id            = TS.exchange_seller_item_id
+         LEFT JOIN GACHA_ITEM           GI_E2 ON GI_E2.id            = TS.exchange_suggested_item_id
+         LEFT JOIN TRADE_CANCEL_HISTORY CH    ON CH.trade_suggest_id = TS.id
         WHERE TS.trade_id = #{tradeId}
          AND  TS.status  != 'DELETED'
          AND  TS.status  != 'CANCELED_BEFORE_RESPONSE'
@@ -190,12 +192,14 @@
              , TS.exchange_change_yn
              , TS.exchange_suggested_item_id
              , GI_E2.name                      AS exchange_suggested_item_name
+             , CH.cancel_reason
         FROM TRADE_SUGGEST TS
-         LEFT JOIN USER       U     ON U.id     = TS.user_id
-         LEFT JOIN TRADE      T     ON T.id     = TS.trade_id
-         LEFT JOIN GACHA_ITEM GI_P  ON GI_P.id  = TS.purchase_item_id
-         LEFT JOIN GACHA_ITEM GI_E1 ON GI_E1.id = TS.exchange_seller_item_id
-         LEFT JOIN GACHA_ITEM GI_E2 ON GI_E2.id = TS.exchange_suggested_item_id
+         LEFT JOIN USER                 U     ON U.id                = TS.user_id
+         LEFT JOIN TRADE                T     ON T.id                = TS.trade_id
+         LEFT JOIN GACHA_ITEM           GI_P  ON GI_P.id             = TS.purchase_item_id
+         LEFT JOIN GACHA_ITEM           GI_E1 ON GI_E1.id            = TS.exchange_seller_item_id
+         LEFT JOIN GACHA_ITEM           GI_E2 ON GI_E2.id            = TS.exchange_suggested_item_id
+         LEFT JOIN TRADE_CANCEL_HISTORY CH    ON CH.trade_suggest_id = TS.id
         WHERE TS.user_id = #{userId}
          AND  TS.status  != 'DELETED'
         ORDER BY TS.created_at DESC
