@@ -10,6 +10,8 @@ import com.moira.itda.domain.suggest.dto.response.TradeSuggestPageResponse
 import com.moira.itda.domain.suggest.mapper.SuggestMapper
 import com.moira.itda.global.entity.ChatRoom
 import com.moira.itda.global.entity.TradeSuggest
+import com.moira.itda.global.exception.ErrorCode
+import com.moira.itda.global.exception.ItdaException
 import com.moira.itda.global.pagination.component.OffsetPaginationHandler
 import com.moira.itda.global.pagination.component.PageSizeConstant.Companion.MY_TRADE_SUGGEST_LIST_PAGE_SIZE
 import com.moira.itda.global.pagination.component.PageSizeConstant.Companion.TRADE_SUGGEST_MODAL_LIST_PAGE_SIZE
@@ -147,5 +149,23 @@ class SuggestService(
 
         // [4] DTO 병합 후 리턴
         return MyTradeSuggestPageResponse(content = content, page = pageResponse)
+    }
+
+    /**
+     * 내 활동 > 제안 > 제안취소
+     */
+    @Transactional
+    fun cancelSuggest(userId: String, suggestId: String) {
+        // [1] 제안 관련 정보 조회
+        val infoMap = mapper.selectTradeSuggestInfo(suggestId = suggestId)
+        println(infoMap)
+        val suggestStatus = infoMap["status"] ?: throw ItdaException(ErrorCode.SUGGEST_NOT_FOUND)
+        val suggestUserId = infoMap["user_id"] ?: throw ItdaException(ErrorCode.SUGGEST_NOT_FOUND)
+
+        // [2] 유효성 검사
+        validator.validateCancelSuggest(suggestStatus = suggestStatus, userId = userId, suggestUserId = suggestUserId)
+
+        // [3] 제안취소
+        mapper.updateTradeSuggestStatusCBR(suggestId = suggestId)
     }
 }

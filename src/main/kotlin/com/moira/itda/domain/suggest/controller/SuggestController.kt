@@ -100,4 +100,17 @@ class SuggestController(
 
         return ResponseEntity.ok(response)
     }
+
+    /**
+     * 내 활동 > 제안 > 제안취소
+     */
+    @DeleteMapping("/api/me/trade/suggest/{suggestId}/cancel")
+    fun cancel(
+        @UserPrincipal userAuth: UserAuth,
+        @PathVariable suggestId: String
+    ): ResponseEntity<Nothing> {
+        service.cancelSuggest(userId = userAuth.userId, suggestId = suggestId)
+
+        return ResponseEntity.ok(null)
+    }
 }

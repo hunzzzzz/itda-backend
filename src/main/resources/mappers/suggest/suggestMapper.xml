@@ -200,4 +200,19 @@
         ORDER BY TS.created_at DESC
         LIMIT #{pageSize} OFFSET #{offset}
     </select>
+
+    <!-- 내 활동 > 제안 > 제안취소 > TradeSuggest 조회 -->
+    <select id="selectTradeSuggestInfo" resultType="java.util.HashMap">
+        SELECT status, user_id FROM TRADE_SUGGEST
+        WHERE id = #{suggestId}
+    </select>
+
+    <!-- 내 활동 > 제안 > 제안취소 > TradeSuggest status 변경 (CANCELED_BEFORE_RESPONSE) -->
+    <update id="updateTradeSuggestStatusCBR">
+        UPDATE TRADE_SUGGEST
+        SET
+               status     = 'CANCELED_BEFOFRE_RESPONSE'
+             , updated_at = CURRENT_TIMESTAMP
+        WHERE id = #{suggestId}
+    </update>
 </mapper>

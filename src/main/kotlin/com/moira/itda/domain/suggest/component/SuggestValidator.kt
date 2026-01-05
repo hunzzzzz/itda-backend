@@ -4,6 +4,7 @@ import com.moira.itda.domain.suggest.dto.request.ExchangeSuggestRequest
 import com.moira.itda.domain.suggest.dto.request.PurchaseSuggestRequest
 import com.moira.itda.domain.suggest.mapper.SuggestMapper
 import com.moira.itda.global.entity.TradeStatus
+import com.moira.itda.global.entity.TradeSuggestStatus
 import com.moira.itda.global.exception.ErrorCode
 import com.moira.itda.global.exception.ItdaException
 import org.springframework.stereotype.Component
@@ -61,6 +62,36 @@ class SuggestValidator(
             )
         ) {
             throw ItdaException(ErrorCode.ALREADY_SUGGESTED_EXCHANGE)
+        }
+    }
+
+    /**
+     * 내 활동 > 제안 > 제안취소 > 유효성 검사
+     */
+    fun validateCancelSuggest(suggestStatus: String, userId: String, suggestUserId: String) {
+        // [1] status에 대한 유효성 검사
+        when (suggestStatus) {
+            TradeSuggestStatus.APPROVED.name -> {
+                throw ItdaException(ErrorCode.CANNOT_CANCEL_APPROVED_SUGGEST)
+            }
+
+            TradeSuggestStatus.REJECTED.name -> {
+                throw ItdaException(ErrorCode.CANNOT_CANCEL_REJECTED_SUGGEST)
+            }
+
+            TradeSuggestStatus.CANCELED_BEFORE_RESPONSE.name,
+            TradeSuggestStatus.CANCELED.name -> {
+                throw ItdaException(ErrorCode.ALREADY_CANCELED_SUGGEST)
+            }
+
+            TradeSuggestStatus.DELETED.name -> {
+                throw ItdaException(ErrorCode.ALREADY_DELETED_SUGGEST)
+            }
+        }
+
+        // [2] 권한에 대한 유효성 검사
+        if (userId != suggestUserId) {
+            throw ItdaException(ErrorCode.OTHERS_SUGGEST)
         }
     }
 }

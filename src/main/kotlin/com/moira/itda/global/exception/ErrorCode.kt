@@ -254,7 +254,7 @@ enum class ErrorCode(
     ),
     TRADE_NOT_FOUND(
         code = "T0006",
-        message = "잘못된 거래 정보입니다. 잠시 후 다시 시도해주세요.",
+        message = "잘못된 거래 정보입니다. 새로고침 후 다시 시도해주세요.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
     COMPLETED_TRADE(
@@ -312,28 +312,38 @@ enum class ErrorCode(
         message = "동일한 아이템끼리 교환할 수 없습니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
-
-
-    SUGGEST_NOT_FOUND(
-        code = "T0013",
-        message = "존재하지 않는 거래제안입니다.",
-        httpStatus = HttpStatus.BAD_REQUEST
-    ),
     CANNOT_CANCEL_APPROVED_SUGGEST(
-        code = "T0014",
+        code = "T0020",
         message = "이미 승인된 거래제안은 취소할 수 없습니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
     CANNOT_CANCEL_REJECTED_SUGGEST(
-        code = "T0015",
+        code = "T0021",
         message = "이미 거절된 거래제안은 취소할 수 없습니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
     ALREADY_CANCELED_SUGGEST(
-        code = "T0016",
+        code = "T0022",
         message = "이미 취소된 거래제안입니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
+    ALREADY_DELETED_SUGGEST(
+        code = "T0023",
+        message = "이미 삭제된 거래제안입니다.",
+        httpStatus = HttpStatus.BAD_REQUEST
+    ),
+    SUGGEST_NOT_FOUND(
+        code = "T0024",
+        message = "잘못된 거래제안 정보입니다. 새로고침 후 다시 시도해주세요.",
+        httpStatus = HttpStatus.BAD_REQUEST
+    ),
+    OTHERS_SUGGEST(
+        code = "T0025",
+        message = "다른 유저의 거래 제안을 수정/삭제할 수 없습니다.",
+        httpStatus = HttpStatus.FORBIDDEN
+    ),
+
+
     CANNOT_DELETE_APPROVED_SUGGEST(
         code = "T0025",
         message = "이미 승인된 거래제안은 삭제할 수 없습니다.",
