@@ -1,7 +1,9 @@
 package com.moira.itda.global.entity
 
 enum class TradeCancelReason {
-    NEGOTIATION_FAILED,
     CHANGE_OF_MIND,
-    UNMANNERED_USER
+    UNMANNERED_USER,
+    NEGOTIATION_FAILED,
+    NO_SHOW,
+    ETC
 }

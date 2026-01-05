@@ -1,5 +1,6 @@
 package com.moira.itda.domain.chat.service
 
+import com.moira.itda.domain.chat.component.ChatValidator
 import com.moira.itda.domain.chat.dto.request.ChatMessageRequest
 import com.moira.itda.domain.chat.dto.request.TradeCancelRequest
 import com.moira.itda.domain.chat.dto.request.TradeCompleteRequest
@@ -8,7 +9,6 @@ import com.moira.itda.domain.chat.dto.response.ChatRoomResponse
 import com.moira.itda.domain.chat.dto.response.MyChatPageResponse
 import com.moira.itda.domain.chat.mapper.ChatMapper
 import com.moira.itda.global.entity.ChatMessage
-import com.moira.itda.global.entity.ChatStatus
 import com.moira.itda.global.entity.TradeCancelHistory
 import com.moira.itda.global.entity.TradeCompleteHistory
 import com.moira.itda.global.exception.ErrorCode
@@ -22,8 +22,9 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class ChatService(
     private val mapper: ChatMapper,
+    private val messageTemplate: SimpMessagingTemplate,
     private val offsetPaginationHandler: OffsetPaginationHandler,
-    private val messageTemplate: SimpMessagingTemplate
+    private val validator: ChatValidator
 ) {
     /**
      * 내 활동 > 채팅 > 채팅방 목록 조회
@@ -83,13 +84,13 @@ class ChatService(
      */
     @Transactional
     fun completeTrade(chatRoomId: String, request: TradeCompleteRequest) {
-        // [1] 유효성 검사 (status)
-        val status = mapper.selectChatStatus(chatRoomId = chatRoomId)
-            ?: throw ItdaException(ErrorCode.INVALID_CHAT_STATUS)
-
-        if (status == ChatStatus.ENDED.name) {
-            throw ItdaException(ErrorCode.ALREADY_ENDED_CHAT)
-        }
+//        // [1] 유효성 검사 (status)
+//        val status = mapper.selectChatStatus(chatRoomId = chatRoomId)
+//            ?: throw ItdaException(ErrorCode.CHAT_NOT_FOUND)
+//
+//        if (status == ChatStatus.ENDED.name) {
+//            throw ItdaException(ErrorCode.ALREADY_ENDED_CHAT)
+//        }
 
         // [2] TradeCompleHistory 저장
         val tradeCompleteHistory = TradeCompleteHistory.fromTradeCompleteRequest(
@@ -106,26 +107,34 @@ class ChatService(
     }
 
     /**
-     * 마이페이지 > 내 거래 목록 > 채팅 > 채팅 목록 조회 > 채팅방 > 거래 취소
+     * 내 활동 > 채팅 > 채팅방 > 거래취소
      */
     @Transactional
-    fun cancelTrade(chatRoomId: String, request: TradeCancelRequest) {
-        // [1] 유효성 검사 (status)
-        val status = mapper.selectChatStatus(chatRoomId = chatRoomId)
-            ?: throw ItdaException(ErrorCode.INVALID_CHAT_STATUS)
+    fun cancelTrade(userId: String, chatRoomId: String, request: TradeCancelRequest) {
+        // [1] 채팅 정보 조회
+        val infoMap = mapper.selectChatInfo(chatRoomId = chatRoomId)
 
-        if (status == ChatStatus.ENDED.name) {
-            throw ItdaException(ErrorCode.ALREADY_ENDED_CHAT)
+        val (status, sellerId, buyerId) = infoMap.values.map {
+            it ?: throw ItdaException(ErrorCode.CHAT_NOT_FOUND)
         }
 
-        // [2] TradeCancelHistory 저장
+        // [2] 유효성 검사
+        validator.validateCancelTrade(
+            status = status,
+            userId = userId,
+            sellerId = sellerId,
+            buyerId = buyerId,
+            request = request
+        )
+
+        // [3] TradeCancelHistory 저장
         val tradeCancelHistory = TradeCancelHistory.fromTradeCancelRequest(chatRoomId = chatRoomId, request = request)
         mapper.insertTradeCancelHistory(tradeCancelHistory = tradeCancelHistory)
 
-        // [3] ChatRoom의 status 변경 (ENDED)
+        // [4] ChatRoom의 status 변경 (ENDED)
         mapper.updateChatRoomStatusEnded(chatRoomId = chatRoomId)
 
-        // [4] TradeSuggest의 status 변경 (CANCELED)
+        // [5] TradeSuggest의 status 변경 (CANCELED)
         mapper.updateTradeSuggestStatusCanceled(tradeSuggestId = request.tradeSuggestId)
     }
 }

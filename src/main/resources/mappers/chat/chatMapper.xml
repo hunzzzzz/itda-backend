@@ -124,15 +124,13 @@
         )
     </insert>
 
-    <!-- 마이페이지 > 내 거래 목록 > 채팅 > 채팅 목록 조회 > 채팅방 > 거래 완료 > 채팅방 status 조회 -->
-    <!-- 마이페이지 > 내 거래 목록 > 채팅 > 채팅 목록 조회 > 채팅방 > 거래 취소 > 채팅방 status 조회 -->
-    <select id="selectChatStatus" resultType="java.lang.String">
-        SELECT status FROM CHAT_ROOM
-        WHERE id = #{chatRoomId}
+    <!-- 내 활동 > 채팅 > 채팅방 > 거래취소 > 채팅방 정보 조회 -->
+    <select id="selectChatInfo" resultType="java.util.HashMap">
+        SELECT status, seller_id, buyer_id FROM CHAT_ROOM WHERE id = #{chatRoomId}
     </select>
 
     <!-- 마이페이지 > 내 거래 목록 > 채팅 > 채팅 목록 조회 > 채팅방 > 거래 완료 > ChatRoom의 status 변경 -->
-    <!-- 마이페이지 > 내 거래 목록 > 채팅 > 채팅 목록 조회 > 채팅방 > 거래 취소 > ChatRoom의 status 변경 -->
+    <!-- 내 활동 > 채팅 > 채팅방 > 거래취소 > ChatRoom의 status 변경 (ENDED) -->
     <update id="updateChatRoomStatusEnded">
         UPDATE CHAT_ROOM SET status = 'ENDED' WHERE id = #{chatRoomId}
     </update>
@@ -173,7 +171,7 @@
         WHERE id = #{tradeItemId}
     </update>
 
-    <!-- 마이페이지 > 내 거래 목록 > 채팅 > 채팅 목록 조회 > 채팅방 > 거래 취소 > TradeCancelHistory 저장 -->
+    <!-- 내 활동 > 채팅 > 채팅방 > 거래취소 > TradeCancelHistory 저장 -->
     <insert id="insertTradeCancelHistory">
         INSERT INTO TRADE_CANCEL_HISTORY (
                chat_room_id
@@ -197,7 +195,7 @@
         )
     </insert>
 
-    <!-- 마이페이지 > 내 거래 목록 > 채팅 > 채팅 목록 조회 > 채팅방 > 거래 취소 > TradeSuggest의 status 변경 -->
+    <!-- 내 활동 > 채팅 > 채팅방 > 거래취소 > TradeSuggest status 변경 (CANCELED) -->
     <update id="updateTradeSuggestStatusCanceled">
         UPDATE TRADE_SUGGEST
         SET

@@ -36,10 +36,9 @@ interface ChatMapper {
     fun insertChatMessage(chatMessage: ChatMessage)
 
     /**
-     * 마이페이지 > 내 거래 목록 > 채팅 > 채팅 목록 조회 > 채팅방 > 거래 완료 > 채팅방 status 조회
-     * 마이페이지 > 내 거래 목록 > 채팅 > 채팅 목록 조회 > 채팅방 > 거래 취소 > 채팅방 status 조회
+     * 내 활동 > 채팅 > 채팅방 > 거래취소 > 채팅방 정보 조회
      */
-    fun selectChatStatus(chatRoomId: String): String?
+    fun selectChatInfo(chatRoomId: String): HashMap<String, String?>
 
     /**
      * 마이페이지 > 내 거래 목록 > 채팅 > 채팅 목록 조회 > 채팅방 > 거래 완료 > TradeCompleteHistory 저장
@@ -58,17 +57,17 @@ interface ChatMapper {
 
     /**
      * 마이페이지 > 내 거래 목록 > 채팅 > 채팅 목록 조회 > 채팅방 > 거래 완료 > ChatRoom의 status 변경
-     * 마이페이지 > 내 거래 목록 > 채팅 > 채팅 목록 조회 > 채팅방 > 거래 취소 > ChatRoom의 status 변경
+     * 내 활동 > 채팅 > 채팅방 > 거래취소 > ChatRoom status 변경 (ENDED)
      */
     fun updateChatRoomStatusEnded(chatRoomId: String)
 
     /**
-     * 마이페이지 > 내 거래 목록 > 채팅 > 채팅 목록 조회 > 채팅방 > 거래 취소 > TradeCancelHistory 저장
+     * 내 활동 > 채팅 > 채팅방 > 거래취소 > > TradeCancelHistory 저장
      */
     fun insertTradeCancelHistory(tradeCancelHistory: TradeCancelHistory)
 
     /**
-     * 마이페이지 > 내 거래 목록 > 채팅 > 채팅 목록 조회 > 채팅방 > 거래 취소 > TradeSuggest의 status 변경
+     * 내 활동 > 채팅 > 채팅방 > 거래취소 > TradeSuggest의 status 변경 (CANCELED)
      */
     fun updateTradeSuggestStatusCanceled(tradeSuggestId: String)
 }

@@ -354,14 +354,24 @@ enum class ErrorCode(
     ),
 
     // 채팅 관련 에러코드
-    INVALID_CHAT_STATUS(
+    CHAT_NOT_FOUND(
         code = "C0001",
-        message = "유효하지 않은 채팅 상태 코드입니다.",
+        message = "잘못된 채팅 정보입니다. 새로고침 후 다시 시도해주세요.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
     ALREADY_ENDED_CHAT(
         code = "C0002",
         message = "이미 종료된 채팅방입니다.",
+        httpStatus = HttpStatus.BAD_REQUEST
+    ),
+    OTHERS_CHAT(
+        code = "C0003",
+        message = "다른 유저의 거래에 접근할 수 없습니다.",
+        httpStatus = HttpStatus.FORBIDDEN
+    ),
+    NO_CONTENT_WHEN_REASON_IS_ETC(
+        code = "C0004",
+        message = "취소 사유가 '기타'이면 세부 사유를 입력해야 합니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
 

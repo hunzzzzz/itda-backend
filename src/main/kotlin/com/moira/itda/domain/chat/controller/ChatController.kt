@@ -76,14 +76,15 @@ class ChatController(
     }
 
     /**
-     * 마이페이지 > 내 거래 목록 > 채팅 > 채팅 목록 조회 > 채팅방 > 거래 취소
+     * 내 활동 > 채팅 > 채팅방 > 거래취소
      */
     @PutMapping("/api/me/trade/chat/{chatRoomId}/cancel")
     fun cancelTrade(
+        @UserPrincipal userAuth: UserAuth,
         @PathVariable chatRoomId: String,
         @RequestBody request: TradeCancelRequest
     ): ResponseEntity<Nothing> {
-        chatService.cancelTrade(chatRoomId = chatRoomId, request = request)
+        chatService.cancelTrade(userId = userAuth.userId, chatRoomId = chatRoomId, request = request)
 
         return ResponseEntity.ok(null)
     }
