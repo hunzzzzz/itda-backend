@@ -14,15 +14,12 @@ import org.springframework.messaging.handler.annotation.DestinationVariable
 import org.springframework.messaging.handler.annotation.MessageMapping
 import org.springframework.web.bind.annotation.*
 
-/**
- * 마이페이지 > 내 거래 목록 조회 > 채팅
- */
 @RestController
 class ChatController(
     private val chatService: ChatService
 ) {
     /**
-     * 마이페이지 > 내 거래 목록 > 채팅 > 채팅 목록 조회
+     * 내 활동 > 채팅 > 채팅방 목록 조회
      */
     @GetMapping("/api/me/trade/chat")
     fun getChatList(
@@ -35,7 +32,7 @@ class ChatController(
     }
 
     /**
-     * 마이페이지 > 내 거래 목록 > 채팅 > 채팅 목록 조회 > 채팅방 > 거래제안 정보 조회
+     * 내 활동 > 채팅 > 채팅방 > 거래제안 정보 조회
      */
     @GetMapping("/api/me/trade/chat/{chatRoomId}")
     fun getTradeSuggest(@PathVariable chatRoomId: String): ResponseEntity<ChatRoomResponse> {

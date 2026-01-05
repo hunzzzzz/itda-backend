@@ -15,6 +15,7 @@ data class MyChatResponse(
     val lastMessageAt: ZonedDateTime?,
     // 거래 관련
     val tradeId: String,
+    val tradeItemId: String,
     val tradeType: String,
     val tradeTitle: String
 )
