@@ -113,4 +113,17 @@ class SuggestController(
 
         return ResponseEntity.ok(null)
     }
+
+    /**
+     * 내 활동 > 제안 > 제안삭제
+     */
+    @DeleteMapping("/api/me/trade/suggest/{suggestId}/delete")
+    fun delete(
+        @UserPrincipal userAuth: UserAuth,
+        @PathVariable suggestId: String
+    ): ResponseEntity<Nothing> {
+        service.deleteSuggest(userId = userAuth.userId, suggestId = suggestId)
+
+        return ResponseEntity.ok(null)
+    }
 }

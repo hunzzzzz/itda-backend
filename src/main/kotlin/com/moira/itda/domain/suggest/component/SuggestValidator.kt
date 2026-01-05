@@ -94,4 +94,29 @@ class SuggestValidator(
             throw ItdaException(ErrorCode.OTHERS_SUGGEST)
         }
     }
+
+    /**
+     * 내 활동 > 제안 > 제안삭제 > 유효성 검사
+     */
+    fun validateDeleteSuggest(suggestStatus: String, userId: String, suggestUserId: String) {
+        // [1] status에 대한 유효성 검사
+        when (suggestStatus) {
+            TradeSuggestStatus.APPROVED.name -> {
+                throw ItdaException(ErrorCode.CANNOT_DELETE_APPROVED_SUGGEST)
+            }
+
+            TradeSuggestStatus.PENDING.name -> {
+                throw ItdaException(ErrorCode.CANNOT_DELETE_PENDING_SUGGEST)
+            }
+
+            TradeSuggestStatus.DELETED.name -> {
+                throw ItdaException(ErrorCode.ALREADY_DELETED_SUGGEST)
+            }
+        }
+
+        // [2] 권한에 대한 유효성 검사
+        if (userId != suggestUserId) {
+            throw ItdaException(ErrorCode.OTHERS_SUGGEST)
+        }
+    }
 }

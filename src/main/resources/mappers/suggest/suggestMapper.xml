@@ -216,4 +216,13 @@
              , updated_at = CURRENT_TIMESTAMP
         WHERE id = #{suggestId}
     </update>
+
+    <!-- 내 활동 > 제안 > 제안삭제 > TradeSuggest status 변경 (DELETED) -->
+    <update id="updateTradeSuggestStatusDeleted">
+        UPDATE TRADE_SUGGEST
+        SET
+               status     = 'DELETED'
+             , updated_at = CURRENT_TIMESTAMP
+        WHERE id = #{suggestId}
+    </update>
 </mapper>

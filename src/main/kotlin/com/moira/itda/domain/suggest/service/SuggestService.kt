@@ -158,7 +158,6 @@ class SuggestService(
     fun cancelSuggest(userId: String, suggestId: String) {
         // [1] 제안 관련 정보 조회
         val infoMap = mapper.selectTradeSuggestInfo(suggestId = suggestId)
-        println(infoMap)
         val suggestStatus = infoMap["status"] ?: throw ItdaException(ErrorCode.SUGGEST_NOT_FOUND)
         val suggestUserId = infoMap["user_id"] ?: throw ItdaException(ErrorCode.SUGGEST_NOT_FOUND)
 
@@ -167,5 +166,23 @@ class SuggestService(
 
         // [3] 제안취소
         mapper.updateTradeSuggestStatusCBR(suggestId = suggestId)
+    }
+
+    /**
+     * 내 활동 > 제안 > 제안삭제
+     */
+    @Transactional
+    fun deleteSuggest(userId: String, suggestId: String) {
+        // [1] 제안 관련 정보 조회
+        val infoMap = mapper.selectTradeSuggestInfo(suggestId = suggestId)
+        val suggestStatus = infoMap["status"] ?: throw ItdaException(ErrorCode.SUGGEST_NOT_FOUND)
+        val suggestUserId = infoMap["user_id"] ?: throw ItdaException(ErrorCode.SUGGEST_NOT_FOUND)
+
+        // [2] 유효성 검사
+        validator.validateDeleteSuggest(suggestStatus = suggestStatus, userId = userId, suggestUserId = suggestUserId)
+
+        // [3] 제안취소
+        mapper.updateTradeSuggestStatusDeleted(suggestId = suggestId)
+
     }
 }

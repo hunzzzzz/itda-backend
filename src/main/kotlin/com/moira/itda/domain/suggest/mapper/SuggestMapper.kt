@@ -93,4 +93,9 @@ interface SuggestMapper {
      * 내 활동 > 제안 > 제안취소 > TradeSuggest status 변경 (CANCELED_BEFORE_RESPONSE)
      */
     fun updateTradeSuggestStatusCBR(suggestId: String)
+
+    /**
+     * 내 활동 > 제안 > 제안삭제 > TradeSuggest status 변경 (DELETED)
+     */
+    fun updateTradeSuggestStatusDeleted(suggestId: String)
 }

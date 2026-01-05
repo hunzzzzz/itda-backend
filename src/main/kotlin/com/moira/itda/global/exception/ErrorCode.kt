@@ -330,7 +330,7 @@ enum class ErrorCode(
     ALREADY_DELETED_SUGGEST(
         code = "T0023",
         message = "이미 삭제된 거래제안입니다.",
-        httpStatus = HttpStatus.BAD_REQUEST
+        httpStatus = HttpStatus.FORBIDDEN
     ),
     SUGGEST_NOT_FOUND(
         code = "T0024",
@@ -342,15 +342,13 @@ enum class ErrorCode(
         message = "다른 유저의 거래 제안을 수정/삭제할 수 없습니다.",
         httpStatus = HttpStatus.FORBIDDEN
     ),
-
-
     CANNOT_DELETE_APPROVED_SUGGEST(
-        code = "T0025",
+        code = "T0026",
         message = "이미 승인된 거래제안은 삭제할 수 없습니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
     CANNOT_DELETE_PENDING_SUGGEST(
-        code = "T0026",
+        code = "T0027",
         message = "제안 취소를 먼저 진행해주세요.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
