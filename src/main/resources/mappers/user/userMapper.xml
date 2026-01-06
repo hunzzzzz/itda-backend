@@ -80,8 +80,6 @@
         )
     </insert>
 
-    <!-- ====================================================================================================== -->
-
     <!-- 로그인 > User 조회 -->
     <!-- 토큰 재발급 > User 조회 -->
     <select id="selectUserByEmail" resultType="com.moira.itda.global.entity.User">
@@ -136,8 +134,6 @@
         )
     </insert>
 
-    <!-- ====================================================================================================== -->
-
     <!-- 로그아웃 > RefreshToken 초기화 -->
     <update id="updateRefreshTokenNull">
         UPDATE USER
@@ -146,7 +142,14 @@
         WHERE id = #{userId}
     </update>
 
-    <!-- ====================================================================================================== -->
+    <!-- 비밀번호 초기화 -->
+    <update id="updatePasswordByEmail">
+        UPDATE USER
+        SET
+               password   = #{newPassword}
+             , updated_at = CURRENT_TIMESTAMP
+        WHERE email = #{email}
+    </update>
 
     <!-- 마이페이지 > 내 프로필 조회 -->
     <select id="selectMyPageResponse" resultType="com.moira.itda.domain.user.dto.response.MyPageResponse">
@@ -205,8 +208,6 @@
              , updated_at = CURRENT_TIMESTAMP
         WHERE id = #{userId}
     </update>
-
-    <!-- ====================================================================================================== -->
 
     <!-- 스케쥴러 (30분 간격) > UserIdentifyCode 삭제 -->
     <delete id="deleteUserIdentifyCode">

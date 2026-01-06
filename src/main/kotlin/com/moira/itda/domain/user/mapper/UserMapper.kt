@@ -36,8 +36,6 @@ interface UserMapper {
      */
     fun insertUser(user: User)
 
-    // ---------------------------------------------------------------------------------------------- //
-
     /**
      * 로그인 > User 조회
      * 토큰 재발급 > User 조회
@@ -60,14 +58,15 @@ interface UserMapper {
      */
     fun insertUserLoginHistory(userLoginHistory: UserLoginHistory)
 
-    // ---------------------------------------------------------------------------------------------- //
-
     /**
      * 로그아웃 > RefreshToken 초기화
      */
     fun updateRefreshTokenNull(userId: String)
 
-    // ---------------------------------------------------------------------------------------------- //
+    /**
+     * 비밀번호 초기화
+     */
+    fun updatePasswordByEmail(email: String, newPassword: String)
 
     /**
      * 마이페이지 > 내 프로필 조회
@@ -98,8 +97,6 @@ interface UserMapper {
      * 마이페이지 > 비밀번호 변경
      */
     fun updatePassword(userId: String, newPassword: String)
-
-    // ---------------------------------------------------------------------------------------------- //
 
     /**
      * 스케쥴러 (30분 간격) > UserIdentifyCode 삭제

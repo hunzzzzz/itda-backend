@@ -45,6 +45,15 @@ class UserValidator(
     }
 
     /**
+     * 비밀번호 정규식 검사
+     */
+    fun validatePasswordRegex(password: String) {
+        if (!passwordRegex.matches(password)) {
+            throw ItdaException(ErrorCode.INVALID_PASSWORD)
+        }
+    }
+
+    /**
      * 회원가입 > 유효성 검사
      */
     fun validateSignup(request: SignupRequest) {

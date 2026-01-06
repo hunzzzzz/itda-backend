@@ -283,6 +283,21 @@ class UserService(
     }
 
     /**
+     * 비밀번호 초기화
+     */
+    @Transactional
+    fun resetPassword(request: ResetPasswordRequest) {
+        // [1] 유효성 검사
+        validator.validatePasswordRegex(request.newPassword)
+
+        // [2] 비밀번호 변경
+        mapper.updatePasswordByEmail(
+            email = request.email,
+            newPassword = encoder.encode(request.newPassword)
+        )
+    }
+
+    /**
      * 마이페이지 > 내 프로필 조회
      */
     @Transactional(readOnly = true)
