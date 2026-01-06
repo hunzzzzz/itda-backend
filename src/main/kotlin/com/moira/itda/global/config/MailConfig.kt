@@ -34,7 +34,7 @@ class MailConfig(
         properties.setProperty("mail.transport.protocol", "smtp")     // SMTP 프로토콜 설정
         properties.setProperty("mail.smtp.auth", "true")              // SMTP 인증 사용 여부
         properties.setProperty("mail.smtp.starttls.enable", "true")   // TLS 암호화 여부
-        properties.setProperty("mail.debug", "true")                  // 디버그 사용 여부
+//        properties.setProperty("mail.debug", "true")                // 디버그 사용 여부
         properties.setProperty("mail.smtp.connectiontimeout", "3000") // 타임아웃 (3초)
 
         sender.javaMailProperties = properties

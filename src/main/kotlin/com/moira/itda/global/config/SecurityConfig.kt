@@ -59,6 +59,7 @@ class SecurityConfig(
                     .requestMatchers(HttpMethod.POST, "/api/signup/**").permitAll()
                     .requestMatchers(HttpMethod.POST, "/api/login/**").permitAll()
                     .requestMatchers(HttpMethod.POST, "/api/token/refresh/**").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/api/reset/password/**").permitAll()
                     .requestMatchers(HttpMethod.GET, "/api/gacha").permitAll()
                     .requestMatchers(HttpMethod.GET, "/api/code/**").permitAll()
                     .anyRequest().authenticated()

@@ -90,6 +90,11 @@ enum class ErrorCode(
         message = "동일한 비밀번호로 변경할 수 업습니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
+    NON_EXISTING_EMAIL(
+        code = "U0015",
+        message = "존재하지 않는 이메일입니다.",
+        httpStatus = HttpStatus.BAD_REQUEST
+    ),
 
 
     INVALID_BAN_REASON(

@@ -36,6 +36,15 @@ class UserValidator(
     }
 
     /**
+     * 이메일 존재 여부 확인
+     */
+    fun validateEmailExists(email: String) {
+        if (!mapper.selectEmailChk(email = email)) {
+            throw ItdaException(ErrorCode.NON_EXISTING_EMAIL)
+        }
+    }
+
+    /**
      * 회원가입 > 유효성 검사
      */
     fun validateSignup(request: SignupRequest) {

@@ -33,6 +33,7 @@ class JwtAuthenticationFilter(
             PathPatternRequestMatcher.withDefaults().matcher(HttpMethod.POST, "/api/signup/**"),
             PathPatternRequestMatcher.withDefaults().matcher(HttpMethod.POST, "/api/login/**"),
             PathPatternRequestMatcher.withDefaults().matcher(HttpMethod.POST, "/api/token/refresh/**"),
+            PathPatternRequestMatcher.withDefaults().matcher(HttpMethod.GET, "/api/reset/password/**"),
             PathPatternRequestMatcher.withDefaults().matcher(HttpMethod.GET, "/api/gacha"),
             PathPatternRequestMatcher.withDefaults().matcher(HttpMethod.GET, "/api/code/**")
         )

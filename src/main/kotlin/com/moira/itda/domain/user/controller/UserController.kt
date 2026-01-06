@@ -38,7 +38,7 @@ class UserController(
      */
     @GetMapping("/api/signup/identify")
     fun checkEmail(@RequestParam email: String): ResponseEntity<Nothing?> {
-        service.identify(email = email)
+        service.identifyForResetPassword(email = email)
 
         return ResponseEntity.ok(null)
     }
@@ -104,6 +104,29 @@ class UserController(
         val response = service.refresh(httpReq = httpReq, httpRes = httpRes)
 
         return ResponseEntity.ok(response)
+    }
+
+    /**
+     * 비밀번호 초기화 > 본인인증
+     */
+    @GetMapping("/api/reset/password/identify")
+    fun identifyForResetPassword(@RequestParam email: String): ResponseEntity<Nothing?> {
+        service.identifyForResetPassword(email = email)
+
+        return ResponseEntity.ok(null)
+    }
+
+    /**
+     * 비밀번호 초기화 > 본인인증 > 코드 확인
+     */
+    @GetMapping("/api/reset/password/identify/check/code")
+    fun checkIdentifyCodeForResetPassword(
+        @RequestParam email: String,
+        @RequestParam code: String
+    ): ResponseEntity<Nothing?> {
+        service.checkIdentifyCodeForResetPassword(email = email, code = code)
+
+        return ResponseEntity.ok(null)
     }
 
     /**

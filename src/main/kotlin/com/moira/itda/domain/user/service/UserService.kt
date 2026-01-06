@@ -18,7 +18,7 @@ import com.moira.itda.global.exception.ItdaException
 import com.moira.itda.global.file.component.AwsS3Handler
 import com.moira.itda.global.mail.component.UserMailSender
 import com.moira.itda.global.mail.context.MailContext
-import com.moira.itda.global.mail.context.MailContext.SIGNUP_MAIL_TEXT
+import com.moira.itda.global.mail.context.MailContext.IDENTIFY_MAIL_TEXT
 import io.jsonwebtoken.ExpiredJwtException
 import io.jsonwebtoken.MalformedJwtException
 import io.jsonwebtoken.UnsupportedJwtException
@@ -72,8 +72,8 @@ class UserService(
         // [4] 이메일 전송
         mailSender.send(
             email = email,
-            subject = MailContext.SIGNUP_MAIL_SUBJECT,
-            text = SIGNUP_MAIL_TEXT.format(code)
+            subject = MailContext.IDENTIFY_MAIL_SUBJECT,
+            text = IDENTIFY_MAIL_TEXT.format(code)
         )
     }
 
@@ -235,6 +235,51 @@ class UserService(
             }
 
         return TokenRefreshResponse(accessToken = "")
+    }
+
+    /**
+     * 비밀번호 초기화 > 본인인증
+     */
+    @Transactional
+    fun identifyForResetPassword(email: String) {
+        // [1] 유효성 검사 (이메일 존재 여부 확인)
+        validator.validateEmailExists(email = email)
+
+        // [2] 6자리 인증번호 생성
+        val code = IdentifyCodeGenerator.generate()
+
+        // [3] 6자리 인증번호 저장
+        val userIdentifyCode = UserIdentifyCode.from(
+            email = email, code = code, type = UserIdentifyCodeType.RESET_PASSWORD
+        )
+        mapper.insertUserIdentifyCode(userIdentifyCode = userIdentifyCode)
+
+        // [4] 이메일 전송
+        mailSender.send(
+            email = email,
+            subject = MailContext.IDENTIFY_MAIL_SUBJECT,
+            text = IDENTIFY_MAIL_TEXT.format(code)
+        )
+    }
+
+    /**
+     * 비밀번호 초기화 > 본인인증 > 코드 확인
+     */
+    fun checkIdentifyCodeForResetPassword(email: String, code: String) {
+        // [1] UserSignupIdentifyCode 조회
+        val userSignupIdentifyCode = mapper.selectUserIdentifyCode(
+            email = email, type = UserIdentifyCodeType.RESET_PASSWORD
+        )
+
+        // [2] 코드가 존재하지 않거나, 만료된 경우
+        if (userSignupIdentifyCode == null || userSignupIdentifyCode.expiredAt.isBefore(ZonedDateTime.now())) {
+            throw ItdaException(ErrorCode.EXPIRED_IDENTIFY_CODE)
+        }
+
+        // [3] 코드가 일치하지 않는 경우
+        if (code != userSignupIdentifyCode.code) {
+            throw ItdaException(ErrorCode.INCORRECT_IDENTIFY_CODE)
+        }
     }
 
     /**
