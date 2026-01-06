@@ -8,6 +8,9 @@ import java.time.ZonedDateTime
 
 @RestControllerAdvice
 class GlobalExceptionHandler {
+    /**
+     * ItdaException (커스텀 에러)
+     */
     @ExceptionHandler(ItdaException::class)
     fun handleItdaException(e: ItdaException): ResponseEntity<ErrorResponse> {
         val errorResponse = ErrorResponse(
@@ -19,6 +22,9 @@ class GlobalExceptionHandler {
         return ResponseEntity.status(e.errorCode.httpStatus).body(errorResponse)
     }
 
+    /**
+     * MaxUploadSizeExceededException (이미지 용량 초과 에러)
+     */
     @ExceptionHandler(MaxUploadSizeExceededException::class)
     fun handleMaxUploadSizeException(e: MaxUploadSizeExceededException): ResponseEntity<ErrorResponse> {
         val errorCode = ErrorCode.MAX_UPLOAD_SIZE_EXCEEDED

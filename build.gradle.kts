@@ -24,6 +24,9 @@ dependencies {
     implementation("software.amazon.awssdk:s3:2.41.0")
     // database
     runtimeOnly("com.mysql:mysql-connector-j")
+    // image
+    implementation("com.sksamuel.scrimage:scrimage-core:4.3.5")
+    implementation("com.sksamuel.scrimage:scrimage-webp:4.3.5")
     // jwt
     implementation("io.jsonwebtoken:jjwt-api:0.12.6")
     runtimeOnly("io.jsonwebtoken:jjwt-impl:0.12.6")

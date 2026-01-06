@@ -20,8 +20,8 @@ class CommonService(
     private val commonMapper: CommonMapper
 ) {
     companion object {
-        private const val MAX_FILE_SIZE = 5L * 1024 * 1024 // 5L
-        private val ALLOWED_EXTENSIONS: Set<String> = setOf("jpg", "jpeg", "png")
+        private const val MAX_FILE_SIZE = 5L * 1024 * 1024 // 5MB
+        private val ALLOWED_EXTENSIONS: Set<String> = setOf("jpg", "jpeg", "png", "webp")
     }
 
     /**
@@ -61,8 +61,12 @@ class CommonService(
         val fileId = UUID.randomUUID().toString()
 
         request.files.forEachIndexed { index, file ->
+            val compressedBytes = awsS3Handler.compressImage(file)
+
             val fileInfo = awsS3Handler.upload(
-                file = file,
+                fileBytes = compressedBytes,
+                originalFileName = file.originalFilename ?: "image.webp",
+                contentType = "image/webp",
                 fileId = fileId,
                 num = index + 1,
                 targetDir = request.identifier
