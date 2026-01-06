@@ -149,7 +149,15 @@ class UserService(
             // 에러 처리
             throw ItdaException(newErrorCode)
         }
-        // [3-3] 그 외의 경우, 로그인 성공 기록 저장
+        // [3-3] 회원탈퇴한 유저가 로그인 시도 시, 로그인 실패 기록 저장 후 에러 처리
+        else if (user.status == UserStatus.DELETED) {
+            // 로그인 실패 기록 저장
+            loginHistoryService.fail(user = user, ipAddress = ipAddress, userAgent = userAgent)
+
+            // 에러 처리
+            throw ItdaException(ErrorCode.DELETED_USER_CANNOT_LOGIN)
+        }
+        // [3-4] 그 외의 경우, 로그인 성공 기록 저장
         else {
             loginHistoryService.success(user = user, ipAddress = ipAddress, userAgent = userAgent)
         }
@@ -358,6 +366,21 @@ class UserService(
         mapper.updatePassword(userId = userId, newPassword = encoder.encode(request.newPassword))
 
         // [4] 로그아웃 메서드 호출
+        this.logout(userId = userId, httpRes = httpRes)
+    }
+
+    /**
+     * 마이페이지 > 회원탈퇴
+     */
+    @Transactional
+    fun delete(userId: String, httpRes: HttpServletResponse) {
+        // [1] 유효성 검사
+        validator.validateDelete(userId = userId)
+
+        // [2] 회원탈퇴
+        mapper.updateUserStatusDeleted(userId = userId)
+
+        // [3] 로그아웃 메서드 호출
         this.logout(userId = userId, httpRes = httpRes)
     }
 }

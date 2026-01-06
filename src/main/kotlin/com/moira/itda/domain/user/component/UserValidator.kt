@@ -104,4 +104,24 @@ class UserValidator(
             throw ItdaException(ErrorCode.SAME_PASSWORD)
         }
     }
+
+    /**
+     * 회원탈퇴 > 유효성 검사
+     */
+    fun validateDelete(userId: String) {
+        // [1] PENDING인 Trade가 존재하는지 확인
+        if (mapper.selectPendingTradeChk(userId = userId)) {
+            throw ItdaException(ErrorCode.PENDING_TRADE_EXISTS)
+        }
+
+        // [2] PENDING인 TradeSuggest가 존재하는지 확인
+        if (mapper.selectPendingTradeSuggestChk(userId = userId)) {
+            throw ItdaException(ErrorCode.PENDING_TRADE_SUGGEST_EXISTS)
+        }
+
+        // [3] ACTIVE인 ChatRoom이 존재하는지 확인
+        if (mapper.selectActiveChatRoomChk(userId = userId)) {
+            throw ItdaException(ErrorCode.ACTIVE_CHAT_ROOM_EXISTS)
+        }
+    }
 }

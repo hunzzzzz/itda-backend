@@ -190,4 +190,17 @@ class UserController(
 
         return ResponseEntity.ok(null)
     }
+
+    /**
+     * 마이페이지 > 회원탈퇴
+     */
+    @DeleteMapping("/api/me/delete")
+    fun delete(
+        @UserPrincipal userAuth: UserAuth,
+        httpRes: HttpServletResponse
+    ): ResponseEntity<Nothing> {
+        service.delete(userId = userAuth.userId, httpRes = httpRes)
+
+        return ResponseEntity.ok(null)
+    }
 }

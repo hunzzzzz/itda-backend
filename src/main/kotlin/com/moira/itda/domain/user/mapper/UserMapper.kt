@@ -99,6 +99,26 @@ interface UserMapper {
     fun updatePassword(userId: String, newPassword: String)
 
     /**
+     * 마이페이지 > 회원탈퇴 > User status 변경 (DELETED)
+     */
+    fun updateUserStatusDeleted(userId: String)
+
+    /**
+     * 마이페이지 > 회윈털퇴 > PENDING인 Trade 존재 여부 확인
+     */
+    fun selectPendingTradeChk(userId: String): Boolean
+
+    /**
+     * 마이페이지 > 회원탈퇴 > PENDING인 TradeSuggest 존재 여부 확인
+     */
+    fun selectPendingTradeSuggestChk(userId: String): Boolean
+
+    /**
+     * 마이페이지 > 회원탈퇴 > ACTIVE인 ChatRoom 존재 여부 확인
+     */
+    fun selectActiveChatRoomChk(userId: String): Boolean
+
+    /**
      * 스케쥴러 (30분 간격) > UserIdentifyCode 삭제
      */
     fun deleteUserIdentifyCode()

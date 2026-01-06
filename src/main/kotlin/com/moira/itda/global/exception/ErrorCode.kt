@@ -95,6 +95,31 @@ enum class ErrorCode(
         message = "존재하지 않는 이메일입니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
+    PENDING_TRADE_EXISTS(
+        code = "U0016",
+        message = "현재 진행중인 판매/교환글이 존재하기 때문에 회원탈퇴를 진행할 수 없습니다.",
+        httpStatus = HttpStatus.BAD_REQUEST
+    ),
+    PENDING_TRADE_SUGGEST_EXISTS(
+        code = "U0017",
+        message = "현재 진행중인 거래제안이 존재하기 때문에 회원탈퇴를 진행할 수 없습니다.",
+        httpStatus = HttpStatus.BAD_REQUEST
+    ),
+    ACTIVE_CHAT_ROOM_EXISTS(
+        code = "U0018",
+        message = "현재 진행중인 거래가 존재하기 때문에 회원탈퇴를 진행할 수 없습니다.",
+        httpStatus = HttpStatus.BAD_REQUEST
+    ),
+    BANNED_USER_CANNOT_LOGIN(
+        code = "U0019",
+        message = "%s까지 계정이 정지된 유저입니다.",
+        httpStatus = HttpStatus.BAD_REQUEST
+    ),
+    DELETED_USER_CANNOT_LOGIN(
+        code = "U0020",
+        message = "회원탈퇴한 유저입니다.",
+        httpStatus = HttpStatus.BAD_REQUEST
+    ),
 
 
     INVALID_BAN_REASON(
@@ -107,11 +132,7 @@ enum class ErrorCode(
         message = "유효하지 않은 계정 정지일수입니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
-    BANNED_USER_CANNOT_LOGIN(
-        code = "U0015",
-        message = "%s까지 계정이 정지된 유저입니다.",
-        httpStatus = HttpStatus.BAD_REQUEST
-    ),
+
 
     // 권한 관련 에러코드
     INVALID_AUTHORIZATION_HEADER(
