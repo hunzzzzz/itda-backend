@@ -3,7 +3,8 @@ package com.moira.itda.domain.user.mapper
 import com.moira.itda.domain.user.dto.response.MyPageResponse
 import com.moira.itda.global.entity.User
 import com.moira.itda.global.entity.UserLoginHistory
-import com.moira.itda.global.entity.UserSignupIdentifyCode
+import com.moira.itda.global.entity.UserIdentifyCode
+import com.moira.itda.global.entity.UserIdentifyCodeType
 import org.apache.ibatis.annotations.Mapper
 import java.time.ZonedDateTime
 
@@ -21,14 +22,14 @@ interface UserMapper {
     fun selectEmailChk(email: String): Boolean
 
     /**
-     * 회원가입 > 본인인증 > UserSignupIdentifyCode 저장
+     * 회원가입 > 본인인증 > UserIdentifyCode 저장
      */
-    fun insertUserSignupIdentifyCode(userSignupIdentifyCode: UserSignupIdentifyCode)
+    fun insertUserIdentifyCode(userIdentifyCode: UserIdentifyCode)
 
     /**
-     * 회원가입 > 본인인증 > UserSignupIdentifyCode 조회
+     * 회원가입 > 본인인증 > UserIdentifyCode 조회
      */
-    fun selectUserSignupIdentifyCode(email: String): UserSignupIdentifyCode?
+    fun selectUserIdentifyCode(email: String, type: UserIdentifyCodeType): UserIdentifyCode?
     
     /**
      * 회원가입 > User 저장
@@ -101,7 +102,7 @@ interface UserMapper {
     // ---------------------------------------------------------------------------------------------- //
 
     /**
-     * 스케쥴러 (30분 간격) > UserSignupIdentifyCode 삭제
+     * 스케쥴러 (30분 간격) > UserIdentifyCode 삭제
      */
-    fun deleteUserSignupIdentifyCode()
+    fun deleteUserIdentifyCode()
 }

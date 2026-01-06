@@ -18,29 +18,32 @@
         )
     </select>
 
-    <!-- 회원가입 > 본인인증 > UserSignupIdentifyCode 저장 -->
-    <insert id="insertUserSignupIdentifyCode">
-        INSERT INTO USER_SIGNUP_IDENTIFY_CODE (
+    <!-- 회원가입 > 본인인증 > UserIdentifyCode 저장 -->
+    <insert id="insertUserIdentifyCode">
+        INSERT INTO USER_IDENTIFY_CODE (
                email
              , code
+             , type
              , expired_at
         )
         VALUES (
                #{email}
              , #{code}
+             , #{type}
              , #{expiredAt}
         )
     </insert>
 
-    <!-- 회원가입 > 본인인증 > UserSignupIdentifyCode 조회 -->
-    <select id="selectUserSignupIdentifyCode" resultType="com.moira.itda.global.entity.UserSignupIdentifyCode">
+    <!-- 회원가입 > 본인인증 > UserIdentifyCode 조회 -->
+    <select id="selectUserIdentifyCode" resultType="com.moira.itda.global.entity.UserIdentifyCode">
         SELECT
                id
              , email
              , code
+             , type
              , expired_at
-        FROM USER_SIGNUP_IDENTIFY_CODE
-        WHERE email = #{email}
+        FROM USER_IDENTIFY_CODE
+        WHERE email = #{email} AND type = #{type}
         ORDER BY expired_at DESC
         LIMIT 1
     </select>
@@ -205,9 +208,9 @@
 
     <!-- ====================================================================================================== -->
 
-    <!-- 스케쥴러 (30분 간격) > UserSignupIdentifyCode 삭제 -->
-    <delete id="deleteUserSignupIdentifyCode">
-        DELETE FROM USER_SIGNUP_IDENTIFY_CODE
+    <!-- 스케쥴러 (30분 간격) > UserIdentifyCode 삭제 -->
+    <delete id="deleteUserIdentifyCode">
+        DELETE FROM USER_IDENTIFY_CODE
         WHERE expired_at <![CDATA[ < ]]> CURRENT_TIMESTAMP
     </delete>
 </mapper>

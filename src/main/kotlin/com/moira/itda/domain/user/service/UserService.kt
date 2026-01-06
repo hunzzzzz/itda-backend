@@ -10,7 +10,8 @@ import com.moira.itda.domain.user.mapper.UserMapper
 import com.moira.itda.global.auth.component.CookieHandler
 import com.moira.itda.global.auth.component.JwtProvider
 import com.moira.itda.global.entity.User
-import com.moira.itda.global.entity.UserSignupIdentifyCode
+import com.moira.itda.global.entity.UserIdentifyCode
+import com.moira.itda.global.entity.UserIdentifyCodeType
 import com.moira.itda.global.entity.UserStatus
 import com.moira.itda.global.exception.ErrorCode
 import com.moira.itda.global.exception.ItdaException
@@ -63,8 +64,10 @@ class UserService(
         val code = IdentifyCodeGenerator.generate()
 
         // [3] 6자리 인증번호 저장
-        val userSignupIdentifyCode = UserSignupIdentifyCode.from(email = email, code = code)
-        mapper.insertUserSignupIdentifyCode(userSignupIdentifyCode = userSignupIdentifyCode)
+        val userIdentifyCode = UserIdentifyCode.from(
+            email = email, code = code, type = UserIdentifyCodeType.SIGNUP
+        )
+        mapper.insertUserIdentifyCode(userIdentifyCode = userIdentifyCode)
 
         // [4] 이메일 전송
         mailSender.send(
@@ -79,7 +82,9 @@ class UserService(
      */
     fun checkIdentifyCode(email: String, code: String) {
         // [1] UserSignupIdentifyCode 조회
-        val userSignupIdentifyCode = mapper.selectUserSignupIdentifyCode(email = email)
+        val userSignupIdentifyCode = mapper.selectUserIdentifyCode(
+            email = email, type = UserIdentifyCodeType.SIGNUP
+        )
 
         // [2] 코드가 존재하지 않거나, 만료된 경우
         if (userSignupIdentifyCode == null || userSignupIdentifyCode.expiredAt.isBefore(ZonedDateTime.now())) {
