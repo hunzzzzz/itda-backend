@@ -63,14 +63,15 @@ class ChatController(
     }
 
     /**
-     * 마이페이지 > 내 거래 목록 > 채팅 > 채팅 목록 조회 > 채팅방 > 거래 완료
+     * 내 활동 > 채팅 > 채팅방 > 거래완료
      */
     @PutMapping("/api/me/trade/chat/{chatRoomId}/complete")
     fun completeTrade(
+        @UserPrincipal userAuth: UserAuth,
         @PathVariable chatRoomId: String,
         @RequestBody request: TradeCompleteRequest
     ): ResponseEntity<Nothing> {
-        chatService.completeTrade(chatRoomId = chatRoomId, request = request)
+        chatService.completeTrade(userId = userAuth.userId, chatRoomId = chatRoomId, request = request)
 
         return ResponseEntity.ok(null)
     }

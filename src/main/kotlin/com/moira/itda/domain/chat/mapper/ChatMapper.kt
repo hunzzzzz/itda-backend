@@ -41,25 +41,40 @@ interface ChatMapper {
     fun selectChatInfo(chatRoomId: String): HashMap<String, String?>
 
     /**
-     * 마이페이지 > 내 거래 목록 > 채팅 > 채팅 목록 조회 > 채팅방 > 거래 완료 > TradeCompleteHistory 저장
+     * 내 활동 > 채팅 > 채팅방 > 거래완료 > TradeCompleteHistory 저장
      */
     fun insertTradeCompleteHistory(tradeCompleteHistory: TradeCompleteHistory)
 
     /**
-     * 마이페이지 > 내 거래 목록 > 채팅 > 채팅 목록 조회 > 채팅방 > 거래 완료 > Trade의 status 변경
+     * 내 활동 > 채팅 > 채팅방 > 거래완료 > ChatRoom status 변경 (ENDED)
+     * 내 활동 > 채팅 > 채팅방 > 거래취소 > ChatRoom status 변경 (ENDED)
      */
-    fun updateTradeStatusCompleted(tradeId: String)
+    fun updateChatRoomStatusEnded(chatRoomId: String)
 
     /**
-     * 마이페이지 > 내 거래 목록 > 채팅 > 채팅 목록 조회 > 채팅방 > 거래 완료 > TradeItem의 status 변경
+     * 내 활동 > 채팅 > 채팅방 > 거래완료 > TradeSuggest status 변경 (COMPLETED)
+     */
+    fun updateTradeSuggestStatusCompleted(tradeSuggestId: String)
+
+    /**
+     * 내 활동 > 채팅 > 채팅방 > 거래완료 > 나머지 TradeSuggest의 status 변경 (REJECTED)
+     */
+    fun updateRestTradeSuggestStatusRejected(tradeItemId: String, tradeSuggestId: String)
+
+    /**
+     * 내 활동 > 채팅 > 채팅방 > 거래완료 > TradeItem status 변경 (COMPLETED)
      */
     fun updateTradeItemStatusCompleted(tradeItemId: String)
 
     /**
-     * 마이페이지 > 내 거래 목록 > 채팅 > 채팅 목록 조회 > 채팅방 > 거래 완료 > ChatRoom의 status 변경
-     * 내 활동 > 채팅 > 채팅방 > 거래취소 > ChatRoom status 변경 (ENDED)
+     * 내 활동 > 채팅 > 채팅방 > 거래완료 > Trade 하위에 status가 PENDING인 TradeItem 존재 여부 확인
      */
-    fun updateChatRoomStatusEnded(chatRoomId: String)
+    fun selectTradeItemStatusPendingChk(tradeId: String): Boolean
+
+    /**
+     * 내 활동 > 채팅 > 채팅방 > 거래완료 > Trade status 변경 (COMPLETED)
+     */
+    fun updateTradeStatusCompleted(tradeId: String)
 
     /**
      * 내 활동 > 채팅 > 채팅방 > 거래취소 > TradeCancelHistory 저장
