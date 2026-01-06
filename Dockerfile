@@ -2,6 +2,7 @@
 FROM gradle:8.5-jdk21 AS build
 WORKDIR /app
 COPY . .
+RUN chmod +x ./gradlew
 RUN ./gradlew clean bootJar -x test
 
 # 2단계: 실행 스테이지
