@@ -1,0 +1,60 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+
+---
+
+mybatis:
+  mapper-locations: classpath:mappers/**/*.xml
+  configuration:
+    jdbc-type-for-null: "NULL"
+    map-underscore-to-camel-case: true
+
+logging:
+  level:
+    com.moira.itda.domain.admin.mapper: DEBUG
+    com.moira.itda.domain.common.mapper: DEBUG
+    com.moira.itda.domain.gacha.mapper: DEBUG
+    com.moira.itda.domain.gacha_pick.mapper: DEBUG
+    com.moira.itda.domain.gacha_wish.mapper: DEBUG
+    com.moira.itda.domain.trade.mapper: DEBUG
+    com.moira.itda.domain.suggest.mapper: DEBUG
+    com.moira.itda.domain.user.mapper: DEBUG
+
+---
+
+spring:
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 20MB
+
+---
+
+jwt:
+  secret:
+    key: ${JWT_SECRET_KEY}
+
+---
+
+cloud:
+  aws:
+    credentials:
+      accessKey: ${AWS_ACCESS_KEY}
+      secretKey: ${AWS_SECRET_KEY}
+    region:
+      static: ${AWS_REGION_STATIC}
+    s3:
+      bucketName: ${AWS_S3_BUCKET_NAME}
+
+---
+
+spring:
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
