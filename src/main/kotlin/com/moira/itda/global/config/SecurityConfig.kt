@@ -3,6 +3,7 @@ package com.moira.itda.global.config
 import com.moira.itda.global.auth.filter.CustomAccessDeniedHandler
 import com.moira.itda.global.auth.filter.ExceptionHandlerFilter
 import com.moira.itda.global.auth.filter.JwtAuthenticationFilter
+import com.moira.itda.global.auth.filter.LoggingFilter
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpMethod
@@ -23,7 +24,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 class SecurityConfig(
     private val customAccessDeniedHandler: CustomAccessDeniedHandler,
     private val exceptionHandlerFilter: ExceptionHandlerFilter,
-    private val jwtAuthenticationFilter: JwtAuthenticationFilter
+    private val jwtAuthenticationFilter: JwtAuthenticationFilter,
+    private val loggingFilter: LoggingFilter
 ) {
     /**
      * PasswordEncoder Bean 등록
@@ -67,6 +69,7 @@ class SecurityConfig(
             // [4] 예외 처리 핸들러 등록
             .exceptionHandling { it.accessDeniedHandler(customAccessDeniedHandler) }
             // [5] 커스텀 필터 추가
+            .addFilterBefore(loggingFilter, UsernamePasswordAuthenticationFilter::class.java)
             .addFilterBefore(exceptionHandlerFilter, UsernamePasswordAuthenticationFilter::class.java)
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter::class.java)
             .build()

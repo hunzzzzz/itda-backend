@@ -56,8 +56,6 @@ class JwtAuthenticationFilter(
         response: HttpServletResponse,
         filterChain: FilterChain
     ) {
-        log.info("[요청 URI] {} {}", request.method, request.requestURI)
-
         // [1] Authorization 헤더 추출 및 검증
         val authorizationHeaderValue = request.getHeader(HttpHeaders.AUTHORIZATION)
 
