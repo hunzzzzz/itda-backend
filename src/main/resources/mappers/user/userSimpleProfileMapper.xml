@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.moira.itda.domain.user_simple_profile.mapper.UserSimpleProfileMapper">
+    <!-- 심플 프로필 조회 -->
+    <select id="selectUserSimpleProfileResponse" resultType="com.moira.itda.domain.user_simple_profile.dto.response.UserSimpleProfileResponse">
+        SELECT
+               U.id AS user_id
+             , U.status
+             , U.nickname
+             , U.file_id
+             , (SELECT file_url FROM IMAGE_FILE WHERE file_id = U.file_id ORDER BY created_at DESC LIMIT 1) AS file_url
+             , U.created_at
+             , 0 AS completed_trade_count
+             , (SELECT COUNT(id) FROM USER_BAN_HISTORY WHERE user_id = U.id) AS ban_count
+        FROM USER U
+        WHERE U.id = #{userId}
+    </select>
+</mapper>
