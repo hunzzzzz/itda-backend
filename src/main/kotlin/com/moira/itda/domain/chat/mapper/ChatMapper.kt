@@ -62,7 +62,7 @@ interface ChatMapper {
     fun updateChatRoomStatusEnded(chatRoomId: String)
 
     /**
-     * 내 활동 > 채팅 > 채팅방 > 거래취소 > > TradeCancelHistory 저장
+     * 내 활동 > 채팅 > 채팅방 > 거래취소 > TradeCancelHistory 저장
      */
     fun insertTradeCancelHistory(tradeCancelHistory: TradeCancelHistory)
 
