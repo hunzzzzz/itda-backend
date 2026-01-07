@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 
 /**
- * 마이페이지 > 고객센터
+ * 상단바 > 문의하기
  */
 @RestController
 class UserFeedbackController(
