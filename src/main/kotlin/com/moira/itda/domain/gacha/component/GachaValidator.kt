@@ -12,7 +12,7 @@ class GachaValidator {
         "PRICE_ASC",   // 낮은 가격순
         "PRICE_DESC",  // 높은 가격순
         "MOST_WISHED", // 높은 즐겨찾기순
-        "MOST_TRADED"  // TODO: 높은 거래량순
+        "MOST_TRADED"  // 높은 거래량순
     )
 
     /**

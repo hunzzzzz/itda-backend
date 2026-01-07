@@ -37,6 +37,7 @@
              , G.view_count
              , (SELECT COUNT(id) FROM GACHA_WISH WHERE gacha_id = G.id) AS wish_count
              , NULL AS total_pick_count
+             , (SELECT COUNT(id) FROM TRADE_COMPLETE_HISTORY WHERE gacha_id = G.id) AS trade_count
              , G.created_at
              , G.updated_at
         FROM GACHA G
@@ -59,6 +60,7 @@
             <when test="sort == 'PRICE_ASC'">ORDER BY G.price ASC</when>
             <when test="sort == 'PRICE_DESC'">ORDER BY G.price DESC</when>
             <when test="sort == 'MOST_WISHED'">ORDER BY wish_count DESC</when>
+            <when test="sort == 'MOST_TRADED'">ORDER BY trade_count DESC</when>
             <otherwise>ORDER BY G.created_at DESC</otherwise>
         </choose>
         LIMIT #{pageSize} OFFSET #{offset}
@@ -76,6 +78,7 @@
              , G.view_count
              , (SELECT COUNT(id) FROM GACHA_WISH WHERE gacha_id = G.id) AS wish_count
              , (SELECT COUNT(id) FROM GACHA_PICK_HISTORY WHERE gacha_id = G.id) AS total_pick_count
+             , (SELECT COUNT(id) FROM TRADE_COMPLETE_HISTORY WHERE gacha_id = G.id) AS trade_count
              , G.created_at
              , G.updated_at
         FROM GACHA G
@@ -175,6 +178,7 @@
              , G.view_count
              , (SELECT COUNT(id) FROM GACHA_WISH WHERE gacha_id = G.id) AS wish_count
              , NULL           AS total_pick_count
+             , (SELECT COUNT(id) FROM TRADE_COMPLETE_HISTORY WHERE gacha_id = G.id) AS trade_count
              , G.created_at
              , G.updated_at
         FROM GACHA G
