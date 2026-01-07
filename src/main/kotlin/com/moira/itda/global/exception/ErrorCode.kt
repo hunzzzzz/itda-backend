@@ -137,7 +137,11 @@ enum class ErrorCode(
         message = "유효하지 않은 계정 정지일수입니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
-
+    INVALID_FEEDBACK_TYPE(
+        code = "U0015",
+        message = "유효하지 않은 피드백 타입입니다.",
+        httpStatus = HttpStatus.BAD_REQUEST
+    ),
 
     // 권한 관련 에러코드
     INVALID_AUTHORIZATION_HEADER(

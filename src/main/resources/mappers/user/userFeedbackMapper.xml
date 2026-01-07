@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.moira.itda.domain.user_feedback.mapper.UserFeedbackMapper">
+    <!-- 피드백 > Feedback 저장 -->
+    <insert id="insertFeedback">
+        INSERT INTO FEEDBACK (
+               user_id
+             , type
+             , content
+             , created_at
+             , updated_at
+             , answer_content
+             , answered_at
+        )
+        VALUES (
+               #{userId}
+             , #{type}
+             , #{content}
+             , #{createdAt}
+             , #{updatedAt}
+             , #{answerContent}
+             , #{answeredAt}
+        )
+    </insert>
+</mapper>
