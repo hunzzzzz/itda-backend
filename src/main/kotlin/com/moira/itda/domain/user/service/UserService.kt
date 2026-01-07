@@ -58,7 +58,7 @@ class UserService(
     @Transactional
     fun identify(email: String) {
         // [1] 유효성 검사 (중복 체크)
-        validator.validateEmail(email = email)
+        validator.validateEmailDuplication(email = email)
 
         // [2] 6자리 인증번호 생성
         val code = IdentifyCodeGenerator.generate()

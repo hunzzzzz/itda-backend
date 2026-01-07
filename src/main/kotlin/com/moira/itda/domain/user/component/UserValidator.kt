@@ -29,7 +29,7 @@ class UserValidator(
     /**
      * 이메일 중복 확인
      */
-    fun validateEmail(email: String) {
+    fun validateEmailDuplication(email: String) {
         if (mapper.selectEmailChk(email = email)) {
             throw ItdaException(ErrorCode.USING_EMAIL)
         }

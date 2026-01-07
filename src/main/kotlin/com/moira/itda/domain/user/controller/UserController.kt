@@ -38,7 +38,7 @@ class UserController(
      */
     @GetMapping("/api/signup/identify")
     fun checkEmail(@RequestParam email: String): ResponseEntity<Nothing?> {
-        service.identifyForResetPassword(email = email)
+        service.identify(email = email)
 
         return ResponseEntity.ok(null)
     }
