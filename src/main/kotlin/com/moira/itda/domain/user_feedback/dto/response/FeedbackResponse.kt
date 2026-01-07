@@ -6,6 +6,9 @@ data class FeedbackResponse(
     val userId: String,
     val type: String,
     val content: String,
+    val fileId: String?,
+    var fileUrls: List<String>?,
+    val receiveEmailYn: String,
     val createdAt: ZonedDateTime,
     val answerContent: String?,
     val answeredAt: ZonedDateTime?

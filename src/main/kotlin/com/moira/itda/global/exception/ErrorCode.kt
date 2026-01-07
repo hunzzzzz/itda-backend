@@ -137,11 +137,6 @@ enum class ErrorCode(
         message = "유효하지 않은 계정 정지일수입니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
-    INVALID_FEEDBACK_TYPE(
-        code = "U0015",
-        message = "유효하지 않은 피드백 타입입니다.",
-        httpStatus = HttpStatus.BAD_REQUEST
-    ),
 
     // 권한 관련 에러코드
     INVALID_AUTHORIZATION_HEADER(
@@ -410,15 +405,20 @@ enum class ErrorCode(
         httpStatus = HttpStatus.BAD_REQUEST
     ),
 
-    // 정보등록요청 관련 에러코드
-    INVALID_GACHA_ADD_SUGGEST_CONTENT(
-        code = "GAS001",
-        message = "정보등록요청 내용은 필수 입력 항목입니다.",
+    // 피드백 관련 에러코드
+    INVALID_FEEDBACK_TYPE(
+        code = "F0001",
+        message = "유효하지 않은 피드백 타입입니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
-    INVALID_GACHA_ADD_SUGGEST_MESSAGE_YN(
-        code = "GAS002",
-        message = "메시지 수신 여부는 필수 입력 항목입니다. (Y or N)",
+    NO_FEEDBACK_CONTENT(
+        code = "F0002",
+        message = "문의 내용은 필수 입력 항목입니다.",
+        httpStatus = HttpStatus.BAD_REQUEST
+    ),
+    INVALID_RECEIVE_EMAIL_YN(
+        code = "F0003",
+        message = "올바르지 않은 메일 수신 여부입니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     )
 }

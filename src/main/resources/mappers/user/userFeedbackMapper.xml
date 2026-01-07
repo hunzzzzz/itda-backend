@@ -10,6 +10,8 @@
                user_id
              , type
              , content
+             , file_id
+             , receive_email_yn
              , created_at
              , updated_at
              , answer_content
@@ -19,6 +21,8 @@
                #{userId}
              , #{type}
              , #{content}
+             , #{fileId}
+             , #{receiveEmailYn}
              , #{createdAt}
              , #{updatedAt}
              , #{answerContent}
@@ -34,15 +38,18 @@
     <!-- 피드백 목록 조회 -->
     <select id="selectFeedbackList" resultType="com.moira.itda.domain.user_feedback.dto.response.FeedbackResponse">
         SELECT
-               user_id
-             , type
-             , content
-             , created_at
-             , answer_content
-             , answered_at
-        FROM FEEDBACK
-        WHERE user_id = #{userId}
-        ORDER BY created_at DESC
+               F.user_id
+             , F.type
+             , F.content
+             , F.file_id
+             , NULL AS file_urls
+             , receive_email_yn
+             , F.created_at
+             , F.answer_content
+             , F.answered_at
+        FROM FEEDBACK F
+        WHERE F.user_id = #{userId}
+        ORDER BY F.created_at DESC
         LIMIT #{pageSize} OFFSET #{offset}
     </select>
 </mapper>
