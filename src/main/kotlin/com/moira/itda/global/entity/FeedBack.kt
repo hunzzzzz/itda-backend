@@ -7,5 +7,7 @@ data class FeedBack(
     val type: FeedBackType,
     val content: String,
     val createdAt: ZonedDateTime,
+    val updatedAt: ZonedDateTime,
+    val answerContent: String?,
     val answeredAt: ZonedDateTime?
 )
