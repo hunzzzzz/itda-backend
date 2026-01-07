@@ -29,6 +29,8 @@ class JwtAuthenticationFilter(
 ) : OncePerRequestFilter() {
     companion object {
         private val excludeRequestMatchers = listOf(
+            PathPatternRequestMatcher.withDefaults().matcher(HttpMethod.OPTIONS, "/**"),
+            PathPatternRequestMatcher.withDefaults().matcher(HttpMethod.GET, "/health/**"),
             PathPatternRequestMatcher.withDefaults().matcher(HttpMethod.GET, "/api/signup/**"),
             PathPatternRequestMatcher.withDefaults().matcher(HttpMethod.POST, "/api/signup/**"),
             PathPatternRequestMatcher.withDefaults().matcher(HttpMethod.POST, "/api/login/**"),
