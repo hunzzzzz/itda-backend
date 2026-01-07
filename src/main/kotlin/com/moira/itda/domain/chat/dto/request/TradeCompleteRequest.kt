@@ -5,4 +5,6 @@ data class TradeCompleteRequest(
     val tradeItemId: String,
     val tradeSuggestId: String,
     val gachaId: String,
+    val sellerId: String,
+    val buyerId: String
 )

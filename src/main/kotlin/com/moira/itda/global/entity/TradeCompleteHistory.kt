@@ -9,6 +9,8 @@ data class TradeCompleteHistory(
     val tradeId: String,
     val tradeSuggestId: String,
     val gachaId: String,
+    val sellerId: String,
+    val buyerId: String,
     val completedAt: ZonedDateTime
 ) {
     companion object {
@@ -19,6 +21,8 @@ data class TradeCompleteHistory(
                 tradeId = request.tradeId,
                 tradeSuggestId = request.tradeSuggestId,
                 gachaId = request.gachaId,
+                sellerId = request.sellerId,
+                buyerId = request.buyerId,
                 completedAt = ZonedDateTime.now()
             )
         }

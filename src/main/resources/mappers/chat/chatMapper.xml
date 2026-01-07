@@ -136,6 +136,8 @@
              , trade_id
              , trade_suggest_id
              , gacha_id
+             , seller_id
+             , buyer_id
              , completed_at
         )
         VALUES (
@@ -143,6 +145,8 @@
              , #{tradeId}
              , #{tradeSuggestId}
              , #{gachaId}
+             , #{sellerId}
+             , #{buyerId}
              , #{completedAt}
         )
     </insert>
