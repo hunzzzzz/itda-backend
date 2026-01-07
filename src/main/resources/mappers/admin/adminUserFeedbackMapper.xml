@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.moira.itda.domain.admin.feedback.mapper.AdminUserFeedbackMapper">
+    <!-- 유저 피드백 목록 조회 -->
+    <select id="selectFeedbackList" resultType="com.moira.itda.domain.admin.feedback.dto.response.AdminFeedbackResponse">
+        SELECT
+               F.id       AS feedback_id
+             , F.user_id
+             , U.nickname AS user_nickname
+             , F.type
+             , F.file_id
+             , F.receive_email_yn
+             , F.created_at
+             , CASE WHEN F.answer_content IS NOT NULL AND F.answered_at IS NOT NULL
+                    THEN 'Y'
+                    ELSE 'N'
+               END        AS answer_yn
+        FROM FEEDBACK F
+        INNER JOIN USER U ON U.id = F.user_id
+        ORDER BY F.created_at DESC
+    </select>
+
+    <!-- 유저 피드백 상세조회 -->
+    <select id="selectFeedback" resultType="com.moira.itda.domain.admin.feedback.dto.response.AdminFeedbackDetailResponse">
+        SELECT
+               F.id       AS feedback_id
+             , F.user_id
+             , U.nickname AS user_nickname
+             , F.type
+             , F.content
+             , F.file_id
+             , CASE WHEN F.file_id IS NOT NULL
+                    THEN (SELECT file_url FROM IMAGE_FILE WHERE file_id = F.file_id ORDER BY CREATED_AT ASC LIMIT 1)
+                    ELSE NULL
+               END        AS first_file_url
+             , F.receive_email_yn
+             , F.created_at
+             , F.answer_content
+             , F.answered_at
+        FROM FEEDBACK F
+         INNER JOIN USER U ON U.id = F.user_id
+        WHERE F.id = #{feedbackId}
+    </select>
+</mapper>

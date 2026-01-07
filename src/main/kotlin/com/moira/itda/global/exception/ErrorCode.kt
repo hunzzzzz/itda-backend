@@ -420,5 +420,12 @@ enum class ErrorCode(
         code = "F0003",
         message = "올바르지 않은 메일 수신 여부입니다.",
         httpStatus = HttpStatus.BAD_REQUEST
-    )
+    ),
+
+    // 어드민 관련 에러코드
+    FEEDBACK_NOT_FOUND(
+        code = "AM0001",
+        message = "존재하지 않는 피드백입니다.",
+        httpStatus = HttpStatus.BAD_REQUEST
+    ),
 }
