@@ -44,4 +44,27 @@
          INNER JOIN USER U ON U.id = F.user_id
         WHERE F.id = #{feedbackId}
     </select>
+
+    <!-- 유저 피드백 답변 > Feedback 수정 -->
+    <update id="updateFeedbackAnswer">
+        UPDATE FEEDBACK
+        SET
+               answer_content = #{answerContent}
+             , answered_at    = CURRENT_TIMESTAMP
+             , updated_at     = CURRENT_TIMESTAMP
+        WHERE id = #{feedbackId}
+    </update>
+
+    <!-- 유저 피드백 답변 > 유저 이메일 조회 -->
+    <select id="selectUserEmail">
+        SELECT email FROM USER
+        WHERE id = (SELECT user_id FROM FEEDBACK WHERE id = #{feedbackId})
+    </select>
+
+    <!-- 유저 피드백 답변 > 문의사항 type 조회 -->
+    <select id="selectFeedbackTypeKor">
+        SELECT kor_name FROM COMMON_CODE_DETAIL
+        WHERE code_key = 'FEEDBACK_TYPE'
+         AND  eng_name = (SELECT type FROM FEEDBACK WHERE id = #{feedbackId})
+    </select>
 </mapper>

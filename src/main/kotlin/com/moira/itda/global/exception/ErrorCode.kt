@@ -23,6 +23,11 @@ enum class ErrorCode(
         message = "최대 사진 업로드 용량을 초과하였습니다. (단일 사진 용량 최대 5MB, 사진 총합 용량 최대 20MB)",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
+    MAIL_SYSTEM_ERROR(
+        code = "CM0004",
+        message = "이메일 전송 과정에서 오류가 발생했습니다.",
+        httpStatus = HttpStatus.INTERNAL_SERVER_ERROR
+    ),
 
     // 유저 관련 에러코드
     USING_NICKNAME(

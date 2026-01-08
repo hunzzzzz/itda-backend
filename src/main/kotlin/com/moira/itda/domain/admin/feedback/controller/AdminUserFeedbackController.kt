@@ -1,13 +1,12 @@
 package com.moira.itda.domain.admin.feedback.controller
 
+import com.moira.itda.domain.admin.feedback.dto.request.FeedbackAnswerRequest
 import com.moira.itda.domain.admin.feedback.dto.response.AdminFeedbackDetailResponse
 import com.moira.itda.domain.admin.feedback.dto.response.AdminFeedbackResponse
 import com.moira.itda.domain.admin.feedback.service.AdminUserFeedbackService
 import com.moira.itda.global.auth.aop.IsAdmin
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 /**
  * 어드민 페이지 > 유저 피드백
@@ -36,5 +35,16 @@ class AdminUserFeedbackController(
         val response = service.getFeedback(feedbackId = feedbackId)
 
         return ResponseEntity.ok(response)
+    }
+
+    /**
+     * 유저 피드백 답변
+     */
+    @IsAdmin
+    @PostMapping("/api/admin/feedback/{feedbackId}")
+    fun answer(@PathVariable feedbackId: Long, @RequestBody request: FeedbackAnswerRequest): ResponseEntity<Nothing?> {
+        service.answer(feedbackId = feedbackId, request = request)
+
+        return ResponseEntity.ok(null)
     }
 }
