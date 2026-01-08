@@ -7,12 +7,15 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
+/**
+ * 가챠정보 페이지
+ */
 @RestController
 class GachaListController(
     private val service: GachaListService
 ) {
     /**
-     * 가챠정보 > 가챠목록
+     * 가챠목록 조회
      */
     @GetMapping("/api/gacha")
     fun getAll(
