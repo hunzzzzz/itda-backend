@@ -125,7 +125,26 @@ enum class ErrorCode(
         message = "회원탈퇴한 유저입니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
-
+    USING_PLACE_NAME(
+        code = "U0021",
+        message = "이미 사용 중인 장소입니다. 중복되지 않게 설정해주세요.",
+        httpStatus = HttpStatus.BAD_REQUEST
+    ),
+    PLACE_MAXIMUM_FIVE(
+        code = "U0022",
+        message = "최대 5개의 장소만 등록이 가능합니다.",
+        httpStatus = HttpStatus.BAD_REQUEST
+    ),
+    OTHERS_PLACE(
+        code = "U0023",
+        message = "다른 유저의 장소 정보에 접근할 수 없습니다.",
+        httpStatus = HttpStatus.FORBIDDEN
+    ),
+    CANNOT_DELETE_DEFAULT_PLACE(
+        code = "U0024",
+        message = "'기본'으로 설정된 장소를 삭제할 수 없습니다.",
+        httpStatus = HttpStatus.BAD_REQUEST
+    ),
 
     INVALID_BAN_REASON(
         code = "U0013",
