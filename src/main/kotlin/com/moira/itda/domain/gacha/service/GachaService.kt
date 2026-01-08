@@ -33,7 +33,9 @@ class GachaService(
         val gacha = mapper.selectGacha(userId = userId, gachaId = gachaId)
             ?: throw ItdaException(ErrorCode.GACHA_NOT_FOUND)
         val items = mapper.selectGachaItemList(gachaId = gachaId)
+        val wishYn = mapper.selectGachaWishChk(userId = userId, gachaId = gachaId)
         val pickedItems = mapper.selectGachaPickHistoryList(gachaId = gachaId, userId = userId)
+        val places = mapper.selectUserPlaceList(userId = userId)
 
         // [2] 쿠키에 GachaId 여부 확인
         if (!cookieHandler.checkGachaIdInCookie(gachaId = gachaId, request = httpReq)) {
@@ -45,7 +47,13 @@ class GachaService(
         }
 
         // [3] 상세정보 리턴
-        return GachaDetailResponse(gacha = gacha, items = items, pickedItems = pickedItems)
+        return GachaDetailResponse(
+            gacha = gacha,
+            items = items,
+            myWishYn = wishYn,
+            myPickedItems = pickedItems,
+            myPlaces = places
+        )
     }
 
     /**

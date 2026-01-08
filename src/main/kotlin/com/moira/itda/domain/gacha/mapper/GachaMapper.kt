@@ -13,22 +13,32 @@ interface GachaMapper {
     // --------------------------------------------------------------------------------------------------- //
 
     /**
-     * 가챠정보 > 가챠목록 > 상세정보 > 상세정보 조회
+     * 가챠상세정보 > 가챠 조회
      */
     fun selectGacha(userId: String, gachaId: String): GachaResponse?
 
     /**
-     * 가챠정보 > 가챠목록 > 상세정보 > 하위 아이템 목록 조회
+     * 가챠상세정보 > 가챠 아이템목록 조회
      */
     fun selectGachaItemList(gachaId: String): List<GachaItemResponse>
 
     /**
-     * 가챠정보 > 가챠목록 > 상세정보 > 내 가챠 이력 조회
+     * 가챠상세정보 > 내 즐겨찾기 여부 조회
      */
-    fun selectGachaPickHistoryList(gachaId: String, userId: String): List<GachaPickedItemResponse>
+    fun selectGachaWishChk(userId: String, gachaId: String): String
 
     /**
-     * 가챠정보 > 가챠목록 > 상세정보 > 조회수 증가
+     * 가챠상세정보 > 내 가챠이력 조회
+     */
+    fun selectGachaPickHistoryList(gachaId: String, userId: String): List<MyPickedItemResponse>
+
+    /**
+     * 가챠상세정보 > MY PLACE 목록 조회
+     */
+    fun selectUserPlaceList(userId: String): List<MyPlaceResponse>
+
+    /**
+     * 가챠상세정보 > 조회수 증가
      */
     fun updateViewCount(gachaId: String)
 

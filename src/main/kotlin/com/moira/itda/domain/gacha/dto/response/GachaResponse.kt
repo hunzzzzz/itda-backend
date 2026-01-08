@@ -14,7 +14,6 @@ data class GachaResponse(
     val wishCount: Int,
     val totalPickCount: Int?,
     val tradeCount: Int,
-    val wishYn: String,
     val createdAt: ZonedDateTime,
     val updatedAt: ZonedDateTime
 )
