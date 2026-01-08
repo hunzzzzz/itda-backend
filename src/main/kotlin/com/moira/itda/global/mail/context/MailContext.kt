@@ -11,9 +11,5 @@ object MailContext {
     const val FEEDBACK_ANSWER_SUBJECT = "[ITDA] '%s' 관련 문의사항에 대한 관리자의 답변이 등록되었습니다."
 
     // 피드백 답변 내용
-    const val FEEDBACK_ANSWER_TEXT = """
-        제공해주신 '%s' 관련 문의사항에 대한 답변입니다.
-        --
-        %s
-    """
+    const val FEEDBACK_ANSWER_TEXT = "제공해주신 '%s' 관련 문의사항에 대한 답변입니다.\n----------\n\n%s"
 }
