@@ -120,10 +120,25 @@
              , (SELECT COUNT(id) FROM TRADE_SUGGEST WHERE trade_id = T.id AND gacha_id = T.gacha_id AND status != 'CANCELED') AS suggest_count
              , T.created_at
         FROM TRADE T
-        INNER JOIN USER U ON U.id = T.user_id
+            INNER JOIN USER       U ON U.id = T.user_id
+        <if test='placeId != null and placeId != ""'>
+            INNER JOIN USER_PLACE P ON P.id = #{placeId}
+        </if>
         WHERE T.gacha_id = #{gachaId}
          AND T.status != 'DELETED'
         <choose>
+            <when test='placeId != null and placeId != ""'>
+                AND T.hope_method = 'DIRECT'
+                AND (
+                    6371 * acos(
+                          cos(radians(P.latitude))
+                        * cos(radians(T.hope_location_latitude))
+                        * cos(radians(T.hope_location_longitude) - radians(P.longitude))
+                        + sin(radians(P.latitude))
+                        * sin(radians(T.hope_location_latitude))
+                    )
+                ) <![CDATA[ <= ]]> 5
+            </when>
             <when test='onlyPending == "Y"'>
                 AND T.status = 'PENDING'
             </when>

@@ -26,15 +26,21 @@ interface TradeMapper {
     fun insertTradeItem(tradeItem: TradeItem)
 
     /**
-     * 가챠정보 > 가챠목록 > 상세정보 > 거래 목록 조회 > totalElements 계산
+     * 가챠상세정보 > 거래목록 조회 > totalElements 계산
      */
-    fun selectTradeListCnt(gachaId: String, onlyPending: String, gachaItemId: Long?): Long
+    fun selectTradeListCnt(
+        gachaId: String,
+        placeId: String?,
+        onlyPending: String,
+        gachaItemId: Long?
+    ): Long
 
     /**
-     * 가챠정보 > 가챠목록 > 상세정보 > 거래 목록 조회
+     * 가챠상세정보 > 거래목록 조회
      */
     fun selectTradeList(
         gachaId: String,
+        placeId: String?,
         onlyPending: String,
         gachaItemId: Long?,
         pageSize: Int,

@@ -73,6 +73,7 @@
         WHERE gacha_id = #{gachaId}
          AND user_id = #{userId}
         GROUP BY gacha_id, gacha_item_id, user_id
+        ORDER BY gacha_item_id ASC
     </select>
 
     <!-- 가챠상세정보 > MY PLACE 목록 조회 -->

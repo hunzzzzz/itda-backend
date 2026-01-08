@@ -71,20 +71,27 @@ class TradeService(
     }
 
     /**
-     * 가챠정보 > 가챠목록 > 상세정보 > 거래 목록 조회
+     * 가챠상세정보 > 거래목록 조회
      */
     @Transactional(readOnly = true)
-    fun getTradeList(gachaId: String, page: Int, onlyPending: String, gachaItemId: Long?): TradePageResponse {
+    fun getTradeList(
+        gachaId: String,
+        page: Int,
+        placeId: String?,
+        onlyPending: String,
+        gachaItemId: Long?
+    ): TradePageResponse {
         // [1] 변수 세팅
         val pageSize = GACHA_DETAIL_TRADE_PAGE_SIZE
         val offset = offsetPaginationHandler.getOffset(page = page, pageSize = pageSize)
 
         // [2] Trade 목록 조회
         val totalElements = mapper.selectTradeListCnt(
-            gachaId = gachaId, onlyPending = onlyPending, gachaItemId = gachaItemId
+            gachaId = gachaId, placeId = placeId, onlyPending = onlyPending, gachaItemId = gachaItemId
         )
         val trades = mapper.selectTradeList(
             gachaId = gachaId,
+            placeId = placeId,
             onlyPending = onlyPending,
             gachaItemId = gachaItemId,
             pageSize = pageSize,
