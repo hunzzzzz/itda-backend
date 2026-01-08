@@ -15,10 +15,6 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
-/**
- * 가챠정보 > 가챠목록
- * 가챠정보 > 가챠목록 > 상세정보
- */
 @RestController
 class GachaController(
     private val service: GachaService
@@ -83,6 +79,7 @@ class GachaController(
     }
 
     /**
+     * 가챠이력 저장 모달 > 가챠이력 저장 > 가챠 하위 아이템목록 조회
      * 거래제안 모달 > 가챠 하위 아이템 목록 조회
      * 교환등록 > 가챠 하위 아이템 목록 조회
      * 판매등록 > 가챠 하위 아이템 목록 조회

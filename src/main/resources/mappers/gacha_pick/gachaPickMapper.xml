@@ -4,13 +4,13 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.moira.itda.domain.gacha_pick.mapper.GachaPickMapper">
-    <!-- 가챠정보 > 가챠목록 > 상세정보 > 가챠 이력 저장 > 기존 GachaPickHistory 삭제 -->
+    <!-- 가챠이력 저장 > 기존 GachaPickHistory 삭제 -->
     <delete id="deleteGachaPickHistory">
         DELETE FROM GACHA_PICK_HISTORY
         WHERE gacha_id = #{gachaId} AND user_id = #{userId}
     </delete>
 
-    <!-- 가챠정보 > 가챠목록 > 상세정보 > 가챠 이력 저장 > GachaPickHistory 저장 -->
+    <!-- 가챠이력 저장 > GachaPickHistory 저장 -->
     <insert id="insertGachaPickHistory">
         INSERT INTO GACHA_PICK_HISTORY (
                gacha_id

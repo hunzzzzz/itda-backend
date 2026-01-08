@@ -49,7 +49,7 @@ class GachaService(
     }
 
     /**
-     * [내부 메서드] ]gachaId로 하위 아이템 목록을 조회한 후, TargetContentResponse 리스트로 변환
+     * [내부 메서드] gachaId로 하위 아이템 목록을 조회한 후, TargetContentResponse 리스트로 변환
      */
     private fun convertToTargetContentResponse(gachaList: List<TargetGachaResponse>): List<TargetContentResponse> {
         return gachaList.map { gacha ->

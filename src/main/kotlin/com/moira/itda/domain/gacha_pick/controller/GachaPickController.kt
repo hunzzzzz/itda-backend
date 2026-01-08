@@ -11,14 +11,14 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 
 /**
- * 가챠정보 > 가챠목록 > 상세정보 > 가챠 이력 저장
+ * 가챠이력 저장 모달
  */
 @RestController
 class GachaPickController(
     private val service: GachaPickService
 ) {
     /**
-     * 가챠정보 > 가챠목록 > 상세정보 > 가챠 이력 저장
+     * 가챠이력 저장
      */
     @PostMapping("/api/gacha/{gachaId}/pick")
     fun pick(

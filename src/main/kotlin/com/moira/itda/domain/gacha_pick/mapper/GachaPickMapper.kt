@@ -6,12 +6,12 @@ import org.apache.ibatis.annotations.Mapper
 @Mapper
 interface GachaPickMapper {
     /**
-     * 가챠정보 > 가챠목록 > 상세정보 > 가챠 이력 저장 > 기존 GachaPickHistory 삭제
+     * 가챠이력 저장 > 기존 GachaPickHistory 삭제
      */
     fun deleteGachaPickHistory(gachaId: String, userId: String)
 
     /**
-     * 가챠정보 > 가챠목록 > 상세정보 > 가챠 이력 저장 > GachaPickHistory 저장
+     * 가챠이력 저장 > GachaPickHistory 저장
      */
     fun insertGachaPickHistory(gachaPickHistory: GachaPickHistory)
 }
