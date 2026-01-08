@@ -24,20 +24,6 @@ class GachaController(
     private val service: GachaService
 ) {
     /**
-     * 가챠정보 > 가챠목록
-     */
-    @GetMapping("/api/gacha")
-    fun getAll(
-        @RequestParam(required = false, defaultValue = "") keyword: String,
-        @RequestParam(required = false, defaultValue = "1") page: Int,
-        @RequestParam(required = false, defaultValue = "LATEST") sort: String
-    ): ResponseEntity<GachaPageResponse> {
-        val response = service.getGachaList(keyword = keyword, page = page, sort = sort)
-
-        return ResponseEntity.ok(response)
-    }
-
-    /**
      * 가챠정보 > 가챠목록 > 상세정보
      */
     @GetMapping("/api/gacha/{gachaId}")
