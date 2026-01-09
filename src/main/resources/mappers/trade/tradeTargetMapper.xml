@@ -10,7 +10,7 @@
     </select>
 
     <!-- 거래대상 가챠지정 모달 > 즐겨찾기 목록 > 가챠목록 조회 -->
-    <select id="selectTargetWishGachaList" resultType="com.moira.itda.domain.trade_target.dto.response.TargetGachaResponse">
+    <select id="selectGachaWishList" resultType="com.moira.itda.domain.trade_target.dto.response.TargetGachaResponse">
         SELECT G.id AS gacha_id, G.title
         FROM GACHA G
          INNER JOIN GACHA_WISH GW ON GW.gacha_id = G.id
@@ -48,7 +48,7 @@
     </select>
 
     <!-- 거래대상 가챠지정 모달 > 가챠목록 -->
-    <select id="selectTargetGachaList" resultType="com.moira.itda.domain.trade_target.dto.response.TargetGachaResponse">
+    <select id="selectGachaList" resultType="com.moira.itda.domain.trade_target.dto.response.TargetGachaResponse">
         SELECT G.id AS gacha_id, G.title
         FROM GACHA G
         WHERE 1=1
