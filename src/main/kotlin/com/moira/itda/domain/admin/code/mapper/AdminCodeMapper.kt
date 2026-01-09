@@ -21,9 +21,9 @@ interface AdminCodeMapper {
     fun insertCommonCode(commonCode: CommonCode)
 
     /**
-     * 어드민 페이지 > 공통코드 > 세부코드 등록 > engName 존재 여부 확인
+     * 어드민 페이지 > 공통코드 > 세부코드 등록 > key, engName 존재 여부 확인
      */
-    fun selectEngNameChk(engName: String): Int
+    fun selectKeyAndEngNameChk(key: String, engName: String): Boolean
 
     /**
      * 어드민 페이지 > 공통코드 > 세부코드 등록 > CommonCodeDetail 저장

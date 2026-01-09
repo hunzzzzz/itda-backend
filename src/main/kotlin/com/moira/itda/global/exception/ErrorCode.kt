@@ -243,7 +243,7 @@ enum class ErrorCode(
         httpStatus = HttpStatus.BAD_REQUEST
     ),
 
-
+    // 가챠 관련 에러코드
     INVALID_GACHA_TITLE(
         code = "G0001",
         message = "유효하지 않은 가챠 제목입니다.",

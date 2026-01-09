@@ -23,9 +23,13 @@
         )
     </insert>
 
-    <!-- 어드민 페이지 > 공통코드 > 세부코드 등록 > engName 존재 여부 확인 -->
-    <select id="selectEngNameChk">
-        SELECT COUNT(id) FROM COMMON_CODE_DETAIL WHERE eng_name = #{engName}
+    <!-- 어드민 페이지 > 공통코드 > 세부코드 등록 > key, engName 존재 여부 확인 -->
+    <select id="selectKeyAndEngNameChk" resultType="java.lang.Boolean">
+        SELECT EXISTS (
+            SELECT 1 FROM COMMON_CODE_DETAIL
+            WHERE code_key = #{key}
+             AND  eng_name = #{engName}
+        )
     </select>
 
     <!-- 어드민 페이지 > 공통코드 > 세부코드 등록 > CommonCodeDetail 저장 -->

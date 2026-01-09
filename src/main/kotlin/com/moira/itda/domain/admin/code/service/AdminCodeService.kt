@@ -41,7 +41,7 @@ class AdminCodeService(
     @Transactional
     fun addDetail(key: String, request: AdminCodeDetailAddRequest) {
         // [1] 유효성 검사
-        if (adminCodeMapper.selectEngNameChk(engName = request.engName) > 0) {
+        if (adminCodeMapper.selectKeyAndEngNameChk(key = key, engName = request.engName)) {
             throw ItdaException(ErrorCode.ALREADY_USING_CODE_DETAIL_NAME)
         }
 
