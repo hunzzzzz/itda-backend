@@ -17,7 +17,10 @@ class LoggingFilter : OncePerRequestFilter() {
         response: HttpServletResponse,
         filterChain: FilterChain
     ) {
-        log.info("[요청 URI] {} {}", request.method, request.requestURI)
+        // Health Check API는 로깅을 하지 않는다.
+        if (!request.requestURI.startsWith("/health")) {
+            log.info("[요청 URI] {} {}", request.method, request.requestURI)
+        }
 
         filterChain.doFilter(request, response)
     }
