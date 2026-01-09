@@ -8,7 +8,7 @@
     <!-- 거래제안 모달 > 가챠 아이템목록 조회 -->
     <!-- 교환등록 > 가챠 아이템목록 조회 -->
     <!-- 판매등록 > 가챠 아이템목록 조회 -->
-    <select id="selectGachaItemNameList" resultType="com.moira.itda.domain.gacha_common.dto.response.GachaItemNameResponse">
+    <select id="selectGachaItemList" resultType="com.moira.itda.domain.gacha_common.dto.response.GachaItemNameResponse">
         SELECT id AS gacha_item_id, name
         FROM GACHA_ITEM
         WHERE gacha_id = #{gachaId}

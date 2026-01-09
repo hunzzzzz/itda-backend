@@ -11,5 +11,5 @@ interface GachaCommonMapper {
      * 교환등록 > 가챠 아이템목록 조회
      * 판매등록 > 가챠 아이템목록 조회
      */
-    fun selectGachaItemNameList(gachaId: String): List<GachaItemNameResponse>
+    fun selectGachaItemList(gachaId: String): List<GachaItemNameResponse>
 }

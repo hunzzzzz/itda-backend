@@ -17,6 +17,6 @@ class GachaCommonService(
      */
     @Transactional(readOnly = true)
     fun getGachaItemList(gachaId: String): List<GachaItemNameResponse> {
-        return mapper.selectGachaItemNameList(gachaId = gachaId)
+        return mapper.selectGachaItemList(gachaId = gachaId)
     }
 }
