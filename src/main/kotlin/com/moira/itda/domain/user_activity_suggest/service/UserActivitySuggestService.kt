@@ -27,7 +27,7 @@ class UserActivitySuggestService(
     /**
      * [내부 메서드] 제안취소 시 유효성 검사
      */
-    fun validateCancelSuggest(suggestStatus: String, userId: String, suggestUserId: String) {
+    private fun validateCancelSuggest(suggestStatus: String, userId: String, suggestUserId: String) {
         // [1] status에 대한 유효성 검사
         when (suggestStatus) {
             TradeSuggestStatus.APPROVED.name -> {
@@ -55,7 +55,7 @@ class UserActivitySuggestService(
     /**
      * [내부 메서드] 제안삭제 시 유효성 검사
      */
-    fun validateDeleteSuggest(suggestStatus: String, userId: String, suggestUserId: String) {
+    private fun validateDeleteSuggest(suggestStatus: String, userId: String, suggestUserId: String) {
         // [1] status에 대한 유효성 검사
         when (suggestStatus) {
             TradeSuggestStatus.APPROVED.name -> {
