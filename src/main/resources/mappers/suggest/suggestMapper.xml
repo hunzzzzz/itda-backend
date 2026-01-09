@@ -17,7 +17,7 @@
             WHERE trade_id         = #{tradeId}
              AND  trade_item_id    = #{tradeItemId}
              AND  user_id          = #{userId}
-             AND  status          != 'DELETED'
+             AND  status          IN ('PENDING', 'APPROVED')
              AND  purchase_item_id = #{purchaseItemId}
         )
     </select>
@@ -29,7 +29,7 @@
             WHERE trade_id                   = #{tradeId}
              AND  trade_item_id              = #{tradeItemId}
              AND  user_id                    = #{userId}
-             AND  status                    != 'DELETED'
+             AND  status                    IN ('PENDING', 'APPROVED')
              AND  exchange_seller_item_id    = #{exchangeSellerItemId}
              AND  exchange_suggested_item_id = #{exchangeSuggestedItemId}
         )
