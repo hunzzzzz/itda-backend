@@ -4,7 +4,6 @@ import com.moira.itda.domain.suggest.dto.request.ExchangeSuggestRequest
 import com.moira.itda.domain.suggest.dto.request.PurchaseSuggestRequest
 import com.moira.itda.domain.suggest.dto.request.TradeSuggestYnRequest
 import com.moira.itda.domain.suggest.dto.response.ChatRoomIdResponse
-import com.moira.itda.domain.suggest.dto.response.MyTradeSuggestPageResponse
 import com.moira.itda.domain.suggest.dto.response.TradeSuggestPageResponse
 import com.moira.itda.domain.suggest.service.SuggestService
 import com.moira.itda.global.auth.aop.UserPrincipal
@@ -84,45 +83,6 @@ class SuggestController(
         @RequestBody request: TradeSuggestYnRequest
     ): ResponseEntity<Nothing> {
         service.reject(tradeId = tradeId, request = request)
-
-        return ResponseEntity.ok(null)
-    }
-
-    /**
-     * 내 활동 > 제안 > 내 제안목록 조회
-     */
-    @GetMapping("/api/me/trade/suggest")
-    fun getMySuggestList(
-        @UserPrincipal userAuth: UserAuth,
-        @RequestParam(required = false, defaultValue = "1") page: Int
-    ): ResponseEntity<MyTradeSuggestPageResponse> {
-        val response = service.getMySuggestList(userId = userAuth.userId, page = page)
-
-        return ResponseEntity.ok(response)
-    }
-
-    /**
-     * 내 활동 > 제안 > 제안취소
-     */
-    @DeleteMapping("/api/me/trade/suggest/{suggestId}/cancel")
-    fun cancel(
-        @UserPrincipal userAuth: UserAuth,
-        @PathVariable suggestId: String
-    ): ResponseEntity<Nothing> {
-        service.cancelSuggest(userId = userAuth.userId, suggestId = suggestId)
-
-        return ResponseEntity.ok(null)
-    }
-
-    /**
-     * 내 활동 > 제안 > 제안삭제
-     */
-    @DeleteMapping("/api/me/trade/suggest/{suggestId}/delete")
-    fun delete(
-        @UserPrincipal userAuth: UserAuth,
-        @PathVariable suggestId: String
-    ): ResponseEntity<Nothing> {
-        service.deleteSuggest(userId = userAuth.userId, suggestId = suggestId)
 
         return ResponseEntity.ok(null)
     }

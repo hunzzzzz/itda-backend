@@ -1,4 +1,4 @@
-package com.moira.itda.domain.suggest.dto.response
+package com.moira.itda.domain.user_activity_suggest.dto.response
 
 import java.time.ZonedDateTime
 
@@ -20,6 +20,7 @@ data class MyTradeSuggestResponse(
     // 구매제안 관련
     val purchaseItemId: Long?,
     val purchaseItemName: String?,
+    val purchaseOriginalPrice: Int?,
     val purchaseDiscountYn: String?,
     val purchaseDiscountPrice: Int?,
     // 교환제안 관련
