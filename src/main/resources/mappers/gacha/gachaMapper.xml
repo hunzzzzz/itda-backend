@@ -119,7 +119,7 @@
     <!-- 거래제안 모달 > 가챠 하위 아이템 목록 조회 -->
     <!-- 교환등록 > 가챠 하위 아이템 목록 조회 -->
     <!-- 판매등록 > 가챠 하위 아이템 목록 조회 -->
-    <select id="selectGachaItemNameList" resultType="com.moira.itda.domain.gacha.dto.response.GachaItemNameResponse">
+    <select id="selectGachaItemNameList" resultType="com.moira.itda.domain.gacha_common.dto.response.GachaItemNameResponse">
         SELECT
                id     AS gacha_item_id
              , name

@@ -1,6 +1,9 @@
 package com.moira.itda.domain.gacha.mapper
 
-import com.moira.itda.domain.gacha.dto.response.*
+import com.moira.itda.domain.gacha.dto.response.GachaItemResponse
+import com.moira.itda.domain.gacha.dto.response.GachaResponse
+import com.moira.itda.domain.gacha.dto.response.MyPickedItemResponse
+import com.moira.itda.domain.gacha.dto.response.MyPlaceResponse
 import com.moira.itda.global.entity.GachaWish
 import org.apache.ibatis.annotations.Mapper
 
@@ -56,11 +59,4 @@ interface GachaMapper {
      * 마이페이지 > 즐겨찾기 > 즐겨찾기 가챠목록
      */
     fun selectWishGachaList(userId: String, pageSize: Int, offset: Int): List<GachaResponse>
-
-    /**
-     * 거래제안 모달 > 가챠 하위 아이템 목록 조회
-     * 교환등록 > 가챠 하위 아이템 목록 조회
-     * 판매등록 > 가챠 하위 아이템 목록 조회
-     */
-    fun selectGachaItemNameList(gachaId: String): List<GachaItemNameResponse>
 }

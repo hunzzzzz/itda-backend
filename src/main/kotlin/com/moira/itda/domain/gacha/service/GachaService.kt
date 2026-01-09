@@ -1,7 +1,6 @@
 package com.moira.itda.domain.gacha.service
 
 import com.moira.itda.domain.gacha.dto.response.GachaDetailResponse
-import com.moira.itda.domain.gacha.dto.response.GachaItemNameResponse
 import com.moira.itda.domain.gacha.dto.response.GachaPageResponse
 import com.moira.itda.domain.gacha.mapper.GachaMapper
 import com.moira.itda.global.auth.component.CookieHandler
@@ -98,15 +97,5 @@ class GachaService(
 
         // [4] DTO 병합 후 리턴
         return GachaPageResponse(content = gachaList, page = pageResponse)
-    }
-
-    /**
-     * 거래제안 모달 > 가챠 하위 아이템 목록 조회
-     * 교환등록 > 가챠 하위 아이템 목록 조회
-     * 판매등록 > 가챠 하위 아이템 목록 조회
-     */
-    @Transactional(readOnly = true)
-    fun getGachaItemList(gachaId: String): List<GachaItemNameResponse> {
-        return mapper.selectGachaItemNameList(gachaId = gachaId)
     }
 }

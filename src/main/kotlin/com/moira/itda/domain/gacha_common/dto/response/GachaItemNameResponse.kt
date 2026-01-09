@@ -1,4 +1,4 @@
-package com.moira.itda.domain.gacha.dto.response
+package com.moira.itda.domain.gacha_common.dto.response
 
 data class GachaItemNameResponse(
     val gachaItemId: Long,
