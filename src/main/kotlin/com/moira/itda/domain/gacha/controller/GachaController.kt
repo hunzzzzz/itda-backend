@@ -3,7 +3,6 @@ package com.moira.itda.domain.gacha.controller
 import com.moira.itda.domain.gacha.dto.response.GachaDetailResponse
 import com.moira.itda.domain.gacha.dto.response.GachaItemNameResponse
 import com.moira.itda.domain.gacha.dto.response.GachaPageResponse
-import com.moira.itda.domain.gacha.dto.response.TargetPageResponse
 import com.moira.itda.domain.gacha.service.GachaService
 import com.moira.itda.global.auth.aop.UserPrincipal
 import com.moira.itda.global.auth.dto.UserAuth
@@ -12,6 +11,7 @@ import jakarta.servlet.http.HttpServletResponse
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
@@ -20,7 +20,7 @@ class GachaController(
     private val service: GachaService
 ) {
     /**
-     * 가챠정보 > 가챠목록 > 상세정보
+     * 가챠상세정보
      */
     @GetMapping("/api/gacha/{gachaId}")
     fun get(
@@ -40,29 +40,16 @@ class GachaController(
     }
 
     /**
-     * 교환/판매 대상 지정 모달 > 가챠목록
+     * 가챠상세정보 > 즐겨찾기
      */
-    @GetMapping("/api/target/gacha")
-    fun getGachaList(
-        @RequestParam(required = false, defaultValue = "") keyword: String,
-        @RequestParam(required = false, defaultValue = "1") page: Int
-    ): ResponseEntity<TargetPageResponse> {
-        val response = service.getTargetGachaList(keyword = keyword, page = page)
-
-        return ResponseEntity.ok(response)
-    }
-
-    /**
-     * 교환/판매 대상 지정 모달 > 즐겨찾기 가챠목록
-     */
-    @GetMapping("/api/target/wish")
-    fun getWishList(
+    @PutMapping("/api/gacha/{gachaId}/wish")
+    fun wish(
         @UserPrincipal userAuth: UserAuth,
-        @RequestParam(required = false, defaultValue = "1") page: Int
-    ): ResponseEntity<TargetPageResponse> {
-        val response = service.getTargetWishGachaList(userId = userAuth.userId, page = page)
+        @PathVariable gachaId: String
+    ): ResponseEntity<Nothing?> {
+        service.wish(userId = userAuth.userId, gachaId = gachaId)
 
-        return ResponseEntity.ok(response)
+        return ResponseEntity.ok(null)
     }
 
     /**

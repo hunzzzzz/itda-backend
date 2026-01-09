@@ -4,26 +4,6 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.moira.itda.domain.gacha.mapper.GachaMapper">
-    <!-- 교환/판매 대상 지정 모달 > 즐겨찾기 목록 > 가챠목록 조회 > totalElements 계산 -->
-    <select id="selectGachaListCnt">
-        SELECT COUNT(G.id)
-        FROM GACHA G
-        WHERE 1=1
-        <choose>
-            <when test="keyword != null and keyword != ''">
-                AND (
-                       G.title        LIKE CONCAT('%', #{keyword}, '%')
-                    OR G.manufacturer LIKE CONCAT('%', #{keyword}, '%')
-                    OR EXISTS (
-                        SELECT 1 FROM GACHA_ITEM GI
-                        WHERE GI.gacha_id = G.id
-                         AND GI.name  LIKE CONCAT('%', #{keyword}, '%')
-                    )
-                )
-            </when>
-        </choose>
-    </select>
-
     <!-- 가챠상세정보 > 가챠 조회 -->
     <select id="selectGacha" resultType="com.moira.itda.domain.gacha.dto.response.GachaResponse">
         SELECT
@@ -55,6 +35,7 @@
     </select>
 
     <!-- 가챠상세정보 > 내 즐겨찾기 여부 조회 -->
+    <!-- 가챠상세정보 > 즐겨찾기 > 내 즐겨찾기 여부 조회 -->
     <select id="selectGachaWishChk" resultType="java.lang.String">
         WITH T AS (
             SELECT EXISTS (
@@ -93,58 +74,24 @@
         UPDATE GACHA SET view_count = view_count + 1 WHERE id = #{gachaId}
     </update>
 
-    <!-- ================================================================================================= -->
+    <!-- 가챠상세정보 > 즐겨찾기 > GachaWish 저장 -->
+    <insert id="insertGachaWish">
+        INSERT INTO GACHA_WISH (
+               user_id
+             , gacha_id
+             , created_at
+        )
+        VALUES (
+               #{userId}
+             , #{gachaId}
+             , #{createdAt}
+        )
+    </insert>
 
-    <!-- 교환/판매 대상 지정 모달 > 가챠목록 > 가챠목록 조회 -->
-    <select id="selectTargetGachaList" resultType="com.moira.itda.domain.gacha.dto.response.TargetGachaResponse">
-        SELECT
-               G.id     AS gacha_id
-             , G.title
-        FROM GACHA G
-        WHERE 1=1
-        <choose>
-            <when test="keyword != null and keyword != ''">
-                AND (
-                       G.title        LIKE CONCAT('%', #{keyword}, '%')
-                    OR G.manufacturer LIKE CONCAT('%', #{keyword}, '%')
-                    OR EXISTS (
-                        SELECT 1 FROM GACHA_ITEM GI
-                        WHERE GI.gacha_id = G.id
-                        AND GI.name LIKE CONCAT('%', #{keyword}, '%')
-                    )
-                )
-            </when>
-        </choose>
-        LIMIT #{pageSize} OFFSET #{offset}
-    </select>
-
-    <!-- 교환/판매 대상 지정 모달 > 가챠목록 > 하위 아이템 목록 조회 -->
-    <!-- 교환/판매 대상 지정 모달 > 즐겨찾기 가챠목록 > 하위 아이템 목록 조회 -->
-    <select id="selectTargetGachaItemList" resultType="com.moira.itda.domain.gacha.dto.response.TargetGachaItemResponse">
-        SELECT
-               id   AS gacha_item_id
-             , name
-        FROM GACHA_ITEM
-        WHERE gacha_id = #{gachaId}
-    </select>
-
-    <!-- 교환/판매 대상 지정 모달 > 즐겨찾기 가챠목록 > 가챠목록 조회 > totalElements 계산 -->
-    <!-- 마이페이지 > 즐겨찾기 > 즐겨찾기 가챠목록 > totalElements 계산 -->
-    <select id="selectWishGachaListCnt">
-        SELECT COUNT(id) FROM GACHA_WISH WHERE user_id = #{userId}
-    </select>
-
-    <!-- 교환/판매 대상 지정 모달 > 즐겨찾기 가챠목록 > 가챠목록 조회 -->
-    <select id="selectTargetWishGachaList" resultType="com.moira.itda.domain.gacha.dto.response.TargetGachaResponse">
-        SELECT
-               G.id    AS gacha_id
-             , G.title
-        FROM GACHA G
-        INNER JOIN GACHA_WISH GW ON GW.gacha_id = G.id
-        WHERE GW.user_id = #{userId}
-        ORDER BY GW.created_at DESC
-        LIMIT #{pageSize} OFFSET #{offset}
-    </select>
+    <!-- 가챠상세정보 > 즐겨찾기 > GachaWish 삭제 -->
+    <delete id="deleteGachaWish">
+        DELETE FROM GACHA_WISH WHERE user_id = #{userId} AND gacha_id = #{gachaId}
+    </delete>
 
     <!-- 마이페이지 > 즐겨찾기 > 즐겨찾기 가챠목록 -->
     <select id="selectWishGachaList" resultType="com.moira.itda.domain.gacha.dto.response.GachaResponse">

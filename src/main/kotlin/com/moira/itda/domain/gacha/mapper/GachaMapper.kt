@@ -1,17 +1,11 @@
 package com.moira.itda.domain.gacha.mapper
 
 import com.moira.itda.domain.gacha.dto.response.*
+import com.moira.itda.global.entity.GachaWish
 import org.apache.ibatis.annotations.Mapper
 
 @Mapper
 interface GachaMapper {
-    /**
-     * 교환/판매 대상 지정 모달 > 즐겨찾기 목록 > 가챠목록 조회 > totalElements 계산
-     */
-    fun selectGachaListCnt(keyword: String): Long
-
-    // --------------------------------------------------------------------------------------------------- //
-
     /**
      * 가챠상세정보 > 가챠 조회
      */
@@ -24,6 +18,7 @@ interface GachaMapper {
 
     /**
      * 가챠상세정보 > 내 즐겨찾기 여부 조회
+     * 가챠상세정보 > 즐겨찾기 > 내 즐겨찾기 여부 조회
      */
     fun selectGachaWishChk(userId: String, gachaId: String): String
 
@@ -42,38 +37,25 @@ interface GachaMapper {
      */
     fun updateViewCount(gachaId: String)
 
-    // --------------------------------------------------------------------------------------------------- //
-
     /**
-     * 교환/판매 대상 지정 모달 > 가챠목록 > 가챠목록 조회
+     * 가챠상세정보 > 즐겨찾기 > GachaWish 저장
      */
-    fun selectTargetGachaList(keyword: String, pageSize: Int, offset: Int): List<TargetGachaResponse>
+    fun insertGachaWish(gachaWish: GachaWish)
 
     /**
-     * 교환/판매 대상 지정 모달 > 가챠목록 > 하위 아이템 목록 조회
-     * 교환/판매 대상 지정 모달 > 즐겨찾기 가챠목록 > 하위 아이템 목록 조회
+     * 가챠상세정보 > 즐겨찾기 > GachaWish 삭제
      */
-    fun selectTargetGachaItemList(gachaId: String): List<TargetGachaItemResponse>
+    fun deleteGachaWish(userId: String, gachaId: String)
 
     /**
-     * 교환/판매 대상 지정 모달 > 즐겨찾기 가챠목록 > 가챠목록 조회 > totalElements 계산
      * 마이페이지 > 즐겨찾기 > 즐겨찾기 가챠목록 > totalElements 계산
      */
     fun selectWishGachaListCnt(userId: String): Long
 
     /**
-     * 교환/판매 대상 지정 모달 > 즐겨찾기 가챠목록 > 가챠목록 조회
-     */
-    fun selectTargetWishGachaList(userId: String, pageSize: Int, offset: Int): List<TargetGachaResponse>
-
-    // --------------------------------------------------------------------------------------------------- //
-
-    /**
      * 마이페이지 > 즐겨찾기 > 즐겨찾기 가챠목록
      */
     fun selectWishGachaList(userId: String, pageSize: Int, offset: Int): List<GachaResponse>
-
-    // --------------------------------------------------------------------------------------------------- //
 
     /**
      * 거래제안 모달 > 가챠 하위 아이템 목록 조회

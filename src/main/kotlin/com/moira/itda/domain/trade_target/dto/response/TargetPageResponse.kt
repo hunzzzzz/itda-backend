@@ -1,4 +1,4 @@
-package com.moira.itda.domain.gacha.dto.response
+package com.moira.itda.domain.trade_target.dto.response
 
 import com.moira.itda.global.pagination.dto.PageResponse
 

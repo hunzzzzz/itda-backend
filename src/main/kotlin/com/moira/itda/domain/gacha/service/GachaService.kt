@@ -1,17 +1,20 @@
 package com.moira.itda.domain.gacha.service
 
-import com.moira.itda.domain.gacha.dto.response.*
+import com.moira.itda.domain.gacha.dto.response.GachaDetailResponse
+import com.moira.itda.domain.gacha.dto.response.GachaItemNameResponse
+import com.moira.itda.domain.gacha.dto.response.GachaPageResponse
 import com.moira.itda.domain.gacha.mapper.GachaMapper
 import com.moira.itda.global.auth.component.CookieHandler
+import com.moira.itda.global.entity.GachaWish
 import com.moira.itda.global.exception.ErrorCode
 import com.moira.itda.global.exception.ItdaException
 import com.moira.itda.global.pagination.component.OffsetPaginationHandler
 import com.moira.itda.global.pagination.component.PageSizeConstant.Companion.MY_WISH_GACHA_LIST_PAGE_SIZE
-import com.moira.itda.global.pagination.component.PageSizeConstant.Companion.TRADE_TARGET_PAGE_SIZE
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.time.ZonedDateTime
 
 @Service
 class GachaService(
@@ -20,7 +23,7 @@ class GachaService(
     private val offsetPaginationHandler: OffsetPaginationHandler,
 ) {
     /**
-     * 가챠정보 > 가챠목록 > 상세정보
+     * 가챠상세정보
      */
     @Transactional
     fun getGacha(
@@ -57,83 +60,22 @@ class GachaService(
     }
 
     /**
-     * [내부 메서드] gachaId로 하위 아이템 목록을 조회한 후, TargetContentResponse 리스트로 변환
+     * 가챠상세정보 > 즐겨찾기
      */
-    private fun convertToTargetContentResponse(gachaList: List<TargetGachaResponse>): List<TargetContentResponse> {
-        return gachaList.map { gacha ->
-            val gachaId = gacha.gachaId
-            val itemList = mapper.selectTargetGachaItemList(gachaId = gachaId)
+    @Transactional
+    fun wish(userId: String, gachaId: String) {
+        // [1] 즐겨찾기 여부 조회
+        val wishYn = mapper.selectGachaWishChk(userId = userId, gachaId = gachaId)
 
-            TargetContentResponse(gacha = gacha, items = itemList)
+        // [2-1] GachaWish 저장
+        if ("N" == wishYn) {
+            val gachaWish = GachaWish(id = null, userId = userId, gachaId = gachaId, createdAt = ZonedDateTime.now())
+            mapper.insertGachaWish(gachaWish = gachaWish)
         }
-    }
-
-    /**
-     * [내부 메서드] 오프셋 페이지네이션을 적용한 TargetPageResponse 객체를 리턴
-     */
-    private fun convertToTargetPageResponse(
-        page: Int,
-        totalElements: Long,
-        contents: List<TargetContentResponse>
-    ): TargetPageResponse {
-        val pageResponse = offsetPaginationHandler.getPageResponse(
-            pageSize = TRADE_TARGET_PAGE_SIZE,
-            page = page,
-            totalElements = totalElements
-        )
-
-        return TargetPageResponse(content = contents, page = pageResponse)
-    }
-
-    /**
-     * 교환/판매 대상 지정 모달 > 가챠목록
-     */
-    fun getTargetGachaList(keyword: String, page: Int): TargetPageResponse {
-        // [1] 변수 세팅
-        val pageSize = TRADE_TARGET_PAGE_SIZE
-        val offset = offsetPaginationHandler.getOffset(page = page, pageSize = pageSize)
-
-        // [2] 가챠목록 조회
-        val totalElements = mapper.selectGachaListCnt(keyword = keyword)
-        val gachaList = mapper.selectTargetGachaList(
-            keyword = keyword,
-            pageSize = pageSize,
-            offset = offset
-        )
-
-        // [3] 하위 아이템 목록 조회
-        val contents = this.convertToTargetContentResponse(gachaList = gachaList)
-
-        // [4] 오프셋 기반 페이지네이션 적용 후 리턴
-        return this.convertToTargetPageResponse(page = page, totalElements = totalElements, contents = contents)
-    }
-
-    /**
-     * 교환/판매 대상 지정 모달 > 즐겨찾기 가챠목록
-     */
-    @Transactional(readOnly = true)
-    fun getTargetWishGachaList(userId: String, page: Int): TargetPageResponse {
-        // [1] 변수 세팅
-        val pageSize = TRADE_TARGET_PAGE_SIZE
-        val offset = offsetPaginationHandler.getOffset(page = page, pageSize = pageSize)
-
-        // [2] 가챠목록 조회
-        val totalElements = mapper.selectWishGachaListCnt(userId = userId)
-        val gachaList = mapper.selectTargetWishGachaList(
-            userId = userId,
-            pageSize = pageSize,
-            offset = offset
-        )
-
-        // [3] 하위 아이템 목록 조회
-        val contents = this.convertToTargetContentResponse(gachaList = gachaList)
-
-        // [4] 오프셋 기반 페이지네이션 적용 후 리턴
-        return this.convertToTargetPageResponse(
-            page = page,
-            totalElements = totalElements,
-            contents = contents
-        )
+        // [2-2] GachaWish 삭제
+        else {
+            mapper.deleteGachaWish(userId = userId, gachaId = gachaId)
+        }
     }
 
     /**
