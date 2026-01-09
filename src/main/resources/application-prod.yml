@@ -16,13 +16,19 @@ mybatis:
 logging:
   level:
     com.moira.itda.domain.admin.mapper: DEBUG
+    com.moira.itda.domain.chat.mapper: DEBUG
     com.moira.itda.domain.common.mapper: DEBUG
     com.moira.itda.domain.gacha.mapper: DEBUG
+    com.moira.itda.domain.gacha_common.mapper: DEBUG
+    com.moira.itda.domain.gacha_list.mapper: DEBUG
     com.moira.itda.domain.gacha_pick.mapper: DEBUG
-    com.moira.itda.domain.gacha_wish.mapper: DEBUG
-    com.moira.itda.domain.trade.mapper: DEBUG
     com.moira.itda.domain.suggest.mapper: DEBUG
+    com.moira.itda.domain.trade.mapper: DEBUG
+    com.moira.itda.domain.trade_target.mapper: DEBUG
     com.moira.itda.domain.user.mapper: DEBUG
+    com.moira.itda.domain.user_feedback.mapper: DEBUG
+    com.moira.itda.domain.user_place.mapper: DEBUG
+    com.moira.itda.domain.user_simple_profile.mapper: DEBUG
 
 ---
 
