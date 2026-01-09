@@ -1,4 +1,4 @@
-package com.moira.itda.domain.common.dto.response
+package com.moira.itda.domain.common_code.dto.response
 
 data class CodeDetailResponse(
     val detailId: Long,
