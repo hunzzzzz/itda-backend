@@ -423,9 +423,9 @@ enum class ErrorCode(
         message = "다른 유저의 거래에 접근할 수 없습니다.",
         httpStatus = HttpStatus.FORBIDDEN
     ),
-    NO_CONTENT_WHEN_REASON_IS_ETC(
+    NO_CANCEL_REASON(
         code = "C0004",
-        message = "취소 사유가 '기타'이면 세부 사유를 입력해야 합니다.",
+        message = "거래 취소 사유는 필수 입력 항목입니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
 

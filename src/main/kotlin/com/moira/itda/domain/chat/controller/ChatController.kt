@@ -1,7 +1,6 @@
 package com.moira.itda.domain.chat.controller
 
 import com.moira.itda.domain.chat.dto.request.ChatMessageRequest
-import com.moira.itda.domain.chat.dto.request.TradeCancelRequest
 import com.moira.itda.domain.chat.dto.request.TradeCompleteRequest
 import com.moira.itda.domain.chat.dto.response.ChatMessageResponse
 import com.moira.itda.domain.chat.dto.response.ChatRoomResponse
@@ -78,20 +77,6 @@ class ChatController(
         @RequestBody request: TradeCompleteRequest
     ): ResponseEntity<Nothing> {
         chatService.completeTrade(userId = userAuth.userId, chatRoomId = chatRoomId, request = request)
-
-        return ResponseEntity.ok(null)
-    }
-
-    /**
-     * 채팅방 > 거래취소
-     */
-    @PutMapping("/api/me/trade/chat/{chatRoomId}/cancel")
-    fun cancelTrade(
-        @UserPrincipal userAuth: UserAuth,
-        @PathVariable chatRoomId: String,
-        @RequestBody request: TradeCancelRequest
-    ): ResponseEntity<Nothing> {
-        chatService.cancelTrade(userId = userAuth.userId, chatRoomId = chatRoomId, request = request)
 
         return ResponseEntity.ok(null)
     }

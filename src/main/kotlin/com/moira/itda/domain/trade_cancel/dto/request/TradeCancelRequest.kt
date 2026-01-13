@@ -1,4 +1,4 @@
-package com.moira.itda.domain.chat.dto.request
+package com.moira.itda.domain.trade_cancel.dto.request
 
 data class TradeCancelRequest(
     val userId: String,

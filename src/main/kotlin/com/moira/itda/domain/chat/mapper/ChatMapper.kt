@@ -4,7 +4,6 @@ import com.moira.itda.domain.chat.dto.response.ChatMessageResponse
 import com.moira.itda.domain.chat.dto.response.ChatRoomResponse
 import com.moira.itda.domain.chat.dto.response.MyChatResponse
 import com.moira.itda.global.entity.ChatMessage
-import com.moira.itda.global.entity.TradeCancelHistory
 import com.moira.itda.global.entity.TradeCompleteHistory
 import org.apache.ibatis.annotations.Mapper
 
@@ -47,7 +46,6 @@ interface ChatMapper {
 
     /**
      * 내 활동 > 채팅 > 채팅방 > 거래완료 > ChatRoom status 변경 (ENDED)
-     * 내 활동 > 채팅 > 채팅방 > 거래취소 > ChatRoom status 변경 (ENDED)
      */
     fun updateChatRoomStatusEnded(chatRoomId: String)
 
@@ -75,14 +73,4 @@ interface ChatMapper {
      * 내 활동 > 채팅 > 채팅방 > 거래완료 > Trade status 변경 (COMPLETED)
      */
     fun updateTradeStatusCompleted(tradeId: String)
-
-    /**
-     * 내 활동 > 채팅 > 채팅방 > 거래취소 > TradeCancelHistory 저장
-     */
-    fun insertTradeCancelHistory(tradeCancelHistory: TradeCancelHistory)
-
-    /**
-     * 내 활동 > 채팅 > 채팅방 > 거래취소 > TradeSuggest의 status 변경 (CANCELED)
-     */
-    fun updateTradeSuggestStatusCanceled(tradeSuggestId: String)
 }

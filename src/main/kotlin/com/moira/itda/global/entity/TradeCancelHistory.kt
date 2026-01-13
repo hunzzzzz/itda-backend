@@ -1,6 +1,6 @@
 package com.moira.itda.global.entity
 
-import com.moira.itda.domain.chat.dto.request.TradeCancelRequest
+import com.moira.itda.domain.trade_cancel.dto.request.TradeCancelRequest
 import java.time.ZonedDateTime
 
 data class TradeCancelHistory(

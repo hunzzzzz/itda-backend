@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.moira.itda.domain.trade_cancel.mapper.TradeCancelMapper">
+    <!-- 거래취소 > 채팅방 정보 조회 -->
+    <select id="selectChatInfo" resultType="java.util.HashMap">
+        SELECT status, seller_id, buyer_id FROM CHAT_ROOM WHERE id = #{chatRoomId}
+    </select>
+
+    <!-- 거래취소 > TradeCancelHistory 저장 -->
+    <insert id="insertTradeCancelHistory">
+        INSERT INTO TRADE_CANCEL_HISTORY (
+               chat_room_id
+             , trade_id
+             , trade_suggest_id
+             , gacha_id
+             , canceled_user_id
+             , cancel_reason
+             , canceled_at
+        )
+        VALUES (
+               #{chatRoomId}
+             , #{tradeId}
+             , #{tradeSuggestId}
+             , #{gachaId}
+             , #{canceledUserId}
+             , #{cancelReason}
+             , #{canceledAt}
+        )
+    </insert>
+
+    <!-- 거래취소 > ChatRoom의 status 변경 (ENDED) -->
+    <update id="updateChatRoomStatusEnded">
+        UPDATE CHAT_ROOM SET status = 'ENDED' WHERE id = #{chatRoomId}
+    </update>
+
+    <!-- 거래취소 > TradeSuggest의 status 변경 (CANCELED) -->
+    <update id="updateTradeSuggestStatusCanceled">
+        UPDATE TRADE_SUGGEST
+        SET
+               status     = 'CANCELED'
+             , updated_at = CURRENT_TIMESTAMP
+        WHERE id = #{tradeSuggestId}
+    </update>
+</mapper>

@@ -2,7 +2,7 @@ package com.moira.itda.domain.chat.service
 
 import com.moira.itda.domain.chat.component.ChatValidator
 import com.moira.itda.domain.chat.dto.request.ChatMessageRequest
-import com.moira.itda.domain.chat.dto.request.TradeCancelRequest
+import com.moira.itda.domain.trade_cancel.dto.request.TradeCancelRequest
 import com.moira.itda.domain.chat.dto.request.TradeCompleteRequest
 import com.moira.itda.domain.chat.dto.response.ChatMessageResponse
 import com.moira.itda.domain.chat.dto.response.ChatRoomResponse
@@ -121,31 +121,5 @@ class ChatService(
         if (!mapper.selectTradeItemStatusPendingChk(tradeId = request.tradeId)) {
             mapper.updateTradeStatusCompleted(tradeId = request.tradeId)
         }
-    }
-
-    /**
-     * 내 활동 > 채팅 > 채팅방 > 거래취소
-     */
-    @Transactional
-    fun cancelTrade(userId: String, chatRoomId: String, request: TradeCancelRequest) {
-        // [1] 채팅 정보 조회
-        val infoMap = mapper.selectChatInfo(chatRoomId = chatRoomId)
-
-        val (status, sellerId, buyerId) = infoMap.values.map {
-            it ?: throw ItdaException(ErrorCode.CHAT_NOT_FOUND)
-        }
-
-        // [2] 유효성 검사
-        validator.validate(status = status, userId = userId, sellerId = sellerId, buyerId = buyerId)
-
-        // [3] TradeCancelHistory 저장
-        val tradeCancelHistory = TradeCancelHistory.fromTradeCancelRequest(chatRoomId = chatRoomId, request = request)
-        mapper.insertTradeCancelHistory(tradeCancelHistory = tradeCancelHistory)
-
-        // [4] ChatRoom의 status 변경 (ENDED)
-        mapper.updateChatRoomStatusEnded(chatRoomId = chatRoomId)
-
-        // [5] TradeSuggest의 status 변경 (CANCELED)
-        mapper.updateTradeSuggestStatusCanceled(tradeSuggestId = request.tradeSuggestId)
     }
 }
