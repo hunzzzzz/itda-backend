@@ -65,7 +65,6 @@ class ChatController(
     ) {
         val userAuth = authentication.principal as UserAuth
 
-        println("====== $userAuth =====")
         chatService.sendMessage(senderId = userAuth.userId, chatRoomId = chatRoomId, request = request)
     }
 
@@ -84,7 +83,7 @@ class ChatController(
     }
 
     /**
-     * 내 활동 > 채팅 > 채팅방 > 거래취소
+     * 채팅방 > 거래취소
      */
     @PutMapping("/api/me/trade/chat/{chatRoomId}/cancel")
     fun cancelTrade(

@@ -212,7 +212,6 @@
              , gacha_id
              , canceled_user_id
              , cancel_reason
-             , content
              , canceled_at
         )
         VALUES (
@@ -222,7 +221,6 @@
              , #{gachaId}
              , #{canceledUserId}
              , #{cancelReason}
-             , #{content}
              , #{canceledAt}
         )
     </insert>

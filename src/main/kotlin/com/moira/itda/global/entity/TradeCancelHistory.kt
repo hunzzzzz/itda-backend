@@ -10,8 +10,7 @@ data class TradeCancelHistory(
     val tradeSuggestId: String,
     val gachaId: String,
     val canceledUserId: String,
-    val cancelReason: TradeCancelReason,
-    val content: String?,
+    val cancelReason: String,
     val canceledAt: ZonedDateTime
 ) {
     companion object {
@@ -24,7 +23,6 @@ data class TradeCancelHistory(
                 gachaId = request.gachaId,
                 canceledUserId = request.userId,
                 cancelReason = request.cancelReason,
-                content = request.content,
                 canceledAt = ZonedDateTime.now()
             )
         }

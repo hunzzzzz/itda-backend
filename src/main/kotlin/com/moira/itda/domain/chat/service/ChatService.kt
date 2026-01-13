@@ -94,7 +94,7 @@ class ChatService(
         }
 
         // [2] 유효성 검사
-        validator.validateCompleteTrade(userId = userId, status = status, sellerId = sellerId, buyerId = buyerId)
+        validator.validate(userId = userId, status = status, sellerId = sellerId, buyerId = buyerId)
 
         // [3] TradeCompleHistory 저장
         val tradeCompleteHistory = TradeCompleteHistory.fromTradeCompleteRequest(
@@ -136,13 +136,7 @@ class ChatService(
         }
 
         // [2] 유효성 검사
-        validator.validateCancelTrade(
-            status = status,
-            userId = userId,
-            sellerId = sellerId,
-            buyerId = buyerId,
-            request = request
-        )
+        validator.validate(status = status, userId = userId, sellerId = sellerId, buyerId = buyerId)
 
         // [3] TradeCancelHistory 저장
         val tradeCancelHistory = TradeCancelHistory.fromTradeCancelRequest(chatRoomId = chatRoomId, request = request)
