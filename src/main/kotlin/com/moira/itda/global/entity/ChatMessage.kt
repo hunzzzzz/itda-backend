@@ -11,11 +11,11 @@ data class ChatMessage(
     val createdAt: ZonedDateTime
 ) {
     companion object {
-        fun fromChatMessageRequest(chatRoomId: String, request: ChatMessageRequest): ChatMessage {
+        fun fromChatMessageRequest(senderId: String, chatRoomId: String, request: ChatMessageRequest): ChatMessage {
             return ChatMessage(
                 id = null,
                 chatRoomId = chatRoomId,
-                senderId = request.senderId,
+                senderId = senderId,
                 message = request.message,
                 createdAt = ZonedDateTime.now()
             )

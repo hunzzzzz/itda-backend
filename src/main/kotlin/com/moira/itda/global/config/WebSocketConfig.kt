@@ -1,6 +1,8 @@
 package com.moira.itda.global.config
 
+import com.moira.itda.global.auth.filter.StompHandler
 import org.springframework.context.annotation.Configuration
+import org.springframework.messaging.simp.config.ChannelRegistration
 import org.springframework.messaging.simp.config.MessageBrokerRegistry
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry
@@ -8,7 +10,9 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 
 @Configuration
 @EnableWebSocketMessageBroker
-class WebSocketConfig : WebSocketMessageBrokerConfigurer {
+class WebSocketConfig(
+    private val stompHandler: StompHandler
+) : WebSocketMessageBrokerConfigurer {
     /**
      * WebSocket 연결 엔드포인트 설정
      */
@@ -27,5 +31,12 @@ class WebSocketConfig : WebSocketMessageBrokerConfigurer {
 
         // /pub으로 시작하는 경로는 @MessageMapping이 붙은 컨트롤러로 향함 (발행)
         registry.setApplicationDestinationPrefixes("/pub")
+    }
+
+    /**
+     * Interceptor (JWT 토큰 검증) 등록
+     */
+    override fun configureClientInboundChannel(registration: ChannelRegistration) {
+        registration.interceptors(stompHandler)
     }
 }

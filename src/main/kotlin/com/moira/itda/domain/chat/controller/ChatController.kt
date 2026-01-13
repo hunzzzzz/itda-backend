@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.messaging.handler.annotation.DestinationVariable
 import org.springframework.messaging.handler.annotation.MessageMapping
 import org.springframework.web.bind.annotation.*
+import java.security.Principal
 
 @RestController
 class ChatController(
@@ -57,9 +58,11 @@ class ChatController(
     @MessageMapping("/chat/{chatRoomId}/message")
     fun sendMessage(
         @DestinationVariable chatRoomId: String,
-        request: ChatMessageRequest
+        request: ChatMessageRequest,
+        userPrincipal: Principal
     ) {
-        chatService.sendMessage(chatRoomId = chatRoomId, request = request)
+        println("====== ${userPrincipal.name} =====")
+        chatService.sendMessage(senderId = userPrincipal.name, chatRoomId = chatRoomId, request = request)
     }
 
     /**

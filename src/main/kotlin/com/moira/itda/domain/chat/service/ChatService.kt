@@ -70,9 +70,11 @@ class ChatService(
      * 내 활동 > 채팅 > 채팅방 > 메시지 전송
      */
     @Transactional
-    fun sendMessage(chatRoomId: String, request: ChatMessageRequest) {
+    fun sendMessage(senderId: String, chatRoomId: String, request: ChatMessageRequest) {
         // [1] ChatMessage 저장
-        val chatMessage = ChatMessage.fromChatMessageRequest(chatRoomId = chatRoomId, request = request)
+        val chatMessage = ChatMessage.fromChatMessageRequest(
+            chatRoomId = chatRoomId, senderId = senderId, request = request
+        )
         mapper.insertChatMessage(chatMessage = chatMessage)
 
         // [2] /sub/chat/${chatRoomId}/message를 구독중인 사람들에게 메시지 전달
