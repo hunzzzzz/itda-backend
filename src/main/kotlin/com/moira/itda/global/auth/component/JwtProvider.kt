@@ -1,5 +1,6 @@
 package com.moira.itda.global.auth.component
 
+import com.moira.itda.global.auth.dto.UserAuth
 import com.moira.itda.global.entity.User
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
@@ -80,5 +81,17 @@ class JwtProvider {
         return runCatching {
             Jwts.parser().verifyWith(key).build().parseSignedClaims(atk).payload
         }
+    }
+
+    /**
+     * Claims에서 사용자 정보 추출
+     */
+    fun getUserAuth(claims: Claims): UserAuth {
+        val userId = claims.subject
+        val email = claims["email"] as String
+        val nickname = claims["nickname"] as String
+        val role = claims["role"] as String
+
+        return UserAuth(userId = userId, email = email, nickname = nickname, role = role)
     }
 }

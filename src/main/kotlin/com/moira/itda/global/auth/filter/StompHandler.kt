@@ -1,7 +1,6 @@
 package com.moira.itda.global.auth.filter
 
 import com.moira.itda.global.auth.component.JwtProvider
-import com.moira.itda.global.auth.dto.UserAuth
 import com.moira.itda.global.exception.ErrorCode
 import io.jsonwebtoken.ExpiredJwtException
 import io.jsonwebtoken.MalformedJwtException
@@ -47,20 +46,16 @@ class StompHandler(
                 .onSuccess { claims ->
                     if (claims != null) {
                         // [4] 유저 정보 추출
-                        val userId = claims.subject
-                        val email = claims["email"] as String
-                        val nickname = claims["nickname"] as String
-                        val role = claims["role"] as String
-                        val userAuth = UserAuth(userId = userId, email = email, nickname = nickname, role = role)
+                        val userAuth = jwtProvider.getUserAuth(claims = claims)
 
                         // [5] Spring Security 권한 및 Authentication 객체 생성
-                        val authorities = listOf("ROLE_${role}").map { SimpleGrantedAuthority(it) }
+                        val authorities = listOf("ROLE_${userAuth.role}").map { SimpleGrantedAuthority(it) }
                         val authentication = UsernamePasswordAuthenticationToken(userAuth, null, authorities)
                         SecurityContextHolder.getContext().authentication = authentication
 
                         // [6] STOMP accessor에 인증 정보를 세팅
                         accessor.user = authentication
-                        log.info("[StompHandler] WebSocket 인증 성공: {}", userId)
+                        log.info("[StompHandler] WebSocket 인증 성공: {}", userAuth.userId)
                     }
                 }
                 // [3-2] 검증 실패 시, 에러 처리
