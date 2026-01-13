@@ -58,13 +58,13 @@ class SecurityConfig(
                 it
                     .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                     .requestMatchers(HttpMethod.GET, "/health/**").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/ws-itda/**").permitAll()
                     .requestMatchers(HttpMethod.GET, "/api/signup/**").permitAll()
                     .requestMatchers(HttpMethod.POST, "/api/signup/**").permitAll()
                     .requestMatchers(HttpMethod.POST, "/api/login/**").permitAll()
                     .requestMatchers(HttpMethod.POST, "/api/token/refresh/**").permitAll()
                     .requestMatchers(HttpMethod.GET, "/api/reset/password/**").permitAll()
                     .requestMatchers(HttpMethod.PUT, "/api/reset/password/**").permitAll()
-                    .requestMatchers(HttpMethod.GET, "/api/gacha").permitAll()
                     .requestMatchers(HttpMethod.GET, "/api/code/**").permitAll()
                     .anyRequest().authenticated()
             }
