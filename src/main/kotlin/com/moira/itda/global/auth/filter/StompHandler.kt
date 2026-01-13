@@ -33,7 +33,7 @@ class StompHandler(
         if (StompCommand.CONNECT == accessor.command) {
             val authorizationHeaderValue = accessor.getFirstNativeHeader("Authorization")
 
-            if (authorizationHeaderValue == null || authorizationHeaderValue.startsWith("Bearer ")) {
+            if (authorizationHeaderValue == null || !authorizationHeaderValue.startsWith("Bearer ")) {
                 throw MessageDeliveryException(ErrorCode.INVALID_AUTHORIZATION_HEADER.message)
             }
 
