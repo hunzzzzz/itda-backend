@@ -41,7 +41,7 @@ class TradeUserReportService(
                     tradeId = request.tradeId,
                     tradeSuggestId = request.tradeSuggestId,
                     gachaId = request.gachaId,
-                    cancelReason = "유저 신고에 의한 거래 취소: \n${request.reportReason}"
+                    cancelReason = "[유저 신고에 의한 거래 취소] \n${request.reportReason}"
                 )
             )
         }
