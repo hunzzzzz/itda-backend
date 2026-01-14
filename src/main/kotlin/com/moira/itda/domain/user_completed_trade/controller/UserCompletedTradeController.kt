@@ -28,6 +28,4 @@ class UserCompletedTradeController(
 
         return ResponseEntity.ok(response)
     }
-
-
 }
