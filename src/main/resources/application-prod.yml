@@ -31,6 +31,7 @@ logging:
     com.moira.itda.domain.user.mapper: DEBUG
     com.moira.itda.domain.user_activity_suggest.mapper: DEBUG
     com.moira.itda.domain.user_feedback.mapper: DEBUG
+    com.moira.itda.domain.user_gacha_wish_list.mapper: DEBUG
     com.moira.itda.domain.user_place.mapper: DEBUG
     com.moira.itda.domain.user_simple_profile.mapper: DEBUG
 
