@@ -433,6 +433,11 @@ enum class ErrorCode(
         message = "유저 신고 사유는 필수 입력 항목입니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
+    ALREADY_COMPLIMENTED(
+        code = "C0006",
+        message = "이미 해당 유저를 칭찬하였습니다.",
+        httpStatus = HttpStatus.BAD_REQUEST
+    ),
 
     // 피드백 관련 에러코드
     INVALID_FEEDBACK_TYPE(

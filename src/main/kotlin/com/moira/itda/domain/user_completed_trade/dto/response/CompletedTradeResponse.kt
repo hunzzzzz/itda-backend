@@ -21,4 +21,6 @@ data class CompletedTradeResponse(
     val exchangeSuggestedItemId: Long?,
     val exchangeSuggestedItemName: String?,
     val exchangeChangeYn: String?,
+    // 칭찬 여부 조회
+    val complimentYn: String
 )

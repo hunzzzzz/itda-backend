@@ -1,7 +1,11 @@
 package com.moira.itda.domain.user_completed_trade.service
 
+import com.moira.itda.domain.user_completed_trade.dto.request.ComplimentRequest
 import com.moira.itda.domain.user_completed_trade.dto.response.CompletedTradePageResponse
 import com.moira.itda.domain.user_completed_trade.mapper.UserCompletedTradeMapper
+import com.moira.itda.global.entity.TradeUserCompliment
+import com.moira.itda.global.exception.ErrorCode
+import com.moira.itda.global.exception.ItdaException
 import com.moira.itda.global.pagination.component.OffsetPaginationHandler
 import com.moira.itda.global.pagination.component.PageSizeConstant.Companion.MY_COMPLETED_TRADE_LIST_PAGE_SIZE
 import org.springframework.stereotype.Service
@@ -30,7 +34,20 @@ class UserCompletedTradeService(
 
         // [4] DTO 병합 후 리턴
         return CompletedTradePageResponse(content = contents, page = pageResponse)
+    }
 
+    /**
+     * 유저칭찬
+     */
+    @Transactional
+    fun compliment(userId: String, request: ComplimentRequest) {
+        // [1] 유효성 검사 (특정 거래(TradeSuggest 기준)당 한 번의 칭찬만 가능)
+        if (mapper.selectTradeUserComplimentChk(userId = userId, tradeSuggestId = request.tradeSuggestId)) {
+            throw ItdaException(ErrorCode.ALREADY_COMPLIMENTED)
+        }
 
+        // [2] TradeUserCompliment 저장
+        val tradeUserCompliment = TradeUserCompliment.from(userId = userId, request = request)
+        mapper.insertTradeUserCompliment(tradeUserCompliment = tradeUserCompliment)
     }
 }
