@@ -1,14 +1,16 @@
 package com.moira.itda.domain.gacha.controller
 
 import com.moira.itda.domain.gacha.dto.response.GachaDetailResponse
-import com.moira.itda.domain.gacha.dto.response.GachaPageResponse
 import com.moira.itda.domain.gacha.service.GachaService
 import com.moira.itda.global.auth.aop.UserPrincipal
 import com.moira.itda.global.auth.dto.UserAuth
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.*
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PutMapping
+import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class GachaController(
@@ -45,18 +47,5 @@ class GachaController(
         service.wish(userId = userAuth.userId, gachaId = gachaId)
 
         return ResponseEntity.ok(null)
-    }
-
-    /**
-     * 마이페이지 > 즐겨찾기 > 즐겨찾기 가챠목록
-     */
-    @GetMapping("/api/me/wish")
-    fun getWishGachaList(
-        @UserPrincipal userAuth: UserAuth,
-        @RequestParam(required = false, defaultValue = "1") page: Int
-    ): ResponseEntity<GachaPageResponse> {
-        val response = service.getWishGachaList(userId = userAuth.userId, page = page)
-
-        return ResponseEntity.ok(response)
     }
 }

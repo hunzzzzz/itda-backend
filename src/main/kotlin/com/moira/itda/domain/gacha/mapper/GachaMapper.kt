@@ -49,14 +49,4 @@ interface GachaMapper {
      * 가챠상세정보 > 즐겨찾기 > GachaWish 삭제
      */
     fun deleteGachaWish(userId: String, gachaId: String)
-
-    /**
-     * 마이페이지 > 즐겨찾기 > 즐겨찾기 가챠목록 > totalElements 계산
-     */
-    fun selectWishGachaListCnt(userId: String): Long
-
-    /**
-     * 마이페이지 > 즐겨찾기 > 즐겨찾기 가챠목록
-     */
-    fun selectWishGachaList(userId: String, pageSize: Int, offset: Int): List<GachaResponse>
 }
