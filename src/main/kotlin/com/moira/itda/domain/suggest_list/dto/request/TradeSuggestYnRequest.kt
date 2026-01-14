@@ -1,4 +1,4 @@
-package com.moira.itda.domain.suggest.dto.request
+package com.moira.itda.domain.suggest_list.dto.request
 
 data class TradeSuggestYnRequest(
     val tradeItemId: String,

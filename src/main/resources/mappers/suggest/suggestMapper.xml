@@ -87,7 +87,7 @@
     </select>
 
     <!-- 제안목록 조회 모달 > 제안목록 조회 -->
-    <select id="selectTradeSuggestList" resultType="com.moira.itda.domain.suggest.dto.response.TradeSuggestResponse">
+    <select id="selectTradeSuggestList" resultType="com.moira.itda.domain.suggest_list.dto.response.TradeSuggestResponse">
         SELECT
                TS.id                           AS suggest_id
              , TS.trade_id
@@ -108,6 +108,10 @@
              , TS.exchange_change_yn
              , TS.exchange_suggested_item_id
              , GI_E2.name                      AS exchange_suggested_item_name
+             , CASE WHEN CH.canceled_user_id = #{userId}
+                    THEN 'Y'
+                    ELSE 'N'
+               END AS my_cancel_yn
              , CH.cancel_reason
         FROM TRADE_SUGGEST TS
          LEFT JOIN USER                 U     ON U.id                = TS.user_id

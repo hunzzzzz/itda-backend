@@ -1,4 +1,4 @@
-package com.moira.itda.domain.suggest.dto.response
+package com.moira.itda.domain.suggest_list.dto.response
 
 import java.time.ZonedDateTime
 
@@ -26,5 +26,6 @@ data class TradeSuggestResponse(
     val exchangeSuggestedItemId: Long?,
     val exchangeSuggestedItemName: String?,
     // 취소 사유 (TradeSuggest가 CANCELED인 경우에만)
+    val myCancelYn: String?,
     val cancelReason: String?
 )
