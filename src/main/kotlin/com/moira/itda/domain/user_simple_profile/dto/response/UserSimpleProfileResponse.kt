@@ -8,5 +8,6 @@ data class UserSimpleProfileResponse(
     val fileUrl: String?,
     val createdAt: String,
     val completedTradeCount: Int,
+    val complimentCount: Int,
     val banCount: Int
 )

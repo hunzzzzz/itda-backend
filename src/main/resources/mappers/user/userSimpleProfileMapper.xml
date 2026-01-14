@@ -14,6 +14,7 @@
              , (SELECT file_url FROM IMAGE_FILE WHERE file_id = U.file_id ORDER BY created_at DESC LIMIT 1) AS file_url
              , U.created_at
              , (SELECT COUNT(id) FROM TRADE_COMPLETE_HISTORY WHERE seller_id = U.id OR buyer_id = U.id) AS completed_trade_count
+             , (SELECT COUNT(id) FROM TRADE_USER_COMPLIMENT WHERE complimented_user_id = U.id) AS compliment_count
              , (SELECT COUNT(id) FROM USER_BAN_HISTORY WHERE user_id = U.id) AS ban_count
         FROM USER U
         WHERE U.id = #{userId}
