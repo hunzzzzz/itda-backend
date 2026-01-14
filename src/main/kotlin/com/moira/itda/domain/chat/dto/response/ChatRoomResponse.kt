@@ -20,7 +20,6 @@ data class ChatRoomResponse(
     val suggestStatus: String,
     val purchaseItemId: Long?,
     val purchaseItemName: String?,
-    val purchaseCount: Int?,
     val purchasePrice: Int?,
     val exchangeSellerItemId: Long?,
     val exchangeSellerItemName: String?,

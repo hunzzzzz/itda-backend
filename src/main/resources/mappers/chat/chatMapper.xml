@@ -74,7 +74,6 @@
              , TS.status                        AS suggest_status
              , TS.purchase_item_id
              , GI_P.name                        AS purchase_item_name
-             , TS.purchase_count
              , CASE WHEN TS.purchase_discount_yn = 'Y'
                     THEN TS.purchase_discount_price
                     ELSE TS.purchase_original_price
