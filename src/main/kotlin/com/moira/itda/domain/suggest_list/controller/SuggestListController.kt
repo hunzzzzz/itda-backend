@@ -1,8 +1,8 @@
 package com.moira.itda.domain.suggest_list.controller
 
+import com.moira.itda.domain.suggest_list.dto.request.TradeSuggestYnRequest
 import com.moira.itda.domain.suggest_list.dto.response.ChatRoomIdResponse
 import com.moira.itda.domain.suggest_list.dto.response.TradeSuggestPageResponse
-import com.moira.itda.domain.suggest_list.dto.request.TradeSuggestYnRequest
 import com.moira.itda.domain.suggest_list.service.SuggestListService
 import com.moira.itda.global.auth.aop.UserPrincipal
 import com.moira.itda.global.auth.dto.UserAuth

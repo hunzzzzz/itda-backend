@@ -46,7 +46,7 @@
         WHERE TS.trade_id = #{tradeId}
          AND  TS.status  != 'DELETED'
          AND  TS.status  != 'CANCELED_BEFORE_RESPONSE'
-        ORDER BY TS.created_at DESC
+        ORDER BY TS.status = 'COMPLETED' DESC, TS.status = 'PENDING' DESC, TS.created_at DESC
     </select>
 
     <!-- 제안승인 > TradeSuggest status 변경 (APPROVED) -->

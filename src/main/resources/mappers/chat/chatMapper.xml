@@ -51,7 +51,7 @@
          INNER JOIN USER U_B ON U_B.id = CR.buyer_id
          LEFT JOIN LAST_MESSAGE LM ON LM.chat_room_id = CR.id AND LM.rn = 1
          INNER JOIN TRADE T ON T.id = CR.trade_id
-        ORDER BY lastMessageAt DESC
+        ORDER BY CR.status = 'ACTIVE' DESC, lastMessageAt DESC
         LIMIT #{pageSize} OFFSET #{offset}
     </select>
 
