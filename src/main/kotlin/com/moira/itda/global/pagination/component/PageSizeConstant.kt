@@ -34,5 +34,8 @@ class PageSizeConstant {
 
         // 상단바 > 문의하기 > 피드백 목록 조회
         const val MY_FEEDBACK_LIST_PAGE_SIZE = 5
+
+        // 상단바 > 알림목록 조회
+        const val NOTIFICATION_LIST_PAGE_SIZE = 5
     }
 }
