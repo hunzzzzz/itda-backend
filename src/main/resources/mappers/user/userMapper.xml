@@ -162,6 +162,8 @@
              , U.nickname
              , U.file_id
              , (SELECT file_url FROM IMAGE_FILE WHERE file_id = U.file_id ORDER BY created_at DESC LIMIT 1) AS image_file_url
+             , (SELECT COUNT(id) FROM TRADE_COMPLETE_HISTORY WHERE seller_id = U.id OR buyer_id = U.id)     AS trade_count
+             , (SELECT COUNT(id) FROM TRADE_USER_COMPLIMENT WHERE complimented_user_id = U.id)              AS compliment_count
              , U.last_login_at
              , U.created_at
         FROM USER U

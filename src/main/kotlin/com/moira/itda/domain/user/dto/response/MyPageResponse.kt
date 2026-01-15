@@ -11,6 +11,8 @@ data class MyPageResponse(
     val nickname: String,
     val fileId: String?,
     val imageFileUrl: String?,
+    val tradeCount: Int,
+    val complimentCount: Int,
     val lastLoginAt: ZonedDateTime?,
     val createdAt: ZonedDateTime
 )
