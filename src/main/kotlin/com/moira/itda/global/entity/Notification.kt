@@ -11,4 +11,25 @@ data class Notification(
     val targetId: String,
     val readYn: String,
     val createdAt: ZonedDateTime
-)
+) {
+    companion object {
+        fun from(
+            receiverId: String,
+            senderId: String,
+            type: NotificationType,
+            content: String,
+            targetId: String
+        ): Notification {
+            return Notification(
+                id = null,
+                receiverId = receiverId,
+                senderId = senderId,
+                type = type,
+                content = content,
+                targetId = targetId,
+                readYn = "N",
+                createdAt = ZonedDateTime.now()
+            )
+        }
+    }
+}
