@@ -49,6 +49,19 @@
         LIMIT #{pageSize} OFFSET #{offset}
     </select>
 
+    <!-- 알림 읽음처리 -->
+    <update id="updateNotificationReadYn">
+        UPDATE NOTIFICATION SET read_yn = 'Y'
+        WHERE receiver_id = #{userId} AND id = #{notificationId}
+    </update>
+
+    <!-- 읽은알림 삭제 -->
+    <delete id="deleteReadNotificationList">
+        DELETE FROM NOTIFICATION
+        WHERE receiver_id = #{userId}
+         AND  read_yn     = 'Y'
+    </delete>
+
     <!-- 거래제안 알림 전송 > 거래제안 정보 조회 -->
     <select id="selectSuggestNotificationInfo" resultType="java.util.HashMap">
         SELECT

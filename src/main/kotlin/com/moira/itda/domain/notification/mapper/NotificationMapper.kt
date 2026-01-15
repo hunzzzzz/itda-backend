@@ -17,9 +17,19 @@ interface NotificationMapper {
     fun selectNotificationListCnt(userId: String): Long
 
     /**
-     * 알림 목록 조회
+     * 알림목록 조회
      */
     fun selectNotificationList(userId: String, pageSize: Int, offset: Int): List<NotificationResponse>
+
+    /**
+     * 알림 읽음처리
+     */
+    fun updateNotificationReadYn(userId: String, notificationId: Long)
+    
+    /**
+     * 읽은알림 삭제
+     */
+    fun deleteReadNotificationList(userId: String)
 
     /**
      * 거래제안 알림 전송 > 거래제안 정보 조회

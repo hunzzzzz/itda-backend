@@ -31,4 +31,22 @@ class NotificationService(
         // [4] DTO 병합 후 리턴
         return NotificationPageResponse(content = contents, page = pageResponse)
     }
+
+    /**
+     * 알림 읽음처리
+     */
+    @Transactional
+    fun readNotification(userId: String, notificationId: Long) {
+        // [1] readYn을 Y로 수정
+        mapper.updateNotificationReadYn(userId = userId, notificationId = notificationId)
+    }
+
+    /**
+     * 읽은알림 삭제
+     */
+    @Transactional
+    fun deleteReadNotifications(userId: String) {
+        // [1] 읽은알림 삭제
+        mapper.deleteReadNotificationList(userId = userId)
+    }
 }
