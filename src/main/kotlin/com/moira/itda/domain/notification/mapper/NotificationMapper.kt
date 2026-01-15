@@ -22,7 +22,7 @@ interface NotificationMapper {
     fun selectNotificationList(userId: String, pageSize: Int, offset: Int): List<NotificationResponse>
 
     /**
-     * 거래제안 알림 전송 > 거래제안 알림 정보 조회
+     * 거래제안 알림 전송 > 거래제안 정보 조회
      */
     fun selectSuggestNotificationInfo(senderId: String, tradeItemId: String): HashMap<String, String?>
 }

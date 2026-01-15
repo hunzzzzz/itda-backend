@@ -49,7 +49,7 @@
         LIMIT #{pageSize} OFFSET #{offset}
     </select>
 
-    <!-- 거래제안 알림 전송 > 거래제안 알림 정보 조회 -->
+    <!-- 거래제안 알림 전송 > 거래제안 정보 조회 -->
     <select id="selectSuggestNotificationInfo" resultType="java.util.HashMap">
         SELECT
                U_R.id       AS receiver_id
