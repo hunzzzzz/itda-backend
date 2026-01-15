@@ -16,20 +16,18 @@ class UserMailSender(
      * 이메일 전송
      */
     @Async
-    fun send(email: String, subject: String, text: String): Result<Unit> {
-        return runCatching {
-            log.info("[이메일 전송] 이메일 전송 시도중...")
+    fun send(email: String, subject: String, text: String) {
+        log.info("[이메일 전송] 이메일 전송 시도중...")
 
-            val mm = sender.createMimeMessage()
-            val helper = MimeMessageHelper(mm, false, "UTF-8")
+        val mm = sender.createMimeMessage()
+        val helper = MimeMessageHelper(mm, false, "UTF-8")
 
-            helper.setTo(email)
-            helper.setSubject(subject)
-            helper.setText(text)
+        helper.setTo(email)
+        helper.setSubject(subject)
+        helper.setText(text)
 
-            sender.send(mm)
+        sender.send(mm)
 
-            log.info("[이메일 전송] 이메일 전송 완료!")
-        }
+        log.info("[이메일 전송] 이메일 전송 완료!")
     }
 }
