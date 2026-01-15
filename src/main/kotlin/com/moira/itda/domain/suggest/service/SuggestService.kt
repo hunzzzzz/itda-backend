@@ -1,5 +1,6 @@
 package com.moira.itda.domain.suggest.service
 
+import com.moira.itda.domain.notification.component.NotificationManager
 import com.moira.itda.domain.suggest.component.SuggestValidator
 import com.moira.itda.domain.suggest.dto.request.ExchangeSuggestRequest
 import com.moira.itda.domain.suggest.dto.request.PurchaseSuggestRequest
@@ -12,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class SuggestService(
     private val mapper: SuggestMapper,
+    private val notificationManager: NotificationManager,
     private val validator: SuggestValidator
 ) {
     /**
@@ -37,13 +39,16 @@ class SuggestService(
             tradeId = tradeId,
             request = request
         )
-
         mapper.insertTradeSuggest(tradeSuggest = tradeSuggest)
+
+        // [3] 알림 전송 (비동기)
+        notificationManager.sendSuggestNotification(senderId = userId, tradeItemId = request.tradeItemId)
     }
 
     /**
      * 교환제안
      */
+    @Transactional
     fun exchangeSuggest(userId: String, tradeId: String, request: ExchangeSuggestRequest) {
         // [1] 유효성 검사
         validator.validateExchangeSuggest(userId = userId, tradeId = tradeId, request = request)
@@ -55,5 +60,8 @@ class SuggestService(
             request = request
         )
         mapper.insertTradeSuggest(tradeSuggest = tradeSuggest)
+
+        // [3] 알림 전송 (비동기)
+        notificationManager.sendSuggestNotification(senderId = userId, tradeItemId = request.tradeItemId)
     }
 }
