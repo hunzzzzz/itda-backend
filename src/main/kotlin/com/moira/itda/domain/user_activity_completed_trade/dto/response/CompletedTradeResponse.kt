@@ -1,6 +1,7 @@
-package com.moira.itda.domain.user_completed_trade.dto.response
+package com.moira.itda.domain.user_activity_completed_trade.dto.response
 
 data class CompletedTradeResponse(
+    // 기본 정보
     val tradeId: String,
     val tradeItemId: String,
     val tradeSuggestId: String,
@@ -8,6 +9,9 @@ data class CompletedTradeResponse(
     val opponentUserNickname: String,
     // 거래 종류
     val type: String,
+    // 가챠 관련
+    val gachaId: String,
+    val gachaTitle: String,
     // 구매제안 관련
     val purchaseItemId: Long?,
     val purchaseItemName: String?,

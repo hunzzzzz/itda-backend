@@ -1,8 +1,8 @@
-package com.moira.itda.domain.user_completed_trade.service
+package com.moira.itda.domain.user_activity_completed_trade.service
 
-import com.moira.itda.domain.user_completed_trade.dto.request.ComplimentRequest
-import com.moira.itda.domain.user_completed_trade.dto.response.CompletedTradePageResponse
-import com.moira.itda.domain.user_completed_trade.mapper.UserCompletedTradeMapper
+import com.moira.itda.domain.user_activity_completed_trade.dto.request.ComplimentRequest
+import com.moira.itda.domain.user_activity_completed_trade.dto.response.CompletedTradePageResponse
+import com.moira.itda.domain.user_activity_completed_trade.mapper.UserActivityCompletedTradeMapper
 import com.moira.itda.global.entity.TradeUserCompliment
 import com.moira.itda.global.exception.ErrorCode
 import com.moira.itda.global.exception.ItdaException
@@ -12,8 +12,8 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
-class UserCompletedTradeService(
-    private val mapper: UserCompletedTradeMapper,
+class UserActivityCompletedTradeService(
+    private val mapper: UserActivityCompletedTradeMapper,
     private val pageHandler: OffsetPaginationHandler
 ) {
     /**

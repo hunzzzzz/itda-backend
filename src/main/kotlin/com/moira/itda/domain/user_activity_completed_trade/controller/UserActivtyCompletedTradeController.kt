@@ -1,8 +1,8 @@
-package com.moira.itda.domain.user_completed_trade.controller
+package com.moira.itda.domain.user_activity_completed_trade.controller
 
-import com.moira.itda.domain.user_completed_trade.dto.request.ComplimentRequest
-import com.moira.itda.domain.user_completed_trade.dto.response.CompletedTradePageResponse
-import com.moira.itda.domain.user_completed_trade.service.UserCompletedTradeService
+import com.moira.itda.domain.user_activity_completed_trade.dto.request.ComplimentRequest
+import com.moira.itda.domain.user_activity_completed_trade.dto.response.CompletedTradePageResponse
+import com.moira.itda.domain.user_activity_completed_trade.service.UserActivityCompletedTradeService
 import com.moira.itda.global.auth.aop.UserPrincipal
 import com.moira.itda.global.auth.dto.UserAuth
 import org.springframework.http.ResponseEntity
@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.*
  * 내 활동 > 완료된 거래
  */
 @RestController
-class UserCompletedTradeController(
-    private val service: UserCompletedTradeService
+class UserActivtyCompletedTradeController(
+    private val service: UserActivityCompletedTradeService
 ) {
     /**
      * 완료된 거래목록 조회

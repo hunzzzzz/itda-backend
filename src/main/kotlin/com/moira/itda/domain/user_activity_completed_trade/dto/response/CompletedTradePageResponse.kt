@@ -1,4 +1,4 @@
-package com.moira.itda.domain.user_completed_trade.dto.response
+package com.moira.itda.domain.user_activity_completed_trade.dto.response
 
 import com.moira.itda.global.pagination.dto.PageResponse
 
