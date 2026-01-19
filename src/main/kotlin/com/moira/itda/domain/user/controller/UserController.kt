@@ -1,7 +1,7 @@
 package com.moira.itda.domain.user.controller
 
 import com.moira.itda.domain.user.dto.request.*
-import com.moira.itda.domain.user.dto.response.LoginResponse
+import com.moira.itda.domain.login.dto.response.LoginResponse
 import com.moira.itda.domain.user.dto.response.MyPageResponse
 import com.moira.itda.domain.user.dto.response.TokenRefreshResponse
 import com.moira.itda.domain.user.service.UserService
@@ -64,20 +64,6 @@ class UserController(
         service.signup(request = request)
 
         return ResponseEntity.status(HttpStatus.CREATED).body(null)
-    }
-
-    /**
-     * 로그인
-     */
-    @PostMapping("/api/login")
-    fun login(
-        @RequestBody request: LoginRequest,
-        httpReq: HttpServletRequest,
-        httpRes: HttpServletResponse
-    ): ResponseEntity<LoginResponse> {
-        val response = service.login(request = request, httpReq = httpReq, httpRes = httpRes)
-
-        return ResponseEntity.ok(response)
     }
 
     /**

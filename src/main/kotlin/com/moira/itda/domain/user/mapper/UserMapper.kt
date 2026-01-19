@@ -2,11 +2,9 @@ package com.moira.itda.domain.user.mapper
 
 import com.moira.itda.domain.user.dto.response.MyPageResponse
 import com.moira.itda.global.entity.User
-import com.moira.itda.global.entity.UserLoginHistory
 import com.moira.itda.global.entity.UserIdentifyCode
 import com.moira.itda.global.entity.UserIdentifyCodeType
 import org.apache.ibatis.annotations.Mapper
-import java.time.ZonedDateTime
 
 @Mapper
 interface UserMapper {
@@ -30,33 +28,21 @@ interface UserMapper {
      * 회원가입 > 본인인증 > UserIdentifyCode 조회
      */
     fun selectUserIdentifyCode(email: String, type: UserIdentifyCodeType): UserIdentifyCode?
-    
+
     /**
      * 회원가입 > User 저장
      */
     fun insertUser(user: User)
 
     /**
-     * 로그인 > User 조회
      * 토큰 재발급 > User 조회
      */
     fun selectUserByEmail(email: String): User?
 
     /**
-     * 로그인 > 계정 정지 기한 조회
-     */
-    fun selectBannedUntil(userId: String): ZonedDateTime
-
-    /**
-     * 로그인 > RefreshToken 수정
      * 토큰 재발급 > RefreshToken 수정
      */
     fun updateRefreshToken(userId: String, rtk: String)
-
-    /**
-     * 로그인 > LoginHistory 저장
-     */
-    fun insertUserLoginHistory(userLoginHistory: UserLoginHistory)
 
     /**
      * 로그아웃 > RefreshToken 초기화

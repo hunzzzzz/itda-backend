@@ -1,7 +1,8 @@
-package com.moira.itda.domain.user.service
+package com.moira.itda.domain.login.service
 
-import com.moira.itda.domain.user.mapper.UserMapper
+import com.moira.itda.domain.login.mapper.LoginMapper
 import com.moira.itda.global.entity.User
+import com.moira.itda.global.entity.UserLoginFailReason
 import com.moira.itda.global.entity.UserLoginHistory
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Propagation
@@ -9,18 +10,19 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 class LoginHistoryService(
-    private val mapper: UserMapper
+    private val mapper: LoginMapper
 ) {
     /**
      * 로그인 > LoginHistory 저장 (실패)
      */
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    fun fail(user: User, ipAddress: String, userAgent: String) {
+    fun fail(user: User, ipAddress: String, userAgent: String, failReason: UserLoginFailReason) {
         val userLoginHistory = UserLoginHistory.from(
             userId = user.id,
             successYn = "N",
             ipAddress = ipAddress,
-            userAgent = userAgent
+            userAgent = userAgent,
+            failReason = failReason
         )
 
         mapper.insertUserLoginHistory(userLoginHistory = userLoginHistory)
@@ -35,7 +37,8 @@ class LoginHistoryService(
             userId = user.id,
             successYn = "Y",
             ipAddress = ipAddress,
-            userAgent = userAgent
+            userAgent = userAgent,
+            failReason = null
         )
 
         mapper.insertUserLoginHistory(userLoginHistory = loginHistory)

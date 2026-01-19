@@ -8,6 +8,7 @@ data class UserLoginHistory(
     val successYn: String,
     val ipAddress: String,
     val userAgent: String,
+    val failReason: UserLoginFailReason?,
     val loginAt: ZonedDateTime
 ) {
     companion object {
@@ -15,7 +16,8 @@ data class UserLoginHistory(
             userId: String,
             successYn: String,
             ipAddress: String,
-            userAgent: String
+            userAgent: String,
+            failReason: UserLoginFailReason?
         ): UserLoginHistory {
             return UserLoginHistory(
                 id = null,
@@ -23,6 +25,7 @@ data class UserLoginHistory(
                 successYn = successYn,
                 ipAddress = ipAddress,
                 userAgent = userAgent,
+                failReason = failReason,
                 loginAt = ZonedDateTime.now()
             )
         }
