@@ -101,6 +101,6 @@ class LoginService(
         cookieHandler.putRtkInCookie(rtk = rtk, response = httpRes)
 
         // [6] AccessToken 리턴
-        return LoginResponse(accessToken = atk)
+        return LoginResponse(accessToken = atk, refreshToken = rtk)
     }
 }
