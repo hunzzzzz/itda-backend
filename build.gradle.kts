@@ -38,6 +38,8 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-mail")
     // mybatis
     implementation("org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.5")
+    // sms
+    implementation("net.nurigo:sdk:4.3.2")
     // springboot
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-web")

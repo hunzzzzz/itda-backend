@@ -12,6 +12,7 @@ import com.moira.itda.global.entity.UserIdentifyCode
 import com.moira.itda.global.entity.UserIdentifyCodeType
 import com.moira.itda.global.exception.ErrorCode
 import com.moira.itda.global.exception.ItdaException
+import com.moira.itda.global.sms.SmsUtil
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -21,7 +22,8 @@ import java.util.*
 @Service
 class SignupService(
     private val encoder: PasswordEncoder,
-    private val mapper: SignupMapper
+    private val mapper: SignupMapper,
+    private val smsUtil: SmsUtil
 ) {
     private val emailRegex =
         Regex("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$")
@@ -54,7 +56,7 @@ class SignupService(
         mapper.insertUserIdentifyCode(userIdentifyCode = userIdentifyCode)
 
         // [4] 휴대폰번호로 본인인증 메시지 전송
-        // TODO
+        smsUtil.sendSms(toNumber = phoneNumber, message = "[ITDA] 회원가입을 위한 인증번호 ${userIdentifyCode.code}를 입력해주세요.")
     }
 
     /**

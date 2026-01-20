@@ -9,23 +9,28 @@ enum class ErrorCode(
 ) {
     // 공통 에러코드
     INTERNAL_SERVER_ERROR(
-        code = "CM0001",
+        code = "CM001",
         message = "알 수 없는 오류가 발생했습니다. 잠시 후 다시 시도해주세요.",
         httpStatus = HttpStatus.INTERNAL_SERVER_ERROR
     ),
     INVALID_SORT_CONDITION(
-        code = "CM0002",
+        code = "CM002",
         message = "올바르지 않은 정렬 조건입니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
     MAX_UPLOAD_SIZE_EXCEEDED(
-        code = "CM0003",
+        code = "CM003",
         message = "최대 사진 업로드 용량을 초과하였습니다. (단일 사진 용량 최대 5MB, 사진 총합 용량 최대 20MB)",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
     MAIL_SYSTEM_ERROR(
-        code = "CM0004",
-        message = "이메일 전송 과정에서 오류가 발생했습니다.",
+        code = "CM004",
+        message = "이메일 전송 과정에서 오류가 발생했습니다. 잠시 후 다시 시도해주세요.",
+        httpStatus = HttpStatus.INTERNAL_SERVER_ERROR
+    ),
+    SMS_SYSTEM_ERROR(
+        code = "CM005",
+        message = "휴대폰 SMS 전송 과정에서 오류가 발생했습니다. 잠시 후 다시 시도해주세요.",
         httpStatus = HttpStatus.INTERNAL_SERVER_ERROR
     ),
 
