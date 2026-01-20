@@ -9,7 +9,6 @@ data class GachaListResponse(
     val manufacturer: String?,
     val fileId: String,
     val fileUrl: String,
-    val price: Int,
     val viewCount: Int,
     val wishCount: Int,
     val tradeCount: Int,

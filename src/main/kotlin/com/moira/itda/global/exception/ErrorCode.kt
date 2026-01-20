@@ -244,34 +244,14 @@ enum class ErrorCode(
     ),
 
     // 가챠 관련 에러코드
-    INVALID_GACHA_TITLE(
-        code = "G0001",
-        message = "유효하지 않은 가챠 제목입니다.",
+    NO_GACHA_IMAGE(
+        code = "G001",
+        message = "존재하지 않는 이미지 파일 ID입니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
-    INVALID_GACHA_PRICE(
-        code = "G0002",
-        message = "유효하지 않은 가챠 가격입니다.",
-        httpStatus = HttpStatus.BAD_REQUEST
-    ),
-    INVALID_GACHA_FILE_ID(
-        code = "G0003",
-        message = "유효하지 않은 가챠 파일 정보입니다.",
-        httpStatus = HttpStatus.BAD_REQUEST
-    ),
-    NO_GACHA_ITEMS(
-        code = "G0004",
-        message = "가챠 아이템 정보가 없습니다.",
-        httpStatus = HttpStatus.BAD_REQUEST
-    ),
-    INVALID_GACHA_ITEM_NAME(
-        code = "G0005",
-        message = "유효하지 않은 가챠 아이템 이름입니다.",
-        httpStatus = HttpStatus.BAD_REQUEST
-    ),
-    GACHA_EXCEEDED_MAX_FILE_COUNT(
-        code = "G0006",
-        message = "최대 1개의 파일만 업로드할 수 있습니다.",
+    EXCEEDED_GACHA_IMAGE(
+        code = "G002",
+        message = "가챠 등록 시, 최대 1개의 이미지 파일만 업로드할 수 있습니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
     GACHA_NOT_FOUND(

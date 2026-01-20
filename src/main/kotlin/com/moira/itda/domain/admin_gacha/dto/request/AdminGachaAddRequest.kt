@@ -1,9 +1,8 @@
-package com.moira.itda.domain.admin.gacha.dto.request
+package com.moira.itda.domain.admin_gacha.dto.request
 
 data class AdminGachaAddRequest(
     val title: String,
-    val manufacturer: String?,
-    val price: Int,
+    val manufacturer: String,
     val fileId: String,
     val items: List<AdminGachaItemAddRequest>
 )

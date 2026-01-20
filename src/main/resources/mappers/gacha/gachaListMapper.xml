@@ -26,19 +26,36 @@
 
     <!-- 가챠목록 조회 -->
     <select id="selectGachaList" resultType="com.moira.itda.domain.gacha_list.dto.response.GachaListResponse">
+        WITH WISH_COUNT AS (
+            SELECT
+                   gacha_id
+                 , COUNT(*) AS cnt
+            FROM GACHA_WISH
+            GROUP BY gacha_id
+        ),
+        TRADE_COUNT AS (
+            SELECT
+                   gacha_id
+                 , COUNT(*) AS cnt
+            FROM TRADE_COMPLETE_HISTORY
+            GROUP BY gacha_id
+        )
         SELECT
-               G.id AS gacha_id
+               G.id                 AS gacha_id
              , G.status
              , G.title
              , G.manufacturer
              , G.file_id
-             , (SELECT file_url FROM IMAGE_FILE WHERE file_id = G.file_id ORDER BY created_at ASC LIMIT 1) AS file_url             , G.price
+             , F.file_url
              , G.view_count
-             , (SELECT COUNT(id) FROM GACHA_WISH WHERE gacha_id = G.id) AS wish_count
-             , (SELECT COUNT(id) FROM TRADE_COMPLETE_HISTORY WHERE gacha_id = G.id) AS trade_count
+             , IFNULL(WC.cnt, 0)    AS wish_count
+             , IFNULL(TC.cnt, 0)    AS trade_count
              , G.created_at
              , G.updated_at
         FROM GACHA G
+         LEFT JOIN  IMAGE_FILE F  ON F.file_id   = G.file_id
+         LEFT JOIN WISH_COUNT  WC ON WC.gacha_id = G.id
+         LEFT JOIN TRADE_COUNT TC ON TC.gacha_id = G.id
         WHERE 1=1
         <choose>
             <when test="keyword != null and keyword != ''">
@@ -55,8 +72,7 @@
         </choose>
         <choose>
             <when test="sort == 'OLDEST'">     ORDER BY G.created_at ASC</when>
-            <when test="sort == 'PRICE_ASC'">  ORDER BY G.price      ASC</when>
-            <when test="sort == 'PRICE_DESC'"> ORDER BY G.price      DESC</when>
+            <when test="sort == 'MOST_VIEWED'">ORDER BY G.view_count DESC</when>
             <when test="sort == 'MOST_WISHED'">ORDER BY wish_count   DESC</when>
             <when test="sort == 'MOST_TRADED'">ORDER BY trade_count  DESC</when>
             <otherwise>ORDER BY G.created_at DESC</otherwise>

@@ -18,8 +18,7 @@ class GachaListService(
         private val sortList = listOf(
             "LATEST",      // 최신순
             "OLDEST",      // 오래된순
-            "PRICE_ASC",   // 낮은 가격순
-            "PRICE_DESC",  // 높은 가격순
+            "MOST_VIEWED", // 조회수순
             "MOST_WISHED", // 높은 즐겨찾기순
             "MOST_TRADED"  // 높은 거래량순
         )

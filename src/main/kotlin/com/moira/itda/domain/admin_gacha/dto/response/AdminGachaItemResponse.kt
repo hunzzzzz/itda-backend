@@ -1,4 +1,4 @@
-package com.moira.itda.domain.admin.gacha.dto.response
+package com.moira.itda.domain.admin_gacha.dto.response
 
 import java.time.ZonedDateTime
 
