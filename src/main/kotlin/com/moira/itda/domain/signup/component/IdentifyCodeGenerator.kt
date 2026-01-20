@@ -1,4 +1,4 @@
-package com.moira.itda.domain.user.component
+package com.moira.itda.domain.signup.component
 
 import java.security.SecureRandom
 

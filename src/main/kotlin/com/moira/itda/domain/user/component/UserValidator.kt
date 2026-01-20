@@ -1,6 +1,5 @@
 package com.moira.itda.domain.user.component
 
-import com.moira.itda.domain.user.dto.request.SignupRequest
 import com.moira.itda.domain.user.mapper.UserMapper
 import com.moira.itda.global.exception.ErrorCode
 import com.moira.itda.global.exception.ItdaException
@@ -27,15 +26,6 @@ class UserValidator(
     }
 
     /**
-     * 이메일 중복 확인
-     */
-    fun validateEmailDuplication(email: String) {
-        if (mapper.selectEmailChk(email = email)) {
-            throw ItdaException(ErrorCode.USING_EMAIL)
-        }
-    }
-
-    /**
      * 이메일 존재 여부 확인
      */
     fun validateEmailExists(email: String) {
@@ -53,39 +43,6 @@ class UserValidator(
         }
     }
 
-    /**
-     * 회원가입 > 유효성 검사
-     */
-    fun validateSignup(request: SignupRequest) {
-        // 이메일
-        if (request.email.isBlank()) {
-            throw ItdaException(ErrorCode.NO_EMAIL)
-        }
-        if (!emailRegex.matches(request.email)) {
-            throw ItdaException(ErrorCode.INVALID_EMAIL)
-        }
-        if (mapper.selectEmailChk(email = request.email)) {
-            throw ItdaException(ErrorCode.USING_EMAIL)
-        }
-        // 비밀번호
-        if (request.password.isBlank()) {
-            throw ItdaException(ErrorCode.NO_PASSWORD)
-        }
-        if (!passwordRegex.matches(request.password)) {
-            throw ItdaException(ErrorCode.INVALID_PASSWORD)
-        }
-        // 이름
-        if (request.name.isBlank()) {
-            throw ItdaException(ErrorCode.NO_USER_NAME)
-        }
-        // 닉네임
-        if (request.nickname.isBlank()) {
-            throw ItdaException(ErrorCode.NO_NICKNAME)
-        }
-        if (mapper.selectNicknameChk(nickname = request.nickname)) {
-            throw ItdaException(ErrorCode.USING_NICKNAME)
-        }
-    }
 
     /**
      * 비밀번호 변경 > 유효성 검사

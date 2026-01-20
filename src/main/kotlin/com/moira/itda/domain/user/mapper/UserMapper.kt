@@ -20,11 +20,6 @@ interface UserMapper {
     fun selectEmailChk(email: String): Boolean
 
     /**
-     * 회원가입 > 본인인증 > UserIdentifyCode 저장
-     */
-    fun insertUserIdentifyCode(userIdentifyCode: UserIdentifyCode)
-
-    /**
      * 회원가입 > 본인인증 > UserIdentifyCode 조회
      */
     fun selectUserIdentifyCode(email: String, type: UserIdentifyCodeType): UserIdentifyCode?
