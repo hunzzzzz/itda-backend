@@ -53,7 +53,7 @@
              , G.created_at
              , G.updated_at
         FROM GACHA G
-         LEFT JOIN  IMAGE_FILE F  ON F.file_id   = G.file_id
+         LEFT JOIN IMAGE_FILE  F  ON F.file_id   = G.file_id
          LEFT JOIN WISH_COUNT  WC ON WC.gacha_id = G.id
          LEFT JOIN TRADE_COUNT TC ON TC.gacha_id = G.id
         WHERE 1=1
