@@ -2,6 +2,7 @@ package com.moira.itda.global.pagination.component
 
 import com.moira.itda.global.pagination.dto.PageResponse
 import org.springframework.stereotype.Component
+import kotlin.math.ceil
 
 @Component
 class OffsetPaginationHandler {
@@ -16,7 +17,7 @@ class OffsetPaginationHandler {
      * 총 페이지 수 계산
      */
     fun getTotalPages(totalElements: Long, pageSize: Int): Long {
-        return (totalElements / pageSize).coerceAtLeast(1)
+        return ceil(totalElements / pageSize.toDouble()).toLong()
     }
 
     /**
