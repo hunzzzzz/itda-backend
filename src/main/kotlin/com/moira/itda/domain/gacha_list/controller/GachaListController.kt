@@ -2,6 +2,8 @@ package com.moira.itda.domain.gacha_list.controller
 
 import com.moira.itda.domain.gacha_list.dto.response.GachaListPageResponse
 import com.moira.itda.domain.gacha_list.service.GachaListService
+import com.moira.itda.global.auth.aop.UserPrincipal
+import com.moira.itda.global.auth.dto.UserAuth
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestParam
@@ -19,11 +21,19 @@ class GachaListController(
      */
     @GetMapping("/api/gacha")
     fun getAll(
+        @UserPrincipal userAuth: UserAuth,
         @RequestParam(required = false, defaultValue = "") keyword: String,
         @RequestParam(required = false, defaultValue = "1") page: Int,
-        @RequestParam(required = false, defaultValue = "LATEST") sort: String
+        @RequestParam(required = false, defaultValue = "LATEST") sort: String,
+        @RequestParam(required = false, defaultValue = "N") showMyWish: String
     ): ResponseEntity<GachaListPageResponse> {
-        val response = service.getGachaList(keyword = keyword, page = page, sort = sort)
+        val response = service.getGachaList(
+            userId = userAuth.userId,
+            keyword = keyword,
+            page = page,
+            sort = sort,
+            showMyWish = showMyWish
+        )
 
         return ResponseEntity.ok(response)
     }

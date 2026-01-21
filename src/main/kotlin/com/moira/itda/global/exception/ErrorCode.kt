@@ -13,10 +13,10 @@ enum class ErrorCode(
         message = "알 수 없는 오류가 발생했습니다. 잠시 후 다시 시도해주세요.",
         httpStatus = HttpStatus.INTERNAL_SERVER_ERROR
     ),
-    INVALID_SORT_CONDITION(
+    INVALID_QUERY_PARAMETER(
         code = "CM002",
-        message = "올바르지 않은 정렬 조건입니다.",
-        httpStatus = HttpStatus.BAD_REQUEST
+        message = "올바르지 않은 접근입니다.",
+        httpStatus = HttpStatus.FORBIDDEN
     ),
     MAX_UPLOAD_SIZE_EXCEEDED(
         code = "CM003",
@@ -85,9 +85,6 @@ enum class ErrorCode(
         message = "이메일 혹은 비밀번호를 잘못 입력하였습니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
-
-
-
 
 
     USER_NOT_FOUND(

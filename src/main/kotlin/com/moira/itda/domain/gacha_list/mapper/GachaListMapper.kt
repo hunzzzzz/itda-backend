@@ -8,15 +8,17 @@ interface GachaListMapper {
     /**
      * 가챠목록 조회 > totalElements 계산
      */
-    fun selectGachaListCnt(keyword: String): Long
+    fun selectGachaListCnt(userId: String, keyword: String, showMyWish: String): Long
 
     /**
      * 가챠목록 조회
      */
     fun selectGachaList(
+        userId: String,
         keyword: String,
         pageSize: Int,
         offset: Int,
-        sort: String
+        sort: String,
+        showMyWish: String
     ): List<GachaListResponse>
 }

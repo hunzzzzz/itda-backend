@@ -9,19 +9,25 @@
         SELECT COUNT(G.id)
         FROM GACHA G
         WHERE 1=1
-        <choose>
-            <when test="keyword != null and keyword != ''">
-                AND (
-                       G.title        LIKE CONCAT('%', #{keyword}, '%')
-                    OR G.manufacturer LIKE CONCAT('%', #{keyword}, '%')
-                    OR EXISTS (
-                        SELECT 1 FROM GACHA_ITEM GI
-                        WHERE GI.gacha_id = G.id
-                         AND GI.name  LIKE CONCAT('%', #{keyword}, '%')
-                    )
+        <if test='keyword != null and keyword != ""'>
+            AND (
+                   G.title        LIKE CONCAT('%', #{keyword}, '%')
+                OR G.manufacturer LIKE CONCAT('%', #{keyword}, '%')
+                OR EXISTS (
+                    SELECT 1 FROM GACHA_ITEM GI
+                    WHERE GI.gacha_id = G.id
+                     AND GI.name  LIKE CONCAT('%', #{keyword}, '%')
                 )
-            </when>
-        </choose>
+            )
+        </if>
+        <if test='showMyWish == "Y"'>
+            AND (
+                EXISTS (
+                    SELECT 1 FROM GACHA_WISH GW
+                    WHERE GW.user_id = #{userId} AND GW.gacha_id = G.id
+                )
+            )
+        </if>
     </select>
 
     <!-- 가챠목록 조회 -->
@@ -57,19 +63,25 @@
          LEFT JOIN WISH_COUNT  WC ON WC.gacha_id = G.id
          LEFT JOIN TRADE_COUNT TC ON TC.gacha_id = G.id
         WHERE 1=1
-        <choose>
-            <when test="keyword != null and keyword != ''">
-                AND (
-                       G.title        LIKE CONCAT('%', #{keyword}, '%')
-                    OR G.manufacturer LIKE CONCAT('%', #{keyword}, '%')
-                    OR EXISTS (
-                        SELECT 1 FROM GACHA_ITEM GI
-                        WHERE GI.gacha_id = G.id
-                         AND GI.name LIKE CONCAT('%', #{keyword}, '%')
-                    )
+        <if test='keyword != null and keyword != ""'>
+            AND (
+                   G.title        LIKE CONCAT('%', #{keyword}, '%')
+                OR G.manufacturer LIKE CONCAT('%', #{keyword}, '%')
+                OR EXISTS (
+                    SELECT 1 FROM GACHA_ITEM GI
+                    WHERE GI.gacha_id = G.id
+                     AND GI.name LIKE CONCAT('%', #{keyword}, '%')
                 )
-            </when>
-        </choose>
+            )
+        </if>
+        <if test='showMyWish == "Y"'>
+            AND (
+                EXISTS (
+                    SELECT 1 FROM GACHA_WISH GW
+                    WHERE GW.user_id = #{userId} AND GW.gacha_id = G.id
+                )
+            )
+        </if>
         <choose>
             <when test="sort == 'OLDEST'">     ORDER BY G.created_at ASC</when>
             <when test="sort == 'MOST_VIEWED'">ORDER BY G.view_count DESC</when>

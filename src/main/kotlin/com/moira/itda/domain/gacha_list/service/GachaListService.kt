@@ -27,9 +27,12 @@ class GachaListService(
     /**
      * 가챠목록 조회 > 유효성 검사
      */
-    private fun validateSortCondition(sort: String) {
+    private fun validateQueryString(sort: String, showMyWish: String) {
         if (!sortList.contains(sort.uppercase())) {
-            throw ItdaException(ErrorCode.INVALID_SORT_CONDITION)
+            throw ItdaException(ErrorCode.INVALID_QUERY_PARAMETER)
+        }
+        if (showMyWish != "N" && showMyWish != "Y") {
+            throw ItdaException(ErrorCode.INVALID_QUERY_PARAMETER)
         }
     }
 
@@ -37,21 +40,33 @@ class GachaListService(
      * 가챠목록 조회
      */
     @Transactional(readOnly = true)
-    fun getGachaList(keyword: String, page: Int, sort: String): GachaListPageResponse {
-        // [1] 정렬 조건에 대한 유효성 검사
-        this.validateSortCondition(sort = sort)
+    fun getGachaList(
+        userId: String,
+        keyword: String,
+        page: Int,
+        sort: String,
+        showMyWish: String
+    ): GachaListPageResponse {
+        // [1] query string에 대한 유효성 검사
+        this.validateQueryString(sort = sort, showMyWish = showMyWish)
 
         // [2] 변수 세팅
         val pageSize = GACHA_LIST_PAGE_SIZE
         val offset = pageHandler.getOffset(page = page, pageSize = pageSize)
 
         // [3] 조회
-        val totalElements = mapper.selectGachaListCnt(keyword = keyword)
+        val totalElements = mapper.selectGachaListCnt(
+            userId = userId,
+            keyword = keyword,
+            showMyWish = showMyWish
+        )
         val contents = mapper.selectGachaList(
+            userId = userId,
             keyword = keyword,
             pageSize = pageSize,
             offset = offset,
-            sort = sort
+            sort = sort,
+            showMyWish = showMyWish
         )
 
         // [4] 오프셋 페이지네이션 구현
