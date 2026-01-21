@@ -197,12 +197,14 @@ class UserService(
     }
 
     /**
-     * 마이페이지 > 닉네임 변경
+     * 닉네임 변경
      */
     @Transactional
     fun updateNickname(userId: String, request: NicknameUpdateRequest) {
         // [1] 유효성 검사
-        validator.validateNickname(nickname = request.newNickname)
+        if (mapper.selectNicknameChk(nickname = request.newNickname)) {
+            throw ItdaException(ErrorCode.USING_NICKNAME)
+        }
 
         // [2] 닉네임 변경
         mapper.updateNickname(userId = userId, newNickname = request.newNickname)

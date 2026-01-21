@@ -103,7 +103,7 @@ class UserController(
     }
 
     /**
-     * 마이페이지 > 닉네임 변경
+     * 닉네임 변경
      */
     @PutMapping("/api/me/nickname")
     fun updateNickname(

@@ -9,12 +9,6 @@ import org.apache.ibatis.annotations.Mapper
 @Mapper
 interface UserMapper {
     /**
-     * 회원가입 > 닉네임 중복 확인
-     * 마이페이지 > 닉네임 변경 > 닉네임 존재 여부 확인
-     */
-    fun selectNicknameChk(nickname: String): Boolean
-
-    /**
      * 회원가입 > 이메일 중복 확인
      */
     fun selectEmailChk(email: String): Boolean
@@ -65,7 +59,12 @@ interface UserMapper {
     fun updateFileId(userId: String, newFileId: String)
 
     /**
-     * 마이페이지 > 닉네임 변경
+     * 닉네임 변경 > 닉네임 존재 여부 확인
+     */
+    fun selectNicknameChk(nickname: String): Boolean
+
+    /**
+     * 닉네임 변경
      */
     fun updateNickname(userId: String, newNickname: String)
 

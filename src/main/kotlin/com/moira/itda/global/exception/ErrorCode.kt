@@ -75,21 +75,21 @@ enum class ErrorCode(
         message = "회원가입 정보가 만료되었습니다. 처음부터 다시 진행해주세요.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
-
-
-
-
-
     USING_NICKNAME(
-        code = "U0001",
+        code = "U009",
         message = "이미 사용 중인 닉네임입니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
     LOGIN_ERROR(
-        code = "U0011",
+        code = "U010",
         message = "이메일 혹은 비밀번호를 잘못 입력하였습니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
+
+
+
+
+
     USER_NOT_FOUND(
         code = "U0012",
         message = "존재하지 않는 유저입니다. 에러가 지속되는 경우 고객센터로 문의해주세요.",

@@ -17,15 +17,6 @@ class UserValidator(
         Regex("^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()\\-_+=\\[\\]{}|;:',.<>?/`~])(?=.*\\d)?[A-Za-z\\d!@#$%^&*()\\-_+=\\[\\]{}|;:',.<>?/`~]{8,16}$")
 
     /**
-     * 닉네임 중복 확인
-     */
-    fun validateNickname(nickname: String) {
-        if (mapper.selectNicknameChk(nickname = nickname)) {
-            throw ItdaException(ErrorCode.USING_NICKNAME)
-        }
-    }
-
-    /**
      * 이메일 존재 여부 확인
      */
     fun validateEmailExists(email: String) {

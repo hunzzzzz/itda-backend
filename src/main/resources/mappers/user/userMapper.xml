@@ -112,6 +112,13 @@
         WHERE id = #{userId}
     </update>
 
+    <!-- 닉네임 변경 > 닉네임 존재 여부 조회 -->
+    <select id="selectNicknameChk">
+        SELECT EXISTS (
+            SELECT 1 FROM USER WHERE nickname = #{nickname}
+        )
+    </select>
+
     <!-- 마이페이지 > 닉네임 변경 -->
     <update id="updateNickname">
         UPDATE USER
