@@ -12,7 +12,7 @@
              , G.title
              , G.manufacturer
              , G.file_id
-             , (SELECT file_url FROM IMAGE_FILE WHERE file_id = G.file_id ORDER BY created_at ASC LIMIT 1) AS file_url             , G.price
+             , (SELECT file_url FROM IMAGE_FILE WHERE file_id = G.file_id ORDER BY created_at ASC LIMIT 1) AS file_url
              , G.view_count
              , (SELECT COUNT(id) FROM GACHA_WISH WHERE gacha_id = G.id) AS wish_count
              , (SELECT COUNT(id) FROM GACHA_PICK_HISTORY WHERE gacha_id = G.id) AS total_pick_count
@@ -102,7 +102,6 @@
              , G.manufacturer
              , G.file_id
              , (SELECT file_url FROM IMAGE_FILE WHERE file_id = G.file_id ORDER BY created_at ASC LIMIT 1) AS file_url
-             , G.price
              , G.view_count
              , (SELECT COUNT(id) FROM GACHA_WISH WHERE gacha_id = G.id) AS wish_count
              , NULL           AS total_pick_count
