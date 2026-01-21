@@ -92,38 +92,4 @@
     <delete id="deleteGachaWish">
         DELETE FROM GACHA_WISH WHERE user_id = #{userId} AND gacha_id = #{gachaId}
     </delete>
-
-    <!-- 마이페이지 > 즐겨찾기 > 즐겨찾기 가챠목록 -->
-    <select id="selectWishGachaList" resultType="com.moira.itda.domain.gacha.dto.response.GachaResponse">
-        SELECT
-               G.id           AS gacha_id
-             , G.status
-             , G.title
-             , G.manufacturer
-             , G.file_id
-             , (SELECT file_url FROM IMAGE_FILE WHERE file_id = G.file_id ORDER BY created_at ASC LIMIT 1) AS file_url
-             , G.view_count
-             , (SELECT COUNT(id) FROM GACHA_WISH WHERE gacha_id = G.id) AS wish_count
-             , NULL           AS total_pick_count
-             , (SELECT COUNT(id) FROM TRADE_COMPLETE_HISTORY WHERE gacha_id = G.id) AS trade_count
-             , G.created_at
-             , G.updated_at
-        FROM GACHA G
-        INNER JOIN GACHA_WISH GW ON GW.gacha_id = G.id
-        WHERE GW.user_id = #{userId}
-        ORDER BY GW.created_at DESC
-        LIMIT #{pageSize} OFFSET #{offset}
-    </select>
-
-    <!-- 거래제안 모달 > 가챠 하위 아이템 목록 조회 -->
-    <!-- 교환등록 > 가챠 하위 아이템 목록 조회 -->
-    <!-- 판매등록 > 가챠 하위 아이템 목록 조회 -->
-    <select id="selectGachaItemNameList" resultType="com.moira.itda.domain.gacha_common.dto.response.GachaItemNameResponse">
-        SELECT
-               id     AS gacha_item_id
-             , name
-        FROM GACHA_ITEM
-        WHERE gacha_id = #{gachaId}
-        ORDER BY created_at ASC
-    </select>
 </mapper>
