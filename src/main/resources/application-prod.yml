@@ -53,6 +53,9 @@ spring:
 jwt:
   secret:
     key: ${JWT_SECRET_KEY}
+  expiration-time:
+    atk: ${JWT_EXPIRATION_TIME_ATK}
+    rtk: ${JWT_EXPIRATION_TIME_RTK}
 
 ---
 
@@ -74,3 +77,10 @@ spring:
     port: 587
     username: ${MAIL_USERNAME}
     password: ${MAIL_PASSWORD}
+
+---
+
+coolsms:
+  apikey: ${COOLSMS_API_KEY}
+  apisecret: ${COOLSMS_API_SECRET}
+  fromnumber: ${COOLSMS_FROM_NUMBER}

@@ -12,15 +12,15 @@ import java.util.*
 import javax.crypto.SecretKey
 
 @Component
-class JwtProvider {
-    companion object {
-        private const val JWT_ISSUER = "ITDA" // 토큰 발급자
-        private const val JWT_EXPIRATION_TIME_ATK = 1000 * 60 * 60 * 2L  // ATK 유효시간 (2시간)
-        private const val JWT_EXPIRATION_TIME_RTK = 1000 * 60 * 60 * 24L // RTK 유효시간 (24시간)
-    }
-
+class JwtProvider(
+    @Value("\${jwt.expiration-time.atk}")
+    private val expirationTimeAtk: Long,
+    @Value("\${jwt.expiration-time.rtk}")
+    private val expirationTimeRtk: Long
+) {
     @Value("\${jwt.secret.key}")
     private lateinit var secretKey: String
+
     private lateinit var key: SecretKey
 
     /**
@@ -48,7 +48,7 @@ class JwtProvider {
             .claims(claims)
             .expiration(Date(now.time + expirationTime))
             .issuedAt(now)
-            .issuer(JWT_ISSUER)
+            .issuer("ITDA")
             .signWith(key)
             .compact()
     }
@@ -57,14 +57,14 @@ class JwtProvider {
      * AccessToken 생성
      */
     fun createAtk(user: User): String {
-        return this.createToken(user, JWT_EXPIRATION_TIME_ATK)
+        return this.createToken(user, expirationTimeAtk)
     }
 
     /**
      * RefreshToken 생성
      */
     fun createRtk(user: User): String {
-        return this.createToken(user, JWT_EXPIRATION_TIME_RTK)
+        return this.createToken(user, expirationTimeRtk)
     }
 
     /**
