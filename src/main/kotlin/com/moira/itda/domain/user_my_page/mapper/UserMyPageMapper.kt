@@ -4,7 +4,7 @@ import com.moira.itda.domain.user_my_page.dto.response.MyPageResponse
 import org.apache.ibatis.annotations.Mapper
 
 @Mapper
-interface UserMapper {
+interface UserMyPageMapper {
     /**
      * 로그아웃 > RefreshToken 초기화
      */

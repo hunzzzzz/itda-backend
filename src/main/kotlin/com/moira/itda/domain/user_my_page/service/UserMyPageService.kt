@@ -4,7 +4,7 @@ import com.moira.itda.domain.user_my_page.dto.request.NicknameUpdateRequest
 import com.moira.itda.domain.user_my_page.dto.request.PasswordUpdateRequest
 import com.moira.itda.domain.user_my_page.dto.request.ProfileImageUpdateRequest
 import com.moira.itda.domain.user_my_page.dto.response.MyPageResponse
-import com.moira.itda.domain.user_my_page.mapper.UserMapper
+import com.moira.itda.domain.user_my_page.mapper.UserMyPageMapper
 import com.moira.itda.global.auth.component.CookieHandler
 import com.moira.itda.global.exception.ErrorCode
 import com.moira.itda.global.exception.ItdaException
@@ -15,11 +15,11 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
-class UserService(
+class UserMyPageService(
     private val awsS3Handler: AwsS3Handler,
     private val cookieHandler: CookieHandler,
     private val encoder: PasswordEncoder,
-    private val mapper: UserMapper
+    private val mapper: UserMyPageMapper
 ) {
     private val passwordRegex =
         Regex("^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()\\-_+=\\[\\]{}|;:',.<>?/`~])(?=.*\\d)?[A-Za-z\\d!@#$%^&*()\\-_+=\\[\\]{}|;:',.<>?/`~]{8,16}$")

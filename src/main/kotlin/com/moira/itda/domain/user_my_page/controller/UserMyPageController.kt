@@ -4,7 +4,7 @@ import com.moira.itda.domain.user_my_page.dto.request.NicknameUpdateRequest
 import com.moira.itda.domain.user_my_page.dto.request.PasswordUpdateRequest
 import com.moira.itda.domain.user_my_page.dto.request.ProfileImageUpdateRequest
 import com.moira.itda.domain.user_my_page.dto.response.MyPageResponse
-import com.moira.itda.domain.user_my_page.service.UserService
+import com.moira.itda.domain.user_my_page.service.UserMyPageService
 import com.moira.itda.global.auth.aop.UserPrincipal
 import com.moira.itda.global.auth.dto.UserAuth
 import jakarta.servlet.http.HttpServletResponse
@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.*
  * 마이페이지
  */
 @RestController
-class UserController(
-    private val service: UserService
+class UserMyPageController(
+    private val service: UserMyPageService
 ) {
     /**
      * 로그아웃

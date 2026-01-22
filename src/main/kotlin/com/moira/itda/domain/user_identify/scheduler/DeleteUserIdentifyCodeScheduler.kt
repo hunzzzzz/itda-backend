@@ -1,7 +1,6 @@
 package com.moira.itda.domain.user_identify.scheduler
 
 import com.moira.itda.domain.user_identify.mapper.UserIdentifyMapper
-import com.moira.itda.domain.user_my_page.mapper.UserMapper
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component
 
