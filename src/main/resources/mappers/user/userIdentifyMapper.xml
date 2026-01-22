@@ -63,4 +63,10 @@
         WHERE phone_number = #{phoneNumber}
          AND  type         = #{type}
     </update>
+
+    <!-- 스케쥴러 (30분 간격) > UserIdentifyCode 삭제 -->
+    <delete id="deleteUserIdentifyCode">
+        DELETE FROM USER_IDENTIFY_CODE
+        WHERE expired_at <![CDATA[ < ]]> CURRENT_TIMESTAMP
+    </delete>
 </mapper>

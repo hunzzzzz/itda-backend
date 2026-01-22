@@ -1,11 +1,10 @@
-package com.moira.itda.domain.user.service
+package com.moira.itda.domain.user_my_page.service
 
-import com.moira.itda.domain.user.component.UserValidator
-import com.moira.itda.domain.user.dto.request.NicknameUpdateRequest
-import com.moira.itda.domain.user.dto.request.PasswordUpdateRequest
-import com.moira.itda.domain.user.dto.request.ProfileImageUpdateRequest
-import com.moira.itda.domain.user.dto.response.MyPageResponse
-import com.moira.itda.domain.user.mapper.UserMapper
+import com.moira.itda.domain.user_my_page.dto.request.NicknameUpdateRequest
+import com.moira.itda.domain.user_my_page.dto.request.PasswordUpdateRequest
+import com.moira.itda.domain.user_my_page.dto.request.ProfileImageUpdateRequest
+import com.moira.itda.domain.user_my_page.dto.response.MyPageResponse
+import com.moira.itda.domain.user_my_page.mapper.UserMapper
 import com.moira.itda.global.auth.component.CookieHandler
 import com.moira.itda.global.exception.ErrorCode
 import com.moira.itda.global.exception.ItdaException
@@ -20,9 +19,11 @@ class UserService(
     private val awsS3Handler: AwsS3Handler,
     private val cookieHandler: CookieHandler,
     private val encoder: PasswordEncoder,
-    private val mapper: UserMapper,
-    private val validator: UserValidator
+    private val mapper: UserMapper
 ) {
+    private val passwordRegex =
+        Regex("^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()\\-_+=\\[\\]{}|;:',.<>?/`~])(?=.*\\d)?[A-Za-z\\d!@#$%^&*()\\-_+=\\[\\]{}|;:',.<>?/`~]{8,16}$")
+
     /**
      * 로그아웃
      */
@@ -36,16 +37,15 @@ class UserService(
     }
 
     /**
-     * 마이페이지 > 내 프로필 조회
+     * 내 프로필 조회
      */
     @Transactional(readOnly = true)
     fun getMyProfile(userId: String): MyPageResponse {
-        // [1] 조회
         return mapper.selectMyPageResponse(userId = userId) ?: throw ItdaException(ErrorCode.USER_NOT_FOUND)
     }
 
     /**
-     * 마이페이지 > 프로필 사진 변경
+     * 프로필 사진 변경
      */
     @Transactional
     fun updateProfileImage(userId: String, request: ProfileImageUpdateRequest) {
@@ -76,7 +76,26 @@ class UserService(
     }
 
     /**
-     * 마이페이지 > 비밀번호 변경
+     * 비밀번호 변경 > 유효성 검사
+     */
+    private fun validatePasswordUpdate(oldRaw: String, oldEncoded: String, new: String) {
+        // 비밀번호 입력값 검증
+        if (oldRaw.isBlank() || new.isBlank() || !passwordRegex.matches(new)) {
+            throw ItdaException(ErrorCode.INVALID_PASSWORD)
+        }
+        // 기존 비밀번호 일치 여부 검증
+        if (!encoder.matches(oldRaw, oldEncoded)) {
+            throw ItdaException(ErrorCode.PASSWORD_NOT_MATCH)
+        }
+        // 기존 비밀번호와 새로운 비밀번호가 다른지 여부 검증
+        if (oldRaw == new) {
+            throw ItdaException(ErrorCode.SAME_PASSWORD)
+        }
+    }
+
+
+    /**
+     * 비밀번호 변경
      */
     @Transactional
     fun updatePassword(
@@ -88,7 +107,7 @@ class UserService(
         val currentPassword = mapper.selectCurrentPassword(userId = userId)
 
         // [2] 유효성 검사
-        validator.validatePasswordUpdate(
+        this.validatePasswordUpdate(
             oldRaw = request.oldPassword,
             oldEncoded = currentPassword,
             new = request.newPassword
@@ -102,12 +121,32 @@ class UserService(
     }
 
     /**
-     * 마이페이지 > 회원탈퇴
+     * 회원탈퇴 > 유효성 검사
+     */
+    private fun validateDelete(userId: String) {
+        // PENDING인 Trade가 존재하는지 확인
+        if (mapper.selectPendingTradeChk(userId = userId)) {
+            throw ItdaException(ErrorCode.PENDING_TRADE_EXISTS)
+        }
+
+        // PENDING인 TradeSuggest가 존재하는지 확인
+        if (mapper.selectPendingTradeSuggestChk(userId = userId)) {
+            throw ItdaException(ErrorCode.PENDING_TRADE_SUGGEST_EXISTS)
+        }
+
+        // ACTIVE인 ChatRoom이 존재하는지 확인
+        if (mapper.selectActiveChatRoomChk(userId = userId)) {
+            throw ItdaException(ErrorCode.ACTIVE_CHAT_ROOM_EXISTS)
+        }
+    }
+
+    /**
+     * 회원탈퇴
      */
     @Transactional
     fun delete(userId: String, httpRes: HttpServletResponse) {
         // [1] 유효성 검사
-        validator.validateDelete(userId = userId)
+        this.validateDelete(userId = userId)
 
         // [2] 회원탈퇴
         mapper.updateUserStatusDeleted(userId = userId)

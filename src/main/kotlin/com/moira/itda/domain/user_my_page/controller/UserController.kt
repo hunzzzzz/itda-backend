@@ -1,10 +1,10 @@
-package com.moira.itda.domain.user.controller
+package com.moira.itda.domain.user_my_page.controller
 
-import com.moira.itda.domain.user.dto.request.NicknameUpdateRequest
-import com.moira.itda.domain.user.dto.request.PasswordUpdateRequest
-import com.moira.itda.domain.user.dto.request.ProfileImageUpdateRequest
-import com.moira.itda.domain.user.dto.response.MyPageResponse
-import com.moira.itda.domain.user.service.UserService
+import com.moira.itda.domain.user_my_page.dto.request.NicknameUpdateRequest
+import com.moira.itda.domain.user_my_page.dto.request.PasswordUpdateRequest
+import com.moira.itda.domain.user_my_page.dto.request.ProfileImageUpdateRequest
+import com.moira.itda.domain.user_my_page.dto.response.MyPageResponse
+import com.moira.itda.domain.user_my_page.service.UserService
 import com.moira.itda.global.auth.aop.UserPrincipal
 import com.moira.itda.global.auth.dto.UserAuth
 import jakarta.servlet.http.HttpServletResponse
@@ -32,7 +32,7 @@ class UserController(
     }
 
     /**
-     * 마이페이지 > 내 프로필 조회
+     * 내 프로필 조회
      */
     @GetMapping("/api/me")
     fun getMyProfile(@UserPrincipal userAuth: UserAuth): ResponseEntity<MyPageResponse> {
@@ -42,7 +42,7 @@ class UserController(
     }
 
     /**
-     * 마이페이지 > 프로필 사진 변경
+     * 프로필 사진 변경
      */
     @PutMapping("/api/me/image")
     fun updateProfileImage(
@@ -68,7 +68,7 @@ class UserController(
     }
 
     /**
-     * 마이페이지 > 비밀번호 변경
+     * 비밀번호 변경
      */
     @PutMapping("/api/me/password")
     fun updatePassword(
@@ -82,7 +82,7 @@ class UserController(
     }
 
     /**
-     * 마이페이지 > 회원탈퇴
+     * 회원탈퇴
      */
     @DeleteMapping("/api/me/delete")
     fun delete(

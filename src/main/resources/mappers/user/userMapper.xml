@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.moira.itda.domain.user.mapper.UserMapper">
+<mapper namespace="com.moira.itda.domain.user_my_page.mapper.UserMapper">
     <!-- 로그아웃 > RefreshToken 초기화 -->
     <update id="updateRefreshTokenNull">
         UPDATE USER
@@ -21,15 +21,15 @@
         WHERE email = #{email}
     </update>
 
-    <!-- 마이페이지 > 내 프로필 조회 -->
-    <select id="selectMyPageResponse" resultType="com.moira.itda.domain.user.dto.response.MyPageResponse">
+    <!-- 내 프로필 조회 -->
+    <select id="selectMyPageResponse" resultType="com.moira.itda.domain.user_my_page.dto.response.MyPageResponse">
         SELECT
                U.id AS user_id
              , U.role
              , U.status
              , U.email
-             , U.name
              , U.nickname
+             , U.phone_number
              , U.file_id
              , (SELECT file_url FROM IMAGE_FILE WHERE file_id = U.file_id ORDER BY created_at DESC LIMIT 1) AS image_file_url
              , (SELECT COUNT(id) FROM TRADE_COMPLETE_HISTORY WHERE seller_id = U.id OR buyer_id = U.id)     AS trade_count
@@ -40,7 +40,7 @@
         WHERE U.id = #{userId}
     </select>
 
-    <!-- 마이페이지 > 프로필 사진 변경 > 현재 프로필 사진의 URL 조회 -->
+    <!-- 프로필 사진 변경 > 현재 프로필 사진의 URL 조회 -->
     <select id="selectCurrentFileUrl" resultType="java.lang.String">
         SELECT file_url
         FROM IMAGE_FILE
@@ -49,7 +49,7 @@
         LIMIT 1
     </select>
 
-    <!-- 마이페이지 > 프로필 사진 변경 > 파일 ID 수정 -->
+    <!-- 프로필 사진 변경 > 파일 ID 수정 -->
     <update id="updateFileId">
         UPDATE USER
         SET
@@ -65,7 +65,7 @@
         )
     </select>
 
-    <!-- 마이페이지 > 닉네임 변경 -->
+    <!-- 닉네임 변경 -->
     <update id="updateNickname">
         UPDATE USER
         SET
@@ -74,12 +74,12 @@
         WHERE id = #{userId}
     </update>
 
-    <!-- 마이페이지 > 비밀번호 변경 > 현재 비밀번호 조회 -->
+    <!-- 비밀번호 변경 > 현재 비밀번호 조회 -->
     <select id="selectCurrentPassword" resultType="java.lang.String">
         SELECT password FROM USER WHERE id = #{userId}
     </select>
 
-    <!-- 마이페이지 > 비밀번호 변경 -->
+    <!-- 비밀번호 변경 -->
     <update id="updatePassword">
         UPDATE USER
         SET
@@ -88,7 +88,7 @@
         WHERE id = #{userId}
     </update>
 
-    <!-- 마이페이지 > 회원탈퇴 > User status 변경 (DELETED) -->
+    <!-- 회원탈퇴 > User status 변경 (DELETED) -->
     <update id="updateUserStatusDeleted">
         UPDATE USER
         SET
@@ -98,7 +98,7 @@
         WHERE id = #{userId}
     </update>
 
-    <!-- 마이페이지 > 회윈털퇴 > PENDING인 Trade 존재 여부 확인 -->
+    <!-- 회윈털퇴 > PENDING인 Trade 존재 여부 확인 -->
     <select id="selectPendingTradeChk" resultType="java.lang.Boolean">
         SELECT EXISTS (
             SELECT 1 FROM TRADE
@@ -106,7 +106,7 @@
         )
     </select>
 
-    <!-- 마이페이지 > 회원탈퇴 > PENDING인 TradeSuggest 존재 여부 확인 -->
+    <!-- 회원탈퇴 > PENDING인 TradeSuggest 존재 여부 확인 -->
     <select id="selectPendingTradeSuggestChk" resultType="java.lang.Boolean">
         SELECT EXISTS (
             SELECT 1 FROM TRADE_SUGGEST
@@ -114,7 +114,7 @@
         )
     </select>
 
-    <!-- 마이페이지 > 회원탈퇴 > ACTIVE인 ChatRoom 존재 여부 확인 -->
+    <!-- 회원탈퇴 > ACTIVE인 ChatRoom 존재 여부 확인 -->
     <select id="selectActiveChatRoomChk" resultType="java.lang.Boolean">
         SELECT EXISTS (
             SELECT 1 FROM CHAT_ROOM
@@ -122,10 +122,4 @@
              AND  status = 'ACTIVE'
         )
     </select>
-
-    <!-- 스케쥴러 (30분 간격) > UserIdentifyCode 삭제 -->
-    <delete id="deleteUserIdentifyCode">
-        DELETE FROM USER_IDENTIFY_CODE
-        WHERE expired_at <![CDATA[ < ]]> CURRENT_TIMESTAMP
-    </delete>
 </mapper>

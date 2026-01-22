@@ -1,4 +1,4 @@
-package com.moira.itda.domain.user.dto.response
+package com.moira.itda.domain.user_my_page.dto.response
 
 import java.time.ZonedDateTime
 
@@ -7,8 +7,8 @@ data class MyPageResponse(
     val role: String,
     val status: String,
     val email: String,
-    val name: String,
     val nickname: String,
+    val phoneNumber: String,
     val fileId: String?,
     val imageFileUrl: String?,
     val tradeCount: Int,

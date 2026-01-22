@@ -30,4 +30,9 @@ interface UserIdentifyMapper {
      * 본인인증 > 인증코드 확인 > UserIdentifyCode 수정
      */
     fun updateUserIdentifyCode(phoneNumber: String, name: String, ci: String, type: UserIdentifyCodeType)
+
+    /**
+     * 스케쥴러 (30분 간격) > UserIdentifyCode 삭제
+     */
+    fun deleteUserIdentifyCode()
 }
