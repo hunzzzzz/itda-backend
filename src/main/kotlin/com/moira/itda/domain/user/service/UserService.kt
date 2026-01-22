@@ -7,10 +7,8 @@ import com.moira.itda.domain.user.dto.request.PasswordUpdateRequest
 import com.moira.itda.domain.user.dto.request.ProfileImageUpdateRequest
 import com.moira.itda.domain.user.dto.request.ResetPasswordRequest
 import com.moira.itda.domain.user.dto.response.MyPageResponse
-import com.moira.itda.domain.user.dto.response.TokenRefreshResponse
 import com.moira.itda.domain.user.mapper.UserMapper
 import com.moira.itda.global.auth.component.CookieHandler
-import com.moira.itda.global.auth.component.JwtProvider
 import com.moira.itda.global.entity.UserIdentifyCodeType
 import com.moira.itda.global.exception.ErrorCode
 import com.moira.itda.global.exception.ItdaException
@@ -18,11 +16,6 @@ import com.moira.itda.global.file.component.AwsS3Handler
 import com.moira.itda.global.mail.component.UserMailSender
 import com.moira.itda.global.mail.context.MailContext
 import com.moira.itda.global.mail.context.MailContext.IDENTIFY_MAIL_TEXT
-import io.jsonwebtoken.ExpiredJwtException
-import io.jsonwebtoken.MalformedJwtException
-import io.jsonwebtoken.UnsupportedJwtException
-import io.jsonwebtoken.security.SignatureException
-import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
@@ -34,7 +27,6 @@ class UserService(
     private val awsS3Handler: AwsS3Handler,
     private val cookieHandler: CookieHandler,
     private val encoder: PasswordEncoder,
-    private val jwtProvider: JwtProvider,
     private val mailSender: UserMailSender,
     private val mapper: UserMapper,
     private val validator: UserValidator
@@ -49,65 +41,6 @@ class UserService(
 
         // [2] RefreshToken 제거 (쿠키)
         cookieHandler.removeRtkInCookie(response = httpRes)
-    }
-
-    /**
-     * 토큰 재발급
-     */
-    @Transactional
-    fun refresh(
-        httpReq: HttpServletRequest,
-        httpRes: HttpServletResponse
-    ): TokenRefreshResponse {
-        // [1] Authorization 헤더값 추출
-        val authorizationHeaderValue = httpReq.getHeader("Authorization")
-            ?: throw ItdaException(ErrorCode.INVALID_AUTHORIZATION_HEADER)
-
-        if (!authorizationHeaderValue.startsWith("Bearer ")) {
-            throw ItdaException(ErrorCode.INVALID_TOKEN)
-        }
-
-        // [2] RefreshToken 추출
-        val refreshToken = jwtProvider.substringToken(authorizationHeaderValue)
-
-        jwtProvider.validateToken(refreshToken)
-            .onSuccess { claims ->
-                if (claims != null) {
-                    // [3] 유저 정보 추출
-                    val userId = claims.subject
-                    val email = claims.get("email", String::class.java)
-                    val user = mapper.selectUserByEmail(email = email)
-                        ?: throw ItdaException(ErrorCode.USER_NOT_FOUND)
-
-                    // [4] 토큰 검증 (with db)
-                    val rtkInDb = user.refreshToken ?: throw ItdaException(ErrorCode.EXPIRED_USER_INFO)
-                    if (refreshToken != rtkInDb) {
-                        throw ItdaException(ErrorCode.INVALID_TOKEN)
-                    }
-
-                    // [5] 토큰 재발급
-                    val atk = jwtProvider.createAtk(user = user)
-                    val rtk = jwtProvider.createRtk(user = user)
-
-                    // [6] RTK 저장
-                    mapper.updateRefreshToken(userId = userId, rtk = rtk)
-                    cookieHandler.putRtkInCookie(rtk = rtk, response = httpRes)
-
-                    return TokenRefreshResponse(accessToken = atk)
-                }
-            }
-            .onFailure {
-                val errorCode = when (it) {
-                    is ExpiredJwtException -> ErrorCode.EXPIRED_USER_INFO
-                    is SignatureException -> ErrorCode.INVALID_SIGNATURE
-                    is UnsupportedJwtException, is MalformedJwtException -> ErrorCode.INVALID_TOKEN
-                    else -> ErrorCode.INTERNAL_SERVER_ERROR
-                }
-
-                throw ItdaException(errorCode = errorCode)
-            }
-
-        return TokenRefreshResponse(accessToken = "")
     }
 
     /**

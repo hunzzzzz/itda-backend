@@ -5,11 +5,9 @@ import com.moira.itda.domain.user.dto.request.PasswordUpdateRequest
 import com.moira.itda.domain.user.dto.request.ProfileImageUpdateRequest
 import com.moira.itda.domain.user.dto.request.ResetPasswordRequest
 import com.moira.itda.domain.user.dto.response.MyPageResponse
-import com.moira.itda.domain.user.dto.response.TokenRefreshResponse
 import com.moira.itda.domain.user.service.UserService
 import com.moira.itda.global.auth.aop.UserPrincipal
 import com.moira.itda.global.auth.dto.UserAuth
-import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -29,19 +27,6 @@ class UserController(
         service.logout(userId = userAuth.userId, httpRes = httpRes)
 
         return ResponseEntity.ok(null)
-    }
-
-    /**
-     * 토큰 재발급
-     */
-    @PostMapping("/api/token/refresh")
-    fun refresh(
-        httpReq: HttpServletRequest,
-        httpRes: HttpServletResponse
-    ): ResponseEntity<TokenRefreshResponse> {
-        val response = service.refresh(httpReq = httpReq, httpRes = httpRes)
-
-        return ResponseEntity.ok(response)
     }
 
     /**

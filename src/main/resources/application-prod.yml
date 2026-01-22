@@ -28,6 +28,7 @@ logging:
     com.moira.itda.domain.signup.mapper: DEBUG
     com.moira.itda.domain.suggest.mapper: DEBUG
     com.moira.itda.domain.suggest_list.mapper: DEBUG
+    com.moira.itda.domain.token_refresh.mapper: DEBUG
     com.moira.itda.domain.trade.mapper: DEBUG
     com.moira.itda.domain.trade_cancel.mapper: DEBUG
     com.moira.itda.domain.trade_target.mapper: DEBUG
