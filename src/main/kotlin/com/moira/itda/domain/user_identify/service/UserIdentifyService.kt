@@ -42,7 +42,7 @@ class UserIdentifyService(
             }
             // 기타 경우, 사용자가 입력한 휴대폰번호가 DB 상에 존재해야 한다.
             else -> {
-                if (mapper.selectPhoneNumberChk(phoneNumber = phoneNumber)) {
+                if (!mapper.selectPhoneNumberChk(phoneNumber = phoneNumber)) {
                     throw ItdaException(ErrorCode.NON_EXISTING_PHONE)
                 }
             }
@@ -89,7 +89,7 @@ class UserIdentifyService(
         // 회원가입의 경우 name과 ci를 초기화, 나머지 경우에는 기존 User의 name과 ci를 조회
         var userInfo: HashMap<String, String?>? = null
 
-        if (request.type != UserIdentifyCodeType.RESET_PASSWORD) {
+        if (request.type != UserIdentifyCodeType.SIGNUP) {
             userInfo = mapper.selectUserInfo(phoneNumber = phoneNumber)
         }
 
