@@ -29,10 +29,10 @@ class GachaListService(
      */
     private fun validateQueryString(sort: String, showMyWish: String) {
         if (!sortList.contains(sort.uppercase())) {
-            throw ItdaException(ErrorCode.INVALID_QUERY_PARAMETER)
+            throw ItdaException(ErrorCode.FORBIDDEN)
         }
         if (showMyWish != "N" && showMyWish != "Y") {
-            throw ItdaException(ErrorCode.INVALID_QUERY_PARAMETER)
+            throw ItdaException(ErrorCode.FORBIDDEN)
         }
     }
 
