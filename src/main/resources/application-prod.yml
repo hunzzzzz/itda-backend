@@ -23,6 +23,7 @@ logging:
     com.moira.itda.domain.gacha.mapper: DEBUG
     com.moira.itda.domain.gacha_common.mapper: DEBUG
     com.moira.itda.domain.gacha_list.mapper: DEBUG
+    com.moira.itda.domain.gacha_trade_list.mapper: DEBUG
     com.moira.itda.domain.gacha_pick.mapper: DEBUG
     com.moira.itda.domain.suggest.mapper: DEBUG
     com.moira.itda.domain.suggest_list.mapper: DEBUG

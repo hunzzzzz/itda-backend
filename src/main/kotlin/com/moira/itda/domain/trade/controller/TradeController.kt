@@ -48,28 +48,6 @@ class TradeController(
     }
 
     /**
-     * 가챠상세정보 > 거래목록 조회
-     */
-    @GetMapping("/api/gacha/{gachaId}/trades")
-    fun getTradeList(
-        @PathVariable gachaId: String,
-        @RequestParam(required = false, defaultValue = "1") page: Int,
-        @RequestParam(required = false) placeId: String?,
-        @RequestParam(required = false, defaultValue = "N") onlyPending: String,
-        @RequestParam(required = false) gachaItemId: Long?
-    ): ResponseEntity<TradePageResponse> {
-        val response = service.getTradeList(
-            gachaId = gachaId,
-            page = page,
-            placeId = placeId,
-            onlyPending = onlyPending,
-            gachaItemId = gachaItemId
-        )
-
-        return ResponseEntity.ok(response)
-    }
-
-    /**
      * 가챠정보 > 가챠목록 > 상세정보 > 거래수정 > 거래 아이템 목록 조회
      * 가챠정보 > 가챠목록 > 상세정보 > 거래삭제 > 거래 아이템 목록 조회
      */
