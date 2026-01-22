@@ -12,7 +12,7 @@ interface GachaMapper {
     /**
      * 가챠상세정보 > 가챠 조회
      */
-    fun selectGacha(userId: String, gachaId: String): GachaResponse?
+    fun selectGacha(gachaId: String): GachaResponse?
 
     /**
      * 가챠상세정보 > 가챠 아이템목록 조회
@@ -23,7 +23,7 @@ interface GachaMapper {
      * 가챠상세정보 > 내 즐겨찾기 여부 조회
      * 가챠상세정보 > 즐겨찾기 > 내 즐겨찾기 여부 조회
      */
-    fun selectGachaWishChk(userId: String, gachaId: String): String
+    fun selectGachaWishChk(userId: String, gachaId: String): Boolean
 
     /**
      * 가챠상세정보 > 내 가챠이력 조회

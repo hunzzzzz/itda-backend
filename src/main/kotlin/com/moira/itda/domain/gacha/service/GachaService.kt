@@ -27,9 +27,8 @@ class GachaService(
         httpReq: HttpServletRequest,
         httpRes: HttpServletResponse
     ): GachaDetailResponse {
-        // [1] 상세정보 조회
-        val gacha = mapper.selectGacha(userId = userId, gachaId = gachaId)
-            ?: throw ItdaException(ErrorCode.GACHA_NOT_FOUND)
+        // [1] 조회
+        val gacha = mapper.selectGacha(gachaId = gachaId) ?: throw ItdaException(ErrorCode.FORBIDDEN)
         val items = mapper.selectGachaItemList(gachaId = gachaId)
         val wishYn = mapper.selectGachaWishChk(userId = userId, gachaId = gachaId)
         val pickedItems = mapper.selectGachaPickHistoryList(gachaId = gachaId, userId = userId)
@@ -48,7 +47,7 @@ class GachaService(
         return GachaDetailResponse(
             gacha = gacha,
             items = items,
-            myWishYn = wishYn,
+            myWishYn = if (wishYn) "Y" else "N",
             myPickedItems = pickedItems,
             myPlaces = places
         )
@@ -60,7 +59,7 @@ class GachaService(
     @Transactional
     fun wish(userId: String, gachaId: String) {
         // [1] 즐겨찾기 여부 조회
-        val wishYn = mapper.selectGachaWishChk(userId = userId, gachaId = gachaId)
+        val wishYn = if (mapper.selectGachaWishChk(userId = userId, gachaId = gachaId)) "Y" else "N"
 
         // [2-1] GachaWish 저장
         if ("N" == wishYn) {
