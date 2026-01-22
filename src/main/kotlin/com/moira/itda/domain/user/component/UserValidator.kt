@@ -11,29 +11,8 @@ class UserValidator(
     private val encoder: PasswordEncoder,
     private val mapper: UserMapper
 ) {
-    private val emailRegex =
-        Regex("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$")
     private val passwordRegex =
         Regex("^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()\\-_+=\\[\\]{}|;:',.<>?/`~])(?=.*\\d)?[A-Za-z\\d!@#$%^&*()\\-_+=\\[\\]{}|;:',.<>?/`~]{8,16}$")
-
-    /**
-     * 이메일 존재 여부 확인
-     */
-    fun validateEmailExists(email: String) {
-        if (!mapper.selectEmailChk(email = email)) {
-            throw ItdaException(ErrorCode.NON_EXISTING_EMAIL)
-        }
-    }
-
-    /**
-     * 비밀번호 정규식 검사
-     */
-    fun validatePasswordRegex(password: String) {
-        if (!passwordRegex.matches(password)) {
-            throw ItdaException(ErrorCode.INVALID_PASSWORD)
-        }
-    }
-
 
     /**
      * 비밀번호 변경 > 유효성 검사

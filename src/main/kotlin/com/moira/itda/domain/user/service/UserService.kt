@@ -1,33 +1,25 @@
 package com.moira.itda.domain.user.service
 
-import com.moira.itda.domain.user_signup.component.IdentifyCodeGenerator
 import com.moira.itda.domain.user.component.UserValidator
 import com.moira.itda.domain.user.dto.request.NicknameUpdateRequest
 import com.moira.itda.domain.user.dto.request.PasswordUpdateRequest
 import com.moira.itda.domain.user.dto.request.ProfileImageUpdateRequest
-import com.moira.itda.domain.user.dto.request.ResetPasswordRequest
 import com.moira.itda.domain.user.dto.response.MyPageResponse
 import com.moira.itda.domain.user.mapper.UserMapper
 import com.moira.itda.global.auth.component.CookieHandler
-import com.moira.itda.global.entity.UserIdentifyCodeType
 import com.moira.itda.global.exception.ErrorCode
 import com.moira.itda.global.exception.ItdaException
 import com.moira.itda.global.file.component.AwsS3Handler
-import com.moira.itda.global.mail.component.UserMailSender
-import com.moira.itda.global.mail.context.MailContext
-import com.moira.itda.global.mail.context.MailContext.IDENTIFY_MAIL_TEXT
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.time.ZonedDateTime
 
 @Service
 class UserService(
     private val awsS3Handler: AwsS3Handler,
     private val cookieHandler: CookieHandler,
     private val encoder: PasswordEncoder,
-    private val mailSender: UserMailSender,
     private val mapper: UserMapper,
     private val validator: UserValidator
 ) {
@@ -41,66 +33,6 @@ class UserService(
 
         // [2] RefreshToken 제거 (쿠키)
         cookieHandler.removeRtkInCookie(response = httpRes)
-    }
-
-    /**
-     * 비밀번호 초기화 > 본인인증
-     */
-    @Transactional
-    fun identifyForResetPassword(email: String) {
-        // [1] 유효성 검사 (이메일 존재 여부 확인)
-        validator.validateEmailExists(email = email)
-
-        // [2] 6자리 인증번호 생성
-        val code = IdentifyCodeGenerator.generate()
-
-        // [3] 6자리 인증번호 저장 (TODO)
-//        val userIdentifyCode = UserIdentifyCode.from(
-//            email = email, code = code, type = UserIdentifyCodeType.RESET_PASSWORD
-//        )
-//        mapper.insertUserIdentifyCode(userIdentifyCode = userIdentifyCode)
-
-        // [4] 이메일 전송
-        mailSender.send(
-            email = email,
-            subject = MailContext.IDENTIFY_MAIL_SUBJECT,
-            text = IDENTIFY_MAIL_TEXT.format(code)
-        )
-    }
-
-    /**
-     * 비밀번호 초기화 > 본인인증 > 코드 확인
-     */
-    fun checkIdentifyCodeForResetPassword(email: String, code: String) {
-        // [1] UserSignupIdentifyCode 조회
-        val userSignupIdentifyCode = mapper.selectUserIdentifyCode(
-            email = email, type = UserIdentifyCodeType.RESET_PASSWORD
-        )
-
-        // [2] 코드가 존재하지 않거나, 만료된 경우
-        if (userSignupIdentifyCode == null || userSignupIdentifyCode.expiredAt.isBefore(ZonedDateTime.now())) {
-            throw ItdaException(ErrorCode.EXPIRED_IDENTIFY_CODE)
-        }
-
-        // [3] 코드가 일치하지 않는 경우
-        if (code != userSignupIdentifyCode.code) {
-            throw ItdaException(ErrorCode.INCORRECT_IDENTIFY_CODE)
-        }
-    }
-
-    /**
-     * 비밀번호 초기화
-     */
-    @Transactional
-    fun resetPassword(request: ResetPasswordRequest) {
-        // [1] 유효성 검사
-        validator.validatePasswordRegex(request.newPassword)
-
-        // [2] 비밀번호 변경
-        mapper.updatePasswordByEmail(
-            email = request.email,
-            newPassword = encoder.encode(request.newPassword)
-        )
     }
 
     /**

@@ -3,7 +3,6 @@ package com.moira.itda.domain.user.controller
 import com.moira.itda.domain.user.dto.request.NicknameUpdateRequest
 import com.moira.itda.domain.user.dto.request.PasswordUpdateRequest
 import com.moira.itda.domain.user.dto.request.ProfileImageUpdateRequest
-import com.moira.itda.domain.user.dto.request.ResetPasswordRequest
 import com.moira.itda.domain.user.dto.response.MyPageResponse
 import com.moira.itda.domain.user.service.UserService
 import com.moira.itda.global.auth.aop.UserPrincipal
@@ -12,6 +11,9 @@ import jakarta.servlet.http.HttpServletResponse
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
+/**
+ * 마이페이지
+ */
 @RestController
 class UserController(
     private val service: UserService
@@ -25,41 +27,6 @@ class UserController(
         httpRes: HttpServletResponse
     ): ResponseEntity<Nothing> {
         service.logout(userId = userAuth.userId, httpRes = httpRes)
-
-        return ResponseEntity.ok(null)
-    }
-
-    /**
-     * 비밀번호 초기화 > 본인인증
-     */
-    @GetMapping("/api/reset/password/identify")
-    fun identifyForResetPassword(@RequestParam email: String): ResponseEntity<Nothing?> {
-        service.identifyForResetPassword(email = email)
-
-        return ResponseEntity.ok(null)
-    }
-
-    /**
-     * 비밀번호 초기화 > 본인인증 > 코드 확인
-     */
-    @GetMapping("/api/reset/password/identify/check/code")
-    fun checkIdentifyCodeForResetPassword(
-        @RequestParam email: String,
-        @RequestParam code: String
-    ): ResponseEntity<Nothing?> {
-        service.checkIdentifyCodeForResetPassword(email = email, code = code)
-
-        return ResponseEntity.ok(null)
-    }
-
-    /**
-     * 비밀번호 초기화
-     */
-    @PutMapping("/api/reset/password")
-    fun resetPassword(
-        @RequestBody request: ResetPasswordRequest
-    ): ResponseEntity<Nothing?> {
-        service.resetPassword(request = request)
 
         return ResponseEntity.ok(null)
     }

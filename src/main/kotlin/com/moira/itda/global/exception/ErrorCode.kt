@@ -70,9 +70,9 @@ enum class ErrorCode(
         message = "유효하지 않은 휴대폰번호 형식입니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
-    EXPIRED_SIGNUP_INFO(
+    EXPIRED_IDENTIFY_INFO(
         code = "U008",
-        message = "회원가입 정보가 만료되었습니다. 처음부터 다시 진행해주세요.",
+        message = "본인인증 정보가 만료되었습니다. 처음부터 다시 진행해주세요.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
     USING_NICKNAME(
@@ -85,6 +85,12 @@ enum class ErrorCode(
         message = "이메일 혹은 비밀번호를 잘못 입력하였습니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
+    NON_EXISTING_PHONE(
+        code = "U011",
+        message = "해당 휴대폰번호로 가입된 유저 정보가 없습니다.",
+        httpStatus = HttpStatus.BAD_REQUEST
+    ),
+
 
 
     USER_NOT_FOUND(

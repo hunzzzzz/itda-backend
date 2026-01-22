@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.moira.itda.domain.user_identify.mapper.UserIdentifyMapper">
+    <!-- 본인인증 > 휴대폰번호 존재 여부 조회 -->
+    <select id="selectPhoneNumberChk">
+        SELECT EXISTS (
+            SELECT 1 FROM USER WHERE phone_number = #{phoneNumber}
+        )
+    </select>
+
+    <!-- 본인인증 > UserIdentifyCode 저장 -->
+    <insert id="insertUserIdentifyCode">
+        INSERT INTO USER_IDENTIFY_CODE (
+               phone_number
+             , code
+             , type
+             , name
+             , ci
+             , expired_at
+        )
+        VALUES (
+               #{phoneNumber}
+             , #{code}
+             , #{type}
+             , #{name}
+             , #{ci}
+             , #{expiredAt}
+        )
+    </insert>
+
+    <!-- 본인인증 > 인증코드 확인 > UserIdentifyCode 조회 -->
+    <select id="selectUserIdentifyCode" resultType="com.moira.itda.global.entity.UserIdentifyCode">
+        SELECT
+               id
+             , phone_number
+             , code
+             , type
+             , name
+             , ci
+             , expired_at
+        FROM USER_IDENTIFY_CODE
+        WHERE phone_number = #{phoneNumber}
+         AND  type         = #{type}
+         AND  expired_at   > CURRENT_TIMESTAMP
+        ORDER BY id DESC LIMIT 1
+    </select>
+
+    <!-- 본인인증 > 인증코드 확인 > 기존 User의 name, ci 조회 -->
+    <select id="selectUserInfo" resultType="java.util.HashMap">
+        SELECT name, ci FROM USER WHERE phone_number = #{phoneNumber}
+    </select>
+
+    <!-- 본인인증 > 인증코드 확인 > UserIdentifyCode 수정 -->
+    <update id="updateUserIdentifyCode">
+        UPDATE USER_IDENTIFY_CODE
+        SET
+               name       = #{name}
+             , ci         = #{ci}
+             , expired_at = DATE_ADD(expired_at, INTERVAL 30 MINUTE)
+        WHERE phone_number = #{phoneNumber}
+         AND  type         = #{type}
+    </update>
+</mapper>
