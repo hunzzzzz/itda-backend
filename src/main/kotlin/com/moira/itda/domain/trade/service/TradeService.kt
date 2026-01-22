@@ -217,7 +217,7 @@ class TradeService(
             commonMapper.selectImageFileUrl(fileId = trade.fileId)
                 .forEach { s3Handler.delete(fileUrl = it.fileUrl) }
 
-            // [5-2] Trade 삭제 처리 (status: ENDED)
+            // [5-2] Trade 삭제 처리 (status: DELETED)
             mapper.updateTradeStatusDeleted(tradeId = tradeId)
         }
     }
