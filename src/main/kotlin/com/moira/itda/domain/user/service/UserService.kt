@@ -1,6 +1,6 @@
 package com.moira.itda.domain.user.service
 
-import com.moira.itda.domain.signup.component.IdentifyCodeGenerator
+import com.moira.itda.domain.user_signup.component.IdentifyCodeGenerator
 import com.moira.itda.domain.user.component.UserValidator
 import com.moira.itda.domain.user.dto.request.NicknameUpdateRequest
 import com.moira.itda.domain.user.dto.request.PasswordUpdateRequest

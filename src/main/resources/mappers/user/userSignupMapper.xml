@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.moira.itda.domain.user_signup.mapper.UserSignupMapper">
+    <!-- 회원가입 > 휴대폰 본인인증 > 휴대폰 중복 체크 -->
+    <select id="selectPhoneNumberChk">
+        SELECT EXISTS (
+            SELECT 1 FROM USER WHERE phone_number = #{phoneNumber}
+        )
+    </select>
+
+    <insert id="insertUserIdentifyCode">
+        INSERT INTO USER_IDENTIFY_CODE (
+               phone_number
+             , code
+             , type
+             , name
+             , ci
+             , expired_at
+        )
+        VALUES (
+               #{phoneNumber}
+             , #{code}
+             , #{type}
+             , #{name}
+             , #{ci}
+             , #{expiredAt}
+        )
+    </insert>
+
+    <!-- 회원가입 > 휴대폰 본인인증 > 인증코드 확인 > UserIdentifyCode 조회 -->
+    <select id="selectUserIdentifyCode" resultType="com.moira.itda.global.entity.UserIdentifyCode">
+        SELECT
+               id
+             , phone_number
+             , code
+             , type
+             , name
+             , ci
+             , expired_at
+        FROM USER_IDENTIFY_CODE
+        WHERE phone_number = #{phoneNumber}
+         AND  type         = #{type}
+        ORDER BY expired_at DESC
+        LIMIT 1
+    </select>
+
+    <!-- 회원가입 > 휴대폰 본인인증 > 인증코드 확인 > UserIdentifyCode 수정 -->
+    <update id="updateUserIdentifyCode">
+        UPDATE USER_IDENTIFY_CODE
+        SET
+               name       = #{name}
+             , ci         = #{ci}
+             , expired_at = DATE_ADD(expired_at, INTERVAL 30 MINUTE)
+        WHERE phone_number = #{phoneNumber}
+         AND  type         = #{type}
+    </update>
+
+    <!-- 회원가입 > name, ci값 유효 여부 조회 -->
+    <select id="selectUserIdentifyCodeChk">
+        SELECT EXISTS (
+            SELECT 1 FROM USER_IDENTIFY_CODE
+            WHERE phone_number = #{phoneNumber}
+             AND  name         = #{name}
+             AND  ci           = #{ci}
+             AND  expired_at   > CURRENT_TIMESTAMP
+        )
+    </select>
+
+    <!-- 회원가입 > 이메일 중복 확인 -->
+    <select id="selectEmailChk" resultType="java.lang.Boolean">
+        SELECT EXISTS (
+            SELECT 1 FROM USER WHERE email = #{email}
+        )
+    </select>
+
+    <!-- 회원가입 > 닉네임 중복 확인 -->
+    <select id="selectNicknameChk" resultType="java.lang.Boolean">
+        SELECT EXISTS (
+            SELECT 1 FROM USER WHERE nickname = #{nickname}
+        )
+    </select>
+
+    <!-- 회원가입 > User 저장 -->
+    <insert id="insertUser">
+        INSERT INTO USER (
+               id
+             , role
+             , status
+             , email
+             , password
+             , name
+             , nickname
+             , phone_number
+             , ci
+             , file_id
+             , refresh_token
+             , last_login_at
+             , created_at
+             , updated_at
+        )
+        VALUES (
+               #{id}
+             , #{role}
+             , #{status}
+             , #{email}
+             , #{password}
+             , #{name}
+             , #{nickname}
+             , #{phoneNumber}
+             , #{ci}
+             , #{fileId}
+             , #{refreshToken}
+             , #{lastLoginAt}
+             , #{createdAt}
+             , #{updatedAt}
+        )
+    </insert>
+</mapper>

@@ -24,11 +24,8 @@ logging:
     com.moira.itda.domain.gacha_common.mapper: DEBUG
     com.moira.itda.domain.gacha_list.mapper: DEBUG
     com.moira.itda.domain.gacha_pick.mapper: DEBUG
-    com.moira.itda.domain.login.mapper: DEBUG
-    com.moira.itda.domain.signup.mapper: DEBUG
     com.moira.itda.domain.suggest.mapper: DEBUG
     com.moira.itda.domain.suggest_list.mapper: DEBUG
-    com.moira.itda.domain.token_refresh.mapper: DEBUG
     com.moira.itda.domain.trade.mapper: DEBUG
     com.moira.itda.domain.trade_cancel.mapper: DEBUG
     com.moira.itda.domain.trade_target.mapper: DEBUG
@@ -37,8 +34,11 @@ logging:
     com.moira.itda.domain.user_activity_completed_trade.mapper: DEBUG
     com.moira.itda.domain.user_activity_suggest.mapper: DEBUG
     com.moira.itda.domain.user_feedback.mapper: DEBUG
+    com.moira.itda.domain.user_login.mapper: DEBUG
     com.moira.itda.domain.user_place.mapper: DEBUG
+    com.moira.itda.domain.user_signup.mapper: DEBUG
     com.moira.itda.domain.user_simple_profile.mapper: DEBUG
+    com.moira.itda.domain.user_token_refresh.mapper: DEBUG
 
 ---
 
