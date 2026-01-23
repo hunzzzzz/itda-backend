@@ -57,7 +57,7 @@ class NotificationManager(
      * 알림 전송 (구매제안/교환제안)
      */
     @Async
-    fun sendSuggestNotification(senderId: String, tradeItemId: String) {
+    fun sendSuggestNotification(senderId: String, tradeId: String, tradeItemId: String) {
         // [1] 알림 전송을 위한 정보 조회
         val infoMap = mapper.selectSuggestNotificationInfo(senderId = senderId, tradeItemId = tradeItemId)
 
@@ -73,7 +73,7 @@ class NotificationManager(
                 senderId = senderId,
                 type = NotificationType.SUGGEST,
                 content = "[${gachaTitle}]\n${senderNickname}님이 '${tradeTitle}'에 제안을 하였습니다.",
-                targetId = tradeItemId
+                targetId = tradeId
             )
 
             this.send(dto = dto)

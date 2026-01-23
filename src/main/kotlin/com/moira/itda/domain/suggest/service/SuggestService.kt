@@ -41,8 +41,12 @@ class SuggestService(
         )
         mapper.insertTradeSuggest(tradeSuggest = tradeSuggest)
 
-        // [3] 알림 전송 (비동기)
-        notificationManager.sendSuggestNotification(senderId = userId, tradeItemId = request.tradeItemId)
+        // [3] 알림 전송
+        notificationManager.sendSuggestNotification(
+            senderId = userId,
+            tradeId = tradeId,
+            tradeItemId = request.tradeItemId
+        )
     }
 
     /**
@@ -61,7 +65,11 @@ class SuggestService(
         )
         mapper.insertTradeSuggest(tradeSuggest = tradeSuggest)
 
-        // [3] 알림 전송 (비동기)
-        notificationManager.sendSuggestNotification(senderId = userId, tradeItemId = request.tradeItemId)
+        // [3] 알림 전송
+        notificationManager.sendSuggestNotification(
+            senderId = userId,
+            tradeId = tradeId,
+            tradeItemId = request.tradeItemId
+        )
     }
 }
