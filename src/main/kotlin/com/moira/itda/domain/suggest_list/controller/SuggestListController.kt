@@ -57,10 +57,11 @@ class SuggestListController(
      */
     @PostMapping("/api/trades/{tradeId}/suggests/reject")
     fun reject(
+        @UserPrincipal userAuth: UserAuth,
         @PathVariable tradeId: String,
         @RequestBody request: TradeSuggestYnRequest
     ): ResponseEntity<Nothing> {
-        service.reject(tradeId = tradeId, request = request)
+        service.reject(userId = userAuth.userId, tradeId = tradeId, request = request)
 
         return ResponseEntity.ok(null)
     }

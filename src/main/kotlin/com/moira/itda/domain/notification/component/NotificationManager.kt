@@ -23,13 +23,13 @@ class NotificationManager(
         val senderId: String,
         val type: NotificationType,
         val content: String,
-        val targetId: String
+        val targetId: String?
     )
 
     /**
      * [내부 메서드] 알림 전송
      */
-    fun send(dto: NotificationDto) {
+    private fun send(dto: NotificationDto) {
         // [1] Notification 저장 (DB)
         val notification = Notification.from(
             receiverId = dto.receiverId,
@@ -44,6 +44,13 @@ class NotificationManager(
         messagingTemplate.convertAndSendToUser(
             dto.receiverId, "/queue/notifications", notification
         )
+    }
+
+    /**
+     * [내부 메서드] 에러 로그 출력
+     */
+    private fun errorLog() {
+        log.error("[NotificationManager] 에러 발생! 알림 전송 과정 중 에러가 발생하였습니다.")
     }
 
     /**
@@ -71,7 +78,34 @@ class NotificationManager(
 
             this.send(dto = dto)
         } else {
-            log.error("[NotificationManager] 에러 발생! 알림 전송 과정 중 에러가 발생하였습니다.")
+            this.errorLog()
+        }
+    }
+
+    /**
+     * 알림 전송 (제안 거절)
+     */
+    fun sendSuggestRejectedNotification(senderId: String, suggestId: String) {
+        // [1] 알림 전송을 위한 정보 조회
+        val infoMap = mapper.selectSuggestRejectNotificationInfo(senderId = senderId, suggestId = suggestId)
+
+        val receiverId = infoMap["receiver_id"]
+        val gachaTitle = infoMap["gacha_title"]
+        val senderNickname = infoMap["sender_nickname"]
+        val tradeTitle = infoMap["trade_title"]
+
+        // [2] 알림 전송 메서드 호출
+        if (receiverId != null && gachaTitle != null && senderNickname != null && tradeTitle != null) {
+            val dto = NotificationDto(
+                receiverId = receiverId,
+                senderId = senderId,
+                type = NotificationType.SUGGEST_REJECTED,
+                content = "[${gachaTitle}]\n${senderNickname}님이 '${tradeTitle}'글의 내 제안을 거절하였습니다.",
+                targetId = null // 알림을 받은 유저의 '내 활동' 페이지로 넘어가기 때문에 targetId 불필요
+            )
+            this.send(dto = dto)
+        } else {
+            this.errorLog()
         }
     }
 }

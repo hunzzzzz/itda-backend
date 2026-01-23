@@ -76,4 +76,19 @@
          INNER JOIN GACHA G   ON G.id   = TI.gacha_id
         WHERE TI.id = #{tradeItemId}
     </select>
+
+    <!-- 제안거절 알림 전송 > 거래제안 정보 조회 -->
+    <select id="selectSuggestRejectNotificationInfo" resultType="java.util.HashMap">
+        SELECT
+               U_R.id        AS receiver_id
+             , U_S.nickname  AS sender_nickname
+             , G.title       AS gacha_title
+             , T.title       AS trade_title
+        FROM TRADE_SUGGEST TS
+         INNER JOIN TRADE T   ON T.id   = TS.trade_id
+         INNER JOIN USER  U_R ON U_R.id = TS.user_id
+         INNER JOIN USER  U_S ON U_S.id = #{senderId}
+         INNER JOIN GACHA G   ON G.id   = TS.gacha_id
+        WHERE TS.id = #{suggestId}
+    </select>
 </mapper>

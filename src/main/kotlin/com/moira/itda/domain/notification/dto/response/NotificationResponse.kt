@@ -8,7 +8,7 @@ data class NotificationResponse(
     val senderNickname: String,
     val type: String,
     val content: String,
-    val targetId: String,
+    val targetId: String?,
     val readYn: String,
     val createdAt: ZonedDateTime
 )

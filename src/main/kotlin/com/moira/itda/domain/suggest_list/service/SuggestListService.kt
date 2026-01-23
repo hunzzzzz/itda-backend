@@ -1,5 +1,6 @@
 package com.moira.itda.domain.suggest_list.service
 
+import com.moira.itda.domain.notification.component.NotificationManager
 import com.moira.itda.domain.suggest_list.dto.request.TradeSuggestYnRequest
 import com.moira.itda.domain.suggest_list.dto.response.ChatRoomIdResponse
 import com.moira.itda.domain.suggest_list.dto.response.TradeSuggestPageResponse
@@ -12,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 class SuggestListService(
+    private val notificationManager: NotificationManager,
     private val mapper: SuggestListMapper,
     private val pageHandler: OffsetPaginationHandler
 ) {
@@ -73,11 +75,14 @@ class SuggestListService(
      * 제안거절
      */
     @Transactional
-    fun reject(tradeId: String, request: TradeSuggestYnRequest) {
+    fun reject(userId: String, tradeId: String, request: TradeSuggestYnRequest) {
         // [1] 변수 세팅
         val suggestId = request.tradeSuggestId
 
         // [2] TradeSuggest의 상태값을 REJECTED로 변경
         mapper.updateTradeSuggestStatusRejected(suggestId = suggestId)
+
+        // [3] 알림 전송
+        notificationManager.sendSuggestRejectedNotification(senderId = userId, suggestId = suggestId)
     }
 }

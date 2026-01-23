@@ -8,7 +8,7 @@ data class Notification(
     val senderId: String,
     val type: NotificationType,
     val content: String,
-    val targetId: String,
+    val targetId: String?,
     val readYn: String,
     val createdAt: ZonedDateTime
 ) {
@@ -18,7 +18,7 @@ data class Notification(
             senderId: String,
             type: NotificationType,
             content: String,
-            targetId: String
+            targetId: String?
         ): Notification {
             return Notification(
                 id = null,
