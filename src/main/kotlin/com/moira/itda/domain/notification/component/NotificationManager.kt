@@ -65,7 +65,7 @@ class NotificationManager(
                 receiverId = receiverId,
                 senderId = senderId,
                 type = NotificationType.SUGGEST,
-                content = "${gachaTitle}\n${senderNickname}님이 '${tradeTitle}'에 제안을 하였습니다.",
+                content = "[${gachaTitle}]\n${senderNickname}님이 '${tradeTitle}'에 제안을 하였습니다.",
                 targetId = tradeItemId
             )
 
