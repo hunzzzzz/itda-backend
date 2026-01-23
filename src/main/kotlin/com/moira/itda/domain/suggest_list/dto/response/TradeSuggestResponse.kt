@@ -3,7 +3,7 @@ package com.moira.itda.domain.suggest_list.dto.response
 import java.time.ZonedDateTime
 
 data class TradeSuggestResponse(
-    // 제안 관련 (공통)
+    // 공통
     val suggestId: String,
     val tradeId: String,
     val tradeItemId: String,
@@ -17,6 +17,7 @@ data class TradeSuggestResponse(
     // 구매제안 관련
     val purchaseItemId: Long?,
     val purchaseItemName: String?,
+    val purchaseOriginalPrice: Int?,
     val purchaseDiscountYn: String?,
     val purchaseDiscountPrice: Int?,
     // 교환제안 관련
@@ -25,6 +26,8 @@ data class TradeSuggestResponse(
     val exchangeChangeYn: String?,
     val exchangeSuggestedItemId: Long?,
     val exchangeSuggestedItemName: String?,
+    val exchangeSellerWantItemId: Long?,
+    val exchangeSellerWantItemName: String?,
     // 취소 사유 (TradeSuggest가 CANCELED인 경우에만)
     val myCancelYn: String?,
     val cancelReason: String?

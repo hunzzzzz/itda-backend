@@ -25,6 +25,7 @@
              , TS.created_at
              , TS.purchase_item_id
              , GI_P.name                       AS purchase_item_name
+             , TS.purchase_original_price
              , TS.purchase_discount_yn
              , TS.purchase_discount_price
              , TS.exchange_seller_item_id
@@ -32,6 +33,8 @@
              , TS.exchange_change_yn
              , TS.exchange_suggested_item_id
              , GI_E2.name                      AS exchange_suggested_item_name
+             , TS.exchange_original_item_id    AS exchange_seller_want_item_id
+             , GI_E3.name                      AS exchange_seller_want_item_name
              , CASE WHEN CH.canceled_user_id = #{userId}
                     THEN 'Y'
                     ELSE 'N'
@@ -42,6 +45,7 @@
          LEFT JOIN GACHA_ITEM           GI_P  ON GI_P.id             = TS.purchase_item_id
          LEFT JOIN GACHA_ITEM           GI_E1 ON GI_E1.id            = TS.exchange_seller_item_id
          LEFT JOIN GACHA_ITEM           GI_E2 ON GI_E2.id            = TS.exchange_suggested_item_id
+         LEFT JOIN GACHA_ITEM           GI_E3 ON GI_E3.id            = TS.exchange_original_item_id
          LEFT JOIN TRADE_CANCEL_HISTORY CH    ON CH.trade_suggest_id = TS.id
         WHERE TS.trade_id = #{tradeId}
          AND  TS.status  != 'DELETED'
