@@ -34,6 +34,13 @@ class CookieHandler {
     }
 
     /**
+     * 쿠키에서 RefreshToken 추출
+     */
+    fun getRtkFromCookie(request: HttpServletRequest): String? {
+        return request.cookies?.find { cookie -> cookie.name == COOKIE_RTK_NAME }?.value
+    }
+
+    /**
      * 쿠키에 RefreshToken 제거
      */
     fun removeRtkInCookie(response: HttpServletResponse) {

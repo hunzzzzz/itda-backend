@@ -62,6 +62,7 @@ class SecurityConfig(
                     .requestMatchers(HttpMethod.GET, "/api/signup/**").permitAll()
                     .requestMatchers(HttpMethod.POST, "/api/signup/**").permitAll()
                     .requestMatchers(HttpMethod.POST, "/api/login/**").permitAll()
+                    .requestMatchers(HttpMethod.POST, "/api/token/refresh/**").permitAll()
                     .requestMatchers(HttpMethod.POST, "/api/identify/**").permitAll()
                     .requestMatchers(HttpMethod.GET, "/api/reset/password/**").permitAll()
                     .requestMatchers(HttpMethod.PUT, "/api/reset/password/**").permitAll()

@@ -77,9 +77,9 @@ class JwtProvider(
     /**
      * 토큰 검증
      */
-    fun validateToken(atk: String): Result<Claims?> {
+    fun validateToken(token: String): Result<Claims?> {
         return runCatching {
-            Jwts.parser().verifyWith(key).build().parseSignedClaims(atk).payload
+            Jwts.parser().verifyWith(key).build().parseSignedClaims(token).payload
         }
     }
 

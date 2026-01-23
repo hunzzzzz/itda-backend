@@ -5,7 +5,7 @@
 
 <mapper namespace="com.moira.itda.domain.user_token_refresh.mapper.UserTokenRefreshMapper">
     <!-- 토큰 재발급 > User 조회 -->
-    <select id="selectUserByEmail" resultType="com.moira.itda.global.entity.User">
+    <select id="selectUserById" resultType="com.moira.itda.global.entity.User">
         SELECT
                id
              , role
