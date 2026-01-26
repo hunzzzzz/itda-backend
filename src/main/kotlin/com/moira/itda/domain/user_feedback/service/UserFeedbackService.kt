@@ -4,8 +4,8 @@ import com.moira.itda.domain.common.mapper.CommonMapper
 import com.moira.itda.domain.user_feedback.dto.request.FeedbackRequest
 import com.moira.itda.domain.user_feedback.dto.response.FeedbackPageResponse
 import com.moira.itda.domain.user_feedback.mapper.UserFeedbackMapper
-import com.moira.itda.global.entity.Feedback
-import com.moira.itda.global.entity.FeedbackType
+import com.moira.itda.global.entity.UserFeedback
+import com.moira.itda.global.entity.UserFeedbackType
 import com.moira.itda.global.exception.ErrorCode
 import com.moira.itda.global.exception.ItdaException
 import com.moira.itda.global.pagination.component.OffsetPaginationHandler
@@ -19,28 +19,24 @@ class UserFeedbackService(
     private val mapper: UserFeedbackMapper,
     private val pageHandler: OffsetPaginationHandler
 ) {
+    /**
+     * 피드백 등록 > 유효성 검사
+     */
     private fun validateFeedback(request: FeedbackRequest) {
-        // 타입
-        runCatching { FeedbackType.valueOf(request.type) }
-            .onFailure { throw ItdaException(ErrorCode.INVALID_FEEDBACK_TYPE) }
+        // 피드백 타입
+        runCatching { UserFeedbackType.valueOf(request.type) }
+            .onFailure { throw ItdaException(ErrorCode.INVALID_USER_FEEDBACK_TYPE) }
+
         // 파일
         if (request.fileId != null) {
             if (!commonMapper.selectFileIdChk(fileId = request.fileId)) {
                 throw ItdaException(ErrorCode.FILE_NOT_FOUND)
             }
         }
-        // 내용
-        if (request.content.isBlank()) {
-            throw ItdaException(ErrorCode.NO_FEEDBACK_CONTENT)
-        }
-        // 이메일 수신 여부
-        if (request.receiveEmailYn.isBlank() || (request.receiveEmailYn != "Y" && request.receiveEmailYn != "N")) {
-            throw ItdaException(ErrorCode.INVALID_RECEIVE_EMAIL_YN)
-        }
     }
 
     /**
-     * 피드백
+     * 피드백 등록
      */
     @Transactional
     fun feedback(userId: String, request: FeedbackRequest) {
@@ -48,8 +44,8 @@ class UserFeedbackService(
         this.validateFeedback(request = request)
 
         // [2] 저장
-        val feedback = Feedback.from(userId = userId, request = request)
-        mapper.insertFeedback(feedback = feedback)
+        val userFeedback = UserFeedback.from(userId = userId, request = request)
+        mapper.insertFeedback(userFeedback = userFeedback)
     }
 
     /**

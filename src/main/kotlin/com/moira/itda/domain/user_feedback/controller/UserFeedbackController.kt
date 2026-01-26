@@ -17,7 +17,7 @@ class UserFeedbackController(
     private val service: UserFeedbackService
 ) {
     /**
-     * 피드백
+     * 피드백 등록
      */
     @PostMapping("/api/feedback")
     fun feedback(

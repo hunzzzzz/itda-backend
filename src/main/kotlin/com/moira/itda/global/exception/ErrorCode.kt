@@ -90,29 +90,28 @@ enum class ErrorCode(
         message = "해당 휴대폰번호로 가입된 유저 정보가 없습니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
-
-
-
     USER_NOT_FOUND(
-        code = "U0012",
+        code = "U012",
         message = "존재하지 않는 유저입니다. 에러가 지속되는 경우 고객센터로 문의해주세요.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
     PASSWORD_NOT_MATCH(
-        code = "U0013",
+        code = "U013",
         message = "비밀번호가 일치하지 않습니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
     SAME_PASSWORD(
-        code = "U0014",
+        code = "U014",
         message = "동일한 비밀번호로 변경할 수 업습니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
-    NON_EXISTING_EMAIL(
-        code = "U0015",
-        message = "존재하지 않는 이메일입니다.",
+    INVALID_USER_FEEDBACK_TYPE(
+        code = "U015",
+        message = "유효하지 않은 피드백 타입입니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
+
+
     PENDING_TRADE_EXISTS(
         code = "U0016",
         message = "현재 진행중인 판매/교환글이 존재하기 때문에 회원탈퇴를 진행할 수 없습니다.",
@@ -424,23 +423,6 @@ enum class ErrorCode(
     ALREADY_COMPLIMENTED(
         code = "C0006",
         message = "이미 해당 유저를 칭찬하였습니다.",
-        httpStatus = HttpStatus.BAD_REQUEST
-    ),
-
-    // 피드백 관련 에러코드
-    INVALID_FEEDBACK_TYPE(
-        code = "F0001",
-        message = "유효하지 않은 피드백 타입입니다.",
-        httpStatus = HttpStatus.BAD_REQUEST
-    ),
-    NO_FEEDBACK_CONTENT(
-        code = "F0002",
-        message = "문의 내용은 필수 입력 항목입니다.",
-        httpStatus = HttpStatus.BAD_REQUEST
-    ),
-    INVALID_RECEIVE_EMAIL_YN(
-        code = "F0003",
-        message = "올바르지 않은 메일 수신 여부입니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
 

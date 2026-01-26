@@ -92,4 +92,13 @@
          INNER JOIN GACHA G   ON G.id   = TS.gacha_id
         WHERE TS.id = #{suggestId}
     </select>
+
+    <!-- 피드백 답변 알림 전송 > 피드백 정보 조회 -->
+    <select id="selectFeedbackInfo" resultType="java.util.HashMap">
+        SELECT
+               user_id                          AS receiver_id
+             , CONCAT(LEFT(content, 20), '...') AS feedback_title
+        FROM USER_FEEDBACK
+        WHERE id = #{feedbackId}
+    </select>
 </mapper>

@@ -41,4 +41,9 @@ interface NotificationMapper {
      * 제안승인 알림 전송 > 거래제안 정보 조회
      */
     fun selectSuggestReactInfo(senderId: String, suggestId: String): HashMap<String, String?>
+
+    /**
+     * 피드백 답변 알림 전송 > 피드백 정보 조회
+     */
+    fun selectFeedbackInfo(feedbackId: Long): HashMap<String, String?>
 }

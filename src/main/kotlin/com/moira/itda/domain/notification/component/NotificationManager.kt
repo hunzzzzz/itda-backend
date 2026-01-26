@@ -18,11 +18,19 @@ class NotificationManager(
     /**
      * 알림 전송 전, 거래 및 제안 정보를 추출하기 위한 DTO 클래스
      */
-    data class NotificationSourceDto(
+    data class NotificationTradeSourceDto(
         val receiverId: String,
         val senderNickname: String,
         val gachaTitle: String,
         val tradeTitle: String
+    )
+
+    /**
+     * 알림 전송 전, 유저 피드백 정보를 추출하기 위한 DTO 클래스
+     */
+    data class NotificationFeedbackSourceDto(
+        val receiverId: String,
+        val feedbackTitle: String
     )
 
     /**
@@ -59,18 +67,37 @@ class NotificationManager(
     /**
      * [내부 메서드] 거래 및 제안 정보 조회 및 추출
      */
-    private fun extract(infoMap: HashMap<String, String?>): NotificationSourceDto? {
+    private fun extractTradeInfo(infoMap: HashMap<String, String?>): NotificationTradeSourceDto? {
         val receiverId = infoMap["receiver_id"]
         val senderNickname = infoMap["sender_nickname"]
         val gachaTitle = infoMap["gacha_title"]
         val tradeTitle = infoMap["trade_title"]
 
         if (receiverId != null && gachaTitle != null && senderNickname != null && tradeTitle != null) {
-            return NotificationSourceDto(
+            return NotificationTradeSourceDto(
                 receiverId = receiverId,
                 senderNickname = senderNickname,
                 gachaTitle = gachaTitle,
                 tradeTitle = tradeTitle
+            )
+        } else {
+            this.errorLog()
+        }
+
+        return null
+    }
+
+    /**
+     * [내부 메서드] 유저 피드백 정보 조회 및 추출
+     */
+    private fun extractFeedbackInfo(infoMap: HashMap<String, String?>): NotificationFeedbackSourceDto? {
+        val receiverId = infoMap["receiver_id"]
+        val feedbackTitle = infoMap["feedback_title"]
+
+        if (receiverId != null && feedbackTitle != null) {
+            return NotificationFeedbackSourceDto(
+                receiverId = receiverId,
+                feedbackTitle = feedbackTitle
             )
         } else {
             this.errorLog()
@@ -93,7 +120,7 @@ class NotificationManager(
     fun sendSuggestNotification(senderId: String, tradeId: String, tradeItemId: String) {
         // [1] 알림 전송을 위한 정보 조회
         val infoMap = mapper.selectSuggestNotificationInfo(senderId = senderId, tradeItemId = tradeItemId)
-        val sourceDto = this.extract(infoMap)
+        val sourceDto = this.extractTradeInfo(infoMap)
 
         // [2] 알림 전송 메서드 호출
         sourceDto?.let {
@@ -114,7 +141,7 @@ class NotificationManager(
     fun sendSuggestRejectedNotification(senderId: String, suggestId: String) {
         // [1] 알림 전송을 위한 정보 조회
         val infoMap = mapper.selectSuggestReactInfo(senderId = senderId, suggestId = suggestId)
-        val sourceDto = this.extract(infoMap)
+        val sourceDto = this.extractTradeInfo(infoMap)
 
         // [2] 알림 전송 메서드 호출
         sourceDto?.let {
@@ -135,7 +162,7 @@ class NotificationManager(
     fun sendSuggestApproveNotification(senderId: String, suggestId: String, chatRoomId: String) {
         // [1] 알림 전송을 위한 정보 조회
         val infoMap = mapper.selectSuggestReactInfo(senderId = senderId, suggestId = suggestId)
-        val sourceDto = this.extract(infoMap)
+        val sourceDto = this.extractTradeInfo(infoMap)
 
         // [2] 알림 전송 메서드 호출
         sourceDto?.let {
@@ -145,6 +172,27 @@ class NotificationManager(
                 type = NotificationType.SUGGEST_APPROVED,
                 content = "[${it.gachaTitle}]\n${it.senderNickname}님이 '${it.tradeTitle}'글의 내 제안을 수락하셨습니다. 지금 대화를 시작해보세요!",
                 targetId = chatRoomId // 채팅방 ID
+            )
+        }?.let { this.send(dto = it) }
+    }
+
+    /**
+     * 알림 전송 (피드백 답변)
+     */
+    @Async
+    fun sendFeedbackAnswerNotification(senderId: String, feedbackId: Long) {
+        // [1] 알림 전송을 위한 정보 조회
+        val infoMap = mapper.selectFeedbackInfo(feedbackId = feedbackId)
+        val sourceDto = this.extractFeedbackInfo(infoMap)
+
+        // [2] 알림 전송 메서드 호출
+        sourceDto?.let {
+            NotificationDto(
+                receiverId = it.receiverId,
+                senderId = senderId,
+                type = NotificationType.FEEDBACK_ANSWERED,
+                content = "[문의사항 답변]\n'${it.feedbackTitle}' 문의사항에 대한 관리자의 답변이 등록되었습니다.",
+                targetId = null // 알림을 받은 유저의 '문의 목록' 페이지로 넘어가기 때문에 targetId 불필요
             )
         }?.let { this.send(dto = it) }
     }
