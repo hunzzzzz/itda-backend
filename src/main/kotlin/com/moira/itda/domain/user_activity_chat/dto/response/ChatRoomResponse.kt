@@ -5,10 +5,8 @@ import java.time.ZonedDateTime
 data class ChatRoomResponse(
     // 채탕 관련
     val chatRoomId: String,
-    val sellerId: String,
-    val sellerNickname: String,
-    val buyerId: String,
-    val buyerNickname: String,
+    val opponentId: String,
+    val opponentNickname: String,
     val status: String,
     val createdAt: ZonedDateTime,
     val lastMessage: String?,
@@ -18,6 +16,15 @@ data class ChatRoomResponse(
     val tradeItemId: String,
     val tradeType: String,
     val tradeTitle: String,
+    // 제안 관련
+    val tradeSuggestId: String,
+    val tradePurchaseItemId: Long?,
+    val tradePurchaseItemName: String?,
+    val tradePurchasePrice: Int?,
+    val tradeExchangeSellerItemId: Long?,
+    val tradeExchangeSellerItemName: String?,
+    val tradeExchangeSuggestedItemId: Long?,
+    val tradeExchangeSuggestedItemName: String?,
     // 이미지
     val fileId: String?,
     val fileUrl: String?

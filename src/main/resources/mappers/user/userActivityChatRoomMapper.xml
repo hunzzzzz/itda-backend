@@ -16,8 +16,11 @@
                    id
                  , trade_id
                  , trade_item_id
-                 , seller_id
-                 , buyer_id
+                 , trade_suggest_id
+                 , CASE WHEN seller_id = #{userId}
+                        THEN buyer_id
+                        ELSE seller_id
+                   END AS opponent_id
                  , status
                  , created_at
             FROM CHAT_ROOM
@@ -28,33 +31,45 @@
                    chat_room_id
                  , message
                  , created_at
-                 , RANK() OVER (ORDER BY created_at DESC) AS rn
+                 , RANK() OVER (PARTITION BY chat_room_id ORDER BY created_at DESC) AS rn
             FROM CHAT_MESSAGE
             WHERE chat_room_id IN (SELECT id FROM MY_CHAT_ROOM)
         )
         SELECT
                CR.id AS chatRoomId
-             , CR.seller_id
-             , U_S.nickname  AS sellerNickname
-             , CR.buyer_id
-             , U_B.nickname  AS buyerNickname
+             , CR.opponent_id
+             , U.nickname                     AS opponent_nickname
              , CR.status
              , CR.created_at
-             , LM.message    AS lastMessage
-             , LM.created_at AS lastMessageAt
+             , LM.message                     AS last_message
+             , LM.created_at                  AS last_message_at
              , T.id
              , CR.trade_item_id
              , T.type
              , T.title
+             , TS.id                          AS trade_suggest_id
+             , TS.purchase_item_id            AS trade_purchase_item_id
+             , GI_1.name                      AS trade_purchase_item_name
+             , CASE WHEN TS.purchase_discount_yn = 'Y'
+                    THEN TS.purchase_discount_price
+                    ELSE TS.purchase_original_price
+               END                            AS trade_purchase_price
+             , TS.exchange_seller_item_id     AS trade_exchange_seller_item_id
+             , GI_2.name                      AS trade_exchange_seller_item_name
+             , TS.exchange_suggested_item_id  AS trade_exchange_suggested_item_id
+             , GI_3.name                      AS trade_exchange_suggested_item_name
              , T.file_id
              , F.file_url
         FROM MY_CHAT_ROOM CR
-         INNER JOIN USER         U_S ON U_S.id          = CR.seller_id
-         INNER JOIN USER         U_B ON U_B.id          = CR.buyer_id
-         LEFT JOIN  LAST_MESSAGE LM  ON LM.chat_room_id = CR.id AND LM.rn = 1
-         INNER JOIN TRADE        T   ON T.id            = CR.trade_id
-         LEFT JOIN  IMAGE_FILE   F   ON F.file_id       = T.file_id
-        ORDER BY CR.status = 'ACTIVE' DESC, lastMessageAt DESC
+         INNER JOIN USER          U    ON U.id            = CR.opponent_id
+         LEFT JOIN  LAST_MESSAGE  LM   ON LM.chat_room_id = CR.id AND LM.rn = 1
+         INNER JOIN TRADE         T    ON T.id            = CR.trade_id
+         INNER JOIN TRADE_SUGGEST TS   ON TS.id           = CR.trade_suggest_id
+         LEFT JOIN  GACHA_ITEM    GI_1 ON GI_1.id         = TS.purchase_item_id
+         LEFT JOIN  GACHA_ITEM    GI_2 ON GI_2.id         = TS.exchange_seller_item_id
+         LEFT JOIN  GACHA_ITEM    GI_3 ON GI_3.id         = TS.exchange_suggested_item_id
+         LEFT JOIN  IMAGE_FILE    F    ON F.file_id       = T.file_id
+        ORDER BY CR.status = 'ACTIVE' DESC, last_message_at DESC
         LIMIT #{pageSize} OFFSET #{offset}
     </select>
 </mapper>
