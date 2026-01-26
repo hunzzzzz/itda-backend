@@ -1,8 +1,7 @@
 package com.moira.itda.domain.chat.mapper
 
 import com.moira.itda.domain.chat.dto.response.ChatMessageResponse
-import com.moira.itda.domain.chat.dto.response.ChatRoomResponse
-import com.moira.itda.domain.chat.dto.response.MyChatResponse
+import com.moira.itda.domain.chat.dto.response.ChatRoomDetailResponse
 import com.moira.itda.global.entity.ChatMessage
 import com.moira.itda.global.entity.TradeCompleteHistory
 import org.apache.ibatis.annotations.Mapper
@@ -10,19 +9,9 @@ import org.apache.ibatis.annotations.Mapper
 @Mapper
 interface ChatMapper {
     /**
-     * 내 활동 > 채팅 > 채팅방 목록 조회 > totalElements 계산
-     */
-    fun selectChatRoomListCnt(userId: String): Long
-
-    /**
-     * 내 활동 > 채팅 > 채팅방 목록 조회
-     */
-    fun selectChatRoomList(userId: String, pageSize: Int, offset: Int): List<MyChatResponse>
-
-    /**
      * 내 활동 > 채팅 > 채팅방 > 거래제안 정보 조회
      */
-    fun selectTradeSuggest(chatRoomId: String): ChatRoomResponse
+    fun selectTradeSuggest(chatRoomId: String): ChatRoomDetailResponse
 
     /**
      * 내 활동 > 채팅 > 채팅방 > 이전 채팅 목록 조회

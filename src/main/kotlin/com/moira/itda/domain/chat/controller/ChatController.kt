@@ -3,8 +3,7 @@ package com.moira.itda.domain.chat.controller
 import com.moira.itda.domain.chat.dto.request.ChatMessageRequest
 import com.moira.itda.domain.chat.dto.request.TradeCompleteRequest
 import com.moira.itda.domain.chat.dto.response.ChatMessageResponse
-import com.moira.itda.domain.chat.dto.response.ChatRoomResponse
-import com.moira.itda.domain.chat.dto.response.MyChatPageResponse
+import com.moira.itda.domain.chat.dto.response.ChatRoomDetailResponse
 import com.moira.itda.domain.chat.service.ChatService
 import com.moira.itda.global.auth.aop.UserPrincipal
 import com.moira.itda.global.auth.dto.UserAuth
@@ -20,23 +19,10 @@ class ChatController(
     private val chatService: ChatService
 ) {
     /**
-     * 내 활동 > 채팅 > 채팅방 목록 조회
-     */
-    @GetMapping("/api/me/trade/chat")
-    fun getChatList(
-        @UserPrincipal userAuth: UserAuth,
-        @RequestParam(required = false, defaultValue = "1") page: Int
-    ): ResponseEntity<MyChatPageResponse?> {
-        val response = chatService.getChatList(userId = userAuth.userId, page = page)
-
-        return ResponseEntity.ok(response)
-    }
-
-    /**
      * 내 활동 > 채팅 > 채팅방 > 거래제안 정보 조회
      */
     @GetMapping("/api/me/trade/chat/{chatRoomId}")
-    fun getTradeSuggest(@PathVariable chatRoomId: String): ResponseEntity<ChatRoomResponse> {
+    fun getTradeSuggest(@PathVariable chatRoomId: String): ResponseEntity<ChatRoomDetailResponse> {
         val response = chatService.getTradeSuggest(chatRoomId = chatRoomId)
 
         return ResponseEntity.ok(response)

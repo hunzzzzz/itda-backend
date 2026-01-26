@@ -1,6 +1,6 @@
 package com.moira.itda.domain.chat.dto.response
 
-data class ChatRoomResponse(
+data class ChatRoomDetailResponse(
     // 채팅방 관련 정보
     val chatRoomId: String,
     val chatRoomStatus: String,

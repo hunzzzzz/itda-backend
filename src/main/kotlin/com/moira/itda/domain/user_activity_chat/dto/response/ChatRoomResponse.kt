@@ -1,8 +1,8 @@
-package com.moira.itda.domain.chat.dto.response
+package com.moira.itda.domain.user_activity_chat.dto.response
 
 import java.time.ZonedDateTime
 
-data class MyChatResponse(
+data class ChatRoomResponse(
     // 채탕 관련
     val chatRoomId: String,
     val sellerId: String,
@@ -17,5 +17,8 @@ data class MyChatResponse(
     val tradeId: String,
     val tradeItemId: String,
     val tradeType: String,
-    val tradeTitle: String
+    val tradeTitle: String,
+    // 이미지
+    val fileId: String?,
+    val fileUrl: String?
 )

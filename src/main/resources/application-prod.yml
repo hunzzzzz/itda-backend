@@ -32,6 +32,7 @@ logging:
     com.moira.itda.domain.trade_cancel.mapper: DEBUG
     com.moira.itda.domain.trade_target.mapper: DEBUG
     com.moira.itda.domain.trade_user_report.mapper: DEBUG
+    com.moira.itda.domain.user_activity_chat.mapper: DEBUG
     com.moira.itda.domain.user_activity_completed_trade.mapper: DEBUG
     com.moira.itda.domain.user_activity_suggest.mapper: DEBUG
     com.moira.itda.domain.user_feedback.mapper: DEBUG

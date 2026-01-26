@@ -2,19 +2,14 @@ package com.moira.itda.domain.chat.service
 
 import com.moira.itda.domain.chat.component.ChatValidator
 import com.moira.itda.domain.chat.dto.request.ChatMessageRequest
-import com.moira.itda.domain.trade_cancel.dto.request.TradeCancelRequest
 import com.moira.itda.domain.chat.dto.request.TradeCompleteRequest
 import com.moira.itda.domain.chat.dto.response.ChatMessageResponse
-import com.moira.itda.domain.chat.dto.response.ChatRoomResponse
-import com.moira.itda.domain.chat.dto.response.MyChatPageResponse
+import com.moira.itda.domain.chat.dto.response.ChatRoomDetailResponse
 import com.moira.itda.domain.chat.mapper.ChatMapper
 import com.moira.itda.global.entity.ChatMessage
-import com.moira.itda.global.entity.TradeCancelHistory
 import com.moira.itda.global.entity.TradeCompleteHistory
 import com.moira.itda.global.exception.ErrorCode
 import com.moira.itda.global.exception.ItdaException
-import com.moira.itda.global.pagination.component.OffsetPaginationHandler
-import com.moira.itda.global.pagination.component.PageSizeConstant.Companion.MY_TRADE_CHAT_LIST_PAGE_SIZE
 import org.springframework.messaging.simp.SimpMessagingTemplate
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -23,38 +18,13 @@ import org.springframework.transaction.annotation.Transactional
 class ChatService(
     private val mapper: ChatMapper,
     private val messageTemplate: SimpMessagingTemplate,
-    private val offsetPaginationHandler: OffsetPaginationHandler,
     private val validator: ChatValidator
 ) {
-    /**
-     * 내 활동 > 채팅 > 채팅방 목록 조회
-     */
-    @Transactional(readOnly = true)
-    fun getChatList(userId: String, page: Int): MyChatPageResponse {
-        // [1] 변수 세팅
-        val pageSize = MY_TRADE_CHAT_LIST_PAGE_SIZE
-        val offset = offsetPaginationHandler.getOffset(page = page, pageSize = pageSize)
-
-        // [2] 채팅방 정보 조회
-        val totalElements = mapper.selectChatRoomListCnt(userId = userId)
-        val content = mapper.selectChatRoomList(
-            userId = userId, pageSize = pageSize, offset = offset
-        )
-
-        // [3] 오프셋 페이지네이션 구현
-        val pageResponse = offsetPaginationHandler.getPageResponse(
-            page = page, pageSize = pageSize, totalElements = totalElements
-        )
-
-        // [4] DTO 병합 후 리턴
-        return MyChatPageResponse(content = content, page = pageResponse)
-    }
-
     /**
      * 내 활동 > 채팅 > 채팅방 > 거래제안 정보 조회
      */
     @Transactional(readOnly = true)
-    fun getTradeSuggest(chatRoomId: String): ChatRoomResponse {
+    fun getTradeSuggest(chatRoomId: String): ChatRoomDetailResponse {
         return mapper.selectTradeSuggest(chatRoomId = chatRoomId)
     }
 
