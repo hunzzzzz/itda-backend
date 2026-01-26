@@ -1,7 +1,7 @@
 package com.moira.itda.domain.trade_user_report.service
 
-import com.moira.itda.domain.trade_cancel.dto.request.TradeCancelRequest
-import com.moira.itda.domain.trade_cancel.service.TradeCancelService
+import com.moira.itda.domain.chat_room.dto.request.ChatRoomTradeCancelRequest
+import com.moira.itda.domain.chat_room.service.ChatRoomService
 import com.moira.itda.domain.trade_user_report.dto.request.ReportRequest
 import com.moira.itda.domain.trade_user_report.mapper.TradeUserReportMapper
 import com.moira.itda.global.entity.TradeSuggestStatus
@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 class TradeUserReportService(
-    private val cancelService: TradeCancelService,
+    private val chatRoomService: ChatRoomService,
     private val mapper: TradeUserReportMapper
 ) {
     /**
@@ -33,10 +33,10 @@ class TradeUserReportService(
         // [3] 거래취소 (status가 APPROVED인 경우에만 거래 취소 서비스 호출)
         val tradeSuggestStatus = mapper.selectTradeSuggestStatus(tradeSuggestId = request.tradeSuggestId) ?: ""
         if (tradeSuggestStatus == TradeSuggestStatus.APPROVED.name) {
-            cancelService.cancelTrade(
+            chatRoomService.cancelTrade(
                 userId = userId,
                 chatRoomId = chatRoomId,
-                request = TradeCancelRequest(
+                request = ChatRoomTradeCancelRequest(
                     userId = userId,
                     tradeId = request.tradeId,
                     tradeSuggestId = request.tradeSuggestId,

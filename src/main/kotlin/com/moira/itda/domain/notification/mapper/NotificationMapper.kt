@@ -37,13 +37,18 @@ interface NotificationMapper {
     fun selectSuggestNotificationInfo(senderId: String, tradeItemId: String): HashMap<String, String?>
 
     /**
-     * 제안거절 알림 전송 > 거래제안 정보 조회
-     * 제안승인 알림 전송 > 거래제안 정보 조회
+     * 제안거절 알림 전송 > 거래 정보 조회
+     * 제안승인 알림 전송 > 거래 정보 조회
      */
-    fun selectSuggestReactInfo(senderId: String, suggestId: String): HashMap<String, String?>
+    fun selectTradeNotificationInfo(senderId: String, suggestId: String): HashMap<String, String?>
+
+    /**
+     * 거래취소 알림 전송 > 채팅방 정보 조회
+     */
+    fun selectChatRoomNotificationInfo(senderId: String, chatRoomId: String): HashMap<String, String?>
 
     /**
      * 피드백 답변 알림 전송 > 피드백 정보 조회
      */
-    fun selectFeedbackInfo(feedbackId: Long): HashMap<String, String?>
+    fun selectFeedbackNotificationInfo(feedbackId: Long): HashMap<String, String?>
 }

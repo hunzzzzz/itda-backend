@@ -1,6 +1,6 @@
-package com.moira.itda.domain.trade_cancel.dto.request
+package com.moira.itda.domain.chat_room.dto.request
 
-data class TradeCancelRequest(
+data class ChatRoomTradeCancelRequest(
     val userId: String,
     val tradeId: String,
     val tradeSuggestId: String,

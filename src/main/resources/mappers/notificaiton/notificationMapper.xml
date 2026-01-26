@@ -65,10 +65,10 @@
     <!-- 거래제안 알림 전송 > 거래제안 정보 조회 -->
     <select id="selectSuggestNotificationInfo" resultType="java.util.HashMap">
         SELECT
-               U_R.id       AS receiver_id
-             , U_S.nickname AS sender_nickname
-             , G.title      AS gacha_title
-             , T.title      AS trade_title
+               U_R.id                              AS receiver_id
+             , U_S.nickname                        AS sender_nickname
+             , CONCAT(LEFT(G.title, 20), '...')    AS gacha_title
+             , CONCAT(LEFT(T.title, 20), '...')    AS trade_title
         FROM TRADE_ITEM TI
          INNER JOIN TRADE T   ON T.id   = TI.trade_id
          INNER JOIN USER  U_R ON U_R.id = T.user_id
@@ -79,12 +79,12 @@
 
     <!-- 제안거절 알림 전송 > 거래제안 정보 조회 -->
     <!-- 제안승인 알림 전송 > 거래제안 정보 조회 -->
-    <select id="selectSuggestReactInfo" resultType="java.util.HashMap">
+    <select id="selectTradeNotificationInfo" resultType="java.util.HashMap">
         SELECT
-               U_R.id        AS receiver_id
-             , U_S.nickname  AS sender_nickname
-             , G.title       AS gacha_title
-             , T.title       AS trade_title
+               U_R.id                              AS receiver_id
+             , U_S.nickname                        AS sender_nickname
+             , CONCAT(LEFT(G.title, 20), '...')    AS gacha_title
+             , CONCAT(LEFT(T.title, 20), '...')    AS trade_title
         FROM TRADE_SUGGEST TS
          INNER JOIN TRADE T   ON T.id   = TS.trade_id
          INNER JOIN USER  U_R ON U_R.id = TS.user_id
@@ -93,8 +93,25 @@
         WHERE TS.id = #{suggestId}
     </select>
 
+    <!-- 거래취소 알림 전송 > 채팅방 정보 조회 -->
+    <select id="selectChatRoomNotificationInfo" resultType="java.util.HashMap">
+        SELECT
+               CASE WHEN CR.seller_id = #{senderId}
+                    THEN CR.buyer_id
+                    ELSE CR.seller_id
+               END                                 AS receiver_id
+             , U_S.nickname                        AS sender_nickname
+             , CONCAT(LEFT(G.title, 20), '...')    AS gacha_title
+             , CONCAT(LEFT(T.title, 20), '...')    AS trade_title
+        FROM CHAT_ROOM CR
+         INNER JOIN USER  U_S ON U_S.id = #{senderId}
+         INNER JOIN TRADE T   ON T.id   = CR.trade_id
+         INNER JOIN GACHA G   ON G.id   = T.gacha_id
+        WHERE CR.id = #{chatRoomId}
+    </select>
+
     <!-- 피드백 답변 알림 전송 > 피드백 정보 조회 -->
-    <select id="selectFeedbackInfo" resultType="java.util.HashMap">
+    <select id="selectFeedbackNotificationInfo" resultType="java.util.HashMap">
         SELECT
                user_id                          AS receiver_id
              , CONCAT(LEFT(content, 20), '...') AS feedback_title

@@ -1,13 +1,14 @@
-package com.moira.itda.domain.chat.mapper
+package com.moira.itda.domain.chat_room.mapper
 
-import com.moira.itda.domain.chat.dto.response.ChatMessageResponse
-import com.moira.itda.domain.chat.dto.response.ChatRoomDetailResponse
+import com.moira.itda.domain.chat_room.dto.response.ChatMessageResponse
+import com.moira.itda.domain.chat_room.dto.response.ChatRoomDetailResponse
 import com.moira.itda.global.entity.ChatMessage
+import com.moira.itda.global.entity.TradeCancelHistory
 import com.moira.itda.global.entity.TradeCompleteHistory
 import org.apache.ibatis.annotations.Mapper
 
 @Mapper
-interface ChatMapper {
+interface ChatRoomMapper {
     /**
      * 내 활동 > 채팅 > 채팅방 > 거래제안 정보 조회
      */
@@ -24,19 +25,30 @@ interface ChatMapper {
     fun insertChatMessage(chatMessage: ChatMessage)
 
     /**
-     * 내 활동 > 채팅 > 채팅방 > 거래취소 > 채팅방 정보 조회
+     * 거래취소 > 채팅방 정보 조회
      */
-    fun selectChatInfo(chatRoomId: String): HashMap<String, String?>
+    fun selectChatRoomInfo(chatRoomId: String): HashMap<String, String?>
+
+    /**
+     * 거래취소 > TradeCancelHistory 저장
+     */
+    fun insertTradeCancelHistory(tradeCancelHistory: TradeCancelHistory)
+
+    /**
+     * 거래취소 > ChatRoom status 변경 (ENDED)
+     * 거래완료 > ChatRoom status 변경 (ENDED)
+     */
+    fun updateChatRoomStatusEnded(chatRoomId: String)
+
+    /**
+     * 거래취소 > TradeSuggest status 변경 (CANCELED)
+     */
+    fun updateTradeSuggestStatusCanceled(suggestId: String)
 
     /**
      * 내 활동 > 채팅 > 채팅방 > 거래완료 > TradeCompleteHistory 저장
      */
     fun insertTradeCompleteHistory(tradeCompleteHistory: TradeCompleteHistory)
-
-    /**
-     * 내 활동 > 채팅 > 채팅방 > 거래완료 > ChatRoom status 변경 (ENDED)
-     */
-    fun updateChatRoomStatusEnded(chatRoomId: String)
 
     /**
      * 내 활동 > 채팅 > 채팅방 > 거래완료 > TradeSuggest status 변경 (COMPLETED)

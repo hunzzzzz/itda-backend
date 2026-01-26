@@ -140,7 +140,7 @@ class NotificationManager(
     @Async
     fun sendSuggestRejectedNotification(senderId: String, suggestId: String) {
         // [1] 알림 전송을 위한 정보 조회
-        val infoMap = mapper.selectSuggestReactInfo(senderId = senderId, suggestId = suggestId)
+        val infoMap = mapper.selectTradeNotificationInfo(senderId = senderId, suggestId = suggestId)
         val sourceDto = this.extractTradeInfo(infoMap)
 
         // [2] 알림 전송 메서드 호출
@@ -156,12 +156,12 @@ class NotificationManager(
     }
 
     /**
-     * 알림 전송 (제안 거절)
+     * 알림 전송 (제안 승인)
      */
     @Async
     fun sendSuggestApproveNotification(senderId: String, suggestId: String, chatRoomId: String) {
         // [1] 알림 전송을 위한 정보 조회
-        val infoMap = mapper.selectSuggestReactInfo(senderId = senderId, suggestId = suggestId)
+        val infoMap = mapper.selectTradeNotificationInfo(senderId = senderId, suggestId = suggestId)
         val sourceDto = this.extractTradeInfo(infoMap)
 
         // [2] 알림 전송 메서드 호출
@@ -177,12 +177,34 @@ class NotificationManager(
     }
 
     /**
+     * 알림 전송 (거래 취소)
+     */
+    @Async
+    fun sendTradeCancelNotification(senderId: String, chatRoomId: String) {
+        // [1] 알림 전송을 위한 정보 조회
+        val infoMap = mapper.selectChatRoomNotificationInfo(senderId = senderId, chatRoomId = chatRoomId)
+        println(infoMap)
+        val sourceDto = this.extractTradeInfo(infoMap)
+
+        // [2] 알림 전송 메서드 호출
+        sourceDto?.let {
+            NotificationDto(
+                receiverId = it.receiverId,
+                senderId = senderId,
+                type = NotificationType.TRADE_CANCELED,
+                content = "[${it.gachaTitle}]\n${it.senderNickname}님이 '${it.tradeTitle}' 거래를 취소하셨습니다.",
+                targetId = chatRoomId // 채팅방 ID
+            )
+        }?.let { this.send(dto = it) }
+    }
+
+    /**
      * 알림 전송 (피드백 답변)
      */
     @Async
     fun sendFeedbackAnswerNotification(senderId: String, feedbackId: Long) {
         // [1] 알림 전송을 위한 정보 조회
-        val infoMap = mapper.selectFeedbackInfo(feedbackId = feedbackId)
+        val infoMap = mapper.selectFeedbackNotificationInfo(feedbackId = feedbackId)
         val sourceDto = this.extractFeedbackInfo(infoMap)
 
         // [2] 알림 전송 메서드 호출

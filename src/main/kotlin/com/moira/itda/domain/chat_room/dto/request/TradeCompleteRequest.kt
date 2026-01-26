@@ -1,4 +1,4 @@
-package com.moira.itda.domain.chat.dto.request
+package com.moira.itda.domain.chat_room.dto.request
 
 data class TradeCompleteRequest(
     val tradeId: String,

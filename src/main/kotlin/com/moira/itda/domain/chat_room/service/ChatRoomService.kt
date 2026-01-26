@@ -1,12 +1,16 @@
-package com.moira.itda.domain.chat.service
+package com.moira.itda.domain.chat_room.service
 
-import com.moira.itda.domain.chat.component.ChatValidator
-import com.moira.itda.domain.chat.dto.request.ChatMessageRequest
-import com.moira.itda.domain.chat.dto.request.TradeCompleteRequest
-import com.moira.itda.domain.chat.dto.response.ChatMessageResponse
-import com.moira.itda.domain.chat.dto.response.ChatRoomDetailResponse
-import com.moira.itda.domain.chat.mapper.ChatMapper
+import com.moira.itda.domain.chat_room.component.ChatValidator
+import com.moira.itda.domain.chat_room.dto.request.ChatMessageRequest
+import com.moira.itda.domain.chat_room.dto.request.ChatRoomTradeCancelRequest
+import com.moira.itda.domain.chat_room.dto.request.TradeCompleteRequest
+import com.moira.itda.domain.chat_room.dto.response.ChatMessageResponse
+import com.moira.itda.domain.chat_room.dto.response.ChatRoomDetailResponse
+import com.moira.itda.domain.chat_room.mapper.ChatRoomMapper
+import com.moira.itda.domain.notification.component.NotificationManager
 import com.moira.itda.global.entity.ChatMessage
+import com.moira.itda.global.entity.ChatStatus
+import com.moira.itda.global.entity.TradeCancelHistory
 import com.moira.itda.global.entity.TradeCompleteHistory
 import com.moira.itda.global.exception.ErrorCode
 import com.moira.itda.global.exception.ItdaException
@@ -15,9 +19,10 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
-class ChatService(
-    private val mapper: ChatMapper,
+class ChatRoomService(
+    private val mapper: ChatRoomMapper,
     private val messageTemplate: SimpMessagingTemplate,
+    private val notificationManager: NotificationManager,
     private val validator: ChatValidator
 ) {
     /**
@@ -52,12 +57,49 @@ class ChatService(
     }
 
     /**
+     * 거래취소
+     */
+    @Transactional
+    fun cancelTrade(userId: String, chatRoomId: String, request: ChatRoomTradeCancelRequest) {
+        // [1] 채팅 정보 조회
+        val infoMap = mapper.selectChatRoomInfo(chatRoomId = chatRoomId)
+        val status = infoMap["status"]
+        val sellerId = infoMap["seller_id"]
+        val buyerId = infoMap["buyer_id"]
+
+        if (status == null || sellerId == null || buyerId == null) {
+            throw ItdaException(ErrorCode.CHAT_NOT_FOUND)
+        }
+
+        // [2] 유효성 검사
+        if (status == ChatStatus.ENDED.name) {
+            throw ItdaException(ErrorCode.ALREADY_ENDED_CHAT)
+        }
+        if (sellerId != userId && buyerId != userId) {
+            throw ItdaException(ErrorCode.OTHERS_CHAT)
+        }
+
+        // [3] TradeCancelHistory 저장
+        val tradeCancelHistory = TradeCancelHistory.fromTradeCancelRequest(chatRoomId = chatRoomId, request = request)
+        mapper.insertTradeCancelHistory(tradeCancelHistory = tradeCancelHistory)
+
+        // [4] ChatRoom의 status 변경 (ENDED)
+        mapper.updateChatRoomStatusEnded(chatRoomId = chatRoomId)
+
+        // [5] TradeSuggest의 status 변경 (CANCELED)
+        mapper.updateTradeSuggestStatusCanceled(suggestId = request.tradeSuggestId)
+
+        // [6] 알림 전송 (비동기)
+        notificationManager.sendTradeCancelNotification(senderId = userId, chatRoomId = chatRoomId)
+    }
+
+    /**
      * 내 활동 > 채팅 > 채팅방 > 거래완료
      */
     @Transactional
     fun completeTrade(userId: String, chatRoomId: String, request: TradeCompleteRequest) {
         // [1] 채팅 정보 조회
-        val infoMap = mapper.selectChatInfo(chatRoomId = chatRoomId)
+        val infoMap = mapper.selectChatRoomInfo(chatRoomId = chatRoomId)
 
         val (status, sellerId, buyerId) = infoMap.values.map {
             it ?: throw ItdaException(ErrorCode.CHAT_NOT_FOUND)
