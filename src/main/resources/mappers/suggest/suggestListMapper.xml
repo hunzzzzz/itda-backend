@@ -11,7 +11,7 @@
     </select>
 
     <!-- 제안목록 조회 -->
-    <select id="selectTradeSuggestList" resultType="com.moira.itda.domain.suggest_list.dto.response.TradeSuggestResponse">
+    <select id="selectTradeSuggestList" resultType="com.moira.itda.domain.suggest_list.dto.response.SuggestListResponse">
         SELECT
                TS.id                           AS suggest_id
              , TS.trade_id

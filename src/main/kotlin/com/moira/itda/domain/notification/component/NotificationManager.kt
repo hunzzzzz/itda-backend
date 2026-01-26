@@ -16,6 +16,16 @@ class NotificationManager(
     private val log = LoggerFactory.getLogger(this.javaClass)
 
     /**
+     * 알림 전송 전, 거래 및 제안 정보를 추출하기 위한 DTO 클래스
+     */
+    data class NotificationSourceDto(
+        val receiverId: String,
+        val senderNickname: String,
+        val gachaTitle: String,
+        val tradeTitle: String
+    )
+
+    /**
      * 알림 전송 내부 메서드 호출을 위한 DTO 클래스
      */
     data class NotificationDto(
@@ -47,6 +57,29 @@ class NotificationManager(
     }
 
     /**
+     * [내부 메서드] 거래 및 제안 정보 조회 및 추출
+     */
+    private fun extract(infoMap: HashMap<String, String?>): NotificationSourceDto? {
+        val receiverId = infoMap["receiver_id"]
+        val senderNickname = infoMap["sender_nickname"]
+        val gachaTitle = infoMap["gacha_title"]
+        val tradeTitle = infoMap["trade_title"]
+
+        if (receiverId != null && gachaTitle != null && senderNickname != null && tradeTitle != null) {
+            return NotificationSourceDto(
+                receiverId = receiverId,
+                senderNickname = senderNickname,
+                gachaTitle = gachaTitle,
+                tradeTitle = tradeTitle
+            )
+        } else {
+            this.errorLog()
+        }
+
+        return null
+    }
+
+    /**
      * [내부 메서드] 에러 로그 출력
      */
     private fun errorLog() {
@@ -60,52 +93,59 @@ class NotificationManager(
     fun sendSuggestNotification(senderId: String, tradeId: String, tradeItemId: String) {
         // [1] 알림 전송을 위한 정보 조회
         val infoMap = mapper.selectSuggestNotificationInfo(senderId = senderId, tradeItemId = tradeItemId)
-
-        val receiverId = infoMap["receiver_id"]
-        val gachaTitle = infoMap["gacha_title"]
-        val senderNickname = infoMap["sender_nickname"]
-        val tradeTitle = infoMap["trade_title"]
+        val sourceDto = this.extract(infoMap)
 
         // [2] 알림 전송 메서드 호출
-        if (receiverId != null && gachaTitle != null && senderNickname != null && tradeTitle != null) {
-            val dto = NotificationDto(
-                receiverId = receiverId,
+        sourceDto?.let {
+            NotificationDto(
+                receiverId = it.receiverId,
                 senderId = senderId,
                 type = NotificationType.SUGGEST,
-                content = "[${gachaTitle}]\n${senderNickname}님이 '${tradeTitle}'에 제안을 하였습니다.",
+                content = "[${it.gachaTitle}]\n${it.senderNickname}님이 '${it.tradeTitle}'에 제안을 하였습니다.",
                 targetId = tradeId
             )
-
-            this.send(dto = dto)
-        } else {
-            this.errorLog()
-        }
+        }?.let { this.send(dto = it) }
     }
 
     /**
      * 알림 전송 (제안 거절)
      */
+    @Async
     fun sendSuggestRejectedNotification(senderId: String, suggestId: String) {
         // [1] 알림 전송을 위한 정보 조회
-        val infoMap = mapper.selectSuggestRejectNotificationInfo(senderId = senderId, suggestId = suggestId)
-
-        val receiverId = infoMap["receiver_id"]
-        val gachaTitle = infoMap["gacha_title"]
-        val senderNickname = infoMap["sender_nickname"]
-        val tradeTitle = infoMap["trade_title"]
+        val infoMap = mapper.selectSuggestReactInfo(senderId = senderId, suggestId = suggestId)
+        val sourceDto = this.extract(infoMap)
 
         // [2] 알림 전송 메서드 호출
-        if (receiverId != null && gachaTitle != null && senderNickname != null && tradeTitle != null) {
-            val dto = NotificationDto(
-                receiverId = receiverId,
+        sourceDto?.let {
+            NotificationDto(
+                receiverId = it.receiverId,
                 senderId = senderId,
                 type = NotificationType.SUGGEST_REJECTED,
-                content = "[${gachaTitle}]\n${senderNickname}님이 '${tradeTitle}'글의 내 제안을 거절하였습니다.",
+                content = "[${it.gachaTitle}]\n${it.senderNickname}님이 '${it.tradeTitle}'글의 내 제안을 거절하였습니다.",
                 targetId = null // 알림을 받은 유저의 '내 활동' 페이지로 넘어가기 때문에 targetId 불필요
             )
-            this.send(dto = dto)
-        } else {
-            this.errorLog()
-        }
+        }?.let { this.send(dto = it) }
+    }
+
+    /**
+     * 알림 전송 (제안 거절)
+     */
+    @Async
+    fun sendSuggestApproveNotification(senderId: String, suggestId: String, chatRoomId: String) {
+        // [1] 알림 전송을 위한 정보 조회
+        val infoMap = mapper.selectSuggestReactInfo(senderId = senderId, suggestId = suggestId)
+        val sourceDto = this.extract(infoMap)
+
+        // [2] 알림 전송 메서드 호출
+        sourceDto?.let {
+            NotificationDto(
+                receiverId = it.receiverId,
+                senderId = senderId,
+                type = NotificationType.SUGGEST_APPROVED,
+                content = "[${it.gachaTitle}]\n${it.senderNickname}님이 '${it.tradeTitle}'글의 내 제안을 수락하셨습니다. 지금 대화를 시작해보세요!",
+                targetId = chatRoomId // 채팅방 ID
+            )
+        }?.let { this.send(dto = it) }
     }
 }

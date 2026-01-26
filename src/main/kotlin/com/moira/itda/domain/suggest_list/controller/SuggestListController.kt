@@ -1,8 +1,8 @@
 package com.moira.itda.domain.suggest_list.controller
 
-import com.moira.itda.domain.suggest_list.dto.request.TradeSuggestYnRequest
+import com.moira.itda.domain.suggest_list.dto.request.SuggestYnRequest
 import com.moira.itda.domain.suggest_list.dto.response.ChatRoomIdResponse
-import com.moira.itda.domain.suggest_list.dto.response.TradeSuggestPageResponse
+import com.moira.itda.domain.suggest_list.dto.response.SuggestListPageResponse
 import com.moira.itda.domain.suggest_list.service.SuggestListService
 import com.moira.itda.global.auth.aop.UserPrincipal
 import com.moira.itda.global.auth.dto.UserAuth
@@ -24,7 +24,7 @@ class SuggestListController(
         @UserPrincipal userAuth: UserAuth,
         @PathVariable tradeId: String,
         @RequestParam(required = false, defaultValue = "1") page: Int
-    ): ResponseEntity<TradeSuggestPageResponse> {
+    ): ResponseEntity<SuggestListPageResponse> {
         val response = service.getSuggestList(
             userId = userAuth.userId,
             tradeId = tradeId,
@@ -41,7 +41,7 @@ class SuggestListController(
     fun approve(
         @UserPrincipal userAuth: UserAuth,
         @PathVariable tradeId: String,
-        @RequestBody request: TradeSuggestYnRequest
+        @RequestBody request: SuggestYnRequest
     ): ResponseEntity<ChatRoomIdResponse> {
         val response = service.approve(
             userId = userAuth.userId,
@@ -59,8 +59,8 @@ class SuggestListController(
     fun reject(
         @UserPrincipal userAuth: UserAuth,
         @PathVariable tradeId: String,
-        @RequestBody request: TradeSuggestYnRequest
-    ): ResponseEntity<Nothing> {
+        @RequestBody request: SuggestYnRequest
+    ): ResponseEntity<Nothing?> {
         service.reject(userId = userAuth.userId, tradeId = tradeId, request = request)
 
         return ResponseEntity.ok(null)

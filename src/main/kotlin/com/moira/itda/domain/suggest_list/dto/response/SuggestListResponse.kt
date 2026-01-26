@@ -2,7 +2,7 @@ package com.moira.itda.domain.suggest_list.dto.response
 
 import java.time.ZonedDateTime
 
-data class TradeSuggestResponse(
+data class SuggestListResponse(
     // 공통
     val suggestId: String,
     val tradeId: String,

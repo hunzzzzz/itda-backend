@@ -1,6 +1,6 @@
 package com.moira.itda.domain.suggest_list.mapper
 
-import com.moira.itda.domain.suggest_list.dto.response.TradeSuggestResponse
+import com.moira.itda.domain.suggest_list.dto.response.SuggestListResponse
 import com.moira.itda.global.entity.ChatRoom
 import org.apache.ibatis.annotations.Mapper
 
@@ -19,7 +19,7 @@ interface SuggestListMapper {
         tradeId: String,
         pageSize: Int,
         offset: Int
-    ): List<TradeSuggestResponse>
+    ): List<SuggestListResponse>
 
     /**
      * 제안승인 > TradeSuggest status 변경 (APPROVED)

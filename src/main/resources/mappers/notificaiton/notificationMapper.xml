@@ -78,7 +78,8 @@
     </select>
 
     <!-- 제안거절 알림 전송 > 거래제안 정보 조회 -->
-    <select id="selectSuggestRejectNotificationInfo" resultType="java.util.HashMap">
+    <!-- 제안승인 알림 전송 > 거래제안 정보 조회 -->
+    <select id="selectSuggestReactInfo" resultType="java.util.HashMap">
         SELECT
                U_R.id        AS receiver_id
              , U_S.nickname  AS sender_nickname

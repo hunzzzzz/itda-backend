@@ -1,9 +1,9 @@
 package com.moira.itda.domain.suggest_list.service
 
 import com.moira.itda.domain.notification.component.NotificationManager
-import com.moira.itda.domain.suggest_list.dto.request.TradeSuggestYnRequest
+import com.moira.itda.domain.suggest_list.dto.request.SuggestYnRequest
 import com.moira.itda.domain.suggest_list.dto.response.ChatRoomIdResponse
-import com.moira.itda.domain.suggest_list.dto.response.TradeSuggestPageResponse
+import com.moira.itda.domain.suggest_list.dto.response.SuggestListPageResponse
 import com.moira.itda.domain.suggest_list.mapper.SuggestListMapper
 import com.moira.itda.global.entity.ChatRoom
 import com.moira.itda.global.pagination.component.OffsetPaginationHandler
@@ -21,7 +21,7 @@ class SuggestListService(
      * 제안목록 조회
      */
     @Transactional(readOnly = true)
-    fun getSuggestList(userId: String, tradeId: String, page: Int): TradeSuggestPageResponse {
+    fun getSuggestList(userId: String, tradeId: String, page: Int): SuggestListPageResponse {
         // [1] 변수 세팅
         val pageSize = TRADE_SUGGEST_MODAL_LIST_PAGE_SIZE
         val offset = pageHandler.getOffset(page = page, pageSize = pageSize)
@@ -43,14 +43,14 @@ class SuggestListService(
         )
 
         // [4] DTO 병합 후 리턴
-        return TradeSuggestPageResponse(content = content, page = pageResponse)
+        return SuggestListPageResponse(content = content, page = pageResponse)
     }
 
     /**
      * 제안승인
      */
     @Transactional
-    fun approve(userId: String, tradeId: String, request: TradeSuggestYnRequest): ChatRoomIdResponse {
+    fun approve(userId: String, tradeId: String, request: SuggestYnRequest): ChatRoomIdResponse {
         // [1] 변수 세팅
         val (tradeItemId, tradeSuggestId, buyerId) = request
 
@@ -67,7 +67,14 @@ class SuggestListService(
         )
         mapper.insertChatRoom(chatRoom = chatRoom)
 
-        // [4] 채팅방 ID 리턴
+        // [4] 알림 전송 (비동기)
+        notificationManager.sendSuggestApproveNotification(
+            senderId = userId,
+            suggestId = tradeSuggestId,
+            chatRoomId = chatRoom.id
+        )
+
+        // [5] 채팅방 ID 리턴
         return ChatRoomIdResponse(chatRoomId = chatRoom.id)
     }
 
@@ -75,14 +82,14 @@ class SuggestListService(
      * 제안거절
      */
     @Transactional
-    fun reject(userId: String, tradeId: String, request: TradeSuggestYnRequest) {
+    fun reject(userId: String, tradeId: String, request: SuggestYnRequest) {
         // [1] 변수 세팅
         val suggestId = request.tradeSuggestId
 
         // [2] TradeSuggest의 상태값을 REJECTED로 변경
         mapper.updateTradeSuggestStatusRejected(suggestId = suggestId)
 
-        // [3] 알림 전송
+        // [3] 알림 전송 (비동기)
         notificationManager.sendSuggestRejectedNotification(senderId = userId, suggestId = suggestId)
     }
 }

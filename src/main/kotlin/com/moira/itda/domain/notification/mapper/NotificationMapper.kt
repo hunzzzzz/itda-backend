@@ -38,6 +38,7 @@ interface NotificationMapper {
 
     /**
      * 제안거절 알림 전송 > 거래제안 정보 조회
+     * 제안승인 알림 전송 > 거래제안 정보 조회
      */
-    fun selectSuggestRejectNotificationInfo(senderId: String, suggestId: String): HashMap<String, String?>
+    fun selectSuggestReactInfo(senderId: String, suggestId: String): HashMap<String, String?>
 }
