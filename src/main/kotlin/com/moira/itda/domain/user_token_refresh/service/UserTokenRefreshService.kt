@@ -12,6 +12,7 @@ import io.jsonwebtoken.UnsupportedJwtException
 import io.jsonwebtoken.security.SignatureException
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
+import org.springframework.http.HttpHeaders
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -22,36 +23,44 @@ class UserTokenRefreshService(
     private val mapper: UserTokenRefreshMapper
 ) {
     /**
-     * 토큰 재발급 (WEB)
+     * 토큰 재발급
+     * - WEB   : 쿠키로부터 RefreshToken을 추출해야 한다.
+     * - Mobile: Authorization 헤더로부터 RefreshToken을 추출해야 한다.
      */
     @Transactional
     fun refresh(
         httpReq: HttpServletRequest,
         httpRes: HttpServletResponse
     ): TokenRefreshResponse? {
-        // [1] 쿠키에서 refreshToken 추출
-        val refreshToken = cookieHandler.getRtkFromCookie(request = httpReq)
-            ?: throw ItdaException(ErrorCode.INVALID_TOKEN)
+        // [1] Authorization 헤더에서 RefreshToken 추출 (MOBILE)
+        val authorizationHeaderValue = httpReq.getHeader(HttpHeaders.AUTHORIZATION)
+        var refreshToken = authorizationHeaderValue?.let {
+            jwtProvider.substringToken(authorizationHeaderValue)
+        }
+
+        // [2] Authorization 헤더에 값이 없다면, 쿠키에서 RefreshToken 추출 (WEB)
+        refreshToken = refreshToken ?: cookieHandler.getRtkFromCookie(request = httpReq)
+                ?: throw ItdaException(ErrorCode.INVALID_TOKEN)
 
         jwtProvider.validateToken(refreshToken)
             .onSuccess { claims ->
                 if (claims != null) {
-                    // [2] 유저 정보 추출
+                    // [3] 토큰에서 유저 정보 추출
                     val userId = claims.subject
                     val user = mapper.selectUserById(userId = userId)
                         ?: throw ItdaException(ErrorCode.ACCESS_DENIED)
 
-                    // [3] 토큰 검증 (with db)
+                    // [4] 토큰 검증 (with db)
                     val rtkInDb = user.refreshToken ?: throw ItdaException(ErrorCode.EXPIRED_USER_INFO)
                     if (refreshToken != rtkInDb) {
                         throw ItdaException(ErrorCode.INVALID_TOKEN)
                     }
 
-                    // [4] 토큰 재발급
+                    // [5] 토큰 재발급
                     val atk = jwtProvider.createAtk(user = user)
                     val rtk = jwtProvider.createRtk(user = user)
 
-                    // [5] RTK 저장
+                    // [6] RTK 저장
                     mapper.updateRefreshToken(userId = userId, rtk = rtk)
                     cookieHandler.putRtkInCookie(rtk = rtk, response = httpRes)
 
