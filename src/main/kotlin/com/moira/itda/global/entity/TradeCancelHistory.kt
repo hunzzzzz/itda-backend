@@ -14,14 +14,14 @@ data class TradeCancelHistory(
     val canceledAt: ZonedDateTime
 ) {
     companion object {
-        fun fromTradeCancelRequest(chatRoomId: String, request: ChatRoomTradeCancelRequest): TradeCancelHistory {
+        fun from(userId: String, chatRoomId: String, request: ChatRoomTradeCancelRequest): TradeCancelHistory {
             return TradeCancelHistory(
                 id = null,
                 chatRoomId = chatRoomId,
                 tradeId = request.tradeId,
                 tradeSuggestId = request.tradeSuggestId,
                 gachaId = request.gachaId,
-                canceledUserId = request.userId,
+                canceledUserId = userId,
                 cancelReason = request.cancelReason,
                 canceledAt = ZonedDateTime.now()
             )

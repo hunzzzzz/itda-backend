@@ -80,7 +80,7 @@ class ChatRoomService(
         }
 
         // [3] TradeCancelHistory 저장
-        val tradeCancelHistory = TradeCancelHistory.fromTradeCancelRequest(chatRoomId = chatRoomId, request = request)
+        val tradeCancelHistory = TradeCancelHistory.from(userId = userId, chatRoomId = chatRoomId, request = request)
         mapper.insertTradeCancelHistory(tradeCancelHistory = tradeCancelHistory)
 
         // [4] ChatRoom의 status 변경 (ENDED)

@@ -26,7 +26,7 @@ class ChatRoomController(
     /**
      * 채팅방 > 거래제안 정보 조회
      */
-    @GetMapping("/api/me/trade/chat/{chatRoomId}")
+    @GetMapping("/api/trade/chat/{chatRoomId}")
     fun getTradeSuggest(@PathVariable chatRoomId: String): ResponseEntity<ChatRoomDetailResponse> {
         val response = service.getTradeSuggest(chatRoomId = chatRoomId)
 
