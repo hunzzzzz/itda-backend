@@ -1,6 +1,6 @@
-package com.moira.itda.domain.admin.user_feedback.mapper
+package com.moira.itda.domain.admin_user_feedback.mapper
 
-import com.moira.itda.domain.admin.user_feedback.dto.response.AdminUserFeedbackResponse
+import com.moira.itda.domain.admin_user_feedback.dto.response.AdminUserFeedbackResponse
 import org.apache.ibatis.annotations.Mapper
 
 @Mapper

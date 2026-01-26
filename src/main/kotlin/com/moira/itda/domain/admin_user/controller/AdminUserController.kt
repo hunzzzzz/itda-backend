@@ -1,9 +1,9 @@
-package com.moira.itda.domain.admin.user.controller
+package com.moira.itda.domain.admin_user.controller
 
-import com.moira.itda.domain.admin.user.dto.request.UserBanRequest
-import com.moira.itda.domain.admin.user.dto.response.AdminUserBanResponse
-import com.moira.itda.domain.admin.user.dto.response.AdminUserResponse
-import com.moira.itda.domain.admin.user.service.AdminUserService
+import com.moira.itda.domain.admin_user.dto.request.UserBanRequest
+import com.moira.itda.domain.admin_user.dto.response.AdminUserBanResponse
+import com.moira.itda.domain.admin_user.dto.response.AdminUserResponse
+import com.moira.itda.domain.admin_user.service.AdminUserService
 import com.moira.itda.global.auth.aop.IsAdmin
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*

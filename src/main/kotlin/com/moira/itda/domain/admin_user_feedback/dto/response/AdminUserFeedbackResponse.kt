@@ -1,4 +1,4 @@
-package com.moira.itda.domain.admin.user_feedback.dto.response
+package com.moira.itda.domain.admin_user_feedback.dto.response
 
 import java.time.ZonedDateTime
 

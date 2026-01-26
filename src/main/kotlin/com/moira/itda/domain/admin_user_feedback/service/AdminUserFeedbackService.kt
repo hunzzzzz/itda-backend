@@ -1,8 +1,8 @@
-package com.moira.itda.domain.admin.user_feedback.service
+package com.moira.itda.domain.admin_user_feedback.service
 
-import com.moira.itda.domain.admin.user_feedback.dto.request.AdminUserFeedbackAnswerRequest
-import com.moira.itda.domain.admin.user_feedback.dto.response.AdminUserFeedbackResponse
-import com.moira.itda.domain.admin.user_feedback.mapper.AdminUserFeedbackMapper
+import com.moira.itda.domain.admin_user_feedback.dto.request.AdminUserFeedbackAnswerRequest
+import com.moira.itda.domain.admin_user_feedback.dto.response.AdminUserFeedbackResponse
+import com.moira.itda.domain.admin_user_feedback.mapper.AdminUserFeedbackMapper
 import com.moira.itda.domain.notification.component.NotificationManager
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional

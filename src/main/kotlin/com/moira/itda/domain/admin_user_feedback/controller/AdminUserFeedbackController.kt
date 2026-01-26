@@ -1,8 +1,8 @@
-package com.moira.itda.domain.admin.user_feedback.controller
+package com.moira.itda.domain.admin_user_feedback.controller
 
-import com.moira.itda.domain.admin.user_feedback.dto.request.AdminUserFeedbackAnswerRequest
-import com.moira.itda.domain.admin.user_feedback.dto.response.AdminUserFeedbackResponse
-import com.moira.itda.domain.admin.user_feedback.service.AdminUserFeedbackService
+import com.moira.itda.domain.admin_user_feedback.dto.request.AdminUserFeedbackAnswerRequest
+import com.moira.itda.domain.admin_user_feedback.dto.response.AdminUserFeedbackResponse
+import com.moira.itda.domain.admin_user_feedback.service.AdminUserFeedbackService
 import com.moira.itda.global.auth.aop.IsAdmin
 import com.moira.itda.global.auth.aop.UserPrincipal
 import com.moira.itda.global.auth.dto.UserAuth

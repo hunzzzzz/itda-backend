@@ -15,8 +15,9 @@ mybatis:
 
 logging:
   level:
-    com.moira.itda.domain.admin.mapper: DEBUG
     com.moira.itda.domain.admin_gacha.mapper: DEBUG
+    com.moira.itda.domain.admin_user.mapper: DEBUG
+    com.moira.itda.domain.admin_user_feedback.mapper: DEBUG
     com.moira.itda.domain.admin_user_report.mapper: DEBUG
     com.moira.itda.domain.chat.mapper: DEBUG
     com.moira.itda.domain.common.mapper: DEBUG

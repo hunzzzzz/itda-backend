@@ -1,4 +1,4 @@
-package com.moira.itda.domain.admin.user.dto.request
+package com.moira.itda.domain.admin_user.dto.request
 
 data class UserBanRequest(
     val reason: String,
