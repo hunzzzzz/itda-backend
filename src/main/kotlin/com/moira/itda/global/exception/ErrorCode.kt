@@ -23,13 +23,8 @@ enum class ErrorCode(
         message = "최대 사진 업로드 용량을 초과하였습니다. (단일 사진 용량 최대 5MB, 사진 총합 용량 최대 20MB)",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
-    MAIL_SYSTEM_ERROR(
-        code = "CM004",
-        message = "이메일 전송 과정에서 오류가 발생했습니다. 잠시 후 다시 시도해주세요.",
-        httpStatus = HttpStatus.INTERNAL_SERVER_ERROR
-    ),
     SMS_SYSTEM_ERROR(
-        code = "CM005",
+        code = "CM004",
         message = "휴대폰 SMS 전송 과정에서 오류가 발생했습니다. 잠시 후 다시 시도해주세요.",
         httpStatus = HttpStatus.INTERNAL_SERVER_ERROR
     ),
@@ -233,23 +228,6 @@ enum class ErrorCode(
         httpStatus = HttpStatus.BAD_REQUEST
     ),
 
-    // 공통코드 관련 에러코드
-    INVALID_CODE_KEY(
-        code = "C0001",
-        message = "유효하지 않은 코드 키입니다.",
-        httpStatus = HttpStatus.BAD_REQUEST
-    ),
-    ALREADY_USING_KEY(
-        code = "C0002",
-        message = "이미 사용중인 코드 키입니다.",
-        httpStatus = HttpStatus.BAD_REQUEST
-    ),
-    ALREADY_USING_CODE_DETAIL_NAME(
-        code = "C0003",
-        message = "이미 사용중인 코드 이름입니다.",
-        httpStatus = HttpStatus.BAD_REQUEST
-    ),
-
     // 가챠 관련 에러코드
     NO_GACHA_IMAGE(
         code = "G001",
@@ -259,11 +237,6 @@ enum class ErrorCode(
     EXCEEDED_GACHA_IMAGE(
         code = "G002",
         message = "가챠 등록 시, 최대 1개의 이미지 파일만 업로드할 수 있습니다.",
-        httpStatus = HttpStatus.BAD_REQUEST
-    ),
-    GACHA_NOT_FOUND(
-        code = "G0007",
-        message = "존재하지 않는 가챠입니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
 
@@ -424,12 +397,5 @@ enum class ErrorCode(
         code = "C0006",
         message = "이미 해당 유저를 칭찬하였습니다.",
         httpStatus = HttpStatus.BAD_REQUEST
-    ),
-
-    // 어드민 관련 에러코드
-    FEEDBACK_NOT_FOUND(
-        code = "AM0001",
-        message = "존재하지 않는 피드백입니다.",
-        httpStatus = HttpStatus.BAD_REQUEST
-    ),
+    )
 }

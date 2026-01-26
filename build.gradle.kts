@@ -34,8 +34,6 @@ dependencies {
     // kotlin
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
-    // mail
-    implementation("org.springframework.boot:spring-boot-starter-mail")
     // mybatis
     implementation("org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.5")
     // sms
