@@ -1,6 +1,6 @@
 package com.moira.itda.domain.trade.component
 
-import com.moira.itda.domain.common.mapper.CommonMapper
+import com.moira.itda.domain.common.image.mapper.CommonImageMapper
 import com.moira.itda.domain.trade.dto.request.*
 import com.moira.itda.domain.trade.mapper.TradeMapper
 import com.moira.itda.global.entity.TradeHopeMethod
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component
 @Component
 class TradeValidator(
     private val mapper: TradeMapper,
-    private val commonMapper: CommonMapper
+    private val commonImageMapper: CommonImageMapper
 ) {
     /**
      * 교환등록 > 유효성 검사 > 공통
@@ -27,7 +27,7 @@ class TradeValidator(
             if (request.fileId.isBlank()) {
                 throw ItdaException(ErrorCode.NO_TRADE_FILE_ID)
             }
-            if (!commonMapper.selectFileIdChk(fileId = request.fileId)) {
+            if (!commonImageMapper.selectFileIdChk(fileId = request.fileId)) {
                 throw ItdaException(ErrorCode.FILE_NOT_FOUND)
             }
         }

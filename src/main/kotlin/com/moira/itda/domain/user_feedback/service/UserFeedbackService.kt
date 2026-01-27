@@ -1,6 +1,6 @@
 package com.moira.itda.domain.user_feedback.service
 
-import com.moira.itda.domain.common.mapper.CommonMapper
+import com.moira.itda.domain.common.image.mapper.CommonImageMapper
 import com.moira.itda.domain.user_feedback.dto.request.FeedbackRequest
 import com.moira.itda.domain.user_feedback.dto.response.FeedbackPageResponse
 import com.moira.itda.domain.user_feedback.mapper.UserFeedbackMapper
@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 class UserFeedbackService(
-    private val commonMapper: CommonMapper,
+    private val commonImageMapper: CommonImageMapper,
     private val mapper: UserFeedbackMapper,
     private val pageHandler: OffsetPaginationHandler
 ) {
@@ -29,7 +29,7 @@ class UserFeedbackService(
 
         // 파일
         if (request.fileId != null) {
-            if (!commonMapper.selectFileIdChk(fileId = request.fileId)) {
+            if (!commonImageMapper.selectFileIdChk(fileId = request.fileId)) {
                 throw ItdaException(ErrorCode.FILE_NOT_FOUND)
             }
         }
@@ -64,7 +64,7 @@ class UserFeedbackService(
         // [3] 이미지 파일 목록 조회
         contents.forEach {
             if (it.fileId != null) {
-                it.fileUrls = commonMapper.selectImageFileUrl(fileId = it.fileId).map { it.fileUrl }
+                it.fileUrls = commonImageMapper.selectImageFileUrl(fileId = it.fileId).map { it.fileUrl }
             }
         }
 

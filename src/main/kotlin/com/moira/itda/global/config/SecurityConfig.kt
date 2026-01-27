@@ -57,8 +57,8 @@ class SecurityConfig(
             .authorizeHttpRequests {
                 it
                     .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                    .requestMatchers(HttpMethod.GET, "/health/**").permitAll()
                     .requestMatchers(HttpMethod.GET, "/ws-itda/**").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/api/health/**").permitAll()
                     .requestMatchers(HttpMethod.GET, "/api/signup/**").permitAll()
                     .requestMatchers(HttpMethod.POST, "/api/signup/**").permitAll()
                     .requestMatchers(HttpMethod.POST, "/api/login/**").permitAll()
@@ -66,7 +66,6 @@ class SecurityConfig(
                     .requestMatchers(HttpMethod.POST, "/api/identify/**").permitAll()
                     .requestMatchers(HttpMethod.GET, "/api/reset/password/**").permitAll()
                     .requestMatchers(HttpMethod.PUT, "/api/reset/password/**").permitAll()
-                    .requestMatchers(HttpMethod.GET, "/api/code/**").permitAll()
                     .anyRequest().authenticated()
             }
             // [4] 예외 처리 핸들러 등록

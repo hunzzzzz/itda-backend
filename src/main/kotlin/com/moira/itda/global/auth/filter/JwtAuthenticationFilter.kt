@@ -29,8 +29,8 @@ class JwtAuthenticationFilter(
     companion object {
         private val excludeRequestMatchers = listOf(
             PathPatternRequestMatcher.withDefaults().matcher(HttpMethod.OPTIONS, "/**"),
-            PathPatternRequestMatcher.withDefaults().matcher(HttpMethod.GET, "/health/**"),
             PathPatternRequestMatcher.withDefaults().matcher(HttpMethod.GET, "/ws-itda/**"),
+            PathPatternRequestMatcher.withDefaults().matcher(HttpMethod.GET, "/api/health/**"),
             PathPatternRequestMatcher.withDefaults().matcher(HttpMethod.GET, "/api/signup/**"),
             PathPatternRequestMatcher.withDefaults().matcher(HttpMethod.POST, "/api/signup/**"),
             PathPatternRequestMatcher.withDefaults().matcher(HttpMethod.POST, "/api/login/**"),
@@ -38,7 +38,6 @@ class JwtAuthenticationFilter(
             PathPatternRequestMatcher.withDefaults().matcher(HttpMethod.POST, "/api/identify/**"),
             PathPatternRequestMatcher.withDefaults().matcher(HttpMethod.GET, "/api/reset/password/**"),
             PathPatternRequestMatcher.withDefaults().matcher(HttpMethod.PUT, "/api/reset/password/**"),
-            PathPatternRequestMatcher.withDefaults().matcher(HttpMethod.GET, "/api/code/**")
         )
     }
 

@@ -1,6 +1,6 @@
 package com.moira.itda.domain.trade.service
 
-import com.moira.itda.domain.common.mapper.CommonMapper
+import com.moira.itda.domain.common.image.mapper.CommonImageMapper
 import com.moira.itda.domain.trade.component.TradeValidator
 import com.moira.itda.domain.trade.dto.request.*
 import com.moira.itda.domain.trade.dto.response.*
@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 class TradeService(
-    private val commonMapper: CommonMapper,
+    private val commonImageMapper: CommonImageMapper,
     private val offsetPaginationHandler: OffsetPaginationHandler,
     private val mapper: TradeMapper,
     private val s3Handler: AwsS3Handler,
@@ -88,7 +88,7 @@ class TradeService(
         val trade = mapper.selectTradeDetail(tradeId = tradeId)
 
         // [2] 이미지 파일 URL 리스트 조회
-        trade.fileUrlList = commonMapper.selectImageFileUrl(fileId = trade.fileId).map { it.fileUrl }
+        trade.fileUrlList = commonImageMapper.selectImageFileUrl(fileId = trade.fileId).map { it.fileUrl }
 
         // [3] TradeItem 리스트 조회
         val itemList = mapper.selectTradeItemList(tradeId = tradeId)
@@ -105,8 +105,8 @@ class TradeService(
         // [3] 사용자가 이미지를 변경한 경우, 기존 이미지 파일 삭제 (AWS S3, DB)
         if (request.imageChangeYn == "Y") {
             val oldFileId = trade.fileId
-            commonMapper.selectImageFileUrl(fileId = oldFileId).forEach { s3Handler.delete(it.fileUrl) }
-            commonMapper.deleteImageFile(fileId = oldFileId)
+            commonImageMapper.selectImageFileUrl(fileId = oldFileId).forEach { s3Handler.delete(it.fileUrl) }
+            commonImageMapper.deleteImageFile(fileId = oldFileId)
         }
 
         // [4] Trade 수정
@@ -214,7 +214,7 @@ class TradeService(
         // [5] 모든 TradeItem이 DELETED이면 Trade 삭제 처리
         if (!mapper.selectTradeItemStatusNotDeletedChk(tradeId = tradeId)) {
             // [5-1] 이미지 파일 삭제 (AWS S3)
-            commonMapper.selectImageFileUrl(fileId = trade.fileId)
+            commonImageMapper.selectImageFileUrl(fileId = trade.fileId)
                 .forEach { s3Handler.delete(fileUrl = it.fileUrl) }
 
             // [5-2] Trade 삭제 처리 (status: DELETED)
