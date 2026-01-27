@@ -1,11 +1,11 @@
-package com.moira.itda.domain.user_my_page.service
+package com.moira.itda.domain.account.mypage.service
 
 import com.moira.itda.domain.account.logout.service.LogoutService
-import com.moira.itda.domain.user_my_page.dto.request.NicknameUpdateRequest
-import com.moira.itda.domain.user_my_page.dto.request.PasswordUpdateRequest
-import com.moira.itda.domain.user_my_page.dto.request.ProfileImageUpdateRequest
-import com.moira.itda.domain.user_my_page.dto.response.MyPageResponse
-import com.moira.itda.domain.user_my_page.mapper.UserMyPageMapper
+import com.moira.itda.domain.account.mypage.dto.request.NicknameUpdateRequest
+import com.moira.itda.domain.account.mypage.dto.request.PasswordUpdateRequest
+import com.moira.itda.domain.account.mypage.dto.request.ProfileImageUpdateRequest
+import com.moira.itda.domain.account.mypage.dto.response.MyPageResponse
+import com.moira.itda.domain.account.mypage.mapper.MyPageMapper
 import com.moira.itda.global.exception.ErrorCode
 import com.moira.itda.global.exception.ItdaException
 import com.moira.itda.global.file.component.AwsS3Handler
@@ -15,11 +15,11 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
-class UserMyPageService(
+class MyPageService(
     private val awsS3Handler: AwsS3Handler,
     private val encoder: PasswordEncoder,
     private val logoutService: LogoutService,
-    private val mapper: UserMyPageMapper
+    private val mapper: MyPageMapper
 ) {
     private val passwordRegex =
         Regex("^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()\\-_+=\\[\\]{}|;:',.<>?/`~])(?=.*\\d)?[A-Za-z\\d!@#$%^&*()\\-_+=\\[\\]{}|;:',.<>?/`~]{8,16}$")

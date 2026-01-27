@@ -1,10 +1,10 @@
-package com.moira.itda.domain.user_my_page.controller
+package com.moira.itda.domain.account.mypage.controller
 
-import com.moira.itda.domain.user_my_page.dto.request.NicknameUpdateRequest
-import com.moira.itda.domain.user_my_page.dto.request.PasswordUpdateRequest
-import com.moira.itda.domain.user_my_page.dto.request.ProfileImageUpdateRequest
-import com.moira.itda.domain.user_my_page.dto.response.MyPageResponse
-import com.moira.itda.domain.user_my_page.service.UserMyPageService
+import com.moira.itda.domain.account.mypage.dto.request.NicknameUpdateRequest
+import com.moira.itda.domain.account.mypage.dto.request.PasswordUpdateRequest
+import com.moira.itda.domain.account.mypage.dto.request.ProfileImageUpdateRequest
+import com.moira.itda.domain.account.mypage.dto.response.MyPageResponse
+import com.moira.itda.domain.account.mypage.service.MyPageService
 import com.moira.itda.global.auth.aop.UserPrincipal
 import com.moira.itda.global.auth.dto.UserAuth
 import jakarta.servlet.http.HttpServletResponse
@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RestController
  * 마이페이지
  */
 @RestController
-class UserMyPageController(
-    private val service: UserMyPageService
+class MyPageController(
+    private val service: MyPageService
 ) {
     /**
      * 내 프로필 조회

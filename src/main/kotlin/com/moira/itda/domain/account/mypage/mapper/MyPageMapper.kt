@@ -1,10 +1,10 @@
-package com.moira.itda.domain.user_my_page.mapper
+package com.moira.itda.domain.account.mypage.mapper
 
-import com.moira.itda.domain.user_my_page.dto.response.MyPageResponse
+import com.moira.itda.domain.account.mypage.dto.response.MyPageResponse
 import org.apache.ibatis.annotations.Mapper
 
 @Mapper
-interface UserMyPageMapper {
+interface MyPageMapper {
     /**
      * 내 프로필 조회
      */
