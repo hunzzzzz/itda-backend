@@ -23,8 +23,8 @@ class PageSizeConstant {
         // 제안목록 조회 모달 > 제안목록 조회
         const val TRADE_SUGGEST_MODAL_LIST_PAGE_SIZE = 5
 
-        // 상단바 > 문의하기 > 피드백 목록 조회
-        const val MY_FEEDBACK_LIST_PAGE_SIZE = 5
+        // 상단바 > 문의하기 > 문의 목록 조회
+        const val MY_SUPPORT_LIST_PAGE_SIZE = 5
 
         // 상단바 > 알림목록 조회
         const val NOTIFICATION_LIST_PAGE_SIZE = 5

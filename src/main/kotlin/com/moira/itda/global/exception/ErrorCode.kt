@@ -100,9 +100,9 @@ enum class ErrorCode(
         message = "동일한 비밀번호로 변경할 수 업습니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
-    INVALID_USER_FEEDBACK_TYPE(
+    INVALID_USER_SUPPORT_TYPE(
         code = "U015",
-        message = "유효하지 않은 피드백 타입입니다.",
+        message = "유효하지 않은 문의사항 타입입니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
 

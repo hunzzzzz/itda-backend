@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.moira.itda.domain.user.myplace.mapper.MyPlaceMapper">
+    <!-- MY PLACE 등록 > name 중복 여부 조회 -->
+    <select id="selectUserPlaceNameChk" resultType="java.lang.Boolean">
+        SELECT EXISTS (
+            SELECT 1 FROM USER_PLACE WHERE user_id = #{userId} AND name = #{placeName}
+        )
+    </select>
+
+    <!-- MY PLACE 등록 > 현재 등록된 MY PLACE 개수 조회 -->
+    <select id="selectUserPlaceCnt">
+        SELECT COUNT(id) FROM USER_PLACE WHERE user_id = #{userId}
+    </select>
+
+    <!-- MY PLACE 등록 > UserPlace 저장 -->
+    <insert id="insertUserPlace">
+        INSERT INTO USER_PLACE (
+               id
+             , user_id
+             , latitude
+             , longitude
+             , address
+             , name
+             , is_default
+             , created_at
+             , updated_at
+        )
+        VALUES (
+               #{id}
+             , #{userId}
+             , #{latitude}
+             , #{longitude}
+             , #{address}
+             , #{name}
+             , #{isDefault}
+             , #{createdAt}
+             , #{updatedAt}
+        )
+    </insert>
+
+    <!-- MY PLACE 목록 조회 -->
+    <select id="selectUserPlaceList">
+        SELECT
+               id AS place_id
+             , user_id
+             , latitude
+             , longitude
+             , address
+             , name
+             , is_default
+             , created_at
+        FROM USER_PLACE
+        WHERE user_id = #{userId}
+        ORDER BY is_default = 'Y' DESC, created_at ASC
+    </select>
+
+    <!--  MY PLACE 기본 설정 > 기존 UserPlace의 default를 N으로 변경 -->
+    <update id="updateUserPlaceDefaultN">
+        UPDATE USER_PLACE
+        SET
+               is_default = 'N'
+             , updated_at = CURRENT_TIMESTAMP
+        WHERE user_id = #{userId} AND is_default = 'Y'
+    </update>
+
+    <!-- MY PLACE 기본 설정 > default를 Y로 변경 -->
+    <update id="updateUserPlaceDefaultY">
+        UPDATE USER_PLACE
+        SET
+               is_default = 'Y'
+             , updated_at = CURRENT_TIMESTAMP
+        WHERE id = #{placeId}
+    </update>
+
+    <!-- MY PLACE 삭제 > UserPlace 정보 조회 -->
+    <select id="selectUserPlaceInfo">
+        SELECT user_id, is_default FROM USER_PLACE WHERE id = #{placeId}
+    </select>
+
+    <!-- MY PLACE 삭제 -->
+    <delete id="deleteUserPlace">
+        DELETE FROM USER_PLACE WHERE id = #{placeId}
+    </delete>
+</mapper>

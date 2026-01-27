@@ -1,6 +1,6 @@
 package com.moira.itda.global.entity
 
-import com.moira.itda.domain.user_place.dto.request.UserPlaceRequest
+import com.moira.itda.domain.user.myplace.dto.request.MyPlaceRequest
 import java.time.ZonedDateTime
 import java.util.*
 
@@ -16,7 +16,7 @@ data class UserPlace(
     val updatedAt: ZonedDateTime
 ) {
     companion object {
-        fun from(userId: String, request: UserPlaceRequest, isDefault: String): UserPlace {
+        fun from(userId: String, request: MyPlaceRequest, isDefault: String): UserPlace {
             return UserPlace(
                 id = UUID.randomUUID().toString(),
                 userId = userId,

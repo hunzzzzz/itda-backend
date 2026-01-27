@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.moira.itda.domain.user.mypage.mapper.MyPageMapper">
+    <!-- 내 프로필 조회 -->
+    <select id="selectMyPageResponse" resultType="com.moira.itda.domain.user.mypage.dto.response.MyPageResponse">
+        SELECT
+               U.id AS user_id
+             , U.role
+             , U.status
+             , U.email
+             , U.nickname
+             , U.phone_number
+             , U.file_id
+             , (SELECT file_url FROM IMAGE_FILE WHERE file_id = U.file_id ORDER BY created_at DESC LIMIT 1) AS image_file_url
+             , (SELECT COUNT(id) FROM TRADE_COMPLETE_HISTORY WHERE seller_id = U.id OR buyer_id = U.id)     AS trade_count
+             , (SELECT COUNT(id) FROM TRADE_USER_COMPLIMENT WHERE complimented_user_id = U.id)              AS compliment_count
+             , U.last_login_at
+             , U.created_at
+        FROM USER U
+        WHERE U.id = #{userId}
+    </select>
+
+    <!-- 프로필 사진 변경 > 현재 프로필 사진의 URL 조회 -->
+    <select id="selectCurrentFileUrl" resultType="java.lang.String">
+        SELECT file_url
+        FROM IMAGE_FILE
+        WHERE file_id = (SELECT file_id FROM USER WHERE id = #{userId})
+        ORDER BY created_At DESC
+        LIMIT 1
+    </select>
+
+    <!-- 프로필 사진 변경 > 파일 ID 수정 -->
+    <update id="updateFileId">
+        UPDATE USER
+        SET
+               file_id    = #{newFileId}
+             , updated_at = CURRENT_TIMESTAMP
+        WHERE id = #{userId}
+    </update>
+
+    <!-- 닉네임 변경 > 닉네임 존재 여부 조회 -->
+    <select id="selectNicknameChk">
+        SELECT EXISTS (
+            SELECT 1 FROM USER WHERE nickname = #{nickname}
+        )
+    </select>
+
+    <!-- 닉네임 변경 -->
+    <update id="updateNickname">
+        UPDATE USER
+        SET
+               nickname   = #{newNickname}
+             , updated_at = CURRENT_TIMESTAMP
+        WHERE id = #{userId}
+    </update>
+
+    <!-- 비밀번호 변경 > 현재 비밀번호 조회 -->
+    <select id="selectCurrentPassword" resultType="java.lang.String">
+        SELECT password FROM USER WHERE id = #{userId}
+    </select>
+
+    <!-- 비밀번호 변경 -->
+    <update id="updatePassword">
+        UPDATE USER
+        SET
+               password   = #{newPassword}
+             , updated_at = CURRENT_TIMESTAMP
+        WHERE id = #{userId}
+    </update>
+</mapper>
