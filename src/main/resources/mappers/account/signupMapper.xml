@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.moira.itda.domain.account.signup.mapper.SignupMapper">
+    <!-- 회원가입 > name, ci값 유효 여부 조회 -->
+    <select id="selectUserIdentifyCodeChk">
+        SELECT EXISTS (
+            SELECT 1 FROM USER_IDENTIFY_CODE
+            WHERE phone_number = #{phoneNumber}
+             AND  type         = #{type}
+             AND  name         = #{name}
+             AND  ci           = #{ci}
+             AND  expired_at   > CURRENT_TIMESTAMP
+        )
+    </select>
+
+    <!-- 회원가입 > 이메일 중복 확인 -->
+    <select id="selectEmailChk" resultType="java.lang.Boolean">
+        SELECT EXISTS (
+            SELECT 1 FROM USER WHERE email = #{email}
+        )
+    </select>
+
+    <!-- 회원가입 > 닉네임 중복 확인 -->
+    <select id="selectNicknameChk" resultType="java.lang.Boolean">
+        SELECT EXISTS (
+            SELECT 1 FROM USER WHERE nickname = #{nickname}
+        )
+    </select>
+
+    <!-- 회원가입 > User 저장 -->
+    <insert id="insertUser">
+        INSERT INTO USER (
+               id
+             , role
+             , status
+             , email
+             , password
+             , name
+             , nickname
+             , phone_number
+             , ci
+             , file_id
+             , refresh_token
+             , last_login_at
+             , created_at
+             , updated_at
+        )
+        VALUES (
+               #{id}
+             , #{role}
+             , #{status}
+             , #{email}
+             , #{password}
+             , #{name}
+             , #{nickname}
+             , #{phoneNumber}
+             , #{ci}
+             , #{fileId}
+             , #{refreshToken}
+             , #{lastLoginAt}
+             , #{createdAt}
+             , #{updatedAt}
+        )
+    </insert>
+</mapper>

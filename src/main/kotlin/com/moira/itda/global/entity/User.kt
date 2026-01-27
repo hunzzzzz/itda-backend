@@ -1,6 +1,6 @@
 package com.moira.itda.global.entity
 
-import com.moira.itda.domain.user_signup.dto.request.SignupRequest
+import com.moira.itda.domain.account.signup.dto.request.SignupRequest
 import org.springframework.security.crypto.password.PasswordEncoder
 import java.time.ZonedDateTime
 import java.util.*

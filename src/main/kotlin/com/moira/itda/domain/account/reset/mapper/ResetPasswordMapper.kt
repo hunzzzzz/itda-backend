@@ -1,0 +1,17 @@
+package com.moira.itda.domain.account.reset.mapper
+
+import com.moira.itda.global.entity.UserIdentifyCodeType
+import org.apache.ibatis.annotations.Mapper
+
+@Mapper
+interface ResetPasswordMapper {
+    /**
+     * 비밀번호 초기화 > name, ci값 유효 여부 조회
+     */
+    fun selectUserIdentifyCodeChk(phoneNumber: String, type: UserIdentifyCodeType, name: String, ci: String): Boolean
+
+    /**
+     * 비밀번호 초기화
+     */
+    fun updatePasswordByPhoneNumber(phoneNumber: String, newPassword: String, name: String, ci: String)
+}

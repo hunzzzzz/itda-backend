@@ -4,7 +4,7 @@ import com.moira.itda.domain.common.identify.dto.request.IdentifyCheckRequest
 import com.moira.itda.domain.common.identify.dto.request.IdentifyRequest
 import com.moira.itda.domain.common.identify.dto.response.IdentifyResponse
 import com.moira.itda.domain.common.identify.mapper.CommonIdentifyMapper
-import com.moira.itda.domain.user_signup.component.IdentifyCodeGenerator
+import com.moira.itda.domain.account.signup.component.IdentifyCodeGenerator
 import com.moira.itda.global.entity.UserIdentifyCode
 import com.moira.itda.global.entity.UserIdentifyCodeType
 import com.moira.itda.global.exception.ErrorCode

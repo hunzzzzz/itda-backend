@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.moira.itda.domain.account.logout.mapper.LogoutMapper">
+    <!-- 로그아웃 > RefreshToken 초기화 -->
+    <update id="updateRefreshTokenNull">
+        UPDATE USER
+        SET    refresh_token = NULL
+             , updated_at    = CURRENT_TIMESTAMP
+        WHERE id = #{userId}
+    </update>
+</mapper>

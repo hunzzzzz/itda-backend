@@ -9,7 +9,10 @@ import com.moira.itda.global.auth.aop.UserPrincipal
 import com.moira.itda.global.auth.dto.UserAuth
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.*
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PutMapping
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RestController
 
 /**
  * 마이페이지
@@ -18,19 +21,6 @@ import org.springframework.web.bind.annotation.*
 class UserMyPageController(
     private val service: UserMyPageService
 ) {
-    /**
-     * 로그아웃
-     */
-    @PostMapping("/api/logout")
-    fun logout(
-        @UserPrincipal userAuth: UserAuth,
-        httpRes: HttpServletResponse
-    ): ResponseEntity<Nothing> {
-        service.logout(userId = userAuth.userId, httpRes = httpRes)
-
-        return ResponseEntity.ok(null)
-    }
-
     /**
      * 내 프로필 조회
      */
@@ -77,19 +67,6 @@ class UserMyPageController(
         httpRes: HttpServletResponse
     ): ResponseEntity<Nothing> {
         service.updatePassword(userId = userAuth.userId, request = request, httpRes = httpRes)
-
-        return ResponseEntity.ok(null)
-    }
-
-    /**
-     * 회원탈퇴
-     */
-    @DeleteMapping("/api/me/delete")
-    fun delete(
-        @UserPrincipal userAuth: UserAuth,
-        httpRes: HttpServletResponse
-    ): ResponseEntity<Nothing> {
-        service.delete(userId = userAuth.userId, httpRes = httpRes)
 
         return ResponseEntity.ok(null)
     }
