@@ -6,6 +6,7 @@ import com.moira.itda.domain.account.mypage.dto.request.PasswordUpdateRequest
 import com.moira.itda.domain.account.mypage.dto.request.ProfileImageUpdateRequest
 import com.moira.itda.domain.account.mypage.dto.response.MyPageResponse
 import com.moira.itda.domain.account.mypage.mapper.MyPageMapper
+import com.moira.itda.domain.common.image.mapper.CommonImageMapper
 import com.moira.itda.global.exception.ErrorCode
 import com.moira.itda.global.exception.ItdaException
 import com.moira.itda.global.file.component.AwsS3Handler
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class MyPageService(
     private val awsS3Handler: AwsS3Handler,
+    private val commonImageMapper: CommonImageMapper,
     private val encoder: PasswordEncoder,
     private val logoutService: LogoutService,
     private val mapper: MyPageMapper
@@ -37,15 +39,20 @@ class MyPageService(
      */
     @Transactional
     fun updateProfileImage(userId: String, request: ProfileImageUpdateRequest) {
-        // [1] 기존 프로필 사진 URL 조회
+        // [1] 유효성 검사
+        if (!commonImageMapper.selectFileIdChk(fileId = request.fileId)) {
+            throw ItdaException(ErrorCode.FILE_NOT_FOUND)
+        }
+
+        // [2] 기존 프로필 사진 URL 조회
         val currentImageUrl = mapper.selectCurrentFileUrl(userId = userId)
 
-        // [2] 기존 프로필 사진 삭제 (AWS S3)
+        // [3] 기존 프로필 사진 삭제 (AWS S3)
         if (currentImageUrl != null) {
             awsS3Handler.delete(fileUrl = currentImageUrl)
         }
 
-        // [3] 파일 ID 수정
+        // [4] 파일 ID 수정
         mapper.updateFileId(userId = userId, newFileId = request.fileId)
     }
 
