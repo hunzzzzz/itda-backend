@@ -1,7 +1,7 @@
-package com.moira.itda.domain.admin_gacha.mapper
+package com.moira.itda.domain.admin.gacha.mapper
 
-import com.moira.itda.domain.admin_gacha.dto.response.AdminGachaItemResponse
-import com.moira.itda.domain.admin_gacha.dto.response.AdminGachaResponse
+import com.moira.itda.domain.admin.gacha.dto.response.AdminGachaItemResponse
+import com.moira.itda.domain.admin.gacha.dto.response.AdminGachaResponse
 import com.moira.itda.global.entity.Gacha
 import com.moira.itda.global.entity.GachaItem
 import org.apache.ibatis.annotations.Mapper

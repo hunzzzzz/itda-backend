@@ -1,12 +1,12 @@
-package com.moira.itda.domain.admin_gacha.controller
+package com.moira.itda.domain.admin.gacha.controller
 
-import com.moira.itda.domain.admin_gacha.dto.request.AdminGachaAddRequest
-import com.moira.itda.domain.admin_gacha.dto.request.AdminGachaItemAddRequest
-import com.moira.itda.domain.admin_gacha.dto.request.AdminGachaItemUpdateRequest
-import com.moira.itda.domain.admin_gacha.dto.request.AdminGachaUpdateRequest
-import com.moira.itda.domain.admin_gacha.dto.response.AdminGachaItemResponse
-import com.moira.itda.domain.admin_gacha.dto.response.AdminGachaResponse
-import com.moira.itda.domain.admin_gacha.service.AdminGachaService
+import com.moira.itda.domain.admin.gacha.dto.request.AdminGachaAddRequest
+import com.moira.itda.domain.admin.gacha.dto.request.AdminGachaItemAddRequest
+import com.moira.itda.domain.admin.gacha.dto.request.AdminGachaItemUpdateRequest
+import com.moira.itda.domain.admin.gacha.dto.request.AdminGachaUpdateRequest
+import com.moira.itda.domain.admin.gacha.dto.response.AdminGachaItemResponse
+import com.moira.itda.domain.admin.gacha.dto.response.AdminGachaResponse
+import com.moira.itda.domain.admin.gacha.service.AdminGachaService
 import com.moira.itda.global.auth.aop.IsAdmin
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity

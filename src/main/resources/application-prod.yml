@@ -19,8 +19,8 @@ logging:
     com.moira.itda.domain.account.login.mapper: DEBUG
     com.moira.itda.domain.account.logout.mapper: DEBUG
     com.moira.itda.domain.account.signup.mapper: DEBUG
+    com.moira.itda.domain.admin.gacha.mapper: DEBUG
     com.moira.itda.domain.admin.support.mapper: DEBUG
-    com.moira.itda.domain.admin_gacha.mapper: DEBUG
     com.moira.itda.domain.admin_user.mapper: DEBUG
     com.moira.itda.domain.admin_user_report.mapper: DEBUG
     com.moira.itda.domain.chat_room.mapper: DEBUG
@@ -30,8 +30,8 @@ logging:
     com.moira.itda.domain.gacha.common.mapper: DEBUG
     com.moira.itda.domain.gacha.detail.mapper: DEBUG
     com.moira.itda.domain.gacha.list.mapper: DEBUG
+    com.moira.itda.domain.gacha.pick.mapper: DEBUG
     com.moira.itda.domain.gacha_trade_list.mapper: DEBUG
-    com.moira.itda.domain.gacha_pick.mapper: DEBUG
     com.moira.itda.domain.notification.mapper: DEBUG
     com.moira.itda.domain.suggest.mapper: DEBUG
     com.moira.itda.domain.suggest_list.mapper: DEBUG

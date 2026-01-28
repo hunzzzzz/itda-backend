@@ -1,4 +1,4 @@
-package com.moira.itda.domain.gacha_pick.mapper
+package com.moira.itda.domain.gacha.pick.mapper
 
 import com.moira.itda.global.entity.GachaPickHistory
 import org.apache.ibatis.annotations.Mapper

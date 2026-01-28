@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.moira.itda.domain.gacha_pick.mapper.GachaPickMapper">
+<mapper namespace="com.moira.itda.domain.gacha.pick.mapper.GachaPickMapper">
     <!-- 가챠이력 저장 > 기존 GachaPickHistory 삭제 -->
     <delete id="deleteGachaPickHistory">
         DELETE FROM GACHA_PICK_HISTORY

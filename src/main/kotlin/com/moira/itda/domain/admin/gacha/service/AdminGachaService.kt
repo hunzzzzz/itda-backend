@@ -1,12 +1,12 @@
-package com.moira.itda.domain.admin_gacha.service
+package com.moira.itda.domain.admin.gacha.service
 
-import com.moira.itda.domain.admin_gacha.dto.request.AdminGachaAddRequest
-import com.moira.itda.domain.admin_gacha.dto.request.AdminGachaItemAddRequest
-import com.moira.itda.domain.admin_gacha.dto.request.AdminGachaItemUpdateRequest
-import com.moira.itda.domain.admin_gacha.dto.request.AdminGachaUpdateRequest
-import com.moira.itda.domain.admin_gacha.dto.response.AdminGachaItemResponse
-import com.moira.itda.domain.admin_gacha.dto.response.AdminGachaResponse
-import com.moira.itda.domain.admin_gacha.mapper.AdminGachaMapper
+import com.moira.itda.domain.admin.gacha.dto.request.AdminGachaAddRequest
+import com.moira.itda.domain.admin.gacha.dto.request.AdminGachaItemAddRequest
+import com.moira.itda.domain.admin.gacha.dto.request.AdminGachaItemUpdateRequest
+import com.moira.itda.domain.admin.gacha.dto.request.AdminGachaUpdateRequest
+import com.moira.itda.domain.admin.gacha.dto.response.AdminGachaItemResponse
+import com.moira.itda.domain.admin.gacha.dto.response.AdminGachaResponse
+import com.moira.itda.domain.admin.gacha.mapper.AdminGachaMapper
 import com.moira.itda.global.entity.Gacha
 import com.moira.itda.global.entity.GachaItem
 import com.moira.itda.global.exception.ErrorCode

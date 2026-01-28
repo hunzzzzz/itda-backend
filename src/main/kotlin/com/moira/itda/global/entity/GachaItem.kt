@@ -1,6 +1,6 @@
 package com.moira.itda.global.entity
 
-import com.moira.itda.domain.admin_gacha.dto.request.AdminGachaItemAddRequest
+import com.moira.itda.domain.admin.gacha.dto.request.AdminGachaItemAddRequest
 import java.time.ZonedDateTime
 
 data class GachaItem(

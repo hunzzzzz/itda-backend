@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.moira.itda.domain.admin_gacha.mapper.AdminGachaMapper">
+<mapper namespace="com.moira.itda.domain.admin.gacha.mapper.AdminGachaMapper">
     <!-- 가챠 등록 > 파일 개수 조회 -->
     <select id="selectImageFileCnt">
         SELECT COUNT(id) FROM IMAGE_FILE WHERE file_id = #{fileId}
@@ -52,7 +52,7 @@
     </insert>
 
     <!-- 가챠 목록 조회 -->
-    <select id="selectGachaList" resultType="com.moira.itda.domain.admin_gacha.dto.response.AdminGachaResponse">
+    <select id="selectGachaList" resultType="com.moira.itda.domain.admin.gacha.dto.response.AdminGachaResponse">
         SELECT DISTINCT
                G.id AS gachaId
              , G.status
@@ -81,7 +81,7 @@
     </select>
 
     <!-- 가챠아이템 목록 조회 -->
-    <select id="selectGachaItemList" resultType="com.moira.itda.domain.admin_gacha.dto.response.AdminGachaItemResponse">
+    <select id="selectGachaItemList" resultType="com.moira.itda.domain.admin.gacha.dto.response.AdminGachaItemResponse">
         SELECT
                id AS gachaItemId
              , name

@@ -1,4 +1,4 @@
-package com.moira.itda.domain.admin_gacha.dto.request
+package com.moira.itda.domain.admin.gacha.dto.request
 
 data class AdminGachaAddRequest(
     val title: String,

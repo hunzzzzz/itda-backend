@@ -1,7 +1,7 @@
-package com.moira.itda.domain.gacha_pick.controller
+package com.moira.itda.domain.gacha.pick.controller
 
-import com.moira.itda.domain.gacha_pick.dto.request.GachaPickRequest
-import com.moira.itda.domain.gacha_pick.service.GachaPickService
+import com.moira.itda.domain.gacha.pick.dto.request.PickRequest
+import com.moira.itda.domain.gacha.pick.service.GachaPickService
 import com.moira.itda.global.auth.aop.UserPrincipal
 import com.moira.itda.global.auth.dto.UserAuth
 import org.springframework.http.ResponseEntity
@@ -10,9 +10,6 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 
-/**
- * 가챠이력 저장 모달
- */
 @RestController
 class GachaPickController(
     private val service: GachaPickService
@@ -24,7 +21,7 @@ class GachaPickController(
     fun pick(
         @UserPrincipal userAuth: UserAuth,
         @PathVariable gachaId: String,
-        @RequestBody request: GachaPickRequest
+        @RequestBody request: PickRequest
     ): ResponseEntity<Nothing?> {
         service.pick(userId = userAuth.userId, gachaId = gachaId, request = request)
 
