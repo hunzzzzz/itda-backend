@@ -28,7 +28,7 @@ class UserSupportService(
             .onFailure { throw ItdaException(ErrorCode.INVALID_USER_SUPPORT_TYPE) }
 
         // 파일
-        if (request.fileId != null) {
+        if (!request.fileId.isNullOrBlank()) {
             if (!commonImageMapper.selectFileIdChk(fileId = request.fileId)) {
                 throw ItdaException(ErrorCode.FILE_NOT_FOUND)
             }
