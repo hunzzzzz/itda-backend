@@ -1,6 +1,7 @@
 package com.moira.itda.domain.trade.temp.mapper
 
 import com.moira.itda.domain.trade.add.dto.request.TradeCommonRequest
+import com.moira.itda.domain.trade.temp.dto.response.TradeDetailResponse
 import com.moira.itda.global.entity.Trade
 import com.moira.itda.global.entity.TradeItem
 import org.apache.ibatis.annotations.Mapper
@@ -17,7 +18,7 @@ interface TradeMapper {
     /**
      * 가챠정보 > 가챠목록 > 상세정보 > 거래수정 > 거래 정보 조회
      */
-    fun selectTradeDetail(tradeId: String): com.moira.itda.domain.trade.temp.dto.response.TradeDetailResponse
+//    fun selectTradeDetail(tradeId: String): TradeDetailResponse
 
     /**
      * 가챠정보 > 가챠목록 > 상세정보 > 거래수정 > Trade 조회
@@ -73,19 +74,4 @@ interface TradeMapper {
      * 가챠정보 > 가챠목록 > 상세정보 > 거래삭제 > Trade의 status를 DELETED로 변경
      */
     fun updateTradeStatusDeleted(tradeId: String)
-
-    /**
-     * 내 활동 > 내 거래 목록 조회 > totalElements 계산
-     */
-    fun selectMyTradeListCnt(userId: String, type: String): Long
-
-    /**
-     * 내 활동 > 내 거래 목록 조회
-     */
-    fun selectMyTradeList(
-        userId: String,
-        type: String,
-        pageSize: Int,
-        offset: Int
-    ): List<com.moira.itda.domain.trade.temp.dto.response.TradeResponse>
 }

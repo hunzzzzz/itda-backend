@@ -5,27 +5,19 @@ import com.moira.itda.domain.trade.temp.component.TradeValidator
 import com.moira.itda.domain.trade.temp.dto.request.ExchangeUpdateRequest
 import com.moira.itda.domain.trade.temp.dto.request.SalesUpdateRequest
 import com.moira.itda.domain.trade.temp.dto.request.TradeUpdateRequest
-import com.moira.itda.domain.trade.temp.dto.response.TradeContentResponse
-import com.moira.itda.domain.trade.temp.dto.response.TradeDetailContentResponse
-import com.moira.itda.domain.trade.temp.dto.response.TradeItemResponse
-import com.moira.itda.domain.trade.temp.dto.response.TradePageResponse
 import com.moira.itda.domain.trade.temp.mapper.TradeMapper
 import com.moira.itda.global.entity.Trade
 import com.moira.itda.global.entity.TradeItem
-import com.moira.itda.global.entity.TradeItemType
 import com.moira.itda.global.entity.TradeType
 import com.moira.itda.global.exception.ErrorCode
 import com.moira.itda.global.exception.ItdaException
 import com.moira.itda.global.file.component.AwsS3Handler
-import com.moira.itda.global.pagination.component.OffsetPaginationHandler
-import com.moira.itda.global.pagination.component.PageSizeConstant.Companion.MY_TRADE_LIST_PAGE_SIZE
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
 class TradeService(
     private val commonImageMapper: CommonImageMapper,
-    private val offsetPaginationHandler: OffsetPaginationHandler,
     private val mapper: TradeMapper,
     private val s3Handler: AwsS3Handler,
     private val validator: TradeValidator
@@ -33,24 +25,24 @@ class TradeService(
     /**
      * 가챠정보 > 가챠목록 > 상세정보 > 거래수정 > 거래 정보 조회
      */
-    @Transactional(readOnly = true)
-    fun getTrade(tradeId: String): TradeDetailContentResponse {
-        // [1] Trade 조회
-        val trade = mapper.selectTradeDetail(tradeId = tradeId)
-
-        // [2] 이미지 파일 URL 리스트 조회
-        trade.fileUrlList = commonImageMapper.selectImageFileUrl(fileId = trade.fileId).map { it.fileUrl }
-
-        // [3] TradeItem 리스트 조회
-        val itemList = emptyList<TradeItemResponse>() // TODO
-//            mapper.selectTradeItemList(tradeId = tradeId)
-
-        // [4] DTO 병합 후 리턴
-        return TradeDetailContentResponse(
-            trade = trade,
-            itemList = itemList
-        )
-    }
+//    @Transactional(readOnly = true)
+//    fun getTrade(tradeId: String): TradeDetailContentResponse {
+//        // [1] Trade 조회
+//        val trade = mapper.selectTradeDetail(tradeId = tradeId)
+//
+//        // [2] 이미지 파일 URL 리스트 조회
+//        trade.fileUrlList = commonImageMapper.selectImageFileUrl(fileId = trade.fileId).map { it.fileUrl }
+//
+//        // [3] TradeItem 리스트 조회
+//        val itemList = emptyList() // TODO
+////            mapper.selectTradeItemList(tradeId = tradeId)
+//
+//        // [4] DTO 병합 후 리턴
+//        return TradeDetailContentResponse(
+//            trade = trade,
+//            itemList = itemList
+//        )
+//    }
 
     /**
      * 가챠정보 > 가챠목록 > 상세정보 > 교환수정 (공통)
@@ -183,54 +175,5 @@ class TradeService(
             // [5-2] Trade 삭제 처리 (status: DELETED)
             mapper.updateTradeStatusDeleted(tradeId = tradeId)
         }
-    }
-
-    /**
-     * 내 활동 > 내 거래 목록 조회
-     */
-    @Transactional(readOnly = true)
-    fun getMyTradeList(
-        userId: String,
-        page: Int,
-        type: String
-    ): TradePageResponse {
-        // [1] 유효성 검사
-        kotlin.runCatching { TradeItemType.valueOf(type) }
-            .onFailure { throw ItdaException(ErrorCode.INVALID_TRADE_TYPE) }
-
-        // [2] 변수 세팅
-        val pageSize = MY_TRADE_LIST_PAGE_SIZE
-        val offset = offsetPaginationHandler.getOffset(page = page, pageSize = pageSize)
-
-        // [3] 거래 목록 조회
-        val totalElements = mapper.selectMyTradeListCnt(userId = userId, type = type)
-        val tradeList = mapper.selectMyTradeList(
-            userId = userId,
-            type = type,
-            pageSize = pageSize,
-            offset = offset
-        )
-
-        // [4] 하위 교환/판매 목록 조회
-        val contents = tradeList.map { trade ->
-            TradeContentResponse(
-                trade = trade,
-                items = emptyList<TradeItemResponse>() // TODO
-//                    mapper.selectTradeItemList(tradeId = trade.tradeId)
-            )
-        }
-
-        // [5] 오프셋 기반 페이지네이션 구현
-        val pageResponse = offsetPaginationHandler.getPageResponse(
-            pageSize = pageSize,
-            page = page,
-            totalElements = totalElements
-        )
-
-        // [6] DTO 병합 후 리턴
-        return TradePageResponse(
-            content = contents,
-            page = pageResponse
-        )
     }
 }

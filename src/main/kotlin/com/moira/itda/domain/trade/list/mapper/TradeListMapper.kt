@@ -30,6 +30,22 @@ interface TradeListMapper {
 
     /**
      * 거래목록 조회 > 거래아이템 목록 조회
+     * 내 거래목록 조회 > 거래아이템 목록 조회
      */
     fun selectTradeItemList(tradeId: String): List<TradeItemResponse>
+
+    /**
+     * 내 거래목록 조회 > totalElements 계산
+     */
+    fun selectMyTradeListCnt(userId: String, type: String): Long
+
+    /**
+     * 내 거래목록 조회
+     */
+    fun selectMyTradeList(
+        userId: String,
+        type: String,
+        pageSize: Int,
+        offset: Int
+    ): List<TradeListResponse>
 }

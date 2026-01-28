@@ -271,11 +271,6 @@ enum class ErrorCode(
         message = "이미 승인된 거래제안이 있어 수정/삭제할 수 없습니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
-    INVALID_TRADE_TYPE(
-        code = "T0012",
-        message = "유효하지 않은 거래 종류 파라미터입니다.",
-        httpStatus = HttpStatus.BAD_REQUEST
-    ),
     NO_NEGOTIATION_PRICE(
         code = "T0013",
         message = "네고 희망을 체크한 경우, 네고 희망 가격을 입력해야 합니다.",

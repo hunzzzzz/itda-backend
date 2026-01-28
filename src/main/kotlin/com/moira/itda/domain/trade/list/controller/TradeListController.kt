@@ -2,6 +2,8 @@ package com.moira.itda.domain.trade.list.controller
 
 import com.moira.itda.domain.trade.list.dto.response.TradeListPageResponse
 import com.moira.itda.domain.trade.list.service.TradeListService
+import com.moira.itda.global.auth.aop.UserPrincipal
+import com.moira.itda.global.auth.dto.UserAuth
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -29,6 +31,24 @@ class TradeListController(
             placeId = placeId,
             onlyPending = onlyPending,
             gachaItemId = gachaItemId
+        )
+
+        return ResponseEntity.ok(response)
+    }
+
+    /**
+     * 내 활동 > 내 거래 목록 조회
+     */
+    @GetMapping("/api/me/trade")
+    fun getMyTradeList(
+        @UserPrincipal userAuth: UserAuth,
+        @RequestParam(required = false, defaultValue = "1") page: Int,
+        @RequestParam(required = true, defaultValue = "SALES") type: String
+    ): ResponseEntity<TradeListPageResponse> {
+        val response = service.getMyTradeList(
+            userId = userAuth.userId,
+            page = page,
+            type = type
         )
 
         return ResponseEntity.ok(response)

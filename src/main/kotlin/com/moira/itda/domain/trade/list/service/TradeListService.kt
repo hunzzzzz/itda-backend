@@ -3,8 +3,12 @@ package com.moira.itda.domain.trade.list.service
 import com.moira.itda.domain.trade.list.dto.response.TradeListContentResponse
 import com.moira.itda.domain.trade.list.dto.response.TradeListPageResponse
 import com.moira.itda.domain.trade.list.mapper.TradeListMapper
+import com.moira.itda.global.entity.TradeItemType
+import com.moira.itda.global.exception.ErrorCode
+import com.moira.itda.global.exception.ItdaException
 import com.moira.itda.global.pagination.component.OffsetPaginationHandler
 import com.moira.itda.global.pagination.component.PageSizeConstant.Companion.GACHA_TRADE_LIST_PAGE_SIZE
+import com.moira.itda.global.pagination.component.PageSizeConstant.Companion.MY_TRADE_LIST_PAGE_SIZE
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -58,5 +62,53 @@ class TradeListService(
 
         // [5] DTO 병합 후 리턴
         return TradeListPageResponse(content = contents, page = pageResponse)
+    }
+
+    /**
+     * 내 활동 > 내 거래 목록 조회
+     */
+    @Transactional(readOnly = true)
+    fun getMyTradeList(
+        userId: String,
+        page: Int,
+        type: String
+    ): TradeListPageResponse {
+        // [1] 유효성 검사
+        kotlin.runCatching { TradeItemType.valueOf(type) }
+            .onFailure { throw ItdaException(ErrorCode.FORBIDDEN) }
+
+        // [2] 변수 세팅
+        val pageSize = MY_TRADE_LIST_PAGE_SIZE
+        val offset = pageHandler.getOffset(page = page, pageSize = pageSize)
+
+        // [3] 거래 목록 조회
+        val totalElements = mapper.selectMyTradeListCnt(userId = userId, type = type)
+        val tradeList = mapper.selectMyTradeList(
+            userId = userId,
+            type = type,
+            pageSize = pageSize,
+            offset = offset
+        )
+
+        // [4] 하위 교환/판매 목록 조회
+        val contents = tradeList.map { trade ->
+            TradeListContentResponse(
+                trade = trade,
+                items = mapper.selectTradeItemList(tradeId = trade.tradeId)
+            )
+        }
+
+        // [5] 오프셋 기반 페이지네이션 구현
+        val pageResponse = pageHandler.getPageResponse(
+            pageSize = pageSize,
+            page = page,
+            totalElements = totalElements
+        )
+
+        // [6] DTO 병합 후 리턴
+        return TradeListPageResponse(
+            content = contents,
+            page = pageResponse
+        )
     }
 }
