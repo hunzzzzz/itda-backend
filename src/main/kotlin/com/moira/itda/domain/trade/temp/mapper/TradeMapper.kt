@@ -1,7 +1,6 @@
 package com.moira.itda.domain.trade.temp.mapper
 
 import com.moira.itda.domain.trade.add.dto.request.TradeCommonRequest
-import com.moira.itda.domain.trade.temp.dto.response.TradeDetailResponse
 import com.moira.itda.global.entity.Trade
 import com.moira.itda.global.entity.TradeItem
 import org.apache.ibatis.annotations.Mapper
@@ -14,11 +13,6 @@ interface TradeMapper {
      * 판매등록 > TradeItem 저장
      */
     fun insertTradeItem(tradeItem: TradeItem)
-
-    /**
-     * 가챠정보 > 가챠목록 > 상세정보 > 거래수정 > 거래 정보 조회
-     */
-//    fun selectTradeDetail(tradeId: String): TradeDetailResponse
 
     /**
      * 가챠정보 > 가챠목록 > 상세정보 > 거래수정 > Trade 조회

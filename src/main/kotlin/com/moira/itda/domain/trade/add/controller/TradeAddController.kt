@@ -3,7 +3,7 @@ package com.moira.itda.domain.trade.add.controller
 import com.moira.itda.domain.trade.add.dto.request.ExchangeAddRequest
 import com.moira.itda.domain.trade.add.dto.request.SalesAddRequest
 import com.moira.itda.domain.trade.add.service.TradeAddService
-import com.moira.itda.domain.trade.temp.dto.response.GachaIdResponse
+import com.moira.itda.domain.trade.add.dto.response.GachaIdResponse
 import com.moira.itda.global.auth.aop.UserPrincipal
 import com.moira.itda.global.auth.dto.UserAuth
 import org.springframework.http.HttpStatus

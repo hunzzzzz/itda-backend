@@ -13,16 +13,6 @@ import org.springframework.web.bind.annotation.*
 class TradeController(
     private val service: TradeService
 ) {
-//    /**
-//     * 가챠정보 > 가챠목록 > 상세정보 > 거래수정 > 거래 정보 조회
-//     */
-//    @GetMapping("/api/trades/{tradeId}")
-//    fun getTrade(@PathVariable tradeId: String): ResponseEntity<TradeDetailContentResponse> {
-//        val response = service.getTrade(tradeId = tradeId)
-//
-//        return ResponseEntity.ok(response)
-//    }
-
     /**
      * 가챠정보 > 가챠목록 > 상세정보 > 교환수정
      */

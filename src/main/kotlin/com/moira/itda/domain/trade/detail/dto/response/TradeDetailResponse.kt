@@ -1,4 +1,4 @@
-package com.moira.itda.domain.trade.temp.dto.response
+package com.moira.itda.domain.trade.detail.dto.response
 
 import java.time.ZonedDateTime
 
