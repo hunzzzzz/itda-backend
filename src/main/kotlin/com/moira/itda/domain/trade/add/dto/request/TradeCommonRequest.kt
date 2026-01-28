@@ -1,7 +1,7 @@
 package com.moira.itda.domain.trade.add.dto.request
 
 // 판매, 교환 등록 시 필요한 공통 필드
-interface TradeRequest {
+interface TradeCommonRequest {
     val title: String
     val content: String?
     val fileId: String

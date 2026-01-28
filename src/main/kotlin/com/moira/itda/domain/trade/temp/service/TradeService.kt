@@ -1,8 +1,15 @@
-package com.moira.itda.domain.trade.add.service
+package com.moira.itda.domain.trade.temp.service
 
 import com.moira.itda.domain.common.image.mapper.CommonImageMapper
-import com.moira.itda.domain.trade.add.dto.request.*
-import com.moira.itda.domain.trade.add.dto.response.*
+import com.moira.itda.domain.trade.temp.component.TradeValidator
+import com.moira.itda.domain.trade.temp.dto.request.ExchangeUpdateRequest
+import com.moira.itda.domain.trade.temp.dto.request.SalesUpdateRequest
+import com.moira.itda.domain.trade.temp.dto.request.TradeUpdateRequest
+import com.moira.itda.domain.trade.temp.dto.response.TradeContentResponse
+import com.moira.itda.domain.trade.temp.dto.response.TradeDetailContentResponse
+import com.moira.itda.domain.trade.temp.dto.response.TradeItemResponse
+import com.moira.itda.domain.trade.temp.dto.response.TradePageResponse
+import com.moira.itda.domain.trade.temp.mapper.TradeMapper
 import com.moira.itda.global.entity.Trade
 import com.moira.itda.global.entity.TradeItem
 import com.moira.itda.global.entity.TradeItemType
@@ -19,72 +26,10 @@ import org.springframework.transaction.annotation.Transactional
 class TradeService(
     private val commonImageMapper: CommonImageMapper,
     private val offsetPaginationHandler: OffsetPaginationHandler,
-    private val mapper: com.moira.itda.domain.trade.add.mapper.TradeMapper,
+    private val mapper: TradeMapper,
     private val s3Handler: AwsS3Handler,
-    private val validator: com.moira.itda.domain.trade.add.component.TradeValidator
+    private val validator: TradeValidator
 ) {
-    /**
-     * 교환등록
-     */
-    @Transactional
-    fun exchange(
-        userId: String,
-        gachaId: String,
-        request: ExchangeAddRequest
-    ): GachaIdResponse {
-        // [1] 유효성 검사
-        validator.validateExchangeAdd(request = request)
-
-        // [2] Trade 저장
-        val trade = Trade.from(type = TradeType.EXCHANGE, userId = userId, gachaId = gachaId, request = request)
-        mapper.insertTrade(trade = trade)
-
-        // [3] TradeItem 저장
-        request.items.forEach {
-            val tradeItem = TradeItem.from(tradeId = trade.id, gachaId = gachaId, request = it)
-            mapper.insertTradeItem(tradeItem = tradeItem)
-        }
-
-        // [4] gachaId 리턴
-        return GachaIdResponse(gachaId = gachaId)
-    }
-
-    /**
-     * 판매등록
-     */
-    @Transactional
-    fun sale(
-        userId: String,
-        gachaId: String,
-        request: SalesAddRequest
-    ): GachaIdResponse {
-        // [1] 유효성 검사
-        validator.validateSalesAdd(request = request)
-
-        // [2] Trade 저장
-        val trade = Trade.from(type = TradeType.SALES, userId = userId, gachaId = gachaId, request = request)
-        mapper.insertTrade(trade = trade)
-
-        // [3] TradeItem 저장
-        request.items.forEach {
-            val tradeItem = TradeItem.from(tradeId = trade.id, gachaId = gachaId, request = it)
-            mapper.insertTradeItem(tradeItem = tradeItem)
-        }
-
-        // [4] gachaId 리턴
-        return GachaIdResponse(gachaId = gachaId)
-    }
-
-    /**
-     * 가챠정보 > 가챠목록 > 상세정보 > 거래수정 > 거래 아이템 목록 조회
-     * 가챠정보 > 가챠목록 > 상세정보 > 거래삭제 > 거래 아이템 목록 조회
-     */
-    @Transactional(readOnly = true)
-    fun getTradeItemList(tradeId: String): List<TradeItemResponse> {
-        // [1] TradeItem 목록 조회
-        return mapper.selectTradeItemList(tradeId = tradeId)
-    }
-
     /**
      * 가챠정보 > 가챠목록 > 상세정보 > 거래수정 > 거래 정보 조회
      */
@@ -97,7 +42,8 @@ class TradeService(
         trade.fileUrlList = commonImageMapper.selectImageFileUrl(fileId = trade.fileId).map { it.fileUrl }
 
         // [3] TradeItem 리스트 조회
-        val itemList = mapper.selectTradeItemList(tradeId = tradeId)
+        val itemList = emptyList<TradeItemResponse>() // TODO
+//            mapper.selectTradeItemList(tradeId = tradeId)
 
         // [4] DTO 병합 후 리턴
         return TradeDetailContentResponse(
@@ -269,7 +215,8 @@ class TradeService(
         val contents = tradeList.map { trade ->
             TradeContentResponse(
                 trade = trade,
-                items = mapper.selectTradeItemList(tradeId = trade.tradeId)
+                items = emptyList<TradeItemResponse>() // TODO
+//                    mapper.selectTradeItemList(tradeId = trade.tradeId)
             )
         }
 

@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.moira.itda.domain.trade.temp.mapper.TradeMapper">
+    <!-- 교환등록 > TradeItem 저장 -->
+    <!-- 판매등록 > TradeItem 저장 -->
+    <insert id="insertTradeItem">
+        INSERT INTO TRADE_ITEM (
+               id
+             , trade_id
+             , gacha_id
+             , type
+             , status
+             , created_at
+             , updated_at
+             , sales_item_id
+             , sales_price
+             , exchange_give_item_id
+             , exchange_want_item_id
+        )
+        VALUES (
+               #{id}
+             , #{tradeId}
+             , #{gachaId}
+             , #{type}
+             , #{status}
+             , #{createdAt}
+             , #{updatedAt}
+             , #{salesItemId}
+             , #{salesPrice}
+             , #{exchangeGiveItemId}
+             , #{exchangeWantItemId}
+        )
+    </insert>
+
+    <!-- 가챠정보 > 가챠목록 > 상세정보 > 거래수정 > 거래 정보 조회 -->
+    <select id="selectTradeDetail" resultType="com.moira.itda.domain.trade.temp.dto.response.TradeDetailResponse">
+        SELECT
+               T.id AS trade_id
+             , T.gacha_id
+             , T.type
+             , T.status
+             , T.title
+             , T.content
+             , T.file_id
+             , NULL AS file_url_list
+             , T.hope_method
+             , T.hope_location
+             , T.hope_address
+             , T.hope_location_latitude
+             , T.hope_location_longitude
+             , T.created_at
+        FROM TRADE T
+        WHERE id = #{tradeId}
+    </select>
+
+    <!-- 가챠정보 > 가챠목록 > 상세정보 > 거래수정 > Trade 조회 -->
+    <!-- 가챠정보 > 가챠목록 > 상세정보 > 거래삭제 > Trade 조회 -->
+    <select id="selectTrade" resultType="com.moira.itda.global.entity.Trade">
+        SELECT
+               id
+             , gacha_id
+             , user_id
+             , type
+             , status
+             , title
+             , content
+             , file_id
+             , hope_method
+             , hope_location
+             , hope_address
+             , hope_location_latitude
+             , hope_location_longitude
+             , created_at
+             , updated_at
+        FROM TRADE
+        WHERE id = #{tradeId}
+    </select>
+
+    <!-- 가챠정보 > 가챠목록 > 상세정보 > 거래수정 > APPROVED된 제안 여부 조회 -->
+    <!-- 가챠정보 > 가챠목록 > 상세정보 > 거래삭제 > APPROVED된 제안 여부 조회 -->
+    <select id="selectTradeSuggestApprovedChk">
+        SELECT EXISTS (
+            SELECT 1 FROM TRADE_SUGGEST
+            WHERE trade_item_id = #{tradeItemId} AND status = 'APPROVED'
+        )
+    </select>
+
+    <!-- 가챠정보 > 가챠목록 > 상세정보 > 거래수정 > PENDING 제안 여부 조회 -->
+    <!-- 가챠정보 > 가챠목록 > 상세정보 > 거래삭제 > PENDING 제안 여부 조회 -->
+    <select id="selectTradeSuggestPendingChk">
+        SELECT EXISTS (
+            SELECT 1 FROM TRADE_SUGGEST
+            WHERE trade_item_id = #{tradeItemId} AND status = 'PENDING'
+        )
+    </select>
+
+    <!-- 가챠정보 > 가챠목록 > 상세정보 > 거래수정 > Trade 수정 -->
+    <update id="updateTrade">
+        UPDATE TRADE
+        SET
+               title                   = #{request.title}
+             , content                 = #{request.content}
+             , file_id                 = #{request.fileId}
+             , hope_method             = #{request.hopeMethod}
+             , hope_location           = #{request.hopeLocation}
+             , hope_address            = #{request.hopeAddress}
+             , hope_location_latitude  = #{request.hopeLocationLatitude}
+             , hope_location_longitude = #{request.hopeLocationLongitude}
+             , updated_at              = CURRENT_TIMESTAMP
+        WHERE id = #{tradeId}
+    </update>
+
+    <!-- 가챠정보 > 가챠목록 > 상세정보 > 거래수정 > TradeItem 수정 (교환) -->
+    <update id="updateTradeItemExchange">
+        UPDATE TRADE_ITEM
+        SET
+               exchange_give_item_id = #{request.giveItemId}
+             , exchange_want_item_id = #{request.wantItemId}
+             , updated_at            = CURRENT_TIMESTAMP
+        WHERE id = #{request.tradeItemId}
+    </update>
+
+    <!-- 가챠정보 > 가챠목록 > 상세정보 > 거래수정 > TradeItem 수정 (판매) -->
+    <update id="updateTradeItemSales">
+        UPDATE TRADE_ITEM
+        SET
+               sales_price = #{request.price}
+             , updated_at  = CURRENT_TIMESTAMP
+        WHERE id = #{request.tradeItemId}
+    </update>
+
+    <!-- 가챠정보 > 가챠목록 > 상세정보 > 거래삭제 > TradeItem의 status를 DELETED로 변경 -->
+    <update id="updateTradeItemStatusDeleted">
+        UPDATE TRADE_ITEM
+        SET
+               status     = 'DELETED'
+             , updated_at = CURRENT_TIMESTAMP
+        WHERE id = #{tradeItemId}
+    </update>
+
+    <!-- 가챠정보 > 가챠목록 > 상세정보 > 거래삭제 > status가 DELETED가 아닌 TradeItem 존재 여부 확인 -->
+    <select id="selectTradeItemStatusNotDeletedChk" resultType="java.lang.Boolean">
+        SELECT EXISTS (
+            SELECT 1 FROM TRADE_ITEM
+            WHERE trade_id       = #{tradeId}
+             AND  status        != 'DELETED'
+        )
+    </select>
+
+    <!-- 가챠정보 > 가챠목록 > 상세정보 > 거래삭제 > Trade의 status를 DELETED로 변경 -->
+    <update id="updateTradeStatusDeleted">
+        UPDATE TRADE
+        SET
+               status     = 'DELETED'
+             , updated_at = CURRENT_TIMESTAMP
+        WHERE id = #{tradeId}
+    </update>
+
+    <!-- 내 활동 > 내 거래 목록 조회 > totalElements 계산 -->
+    <select id="selectMyTradeListCnt">
+        SELECT COUNT(id) FROM TRADE WHERE user_id = #{userId} AND type = #{type}
+    </select>
+
+    <!-- 마이페이지 > 내 거래 목록 조회 -->
+    <select id="selectMyTradeList" resultType="com.moira.itda.domain.trade.temp.dto.response.TradeDetailResponse">
+        SELECT
+               T.id AS trade_id
+             , T.gacha_id
+             , T.user_id
+             , '' AS user_nickname
+             , T.type
+             , T.status
+             , T.title
+             , T.content
+             , T.file_id
+             , (SELECT file_url FROM IMAGE_FILE WHERE file_id = T.file_id ORDER BY created_at ASC LIMIT 1) AS file_url
+             , T.hope_method
+             , T.hope_location
+             , T.hope_address
+             , T.hope_location_latitude
+             , T.hope_location_longitude
+             , (
+                   SELECT COUNT(id) FROM TRADE_SUGGEST
+                   WHERE trade_id = T.id
+                    AND status != 'DELETED'
+                    AND status != 'CANCELED_BEFORE_RESPONSE'
+               ) AS suggest_count
+             , T.created_at
+        FROM TRADE T
+        WHERE user_id = #{userId}
+         AND  type    = #{type}
+         AND  status != 'DELETED'
+        ORDER BY created_at DESC
+        LIMIT #{pageSize} OFFSET #{offset}
+    </select>
+</mapper>

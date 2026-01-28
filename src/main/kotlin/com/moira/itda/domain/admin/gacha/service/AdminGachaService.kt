@@ -27,9 +27,9 @@ class AdminGachaService(
         val count = mapper.selectImageFileCnt(fileId = request.fileId)
 
         if (count < 1) {
-            throw ItdaException(ErrorCode.NO_GACHA_IMAGE)
+            throw ItdaException(ErrorCode.FILE_NOT_FOUND)
         } else if (count > 1) {
-            throw ItdaException(ErrorCode.EXCEEDED_GACHA_IMAGE)
+            throw ItdaException(ErrorCode.ONLY_ONE_IMAGE_ALLOWED)
         }
     }
 

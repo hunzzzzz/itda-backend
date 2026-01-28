@@ -9,5 +9,5 @@ data class SalesAddRequest(
     override val hopeAddress: String?,
     override val hopeLocationLatitude: String?,
     override val hopeLocationLongitude: String?,
-    val items: List<com.moira.itda.domain.trade.add.dto.request.SalesItemAddRequest>
-) : com.moira.itda.domain.trade.add.dto.request.TradeRequest
+    val items: List<SalesItemAddRequest>
+) : TradeCommonRequest

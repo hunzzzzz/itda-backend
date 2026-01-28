@@ -1,4 +1,4 @@
-package com.moira.itda.domain.trade.add.dto.request
+package com.moira.itda.domain.trade.temp.dto.request
 
 data class ExchangeItemUpdateRequest(
     val tradeItemId: String,

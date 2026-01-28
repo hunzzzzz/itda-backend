@@ -1,11 +1,6 @@
-package com.moira.itda.domain.trade.add.mapper
+package com.moira.itda.domain.trade.temp.mapper
 
-import com.moira.itda.domain.trade.add.dto.request.ExchangeItemUpdateRequest
-import com.moira.itda.domain.trade.add.dto.request.SalesItemUpdateRequest
-import com.moira.itda.domain.trade.add.dto.request.TradeRequest
-import com.moira.itda.domain.trade.add.dto.response.TradeDetailResponse
-import com.moira.itda.domain.trade.add.dto.response.TradeItemResponse
-import com.moira.itda.domain.trade.add.dto.response.TradeResponse
+import com.moira.itda.domain.trade.add.dto.request.TradeCommonRequest
 import com.moira.itda.global.entity.Trade
 import com.moira.itda.global.entity.TradeItem
 import org.apache.ibatis.annotations.Mapper
@@ -14,27 +9,15 @@ import org.apache.ibatis.annotations.Param
 @Mapper
 interface TradeMapper {
     /**
-     * 교환등록 > Trade 저장
-     * 판매등록 > Trade 저장
-     */
-    fun insertTrade(trade: Trade)
-
-    /**
      * 교환등록 > TradeItem 저장
      * 판매등록 > TradeItem 저장
      */
     fun insertTradeItem(tradeItem: TradeItem)
 
     /**
-     * 가챠정보 > 가챠목록 > 상세정보 > 거래수정 > 거래 아이템 목록 조회
-     * 가챠정보 > 가챠목록 > 상세정보 > 거래삭제 > 거래 아이템 목록 조회
-     */
-    fun selectTradeItemList(tradeId: String): List<com.moira.itda.domain.trade.add.dto.response.TradeItemResponse>
-
-    /**
      * 가챠정보 > 가챠목록 > 상세정보 > 거래수정 > 거래 정보 조회
      */
-    fun selectTradeDetail(tradeId: String): com.moira.itda.domain.trade.add.dto.response.TradeDetailResponse
+    fun selectTradeDetail(tradeId: String): com.moira.itda.domain.trade.temp.dto.response.TradeDetailResponse
 
     /**
      * 가챠정보 > 가챠목록 > 상세정보 > 거래수정 > Trade 조회
@@ -59,21 +42,21 @@ interface TradeMapper {
      */
     fun updateTrade(
         @Param("tradeId") tradeId: String,
-        @Param("request") request: com.moira.itda.domain.trade.add.dto.request.TradeRequest
+        @Param("request") request: TradeCommonRequest
     )
 
     /**
      * 가챠정보 > 가챠목록 > 상세정보 > 거래수정 > TradeItem 수정 (교환)
      */
     fun updateTradeItemExchange(
-        @Param("request") request: com.moira.itda.domain.trade.add.dto.request.ExchangeItemUpdateRequest
+        @Param("request") request: com.moira.itda.domain.trade.temp.dto.request.ExchangeItemUpdateRequest
     )
 
     /**
      * 가챠정보 > 가챠목록 > 상세정보 > 거래수정 > TradeItem 수정 (판매)
      */
     fun updateTradeItemSales(
-        @Param("request") request: com.moira.itda.domain.trade.add.dto.request.SalesItemUpdateRequest
+        @Param("request") request: com.moira.itda.domain.trade.temp.dto.request.SalesItemUpdateRequest
     )
 
     /**
@@ -99,5 +82,10 @@ interface TradeMapper {
     /**
      * 내 활동 > 내 거래 목록 조회
      */
-    fun selectMyTradeList(userId: String, type: String, pageSize: Int, offset: Int): List<com.moira.itda.domain.trade.add.dto.response.TradeResponse>
+    fun selectMyTradeList(
+        userId: String,
+        type: String,
+        pageSize: Int,
+        offset: Int
+    ): List<com.moira.itda.domain.trade.temp.dto.response.TradeResponse>
 }

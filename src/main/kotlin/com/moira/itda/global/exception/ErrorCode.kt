@@ -224,48 +224,33 @@ enum class ErrorCode(
     ),
     FILE_NOT_FOUND(
         code = "F0006",
-        message = "이미지 파일이 존재하지 않습니다. 파일 ID를 다시 확인해주세요.",
+        message = "유효하지 않은 이미지 파일입니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
-
-    // 가챠 관련 에러코드
-    NO_GACHA_IMAGE(
-        code = "G001",
-        message = "존재하지 않는 이미지 파일 ID입니다.",
-        httpStatus = HttpStatus.BAD_REQUEST
-    ),
-    EXCEEDED_GACHA_IMAGE(
-        code = "G002",
-        message = "가챠 등록 시, 최대 1개의 이미지 파일만 업로드할 수 있습니다.",
+    ONLY_ONE_IMAGE_ALLOWED(
+        code = "F007",
+        message = "1장의 이미지 파일만 업로드할 수 있습니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
 
     // 거래 관련 에러코드
-    NO_TRADE_TITLE(
-        code = "T0001",
-        message = "거래 제목은 필수 입력 항목입니다.",
+    SAME_EXCHANGE_ITEMS(
+        code = "T001",
+        message = "동일한 아이템끼리 교환할 수 없습니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
-    NO_TRADE_FILE_ID(
-        code = "T0002",
-        message = "거래 이미지 파일 정보는 필수 입력 항목입니다.",
+    INVALID_SALES_PRICE(
+        code = "T002",
+        message = "유효하지 않은 판매 가격입니다. 가격은 0 혹은 음수가 될 수 없으며, 10원 단위에서 절삭해야 합니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
-    INVALID_TRADE_HOPE_METHOD(
-        code = "T0003",
-        message = "유효하지 않은 거래 희망 방법입니다.",
+    INVALID_TRADE_ADDRESS_INFO(
+        code = "T003",
+        message = "잘못된 위치 정보입니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
-    NO_TRADE_ITEMS(
-        code = "T0004",
-        message = "거래 아이템 정보가 없습니다.",
-        httpStatus = HttpStatus.BAD_REQUEST
-    ),
-    INVALID_TRADE_PRICE(
-        code = "T0005",
-        message = "유효하지 않은 거래 가격입니다. 거래 가격은 0 혹은 음수가 될 수 없으며, 10원 단위에서 절삭해야 합니다.",
-        httpStatus = HttpStatus.BAD_REQUEST
-    ),
+
+
     TRADE_NOT_FOUND(
         code = "T0006",
         message = "잘못된 거래 정보입니다. 새로고침 후 다시 시도해주세요.",
@@ -321,11 +306,7 @@ enum class ErrorCode(
         message = "현재 진행 중인 거래제안이 있어 수정/삭제할 수 없습니다. 해당 제안을 거절한 후 수정/삭제가 가능합니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
-    SAME_EXCHANGE_ITEMS(
-        code = "T0019",
-        message = "동일한 아이템끼리 교환할 수 없습니다.",
-        httpStatus = HttpStatus.BAD_REQUEST
-    ),
+
     CANNOT_CANCEL_APPROVED_SUGGEST(
         code = "T0020",
         message = "이미 승인된 거래제안은 취소할 수 없습니다.",
