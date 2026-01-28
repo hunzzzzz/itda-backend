@@ -31,11 +31,11 @@ logging:
     com.moira.itda.domain.gacha.detail.mapper: DEBUG
     com.moira.itda.domain.gacha.list.mapper: DEBUG
     com.moira.itda.domain.gacha.pick.mapper: DEBUG
-    com.moira.itda.domain.gacha_trade_list.mapper: DEBUG
     com.moira.itda.domain.notification.mapper: DEBUG
     com.moira.itda.domain.suggest.mapper: DEBUG
     com.moira.itda.domain.suggest_list.mapper: DEBUG
-    com.moira.itda.domain.trade.mapper: DEBUG
+    com.moira.itda.domain.trade.add.mapper: DEBUG
+    com.moira.itda.domain.trade.list.mapper: DEBUG
     com.moira.itda.domain.trade_target.mapper: DEBUG
     com.moira.itda.domain.trade_user_report.mapper: DEBUG
     com.moira.itda.domain.user.mypage.mapper: DEBUG

@@ -1,6 +1,6 @@
 package com.moira.itda.global.entity
 
-import com.moira.itda.domain.trade.dto.request.TradeRequest
+import com.moira.itda.domain.trade.add.dto.request.TradeRequest
 import java.time.ZonedDateTime
 import java.util.*
 
@@ -22,7 +22,7 @@ data class Trade(
     val updatedAt: ZonedDateTime
 ) {
     companion object {
-        fun fromRequest(type: TradeType, userId: String, gachaId: String, request: TradeRequest): Trade {
+        fun from(type: TradeType, userId: String, gachaId: String, request: TradeRequest): Trade {
             return Trade(
                 id = UUID.randomUUID().toString(),
                 gachaId = gachaId,
