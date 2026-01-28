@@ -26,11 +26,11 @@ class NotificationManager(
     )
 
     /**
-     * 알림 전송 전, 유저 피드백 정보를 추출하기 위한 DTO 클래스
+     * 알림 전송 전, 유저 문의 정보를 추출하기 위한 DTO 클래스
      */
-    data class NotificationFeedbackSourceDto(
+    data class NotificationSupportSourceDto(
         val receiverId: String,
-        val feedbackTitle: String
+        val supportTitle: String
     )
 
     /**
@@ -88,16 +88,16 @@ class NotificationManager(
     }
 
     /**
-     * [내부 메서드] 유저 피드백 정보 조회 및 추출
+     * [내부 메서드] 유저 문의 정보 조회 및 추출
      */
-    private fun extractFeedbackInfo(infoMap: HashMap<String, String?>): NotificationFeedbackSourceDto? {
+    private fun extractSupportInfo(infoMap: HashMap<String, String?>): NotificationSupportSourceDto? {
         val receiverId = infoMap["receiver_id"]
-        val feedbackTitle = infoMap["feedback_title"]
+        val supportTitle = infoMap["support_title"]
 
-        if (receiverId != null && feedbackTitle != null) {
-            return NotificationFeedbackSourceDto(
+        if (receiverId != null && supportTitle != null) {
+            return NotificationSupportSourceDto(
                 receiverId = receiverId,
-                feedbackTitle = feedbackTitle
+                supportTitle = supportTitle
             )
         } else {
             this.errorLog()
@@ -199,21 +199,21 @@ class NotificationManager(
     }
 
     /**
-     * 알림 전송 (피드백 답변)
+     * 알림 전송 (문의 답변)
      */
     @Async
-    fun sendFeedbackAnswerNotification(senderId: String, feedbackId: Long) {
+    fun sendUserSupportAnswerNotification(senderId: String, supportId: Long) {
         // [1] 알림 전송을 위한 정보 조회
-        val infoMap = mapper.selectFeedbackNotificationInfo(feedbackId = feedbackId)
-        val sourceDto = this.extractFeedbackInfo(infoMap)
+        val infoMap = mapper.sendSupportNotificationInfo(supportId = supportId)
+        val sourceDto = this.extractSupportInfo(infoMap)
 
         // [2] 알림 전송 메서드 호출
         sourceDto?.let {
             NotificationDto(
                 receiverId = it.receiverId,
                 senderId = senderId,
-                type = NotificationType.FEEDBACK_ANSWERED,
-                content = "[문의사항 답변]\n'${it.feedbackTitle}' 문의사항에 대한 관리자의 답변이 등록되었습니다.",
+                type = NotificationType.SUPPORT_ANSWERED,
+                content = "[문의사항 답변]\n'${it.supportTitle}' 문의사항에 대한 관리자의 답변이 등록되었습니다.",
                 targetId = null // 알림을 받은 유저의 '문의 목록' 페이지로 넘어가기 때문에 targetId 불필요
             )
         }?.let { this.send(dto = it) }

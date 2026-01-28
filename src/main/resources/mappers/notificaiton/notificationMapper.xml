@@ -110,12 +110,12 @@
         WHERE CR.id = #{chatRoomId}
     </select>
 
-    <!-- 피드백 답변 알림 전송 > 피드백 정보 조회 -->
-    <select id="selectFeedbackNotificationInfo" resultType="java.util.HashMap">
+    <!-- 문의 답변 알림 전송 > 문의 정보 조회 -->
+    <select id="sendSupportNotificationInfo" resultType="java.util.HashMap">
         SELECT
                user_id                          AS receiver_id
-             , CONCAT(LEFT(content, 20), '...') AS feedback_title
-        FROM USER_FEEDBACK
-        WHERE id = #{feedbackId}
+             , CONCAT(LEFT(content, 20), '...') AS support_title
+        FROM USER_SUPPORT
+        WHERE id = #{supportId}
     </select>
 </mapper>

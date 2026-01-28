@@ -48,7 +48,7 @@ interface NotificationMapper {
     fun selectChatRoomNotificationInfo(senderId: String, chatRoomId: String): HashMap<String, String?>
 
     /**
-     * 피드백 답변 알림 전송 > 피드백 정보 조회
+     * 문의 답변 알림 전송 > 문의 정보 조회
      */
-    fun selectFeedbackNotificationInfo(feedbackId: Long): HashMap<String, String?>
+    fun sendSupportNotificationInfo(supportId: Long): HashMap<String, String?>
 }

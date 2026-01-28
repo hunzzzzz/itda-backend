@@ -6,5 +6,5 @@ enum class NotificationType {
     SUGGEST_REJECTED,
     TRADE_COMPLETED,
     TRADE_CANCELED,
-    FEEDBACK_ANSWERED
+    SUPPORT_ANSWERED
 }

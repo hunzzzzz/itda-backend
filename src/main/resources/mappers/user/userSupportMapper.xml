@@ -36,17 +36,18 @@
     <!-- 문의 목록 조회 -->
     <select id="selectUserSupportList" resultType="com.moira.itda.domain.user.support.dto.response.SupportResponse">
         SELECT
-               F.user_id
-             , F.type
-             , F.content
-             , F.file_id
+               US.id AS support_id
+             , US.user_id
+             , US.type
+             , US.content
+             , US.file_id
              , NULL AS file_urls
-             , F.created_at
-             , F.answer_content
-             , F.answered_at
-        FROM USER_SUPPORT F
-        WHERE F.user_id = #{userId}
-        ORDER BY F.created_at DESC
+             , US.created_at
+             , US.answer_content
+             , US.answered_at
+        FROM USER_SUPPORT US
+        WHERE US.user_id = #{userId}
+        ORDER BY US.created_at DESC
         LIMIT #{pageSize} OFFSET #{offset}
     </select>
 </mapper>

@@ -19,9 +19,9 @@ logging:
     com.moira.itda.domain.account.login.mapper: DEBUG
     com.moira.itda.domain.account.logout.mapper: DEBUG
     com.moira.itda.domain.account.signup.mapper: DEBUG
+    com.moira.itda.domain.admin.support.mapper: DEBUG
     com.moira.itda.domain.admin_gacha.mapper: DEBUG
     com.moira.itda.domain.admin_user.mapper: DEBUG
-    com.moira.itda.domain.admin_user_feedback.mapper: DEBUG
     com.moira.itda.domain.admin_user_report.mapper: DEBUG
     com.moira.itda.domain.chat_room.mapper: DEBUG
     com.moira.itda.domain.common.identify.mapper: DEBUG

@@ -1,9 +1,9 @@
-package com.moira.itda.domain.admin_user_support.dto.response
+package com.moira.itda.domain.admin.support.dto.response
 
 import java.time.ZonedDateTime
 
-data class AdminUserFeedbackResponse(
-    val feedbackId: Long,
+data class SupportResponse(
+    val supportId: Long,
     val userId: String,
     val userNickname: String,
     val type: String,

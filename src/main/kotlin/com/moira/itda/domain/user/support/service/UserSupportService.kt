@@ -57,7 +57,7 @@ class UserSupportService(
         val pageSize = MY_SUPPORT_LIST_PAGE_SIZE
         val offset = pageHandler.getOffset(page = page, pageSize = pageSize)
 
-        // [2] 피드백 목록 조회
+        // [2] 문의 목록 조회
         val totalElements = mapper.selectUserSupportListCnt(userId = userId)
         val contents = mapper.selectUserSupportList(userId = userId, pageSize = pageSize, offset = offset)
 
