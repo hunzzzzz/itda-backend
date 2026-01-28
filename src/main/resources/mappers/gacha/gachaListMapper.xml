@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.moira.itda.domain.gacha_list.mapper.GachaListMapper">
+<mapper namespace="com.moira.itda.domain.gacha.list.mapper.GachaListMapper">
     <!-- 가챠목록 조회 > totalElements 계산 -->
     <select id="selectGachaListCnt">
         SELECT COUNT(G.id)
@@ -31,7 +31,7 @@
     </select>
 
     <!-- 가챠목록 조회 -->
-    <select id="selectGachaList" resultType="com.moira.itda.domain.gacha_list.dto.response.GachaListResponse">
+    <select id="selectGachaList" resultType="com.moira.itda.domain.gacha.list.dto.response.GachaListResponse">
         WITH WISH_COUNT AS (
             SELECT
                    gacha_id
