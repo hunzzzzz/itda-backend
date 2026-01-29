@@ -1,9 +1,9 @@
-package com.moira.itda.domain.trade.temp.dto.request
+package com.moira.itda.domain.trade.update.dto.request
 
 import com.moira.itda.domain.trade.add.dto.request.TradeCommonRequest
 
-// 판매, 교환 등록 시 필요한 공통 필드
-interface TradeUpdateRequest : TradeCommonRequest {
+// 판매, 교환 수정 시 필요한 공통 필드
+interface TradeUpdateCommonRequest : TradeCommonRequest {
     override val title: String
     override val content: String?
     override val fileId: String
@@ -13,4 +13,5 @@ interface TradeUpdateRequest : TradeCommonRequest {
     override val hopeLocationLatitude: String?
     override val hopeLocationLongitude: String?
     val imageChangeYn: String
+    val deleteItems: List<String>?
 }

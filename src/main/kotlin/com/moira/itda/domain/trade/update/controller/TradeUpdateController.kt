@@ -1,8 +1,8 @@
-package com.moira.itda.domain.trade.temp.controller
+package com.moira.itda.domain.trade.update.controller
 
-import com.moira.itda.domain.trade.temp.dto.request.ExchangeUpdateRequest
-import com.moira.itda.domain.trade.temp.dto.request.SalesUpdateRequest
-import com.moira.itda.domain.trade.temp.service.TradeService
+import com.moira.itda.domain.trade.update.dto.request.ExchangeUpdateRequest
+import com.moira.itda.domain.trade.update.dto.request.SalesUpdateRequest
+import com.moira.itda.domain.trade.update.service.TradeUpdateService
 import com.moira.itda.global.auth.aop.UserPrincipal
 import com.moira.itda.global.auth.dto.UserAuth
 import org.springframework.http.HttpStatus
@@ -10,13 +10,13 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
-class TradeController(
-    private val service: TradeService
+class TradeUpdateController(
+    private val service: TradeUpdateService
 ) {
     /**
-     * 가챠정보 > 가챠목록 > 상세정보 > 교환수정
+     * 교환수정
      */
-    @PutMapping("/api/trades/{tradeId}/exchange")
+    @PutMapping("/api/trade/{tradeId}/exchange")
     fun updateExchange(
         @UserPrincipal userAuth: UserAuth,
         @PathVariable tradeId: String,
@@ -28,9 +28,9 @@ class TradeController(
     }
 
     /**
-     * 가챠정보 > 가챠목록 > 상세정보 > 판매수정
+     * 판매수정
      */
-    @PutMapping("/api/trades/{tradeId}/sales")
+    @PutMapping("/api/trade/{tradeId}/sales")
     fun updateSales(
         @UserPrincipal userAuth: UserAuth,
         @PathVariable tradeId: String,
@@ -42,9 +42,9 @@ class TradeController(
     }
 
     /**
-     * 가챠정보 > 가챠목록 > 상세정보 > 거래삭제
+     * 거래삭제
      */
-    @DeleteMapping("/api/trades/{tradeId}/items/{tradeItemId}")
+    @DeleteMapping("/api/trade/{tradeId}/items/{tradeItemId}")
     fun delete(
         @UserPrincipal userAuth: UserAuth,
         @PathVariable tradeId: String,

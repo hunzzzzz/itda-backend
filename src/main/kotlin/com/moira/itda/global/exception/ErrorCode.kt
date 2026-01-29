@@ -249,26 +249,31 @@ enum class ErrorCode(
         message = "잘못된 위치 정보입니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
-
-
-    TRADE_NOT_FOUND(
-        code = "T0006",
-        message = "잘못된 거래 정보입니다. 새로고침 후 다시 시도해주세요.",
+    OTHERS_TRADE(
+        code = "T004",
+        message = "다른 유저의 거래글을 수정/삭제할 수 없습니다.",
+        httpStatus = HttpStatus.FORBIDDEN
+    ),
+    PENDING_SUGGEST_EXISTS(
+        code = "T005",
+        message = "현재 진행 중인 거래제안이 있어 수정/삭제할 수 없습니다. 해당 제안을 거절한 후 수정/삭제가 가능합니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
+    APPROVED_SUGGEST_EXISTS(
+        code = "T006",
+        message = "이미 승인된 거래제안이 있어 수정/삭제할 수 없습니다.",
+        httpStatus = HttpStatus.BAD_REQUEST
+    ),
+    COMPLETED_SUGGEST_EXISTS(
+        code = "T007",
+        message = "이미 완료된 거래제안이 있어 수정/삭제할 수 없습니다.",
+        httpStatus = HttpStatus.BAD_REQUEST
+    ),
+
+
     COMPLETED_TRADE(
         code = "T0007",
         message = "이미 완료된 거래는 수정/삭제할 수 없습니다.",
-        httpStatus = HttpStatus.BAD_REQUEST
-    ),
-    OTHERS_TRADE(
-        code = "T0008",
-        message = "다른 유저가 업로드한 거래를 수정/삭제할 수 없습니다.",
-        httpStatus = HttpStatus.FORBIDDEN
-    ),
-    APPROVED_SUGGEST_EXISTS(
-        code = "T0011",
-        message = "이미 승인된 거래제안이 있어 수정/삭제할 수 없습니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
     NO_NEGOTIATION_PRICE(
@@ -296,11 +301,7 @@ enum class ErrorCode(
         message = "이미 해당 거래 상품에 교환제안을 하였습니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
-    PENDING_SUGGEST_EXISTS(
-        code = "T0018",
-        message = "현재 진행 중인 거래제안이 있어 수정/삭제할 수 없습니다. 해당 제안을 거절한 후 수정/삭제가 가능합니다.",
-        httpStatus = HttpStatus.BAD_REQUEST
-    ),
+
 
     CANNOT_CANCEL_APPROVED_SUGGEST(
         code = "T0020",
