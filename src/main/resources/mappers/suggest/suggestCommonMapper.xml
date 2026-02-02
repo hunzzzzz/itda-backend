@@ -9,6 +9,11 @@
         SELECT status FROM TRADE_ITEM where id = #{tradeItemId}
     </select>
 
+    <!-- TradeSuggest 정보 조회 (status, userId) -->
+    <select id="selectTradeSuggestInfo" resultType="java.util.HashMap">
+        SELECT user_id, status FROM TRADE_SUGGEST WHERE id = #{suggestId}
+    </select>
+
     <!-- 구매제안 여부 확인 -->
     <select id="selectTradeSuggestPurchaseChk" resultType="java.lang.Boolean">
         SELECT EXISTS (

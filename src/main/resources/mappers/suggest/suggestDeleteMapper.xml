@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.moira.itda.domain.suggest.delete.mapper.SuggestDeleteMapper">
+    <!-- 제안삭제 > TradeSuggest status 변경 (DELETED) -->
+    <update id="updateTradeSuggestStatusDeleted">
+        UPDATE TRADE_SUGGEST
+        SET
+               status     = 'DELETED'
+             , updated_at = CURRENT_TIMESTAMP
+        WHERE id = #{suggestId}
+    </update>
+</mapper>

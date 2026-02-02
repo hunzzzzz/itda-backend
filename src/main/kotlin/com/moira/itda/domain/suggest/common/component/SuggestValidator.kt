@@ -4,6 +4,7 @@ import com.moira.itda.domain.suggest.add.dto.request.ExchangeSuggestRequest
 import com.moira.itda.domain.suggest.add.dto.request.PurchaseSuggestRequest
 import com.moira.itda.domain.suggest.common.mapper.SuggestCommonMapper
 import com.moira.itda.global.entity.TradeItemStatus
+import com.moira.itda.global.entity.TradeSuggestStatus
 import com.moira.itda.global.exception.ErrorCode
 import com.moira.itda.global.exception.ItdaException
 import org.springframework.stereotype.Component
@@ -12,6 +13,15 @@ import org.springframework.stereotype.Component
 class SuggestValidator(
     private val mapper: SuggestCommonMapper
 ) {
+    /**
+     * 권한 검증
+     */
+    fun validateRole(userId: String, suggestUserId: String) {
+        if (userId != suggestUserId) {
+            throw ItdaException(ErrorCode.FORBIDDEN)
+        }
+    }
+
     /**
      * 네고 가격 검증
      */
@@ -48,7 +58,7 @@ class SuggestValidator(
     }
 
     /**
-     * 제안 여부 조회 확인 (구매)
+     * 제안 여부 조회 검증 (구매 제안시)
      */
     fun validateTradeSuggestChk(userId: String, tradeId: String, tradeItemId: String, purchaseItemId: Long) {
         if (mapper.selectTradeSuggestPurchaseChk(
@@ -63,7 +73,7 @@ class SuggestValidator(
     }
 
     /**
-     * 제안 여부 조회 확인 (교환)
+     * 제안 여부 조회 검증 (교환 제안시)
      */
     fun validateTradeSuggestChk(
         userId: String,
@@ -81,6 +91,49 @@ class SuggestValidator(
             )
         ) {
             throw ItdaException(ErrorCode.ALREADY_SUGGESTED_EXCHANGE)
+        }
+    }
+
+    /**
+     * TradeSuggest 상태값 검증 (취소 시)
+     */
+    fun validateStatusWhenCancelBeforeResponse(suggestStatus: String) {
+        when (suggestStatus) {
+            TradeSuggestStatus.APPROVED.name -> {
+                throw ItdaException(ErrorCode.CANNOT_CANCEL_APPROVED_SUGGEST)
+            }
+
+            TradeSuggestStatus.REJECTED.name -> {
+                throw ItdaException(ErrorCode.CANNOT_CANCEL_REJECTED_SUGGEST)
+            }
+
+            TradeSuggestStatus.CANCELED_BEFORE_RESPONSE.name,
+            TradeSuggestStatus.CANCELED.name -> {
+                throw ItdaException(ErrorCode.ALREADY_CANCELED_SUGGEST)
+            }
+
+            TradeSuggestStatus.DELETED.name -> {
+                throw ItdaException(ErrorCode.FORBIDDEN)
+            }
+        }
+    }
+
+    /**
+     * TradeSuggest 상태값 검증 (삭제 시)
+     */
+    fun validateStatusWhenDelete(suggestStatus: String) {
+        when (suggestStatus) {
+            TradeSuggestStatus.APPROVED.name -> {
+                throw ItdaException(ErrorCode.CANNOT_DELETE_APPROVED_SUGGEST)
+            }
+
+            TradeSuggestStatus.PENDING.name -> {
+                throw ItdaException(ErrorCode.CANNOT_DELETE_PENDING_SUGGEST)
+            }
+
+            TradeSuggestStatus.DELETED.name -> {
+                throw ItdaException(ErrorCode.FORBIDDEN)
+            }
         }
     }
 }

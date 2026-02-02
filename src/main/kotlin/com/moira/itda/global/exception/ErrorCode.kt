@@ -309,48 +309,28 @@ enum class ErrorCode(
         message = "이미 해당 거래 상품에 교환제안을 하였습니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
-
-
-
-
-
     CANNOT_CANCEL_APPROVED_SUGGEST(
-        code = "T0020",
+        code = "T016",
         message = "이미 승인된 거래제안은 취소할 수 없습니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
     CANNOT_CANCEL_REJECTED_SUGGEST(
-        code = "T0021",
+        code = "T017",
         message = "이미 거절된 거래제안은 취소할 수 없습니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
     ALREADY_CANCELED_SUGGEST(
-        code = "T0022",
+        code = "T018",
         message = "이미 취소된 거래제안입니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
-    ALREADY_DELETED_SUGGEST(
-        code = "T0023",
-        message = "이미 삭제된 거래제안입니다.",
-        httpStatus = HttpStatus.FORBIDDEN
-    ),
-    SUGGEST_NOT_FOUND(
-        code = "T0024",
-        message = "잘못된 거래제안 정보입니다. 새로고침 후 다시 시도해주세요.",
-        httpStatus = HttpStatus.BAD_REQUEST
-    ),
-    OTHERS_SUGGEST(
-        code = "T0025",
-        message = "다른 유저의 거래 제안을 수정/삭제할 수 없습니다.",
-        httpStatus = HttpStatus.FORBIDDEN
-    ),
     CANNOT_DELETE_APPROVED_SUGGEST(
-        code = "T0026",
+        code = "T019",
         message = "이미 승인된 거래제안은 삭제할 수 없습니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
     CANNOT_DELETE_PENDING_SUGGEST(
-        code = "T0027",
+        code = "T020",
         message = "제안 취소를 먼저 진행해주세요.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
