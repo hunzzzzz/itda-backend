@@ -1,12 +1,10 @@
 package com.moira.itda.domain.user_activity_suggest.service
 
-import com.moira.itda.domain.user_activity_suggest.dto.response.MyTradeSuggestPageResponse
 import com.moira.itda.domain.user_activity_suggest.mapper.UserActivitySuggestMapper
 import com.moira.itda.global.entity.TradeSuggestStatus
 import com.moira.itda.global.exception.ErrorCode
 import com.moira.itda.global.exception.ItdaException
 import com.moira.itda.global.pagination.component.OffsetPaginationHandler
-import com.moira.itda.global.pagination.component.PageSizeConstant.Companion.MY_TRADE_SUGGEST_LIST_PAGE_SIZE
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -73,34 +71,6 @@ class UserActivitySuggestService(
 
         // [2] 권한에 대한 유효성 검사
         this.validateUserId(userId = userId, suggestUserId = suggestUserId)
-    }
-
-    /**
-     * 내 활동 > 제안 > 내 제안목록 조회
-     */
-    @Transactional(readOnly = true)
-    fun getMySuggestList(userId: String, page: Int): MyTradeSuggestPageResponse {
-        // [1] 변수 세팅
-        val pageSize = MY_TRADE_SUGGEST_LIST_PAGE_SIZE
-        val offset = pageHandler.getOffset(page = page, pageSize = pageSize)
-
-        // [2] 거래 정보 조회
-        val totalElements = mapper.selectMyTradeSuggestListCnt(userId = userId)
-        val content = mapper.selectMyTradeSuggestList(
-            userId = userId,
-            pageSize = pageSize,
-            offset = offset
-        )
-
-        // [3] 오프셋 페이지네이션 적용
-        val pageResponse = pageHandler.getPageResponse(
-            page = page,
-            pageSize = pageSize,
-            totalElements = totalElements
-        )
-
-        // [4] DTO 병합 후 리턴
-        return MyTradeSuggestPageResponse(content = content, page = pageResponse)
     }
 
     /**

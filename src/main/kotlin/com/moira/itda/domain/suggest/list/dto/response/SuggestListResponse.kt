@@ -1,4 +1,4 @@
-package com.moira.itda.domain.suggest_list.dto.response
+package com.moira.itda.domain.suggest.list.dto.response
 
 import java.time.ZonedDateTime
 
@@ -7,6 +7,8 @@ data class SuggestListResponse(
     val suggestId: String,
     val tradeId: String,
     val tradeItemId: String,
+    val fileId: String,
+    val fileUrl: String,
     val gachaId: String,
     val type: String,
     val status: String,

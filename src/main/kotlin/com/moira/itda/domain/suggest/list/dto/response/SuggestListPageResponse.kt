@@ -1,4 +1,4 @@
-package com.moira.itda.domain.suggest_list.dto.response
+package com.moira.itda.domain.suggest.list.dto.response
 
 import com.moira.itda.global.pagination.dto.PageResponse
 

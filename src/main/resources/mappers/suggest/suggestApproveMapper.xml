@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.moira.itda.domain.suggest_list.mapper.SuggestApproveMapper">
+    <!-- 제안목록 조회 > totalElements 계산 -->
+    <select id="selectTradeSuggestListCnt">
+        SELECT COUNT(id) FROM TRADE_SUGGEST
+        WHERE trade_id = #{tradeId}
+    </select>
+
+    <!-- 제안목록 조회 -->
+    <select id="selectTradeSuggestList" resultType="com.moira.itda.domain.suggest.list.dto.response.SuggestListResponse">
+        SELECT
+               TS.id                           AS suggest_id
+             , TS.trade_id
+             , TS.trade_item_id
+             , TS.gacha_id
+             , TS.type
+             , TS.status
+             , TS.user_id
+             , U.nickname                      AS user_nickname
+             , TS.content
+             , TS.created_at
+             , TS.purchase_item_id
+             , GI_P.name                       AS purchase_item_name
+             , TS.purchase_original_price
+             , TS.purchase_discount_yn
+             , TS.purchase_discount_price
+             , TS.exchange_seller_item_id
+             , GI_E1.name                      AS exchange_seller_item_name
+             , TS.exchange_change_yn
+             , TS.exchange_suggested_item_id
+             , GI_E2.name                      AS exchange_suggested_item_name
+             , TS.exchange_original_item_id    AS exchange_seller_want_item_id
+             , GI_E3.name                      AS exchange_seller_want_item_name
+             , CASE WHEN CH.canceled_user_id = #{userId}
+                    THEN 'Y'
+                    ELSE 'N'
+               END AS my_cancel_yn
+             , CH.cancel_reason
+        FROM TRADE_SUGGEST TS
+         LEFT JOIN USER                 U     ON U.id                = TS.user_id
+         LEFT JOIN GACHA_ITEM           GI_P  ON GI_P.id             = TS.purchase_item_id
+         LEFT JOIN GACHA_ITEM           GI_E1 ON GI_E1.id            = TS.exchange_seller_item_id
+         LEFT JOIN GACHA_ITEM           GI_E2 ON GI_E2.id            = TS.exchange_suggested_item_id
+         LEFT JOIN GACHA_ITEM           GI_E3 ON GI_E3.id            = TS.exchange_original_item_id
+         LEFT JOIN TRADE_CANCEL_HISTORY CH    ON CH.trade_suggest_id = TS.id
+        WHERE TS.trade_id = #{tradeId}
+         AND  TS.status  != 'DELETED'
+         AND  TS.status  != 'CANCELED_BEFORE_RESPONSE'
+        ORDER BY TS.status = 'COMPLETED' DESC, TS.status = 'PENDING' DESC, TS.created_at DESC
+    </select>
+
+    <!-- 제안승인 > TradeSuggest status 변경 (APPROVED) -->
+    <update id="updateTradeSuggestStatusApproved">
+        UPDATE TRADE_SUGGEST
+        SET
+               status     = 'APPROVED'
+             , updated_at = CURRENT_TIMESTAMP
+        WHERE id = #{suggestId}
+    </update>
+
+    <!-- 제안승인 > ChatRoom 저장 -->
+    <insert id="insertChatRoom">
+        INSERT INTO CHAT_ROOM (
+               id
+             , trade_id
+             , trade_item_id
+             , trade_suggest_id
+             , seller_id
+             , buyer_id
+             , status
+             , created_at
+        )
+        VALUES (
+               #{id}
+             , #{tradeId}
+             , #{tradeItemId}
+             , #{tradeSuggestId}
+             , #{sellerId}
+             , #{buyerId}
+             , #{status}
+             , #{createdAt}
+        )
+    </insert>
+
+    <!-- 제안거절 > TradeSuggest status 변경 (REJECTED) -->
+    <update id="updateTradeSuggestStatusRejected">
+        UPDATE TRADE_SUGGEST
+        SET
+               status     = 'REJECTED'
+             , updated_at = CURRENT_TIMESTAMP
+        WHERE id = #{suggestId}
+    </update>
+</mapper>
