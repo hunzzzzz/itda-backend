@@ -4,7 +4,6 @@ import com.moira.itda.domain.notification.component.NotificationManager
 import com.moira.itda.domain.suggest.component.SuggestValidator
 import com.moira.itda.domain.suggest.dto.request.ExchangeSuggestRequest
 import com.moira.itda.domain.suggest.dto.request.PurchaseSuggestRequest
-import com.moira.itda.domain.suggest.dto.response.SuggestTradeItemResponse
 import com.moira.itda.domain.suggest.mapper.SuggestMapper
 import com.moira.itda.global.entity.TradeSuggest
 import org.springframework.stereotype.Service
@@ -16,15 +15,6 @@ class SuggestService(
     private val notificationManager: NotificationManager,
     private val validator: SuggestValidator
 ) {
-    /**
-     * 거래 아이템 목록 조회
-     */
-    @Transactional(readOnly = true)
-    fun getTradeItemList(tradeId: String): List<SuggestTradeItemResponse> {
-        // [1] TradeItem 목록 조회
-        return mapper.selectTradeItemList(tradeId = tradeId)
-    }
-
     /**
      * 구매제안
      */

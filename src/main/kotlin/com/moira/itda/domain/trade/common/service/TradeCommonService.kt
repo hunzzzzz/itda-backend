@@ -1,16 +1,16 @@
-package com.moira.itda.domain.trade.detail.service
+package com.moira.itda.domain.trade.common.service
 
 import com.moira.itda.domain.common.image.mapper.CommonImageMapper
-import com.moira.itda.domain.trade.detail.dto.response.TradeDetailContentResponse
-import com.moira.itda.domain.trade.detail.mapper.TradeDetailMapper
+import com.moira.itda.domain.trade.common.dto.response.TradeDetailContentResponse
+import com.moira.itda.domain.trade.common.mapper.TradeCommonMapper
 import com.moira.itda.domain.trade.list.mapper.TradeListMapper
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
-class TradeDetailService(
+class TradeCommonService(
     private val commonImageMapper: CommonImageMapper,
-    private val mapper: TradeDetailMapper,
+    private val mapper: TradeCommonMapper,
     private val tradeListMapper: TradeListMapper
 ) {
     /**

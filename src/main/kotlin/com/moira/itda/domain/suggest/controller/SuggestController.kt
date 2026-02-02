@@ -17,18 +17,6 @@ class SuggestController(
     private val service: SuggestService
 ) {
     /**
-     * 거래 아이템 목록 조회
-     */
-    @GetMapping("/api/trades/{tradeId}/suggest/items")
-    fun getTradeItemList(
-        @PathVariable tradeId: String
-    ): ResponseEntity<List<SuggestTradeItemResponse>> {
-        val response = service.getTradeItemList(tradeId = tradeId)
-
-        return ResponseEntity.ok(response)
-    }
-
-    /**
      * 구매제안
      */
     @PostMapping("/api/trades/{tradeId}/suggest/purchase")

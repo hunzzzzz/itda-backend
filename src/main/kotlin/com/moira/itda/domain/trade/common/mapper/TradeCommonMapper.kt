@@ -1,10 +1,16 @@
 package com.moira.itda.domain.trade.common.mapper
 
+import com.moira.itda.domain.trade.common.dto.response.TradeDetailResponse
 import com.moira.itda.global.entity.Trade
 import org.apache.ibatis.annotations.Mapper
 
 @Mapper
 interface TradeCommonMapper {
+    /**
+     * 거래상세정보 조회
+     */
+    fun selectTradeDetail(tradeId: String): TradeDetailResponse
+
     /**
      * Trade 조회
      */

@@ -1,16 +1,10 @@
 package com.moira.itda.domain.suggest.mapper
 
-import com.moira.itda.domain.suggest.dto.response.SuggestTradeItemResponse
 import com.moira.itda.global.entity.TradeSuggest
 import org.apache.ibatis.annotations.Mapper
 
 @Mapper
 interface SuggestMapper {
-    /**
-     * 거래 아이템 목록 조회
-     */
-    fun selectTradeItemList(tradeId: String): List<SuggestTradeItemResponse>
-
     /**
      * 구매제안 > TradeItem status 조회
      * 교환제안 > TradeItem status 조회

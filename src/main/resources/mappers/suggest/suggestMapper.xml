@@ -4,32 +4,6 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.moira.itda.domain.suggest.mapper.SuggestMapper">
-    <!-- 거래 아이템 목록 조회 -->
-    <select id="selectTradeItemList" resultType="com.moira.itda.domain.suggest.dto.response.SuggestTradeItemResponse">
-        SELECT
-               TI.id                       AS trade_item_id
-             , TI.trade_id
-             , TI.gacha_id
-             , TI.type
-             , TI.status
-             , TI.created_at
-             , TI.updated_at
-             , TI.sales_item_id
-             , GI_S.name                   AS sales_item_name
-             , TI.sales_price
-             , TI.exchange_give_item_id
-             , GI_E1.name                  AS exchange_give_item_name
-             , TI.exchange_want_item_id
-             , GI_E2.name                  AS exchange_want_item_name
-        FROM TRADE_ITEM TI
-         LEFT JOIN GACHA_ITEM GI_S  ON GI_S.id  = TI.sales_item_id
-         LEFT JOIN GACHA_ITEM GI_E1 ON GI_E1.id = TI.exchange_give_item_id
-         LEFT JOIN GACHA_ITEM GI_E2 ON GI_E2.id = TI.exchange_want_item_id
-        WHERE TI.trade_id = #{tradeId}
-         AND  TI.status   = 'PENDING'
-        ORDER BY TI.created_at DESC
-    </select>
-
     <!-- 구매제안 > TradeItem status 조회 -->
     <!-- 교환제안 > TradeItem status 조회 -->
     <select id="selectTradeItemStatus" resultType="java.lang.String">
