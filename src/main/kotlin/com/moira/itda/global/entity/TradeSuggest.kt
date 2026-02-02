@@ -1,7 +1,7 @@
 package com.moira.itda.global.entity
 
-import com.moira.itda.domain.suggest.dto.request.ExchangeSuggestRequest
-import com.moira.itda.domain.suggest.dto.request.PurchaseSuggestRequest
+import com.moira.itda.domain.suggest.add.dto.request.ExchangeSuggestRequest
+import com.moira.itda.domain.suggest.add.dto.request.PurchaseSuggestRequest
 import java.time.ZonedDateTime
 import java.util.*
 
@@ -28,12 +28,17 @@ data class TradeSuggest(
     val exchangeChangeYn: String?,
 ) {
     companion object {
-        fun fromPurchaseSuggestRequest(userId: String, tradeId: String, request: PurchaseSuggestRequest): TradeSuggest {
+        fun fromPurchaseSuggestRequest(
+            userId: String,
+            tradeId: String,
+            tradeItemId: String,
+            request: PurchaseSuggestRequest
+        ): TradeSuggest {
             return TradeSuggest(
                 id = UUID.randomUUID().toString(),
                 userId = userId,
                 tradeId = tradeId,
-                tradeItemId = request.tradeItemId,
+                tradeItemId = tradeItemId,
                 gachaId = request.gachaId,
                 type = TradeSuggestType.PURCHASE,
                 status = TradeSuggestStatus.PENDING,
@@ -51,12 +56,17 @@ data class TradeSuggest(
             )
         }
 
-        fun fromExchangeSuggestRequest(userId: String, tradeId: String, request: ExchangeSuggestRequest): TradeSuggest {
+        fun fromExchangeSuggestRequest(
+            userId: String,
+            tradeId: String,
+            tradeItemId: String,
+            request: ExchangeSuggestRequest
+        ): TradeSuggest {
             return TradeSuggest(
                 id = UUID.randomUUID().toString(),
                 userId = userId,
                 tradeId = tradeId,
-                tradeItemId = request.tradeItemId,
+                tradeItemId = tradeItemId,
                 gachaId = request.gachaId,
                 type = TradeSuggestType.EXCHANGE,
                 status = TradeSuggestStatus.PENDING,

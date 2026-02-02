@@ -279,38 +279,39 @@ enum class ErrorCode(
         message = "이미 완료된 거래가 있어 삭제할 수 없습니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
-
-
-    COMPLETED_TRADE(
-        code = "T0007",
-        message = "이미 완료된 거래는 수정/삭제할 수 없습니다.",
-        httpStatus = HttpStatus.BAD_REQUEST
-    ),
     NO_NEGOTIATION_PRICE(
-        code = "T0013",
+        code = "T010",
         message = "네고 희망을 체크한 경우, 네고 희망 가격을 입력해야 합니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
     INVALID_DISCOUNT_PRICE(
-        code = "T0014",
+        code = "T011",
         message = "네고 희망 가격은 원래 가격보다 작아야 합니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
+    CANNOT_SUGGEST_COMPLETED_TRADE(
+        code = "T012",
+        message = "이미 완료된 거래에 제안할 수 없습니다.",
+        httpStatus = HttpStatus.BAD_REQUEST
+    ),
     ALREADY_SUGGESTED_PURCHASE(
-        code = "T0015",
+        code = "T013",
         message = "이미 해당 거래 상품에 구매제안을 하였습니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
     SAME_EXCHANGE_NEGOTIATION_ITEM(
-        code = "T0016",
+        code = "T014",
         message = "'다른 아이템으로 교환 제시'를 선택한 경우, 기존 항목과 다른 아이템을 선택해야 합니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
     ALREADY_SUGGESTED_EXCHANGE(
-        code = "T0017",
+        code = "T015",
         message = "이미 해당 거래 상품에 교환제안을 하였습니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
+
+
+
 
 
     CANNOT_CANCEL_APPROVED_SUGGEST(

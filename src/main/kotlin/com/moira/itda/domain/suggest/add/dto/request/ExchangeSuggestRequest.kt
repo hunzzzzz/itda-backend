@@ -1,8 +1,7 @@
-package com.moira.itda.domain.suggest.dto.request
+package com.moira.itda.domain.suggest.add.dto.request
 
 data class ExchangeSuggestRequest(
     val gachaId: String,
-    val tradeItemId: String,
     val sellerItemId: Long,
     val changeYn: String,
     val originalItemId: Long,

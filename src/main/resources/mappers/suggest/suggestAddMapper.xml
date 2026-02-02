@@ -3,38 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.moira.itda.domain.suggest.mapper.SuggestMapper">
-    <!-- 구매제안 > TradeItem status 조회 -->
-    <!-- 교환제안 > TradeItem status 조회 -->
-    <select id="selectTradeItemStatus" resultType="java.lang.String">
-        SELECT status FROM TRADE_ITEM where id = #{tradeItemId}
-    </select>
-
-    <!-- 구매제안 > 구매제안 여부 확인 -->
-    <select id="selectTradeSuggestPurchaseChk" resultType="java.lang.Boolean">
-        SELECT EXISTS (
-            SELECT 1 FROM TRADE_SUGGEST
-            WHERE trade_id         = #{tradeId}
-             AND  trade_item_id    = #{tradeItemId}
-             AND  user_id          = #{userId}
-             AND  status          IN ('PENDING', 'APPROVED')
-             AND  purchase_item_id = #{purchaseItemId}
-        )
-    </select>
-
-    <!-- 교환제안 > 교환제안 여부 확인 -->
-    <select id="selectTradeSuggestExchangeChk" resultType="java.lang.Boolean">
-        SELECT EXISTS (
-            SELECT 1 FROM TRADE_SUGGEST
-            WHERE trade_id                   = #{tradeId}
-             AND  trade_item_id              = #{tradeItemId}
-             AND  user_id                    = #{userId}
-             AND  status                    IN ('PENDING', 'APPROVED')
-             AND  exchange_seller_item_id    = #{exchangeSellerItemId}
-             AND  exchange_suggested_item_id = #{exchangeSuggestedItemId}
-        )
-    </select>
-
+<mapper namespace="com.moira.itda.domain.suggest.add.mapper.SuggestAddMapper">
     <!-- 구매제안 > TradeSuggest 저장 -->
     <!-- 교환제안 > TradeSuggest 저장 -->
     <insert id="insertTradeSuggest">

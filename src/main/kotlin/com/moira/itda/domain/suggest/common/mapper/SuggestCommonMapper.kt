@@ -1,18 +1,16 @@
-package com.moira.itda.domain.suggest.mapper
+package com.moira.itda.domain.suggest.common.mapper
 
-import com.moira.itda.global.entity.TradeSuggest
 import org.apache.ibatis.annotations.Mapper
 
 @Mapper
-interface SuggestMapper {
+interface SuggestCommonMapper {
     /**
-     * 구매제안 > TradeItem status 조회
-     * 교환제안 > TradeItem status 조회
+     * TradeItem의 status 조회
      */
     fun selectTradeItemStatus(tradeItemId: String): String
 
     /**
-     * 구매제안 > 구매제안 여부 확인
+     * 구매제안 여부 조회
      */
     fun selectTradeSuggestPurchaseChk(
         userId: String,
@@ -22,7 +20,7 @@ interface SuggestMapper {
     ): Boolean
 
     /**
-     * 교환제안 > 교환제안 여부 확인
+     * 교환제안 여부 확인
      */
     fun selectTradeSuggestExchangeChk(
         userId: String,
@@ -31,10 +29,4 @@ interface SuggestMapper {
         exchangeSellerItemId: Long,
         exchangeSuggestedItemId: Long
     ): Boolean
-
-    /**
-     * 구매제안 > TradeSuggest 저장
-     * 교환제안 > TradeSuggest 저장
-     */
-    fun insertTradeSuggest(tradeSuggest: TradeSuggest)
 }
