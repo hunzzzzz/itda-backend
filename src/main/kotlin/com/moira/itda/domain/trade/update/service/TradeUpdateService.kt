@@ -1,7 +1,8 @@
 package com.moira.itda.domain.trade.update.service
 
 import com.moira.itda.domain.common.image.mapper.CommonImageMapper
-import com.moira.itda.domain.trade.update.component.TradeValidator
+import com.moira.itda.domain.trade.common.component.TradeValidator
+import com.moira.itda.domain.trade.common.mapper.TradeCommonMapper
 import com.moira.itda.domain.trade.update.dto.request.ExchangeUpdateRequest
 import com.moira.itda.domain.trade.update.dto.request.SalesUpdateRequest
 import com.moira.itda.domain.trade.update.dto.request.TradeUpdateCommonRequest
@@ -20,6 +21,7 @@ class TradeUpdateService(
     private val commonImageMapper: CommonImageMapper,
     private val mapper: TradeUpdateMapper,
     private val s3Handler: AwsS3Handler,
+    private val tradeCommonMapper: TradeCommonMapper,
     private val validator: TradeValidator
 ) {
     /**
@@ -82,17 +84,6 @@ class TradeUpdateService(
     }
 
     /**
-     * 거래삭제 > 유효성 검사
-     */
-    private fun validateDelete(userId: String, trade: Trade, tradeItemId: String) {
-        // 권한 검증
-        validator.validateRole(userId = userId, tradeUserId = trade.userId)
-
-        // 하위 제안들의 상태값 검증
-        validator.validateSuggestStatus(tradeItemId = tradeItemId)
-    }
-
-    /**
      * 거래수정 > 공통
      */
     private fun update(trade: Trade, request: TradeUpdateCommonRequest) {
@@ -112,7 +103,7 @@ class TradeUpdateService(
             // [5] TradeItem 삭제
             if (!request.deleteItems.isNullOrEmpty()) {
                 request.deleteItems?.forEach { tradeItemId ->
-                    mapper.updateTradeItemStatusDeleted(tradeItemId = tradeItemId)
+                    mapper.updateTradeItemStatusDeletedByTradeItemId(tradeItemId = tradeItemId)
                 }
             }
 
@@ -136,7 +127,7 @@ class TradeUpdateService(
             // [5] TradeItem 삭제
             if (!request.deleteItems.isNullOrEmpty()) {
                 request.deleteItems?.forEach { tradeItemId ->
-                    mapper.updateTradeItemStatusDeleted(tradeItemId = tradeItemId)
+                    mapper.updateTradeItemStatusDeletedByTradeItemId(tradeItemId = tradeItemId)
                 }
             }
 
@@ -167,7 +158,7 @@ class TradeUpdateService(
         request: ExchangeUpdateRequest
     ) {
         // [1] Trade 조회
-        val trade = mapper.selectTrade(tradeId = tradeId) ?: throw ItdaException(ErrorCode.FORBIDDEN)
+        val trade = tradeCommonMapper.selectTrade(tradeId = tradeId) ?: throw ItdaException(ErrorCode.FORBIDDEN)
 
         // [2] 유효성 검사
         this.validateExchange(userId = userId, trade = trade, request = request)
@@ -186,39 +177,12 @@ class TradeUpdateService(
         request: SalesUpdateRequest
     ) {
         // [1] Trade 조회
-        val trade = mapper.selectTrade(tradeId = tradeId) ?: throw ItdaException(ErrorCode.FORBIDDEN)
+        val trade = tradeCommonMapper.selectTrade(tradeId = tradeId) ?: throw ItdaException(ErrorCode.FORBIDDEN)
 
         // [2] 유효성 검사
         this.validateSales(userId = userId, trade = trade, request = request)
 
         // [3] 수정 (공통)
         this.update(trade = trade, request = request)
-    }
-
-    /**
-     * 거래삭제
-     */
-    @Transactional
-    fun delete(userId: String, tradeId: String, tradeItemId: String) {
-        // [1] Trade 조회
-        val trade = mapper.selectTrade(tradeId = tradeId) ?: throw ItdaException(ErrorCode.FORBIDDEN)
-
-        // [2] 유효성 검사
-        this.validateDelete(userId = userId, trade = trade, tradeItemId = tradeItemId)
-
-        // [3] TODO: TradeSuggest 삭제 처리
-
-        // [4] TradeItem 삭제 처리 (status: DELETED)
-        mapper.updateTradeItemStatusDeleted(tradeItemId = tradeItemId)
-
-        // [5] 모든 TradeItem이 DELETED이면 Trade 삭제 처리
-        if (!mapper.selectTradeItemStatusNotDeletedChk(tradeId = tradeId)) {
-            // [5-1] 이미지 파일 삭제 (AWS S3)
-            commonImageMapper.selectImageFileUrl(fileId = trade.fileId)
-                .forEach { s3Handler.delete(fileUrl = it.fileUrl) }
-
-            // [5-2] Trade 삭제 처리 (status: DELETED)
-            mapper.updateTradeStatusDeleted(tradeId = tradeId)
-        }
     }
 }

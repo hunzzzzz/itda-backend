@@ -1,8 +1,10 @@
-package com.moira.itda.domain.trade.update.component
+package com.moira.itda.domain.trade.common.component
 
 import com.moira.itda.domain.common.image.mapper.CommonImageMapper
-import com.moira.itda.domain.trade.update.mapper.TradeUpdateMapper
+import com.moira.itda.domain.trade.common.mapper.TradeCommonMapper
+import com.moira.itda.global.entity.Trade
 import com.moira.itda.global.entity.TradeHopeMethod
+import com.moira.itda.global.entity.TradeStatus
 import com.moira.itda.global.exception.ErrorCode
 import com.moira.itda.global.exception.ItdaException
 import org.springframework.stereotype.Component
@@ -10,10 +12,10 @@ import org.springframework.stereotype.Component
 @Component
 class TradeValidator(
     private val commonImageMapper: CommonImageMapper,
-    private val mapper: TradeUpdateMapper
+    private val commonTradeMapper: TradeCommonMapper
 ) {
     /**
-     * 권한 검증
+     * 권한 검증 (수정, 삭제 시)
      */
     fun validateRole(userId: String, tradeUserId: String) {
         // 자신의 글만 수정 및 삭제할 수 있다.
@@ -71,11 +73,32 @@ class TradeValidator(
     }
 
     /**
+     * Trade 상태값 검증 (삭제 시)
+     */
+    fun validateTradeStatus(trade: Trade) {
+        if (trade.status == TradeStatus.DELETED) {
+            throw ItdaException(ErrorCode.FORBIDDEN)
+        }
+        if (trade.status == TradeStatus.ENDED) {
+            throw ItdaException(ErrorCode.CANNOT_DELETE_ENDED_TRADE)
+        }
+    }
+
+    /**
+     * TradeItem 상태값 검증 (삭제 시)
+     */
+    fun validateTradeItemStatus(tradeId: String) {
+        if (commonTradeMapper.selectTradeItemStatusCompletedChk(tradeId = tradeId)) {
+            throw ItdaException(ErrorCode.CANNOT_DELETE_COMPLETED_TRADE)
+        }
+    }
+
+    /**
      * TradeSuggest 상태값 검증
      */
     fun validateSuggestStatus(tradeItemId: String) {
         // 해당 TradeItem 하위에 PENDING, APPROVED, COMPLETED인 제안이 하나라도 존재하면 수정 불가능
-        val statusCheckMap = mapper.selectTradeSuggestStatusChk(tradeItemId = tradeItemId)
+        val statusCheckMap = commonTradeMapper.selectTradeSuggestStatusChk(tradeItemId = tradeItemId)
         val pendingYn = statusCheckMap["pending_yn"]
         val approvedYn = statusCheckMap["approved_yn"]
         val completedYn = statusCheckMap["completed_yn"]
@@ -92,6 +115,29 @@ class TradeValidator(
             }
         } else {
             throw ItdaException(ErrorCode.INTERNAL_SERVER_ERROR)
+        }
+    }
+
+    /**
+     * TradeSuggest 상태값 검증 (삭제 시)
+     */
+    fun validateSuggestStatusByTradeId(tradeId: String) {
+        val statusMap = commonTradeMapper.selectTradeSuggestStatusChkByTradeId(tradeId = tradeId)
+
+        val pendingChk = statusMap["pending_chk"]
+        val approvedChk = statusMap["approved_chk"]
+        val completedChk = statusMap["completed_chk"]
+
+        if (pendingChk != null && approvedChk != null && completedChk != null) {
+            if (pendingChk > 0) {
+                throw ItdaException(ErrorCode.PENDING_SUGGEST_EXISTS)
+            }
+            if (approvedChk > 0) {
+                throw ItdaException(ErrorCode.APPROVED_SUGGEST_EXISTS)
+            }
+            if (completedChk > 0) {
+                throw ItdaException(ErrorCode.COMPLETED_SUGGEST_EXISTS)
+            }
         }
     }
 }

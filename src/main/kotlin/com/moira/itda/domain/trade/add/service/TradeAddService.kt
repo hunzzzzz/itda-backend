@@ -5,7 +5,7 @@ import com.moira.itda.domain.trade.add.dto.request.SalesAddRequest
 import com.moira.itda.domain.trade.add.dto.request.TradeCommonRequest
 import com.moira.itda.domain.trade.add.dto.response.GachaIdResponse
 import com.moira.itda.domain.trade.add.mapper.TradeAddMapper
-import com.moira.itda.domain.trade.update.component.TradeValidator
+import com.moira.itda.domain.trade.common.component.TradeValidator
 import com.moira.itda.global.entity.Trade
 import com.moira.itda.global.entity.TradeHopeMethod
 import com.moira.itda.global.entity.TradeItem

@@ -1,5 +1,5 @@
 package com.moira.itda.global.entity
 
 enum class TradeStatus {
-    PENDING, DELETED, COMPLETED
+    PENDING, DELETED, ENDED
 }

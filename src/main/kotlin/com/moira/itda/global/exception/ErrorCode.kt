@@ -269,6 +269,16 @@ enum class ErrorCode(
         message = "이미 완료된 거래제안이 있어 수정/삭제할 수 없습니다.",
         httpStatus = HttpStatus.BAD_REQUEST
     ),
+    CANNOT_DELETE_ENDED_TRADE(
+        code = "T008",
+        message = "이미 완료된 거래는 삭제할 수 없습니다.",
+        httpStatus = HttpStatus.BAD_REQUEST
+    ),
+    CANNOT_DELETE_COMPLETED_TRADE(
+        code = "T009",
+        message = "이미 완료된 거래가 있어 삭제할 수 없습니다.",
+        httpStatus = HttpStatus.BAD_REQUEST
+    ),
 
 
     COMPLETED_TRADE(

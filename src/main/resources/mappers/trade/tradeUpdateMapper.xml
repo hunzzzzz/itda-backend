@@ -35,29 +35,6 @@
         )
     </insert>
 
-    <!-- 가챠정보 > 가챠목록 > 상세정보 > 거래수정 > Trade 조회 -->
-    <!-- 가챠정보 > 가챠목록 > 상세정보 > 거래삭제 > Trade 조회 -->
-    <select id="selectTrade" resultType="com.moira.itda.global.entity.Trade">
-        SELECT
-               id
-             , gacha_id
-             , user_id
-             , type
-             , status
-             , title
-             , content
-             , file_id
-             , hope_method
-             , hope_location
-             , hope_address
-             , hope_location_latitude
-             , hope_location_longitude
-             , created_at
-             , updated_at
-        FROM TRADE
-        WHERE id = #{tradeId}
-    </select>
-
     <!-- 가챠정보 > 가챠목록 > 상세정보 > 거래수정 > APPROVED된 제안 여부 조회 -->
     <!-- 가챠정보 > 가챠목록 > 상세정보 > 거래삭제 > APPROVED된 제안 여부 조회 -->
     <select id="selectTradeSuggestApprovedChk">
@@ -111,30 +88,12 @@
         WHERE id = #{request.tradeItemId}
     </update>
 
-    <!-- 가챠정보 > 가챠목록 > 상세정보 > 거래삭제 > TradeItem의 status를 DELETED로 변경 -->
-    <update id="updateTradeItemStatusDeleted">
+    <!-- 거래수정 > TradeItem의 status를 DELETED로 변경 -->
+    <update id="updateTradeItemStatusDeletedByTradeItemId">
         UPDATE TRADE_ITEM
         SET
                status     = 'DELETED'
              , updated_at = CURRENT_TIMESTAMP
         WHERE id = #{tradeItemId}
-    </update>
-
-    <!-- 가챠정보 > 가챠목록 > 상세정보 > 거래삭제 > status가 DELETED가 아닌 TradeItem 존재 여부 확인 -->
-    <select id="selectTradeItemStatusNotDeletedChk" resultType="java.lang.Boolean">
-        SELECT EXISTS (
-            SELECT 1 FROM TRADE_ITEM
-            WHERE trade_id       = #{tradeId}
-             AND  status        != 'DELETED'
-        )
-    </select>
-
-    <!-- 가챠정보 > 가챠목록 > 상세정보 > 거래삭제 > Trade의 status를 DELETED로 변경 -->
-    <update id="updateTradeStatusDeleted">
-        UPDATE TRADE
-        SET
-               status     = 'DELETED'
-             , updated_at = CURRENT_TIMESTAMP
-        WHERE id = #{tradeId}
     </update>
 </mapper>

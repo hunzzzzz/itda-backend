@@ -5,9 +5,11 @@ import com.moira.itda.domain.trade.update.dto.request.SalesUpdateRequest
 import com.moira.itda.domain.trade.update.service.TradeUpdateService
 import com.moira.itda.global.auth.aop.UserPrincipal
 import com.moira.itda.global.auth.dto.UserAuth
-import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.*
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PutMapping
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class TradeUpdateController(
@@ -39,19 +41,5 @@ class TradeUpdateController(
         service.updateSales(userId = userAuth.userId, tradeId = tradeId, request = request)
 
         return ResponseEntity.ok(null)
-    }
-
-    /**
-     * 거래삭제
-     */
-    @DeleteMapping("/api/trade/{tradeId}/items/{tradeItemId}")
-    fun delete(
-        @UserPrincipal userAuth: UserAuth,
-        @PathVariable tradeId: String,
-        @PathVariable tradeItemId: String
-    ): ResponseEntity<Nothing?> {
-        service.delete(userId = userAuth.userId, tradeId = tradeId, tradeItemId = tradeItemId)
-
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null)
     }
 }
