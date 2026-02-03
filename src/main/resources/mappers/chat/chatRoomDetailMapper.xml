@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.moira.itda.domain.chat.detail.mapper.ChatRoomDetailMapper">
+    <!-- 채팅방 상단정보 조회 -->
+    <select id="selectChatRoomDetailResponse" resultType="com.moira.itda.domain.chat.detail.dto.response.ChatRoomDetailResponse">
+        SELECT
+               CR.id                            AS chat_room_id
+             , CR.status                        AS chat_room_status
+             , CR.trade_id
+             , CR.trade_item_id
+             , T.gacha_id
+             , T.status                         AS trade_status
+             , T.type                           AS trade_type
+             , T.title                          AS trade_title
+             , CR.seller_id
+             , U_S.nickname                     AS seller_nickname
+             , CR.buyer_id
+             , U_B.nickname                     AS buyer_nickname
+             , CR.trade_suggest_id              AS suggest_id
+             , TS.status                        AS suggest_status
+             , TS.purchase_item_id
+             , GI_P.name                        AS purchase_item_name
+             , CASE WHEN TS.purchase_discount_yn = 'Y'
+                    THEN TS.purchase_discount_price
+                    ELSE TS.purchase_original_price
+               END                              AS purchase_price
+             , TS.exchange_seller_item_id
+             , GI_E1.name                       AS exchange_seller_item_name
+             , TS.exchange_suggested_item_id
+             , GI_E2.name                       AS exchange_suggested_item_name
+        FROM CHAT_ROOM CR
+        INNER JOIN TRADE        T     ON T.id     = CR.trade_id
+        INNER JOIN USER         U_S   ON U_S.id   = CR.seller_id
+        INNER JOIN USER         U_B   ON U_B.id   = CR.buyer_id
+        LEFT JOIN TRADE_SUGGEST TS    ON TS.id    = CR.trade_suggest_id
+        LEFT JOIN GACHA_ITEM    GI_P  ON GI_P.id  = TS.purchase_item_id
+        LEFT JOIN GACHA_ITEM    GI_E1 ON GI_E1.id = TS.exchange_seller_item_id
+        LEFT JOIN GACHA_ITEM    GI_E2 ON GI_E2.id = TS.exchange_suggested_item_id
+        WHERE CR.id = #{chatRoomId}
+    </select>
+</mapper>

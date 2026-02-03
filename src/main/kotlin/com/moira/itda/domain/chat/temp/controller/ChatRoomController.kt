@@ -1,12 +1,11 @@
-package com.moira.itda.domain.chat_room.controller
+package com.moira.itda.domain.chat.temp.controller
 
-import com.moira.itda.domain.chat_room.dto.request.ChatMessageRequest
-import com.moira.itda.domain.chat_room.dto.request.TradeCompleteRequest
-import com.moira.itda.domain.chat_room.dto.response.ChatMessageResponse
-import com.moira.itda.domain.chat_room.dto.response.ChatRoomDetailResponse
-import com.moira.itda.domain.chat_room.service.ChatRoomService
-import com.moira.itda.domain.chat_room.dto.request.ChatRoomTradeCancelRequest
-import com.moira.itda.domain.chat_room.dto.response.ChatRoomIdResponse
+import com.moira.itda.domain.chat.temp.dto.request.ChatMessageRequest
+import com.moira.itda.domain.chat.temp.dto.request.ChatRoomTradeCancelRequest
+import com.moira.itda.domain.chat.temp.dto.request.TradeCompleteRequest
+import com.moira.itda.domain.chat.temp.dto.response.ChatMessageResponse
+import com.moira.itda.domain.chat.temp.dto.response.ChatRoomIdResponse
+import com.moira.itda.domain.chat.temp.service.ChatRoomService
 import com.moira.itda.global.auth.aop.UserPrincipal
 import com.moira.itda.global.auth.dto.UserAuth
 import org.springframework.http.ResponseEntity
@@ -23,16 +22,6 @@ import org.springframework.web.bind.annotation.*
 class ChatRoomController(
     private val service: ChatRoomService
 ) {
-    /**
-     * 채팅방 > 거래제안 정보 조회
-     */
-    @GetMapping("/api/trade/chat/{chatRoomId}")
-    fun getTradeSuggest(@PathVariable chatRoomId: String): ResponseEntity<ChatRoomDetailResponse> {
-        val response = service.getTradeSuggest(chatRoomId = chatRoomId)
-
-        return ResponseEntity.ok(response)
-    }
-
     /**
      * 채팅방 > 이전 채팅 목록 조회
      */

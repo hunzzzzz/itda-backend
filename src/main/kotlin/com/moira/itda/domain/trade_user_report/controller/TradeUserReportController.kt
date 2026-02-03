@@ -1,6 +1,6 @@
 package com.moira.itda.domain.trade_user_report.controller
 
-import com.moira.itda.domain.chat_room.dto.response.ChatRoomIdResponse
+import com.moira.itda.domain.chat.temp.dto.response.ChatRoomIdResponse
 import com.moira.itda.domain.trade_user_report.dto.request.ReportRequest
 import com.moira.itda.domain.trade_user_report.service.TradeUserReportService
 import com.moira.itda.global.auth.aop.UserPrincipal

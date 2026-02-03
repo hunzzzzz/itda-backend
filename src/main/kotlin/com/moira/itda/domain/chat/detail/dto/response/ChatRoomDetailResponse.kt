@@ -1,4 +1,4 @@
-package com.moira.itda.domain.chat_room.dto.response
+package com.moira.itda.domain.chat.detail.dto.response
 
 data class ChatRoomDetailResponse(
     // 채팅방 관련 정보

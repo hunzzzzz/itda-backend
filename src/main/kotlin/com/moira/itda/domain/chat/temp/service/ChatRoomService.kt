@@ -1,12 +1,12 @@
-package com.moira.itda.domain.chat_room.service
+package com.moira.itda.domain.chat.temp.service
 
-import com.moira.itda.domain.chat_room.component.ChatValidator
-import com.moira.itda.domain.chat_room.dto.request.ChatMessageRequest
-import com.moira.itda.domain.chat_room.dto.request.ChatRoomTradeCancelRequest
-import com.moira.itda.domain.chat_room.dto.request.TradeCompleteRequest
-import com.moira.itda.domain.chat_room.dto.response.ChatMessageResponse
-import com.moira.itda.domain.chat_room.dto.response.ChatRoomDetailResponse
-import com.moira.itda.domain.chat_room.mapper.ChatRoomMapper
+import com.moira.itda.domain.chat.temp.component.ChatValidator
+import com.moira.itda.domain.chat.temp.dto.request.ChatMessageRequest
+import com.moira.itda.domain.chat.temp.dto.request.ChatRoomTradeCancelRequest
+import com.moira.itda.domain.chat.temp.dto.request.TradeCompleteRequest
+import com.moira.itda.domain.chat.temp.dto.response.ChatMessageResponse
+import com.moira.itda.domain.chat.detail.dto.response.ChatRoomDetailResponse
+import com.moira.itda.domain.chat.temp.mapper.ChatRoomMapper
 import com.moira.itda.domain.notification.component.NotificationManager
 import com.moira.itda.global.entity.ChatMessage
 import com.moira.itda.global.entity.ChatStatus
@@ -25,14 +25,6 @@ class ChatRoomService(
     private val notificationManager: NotificationManager,
     private val validator: ChatValidator
 ) {
-    /**
-     * 내 활동 > 채팅 > 채팅방 > 거래제안 정보 조회
-     */
-    @Transactional(readOnly = true)
-    fun getTradeSuggest(chatRoomId: String): ChatRoomDetailResponse {
-        return mapper.selectTradeSuggest(chatRoomId = chatRoomId)
-    }
-
     /**
      * 내 활동 > 채팅 > 채팅방 > 이전 채팅 목록 조회
      */

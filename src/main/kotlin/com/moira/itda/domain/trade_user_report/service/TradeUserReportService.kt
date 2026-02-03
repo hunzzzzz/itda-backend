@@ -1,7 +1,7 @@
 package com.moira.itda.domain.trade_user_report.service
 
-import com.moira.itda.domain.chat_room.dto.request.ChatRoomTradeCancelRequest
-import com.moira.itda.domain.chat_room.service.ChatRoomService
+import com.moira.itda.domain.chat.temp.dto.request.ChatRoomTradeCancelRequest
+import com.moira.itda.domain.chat.temp.service.ChatRoomService
 import com.moira.itda.domain.trade_user_report.dto.request.ReportRequest
 import com.moira.itda.domain.trade_user_report.mapper.TradeUserReportMapper
 import com.moira.itda.global.entity.TradeSuggestStatus

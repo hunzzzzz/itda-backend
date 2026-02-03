@@ -1,4 +1,4 @@
-package com.moira.itda.domain.chat_room.component
+package com.moira.itda.domain.chat.temp.component
 
 import com.moira.itda.global.entity.ChatStatus
 import com.moira.itda.global.exception.ErrorCode

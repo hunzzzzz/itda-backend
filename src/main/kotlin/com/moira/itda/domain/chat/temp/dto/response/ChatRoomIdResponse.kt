@@ -1,4 +1,4 @@
-package com.moira.itda.domain.chat_room.dto.response
+package com.moira.itda.domain.chat.temp.dto.response
 
 data class ChatRoomIdResponse(
     val chatRoomId: String
