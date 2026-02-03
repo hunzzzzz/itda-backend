@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.moira.itda.domain.suggest.reject.mapper.SuggestRejectMapper">
+    <!-- 제안거절 > TradeSuggest의 status 변경 (REJECTED) -->
+    <update id="updateTradeSuggestStatusRejected">
+        UPDATE TRADE_SUGGEST
+        SET
+               status     = 'REJECTED'
+             , updated_at = CURRENT_TIMESTAMP
+        WHERE id = #{suggestId}
+    </update>
+</mapper>

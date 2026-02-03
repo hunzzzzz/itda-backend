@@ -15,7 +15,7 @@ class SuggestFirstCancelController(
     /**
      * 제안취소 (판매자 응답 전)
      */
-    @PutMapping("/api/me/suggest/{suggestId}/cancel")
+    @PutMapping("/api/suggest/{suggestId}/cancel")
     fun cancel(
         @UserPrincipal userAuth: UserAuth,
         @PathVariable suggestId: String
