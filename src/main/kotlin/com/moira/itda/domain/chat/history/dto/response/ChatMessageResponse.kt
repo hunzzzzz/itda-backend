@@ -1,4 +1,4 @@
-package com.moira.itda.domain.chat.temp.dto.response
+package com.moira.itda.domain.chat.history.dto.response
 
 import java.time.ZonedDateTime
 

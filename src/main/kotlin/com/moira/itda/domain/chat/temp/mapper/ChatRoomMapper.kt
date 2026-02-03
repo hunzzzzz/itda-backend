@@ -1,7 +1,5 @@
 package com.moira.itda.domain.chat.temp.mapper
 
-import com.moira.itda.domain.chat.temp.dto.response.ChatMessageResponse
-import com.moira.itda.domain.chat.detail.dto.response.ChatRoomDetailResponse
 import com.moira.itda.global.entity.ChatMessage
 import com.moira.itda.global.entity.TradeCancelHistory
 import com.moira.itda.global.entity.TradeCompleteHistory
@@ -9,11 +7,6 @@ import org.apache.ibatis.annotations.Mapper
 
 @Mapper
 interface ChatRoomMapper {
-
-    /**
-     * 내 활동 > 채팅 > 채팅방 > 이전 채팅 목록 조회
-     */
-    fun selectChatMessageList(chatRoomId: String): List<ChatMessageResponse>
 
     /**
      * 내 활동 > 채팅 > 채팅방 > 메시지 전송 > ChatMessage 저장

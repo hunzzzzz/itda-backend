@@ -3,7 +3,6 @@ package com.moira.itda.domain.chat.temp.controller
 import com.moira.itda.domain.chat.temp.dto.request.ChatMessageRequest
 import com.moira.itda.domain.chat.temp.dto.request.ChatRoomTradeCancelRequest
 import com.moira.itda.domain.chat.temp.dto.request.TradeCompleteRequest
-import com.moira.itda.domain.chat.temp.dto.response.ChatMessageResponse
 import com.moira.itda.domain.chat.temp.dto.response.ChatRoomIdResponse
 import com.moira.itda.domain.chat.temp.service.ChatRoomService
 import com.moira.itda.global.auth.aop.UserPrincipal
@@ -13,7 +12,10 @@ import org.springframework.messaging.handler.annotation.DestinationVariable
 import org.springframework.messaging.handler.annotation.MessageMapping
 import org.springframework.messaging.handler.annotation.SendTo
 import org.springframework.security.core.Authentication
-import org.springframework.web.bind.annotation.*
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PutMapping
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RestController
 
 /**
  * 채팅방
@@ -22,16 +24,6 @@ import org.springframework.web.bind.annotation.*
 class ChatRoomController(
     private val service: ChatRoomService
 ) {
-    /**
-     * 채팅방 > 이전 채팅 목록 조회
-     */
-    @GetMapping("/api/me/trade/chat/{chatRoomId}/messages")
-    fun getChatMessageList(@PathVariable chatRoomId: String): ResponseEntity<List<ChatMessageResponse>> {
-        val response = service.getChatMessageList(chatRoomId = chatRoomId)
-
-        return ResponseEntity.ok(response)
-    }
-
     /**
      * 채팅방 > 메시지 전송
      */

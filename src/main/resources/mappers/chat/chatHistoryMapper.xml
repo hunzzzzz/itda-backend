@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.moira.itda.domain.chat.history.mapper.ChatHistoryMapper">
+    <!-- 이전 채팅내역 조회 -->
+    <select id="selectChatMessageList" resultType="com.moira.itda.domain.chat.history.dto.response.ChatMessageResponse">
+        SELECT
+               CM.id          AS chat_message_id
+             , CM.sender_id
+             , U.nickname     AS sender_nickname
+             , CM.message
+             , CM.created_at
+        FROM CHAT_MESSAGE CM
+         LEFT JOIN USER U ON U.id = CM.sender_id
+        WHERE CM.chat_room_id = #{chatRoomId}
+        ORDER BY CM.created_at ASC
+    </select>
+</mapper>

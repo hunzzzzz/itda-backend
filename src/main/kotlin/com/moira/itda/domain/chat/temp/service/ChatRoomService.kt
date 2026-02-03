@@ -4,8 +4,6 @@ import com.moira.itda.domain.chat.temp.component.ChatValidator
 import com.moira.itda.domain.chat.temp.dto.request.ChatMessageRequest
 import com.moira.itda.domain.chat.temp.dto.request.ChatRoomTradeCancelRequest
 import com.moira.itda.domain.chat.temp.dto.request.TradeCompleteRequest
-import com.moira.itda.domain.chat.temp.dto.response.ChatMessageResponse
-import com.moira.itda.domain.chat.detail.dto.response.ChatRoomDetailResponse
 import com.moira.itda.domain.chat.temp.mapper.ChatRoomMapper
 import com.moira.itda.domain.notification.component.NotificationManager
 import com.moira.itda.global.entity.ChatMessage
@@ -25,14 +23,6 @@ class ChatRoomService(
     private val notificationManager: NotificationManager,
     private val validator: ChatValidator
 ) {
-    /**
-     * 내 활동 > 채팅 > 채팅방 > 이전 채팅 목록 조회
-     */
-    @Transactional(readOnly = true)
-    fun getChatMessageList(chatRoomId: String): List<ChatMessageResponse> {
-        return mapper.selectChatMessageList(chatRoomId = chatRoomId)
-    }
-
     /**
      * 내 활동 > 채팅 > 채팅방 > 메시지 전송
      */
