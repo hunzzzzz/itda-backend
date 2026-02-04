@@ -1,8 +1,8 @@
-package com.moira.itda.domain.trade_user_report.controller
+package com.moira.itda.domain.chat.cancel.controller
 
+import com.moira.itda.domain.chat.cancel.dto.request.CancelRequest
+import com.moira.itda.domain.chat.cancel.service.ChatRoomCancelService
 import com.moira.itda.domain.chat.cancel.dto.response.ChatRoomIdResponse
-import com.moira.itda.domain.trade_user_report.dto.request.ReportRequest
-import com.moira.itda.domain.trade_user_report.service.TradeUserReportService
 import com.moira.itda.global.auth.aop.UserPrincipal
 import com.moira.itda.global.auth.dto.UserAuth
 import org.springframework.http.ResponseEntity
@@ -11,23 +11,20 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 
-/**
- * 유저신고 모달
- */
 @RestController
-class TradeUserReportController(
-    private val service: TradeUserReportService
+class ChatRoomCancelController(
+    private val service: ChatRoomCancelService
 ) {
     /**
-     * 유저신고
+     * 거래취소
      */
-    @PostMapping("/api/trade/chat/{chatRoomId}/report")
-    fun report(
+    @PostMapping("/api/chat/{chatRoomId}/cancel")
+    fun cancel(
         @UserPrincipal userAuth: UserAuth,
         @PathVariable chatRoomId: String,
-        @RequestBody request: ReportRequest
+        @RequestBody request: CancelRequest
     ): ResponseEntity<ChatRoomIdResponse> {
-        service.report(userId = userAuth.userId, chatRoomId = chatRoomId, request = request)
+        service.cancel(userId = userAuth.userId, chatRoomId = chatRoomId, request = request)
 
         return ResponseEntity.ok().body(ChatRoomIdResponse(chatRoomId = chatRoomId))
     }

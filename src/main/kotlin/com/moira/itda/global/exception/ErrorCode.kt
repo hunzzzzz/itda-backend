@@ -336,20 +336,10 @@ enum class ErrorCode(
     ),
 
     // 채팅 관련 에러코드
-    CHAT_NOT_FOUND(
-        code = "C0001",
-        message = "잘못된 채팅 정보입니다. 새로고침 후 다시 시도해주세요.",
-        httpStatus = HttpStatus.BAD_REQUEST
-    ),
-    ALREADY_ENDED_CHAT(
-        code = "C0002",
+    ALREADY_ENDED_CHATROOM(
+        code = "C001",
         message = "이미 종료된 채팅방입니다.",
         httpStatus = HttpStatus.BAD_REQUEST
-    ),
-    OTHERS_CHAT(
-        code = "C0003",
-        message = "다른 유저의 거래에 접근할 수 없습니다.",
-        httpStatus = HttpStatus.FORBIDDEN
     ),
     NO_REPORT_REASON(
         code = "C0005",

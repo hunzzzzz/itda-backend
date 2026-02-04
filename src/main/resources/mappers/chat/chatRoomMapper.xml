@@ -9,40 +9,10 @@
         SELECT status, seller_id, buyer_id FROM CHAT_ROOM WHERE id = #{chatRoomId}
     </select>
 
-    <!-- 거래취소 > TradeCancelHistory 저장 -->
-    <insert id="insertTradeCancelHistory">
-        INSERT INTO TRADE_CANCEL_HISTORY (
-               chat_room_id
-             , trade_id
-             , trade_suggest_id
-             , gacha_id
-             , canceled_user_id
-             , cancel_reason
-             , canceled_at
-        )
-        VALUES (
-               #{chatRoomId}
-             , #{tradeId}
-             , #{tradeSuggestId}
-             , #{gachaId}
-             , #{canceledUserId}
-             , #{cancelReason}
-             , #{canceledAt}
-        )
-    </insert>
-
     <!-- 거래취소 > ChatRoom status 변경 (ENDED) -->
     <!-- 거래완료 > ChatRoom status 변경 (ENDED) -->
     <update id="updateChatRoomStatusEnded">
         UPDATE CHAT_ROOM SET status = 'ENDED' WHERE id = #{chatRoomId}
-    </update>
-
-    <!-- 거래취소 > TradeSuggest status 변경 (CANCELED) -->
-    <update id="updateTradeSuggestStatusCanceled">
-        UPDATE TRADE_SUGGEST
-        SET    status     = 'CANCELED'
-             , updated_at = CURRENT_TIMESTAMP
-        WHERE id = #{suggestId}
     </update>
 
     <!-- 내 활동 > 채팅 > 채팅방 > 거래완료 > TradeCompleteHistory 저장 -->

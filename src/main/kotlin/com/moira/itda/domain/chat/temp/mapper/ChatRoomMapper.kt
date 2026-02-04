@@ -1,6 +1,5 @@
 package com.moira.itda.domain.chat.temp.mapper
 
-import com.moira.itda.global.entity.TradeCancelHistory
 import com.moira.itda.global.entity.TradeCompleteHistory
 import org.apache.ibatis.annotations.Mapper
 
@@ -12,20 +11,10 @@ interface ChatRoomMapper {
     fun selectChatRoomInfo(chatRoomId: String): HashMap<String, String?>
 
     /**
-     * 거래취소 > TradeCancelHistory 저장
-     */
-    fun insertTradeCancelHistory(tradeCancelHistory: TradeCancelHistory)
-
-    /**
      * 거래취소 > ChatRoom status 변경 (ENDED)
      * 거래완료 > ChatRoom status 변경 (ENDED)
      */
     fun updateChatRoomStatusEnded(chatRoomId: String)
-
-    /**
-     * 거래취소 > TradeSuggest status 변경 (CANCELED)
-     */
-    fun updateTradeSuggestStatusCanceled(suggestId: String)
 
     /**
      * 내 활동 > 채팅 > 채팅방 > 거래완료 > TradeCompleteHistory 저장

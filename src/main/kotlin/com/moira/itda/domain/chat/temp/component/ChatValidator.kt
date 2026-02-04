@@ -19,12 +19,12 @@ class ChatValidator {
     ) {
         // [1] status 검증
         if (status == ChatStatus.ENDED.name) {
-            throw ItdaException(ErrorCode.ALREADY_ENDED_CHAT)
+            throw ItdaException(ErrorCode.ALREADY_ENDED_CHATROOM)
         }
 
         // [2] 권한 검증
         if (userId != sellerId && userId != buyerId) {
-            throw ItdaException(ErrorCode.OTHERS_CHAT)
+            throw ItdaException(ErrorCode.FORBIDDEN)
         }
     }
 }

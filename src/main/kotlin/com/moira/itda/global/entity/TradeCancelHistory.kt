@@ -1,6 +1,6 @@
 package com.moira.itda.global.entity
 
-import com.moira.itda.domain.chat.temp.dto.request.ChatRoomTradeCancelRequest
+import com.moira.itda.domain.chat.cancel.dto.request.CancelRequest
 import java.time.ZonedDateTime
 
 data class TradeCancelHistory(
@@ -14,7 +14,7 @@ data class TradeCancelHistory(
     val canceledAt: ZonedDateTime
 ) {
     companion object {
-        fun from(userId: String, chatRoomId: String, request: ChatRoomTradeCancelRequest): TradeCancelHistory {
+        fun from(userId: String, chatRoomId: String, request: CancelRequest): TradeCancelHistory {
             return TradeCancelHistory(
                 id = null,
                 chatRoomId = chatRoomId,
