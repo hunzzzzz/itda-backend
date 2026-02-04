@@ -1,6 +1,6 @@
 package com.moira.itda.global.entity
 
-import com.moira.itda.domain.chat.temp.dto.request.ChatMessageRequest
+import com.moira.itda.domain.chat.send.dto.request.MessageRequest
 import java.time.ZonedDateTime
 
 data class ChatMessage(
@@ -11,7 +11,7 @@ data class ChatMessage(
     val createdAt: ZonedDateTime
 ) {
     companion object {
-        fun fromChatMessageRequest(senderId: String, chatRoomId: String, request: ChatMessageRequest): ChatMessage {
+        fun fromChatMessageRequest(senderId: String, chatRoomId: String, request: MessageRequest): ChatMessage {
             return ChatMessage(
                 id = null,
                 chatRoomId = chatRoomId,

@@ -1,18 +1,11 @@
 package com.moira.itda.domain.chat.temp.mapper
 
-import com.moira.itda.global.entity.ChatMessage
 import com.moira.itda.global.entity.TradeCancelHistory
 import com.moira.itda.global.entity.TradeCompleteHistory
 import org.apache.ibatis.annotations.Mapper
 
 @Mapper
 interface ChatRoomMapper {
-
-    /**
-     * 내 활동 > 채팅 > 채팅방 > 메시지 전송 > ChatMessage 저장
-     */
-    fun insertChatMessage(chatMessage: ChatMessage)
-
     /**
      * 거래취소 > 채팅방 정보 조회
      */

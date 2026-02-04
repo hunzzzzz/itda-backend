@@ -4,22 +4,6 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.moira.itda.domain.chat.temp.mapper.ChatRoomMapper">
-    <!-- 내 활동 > 채팅 > 채팅방 > 메시지 전송 > ChatMessage 저장 -->
-    <insert id="insertChatMessage">
-        INSERT INTO CHAT_MESSAGE (
-               chat_room_id
-             , sender_id
-             , message
-             , created_at
-        )
-        VALUES (
-               #{chatRoomId}
-             , #{senderId}
-             , #{message}
-             , #{createdAt}
-        )
-    </insert>
-
     <!-- 거래취소 > 채팅방 정보 조회 -->
     <select id="selectChatRoomInfo" resultType="java.util.HashMap">
         SELECT status, seller_id, buyer_id FROM CHAT_ROOM WHERE id = #{chatRoomId}

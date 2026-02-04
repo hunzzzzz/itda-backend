@@ -18,7 +18,7 @@ class PageSizeConstant {
         const val MY_COMPLETED_TRADE_LIST_PAGE_SIZE = 10
 
         // 마이페이지 > 내 활동 > 채팅방 목록 조회
-        const val MY_TRADE_CHAT_LIST_PAGE_SIZE = 10
+        const val MY_CHAT_LIST_PAGE_SIZE = 10
 
         // 제안목록 조회 모달 > 제안목록 조회
         const val TRADE_SUGGEST_LIST_PAGE_SIZE = 5

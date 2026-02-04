@@ -1,24 +1,24 @@
-package com.moira.itda.domain.user_activity_chat.service
+package com.moira.itda.domain.chat.list.service
 
-import com.moira.itda.domain.user_activity_chat.dto.response.ChatRoomPageResponse
-import com.moira.itda.domain.user_activity_chat.mapper.UserActivityChatRoomMapper
+import com.moira.itda.domain.chat.list.dto.response.ChatRoomPageResponse
+import com.moira.itda.domain.chat.list.mapper.ChatRoomListMapper
 import com.moira.itda.global.pagination.component.OffsetPaginationHandler
-import com.moira.itda.global.pagination.component.PageSizeConstant.Companion.MY_TRADE_CHAT_LIST_PAGE_SIZE
+import com.moira.itda.global.pagination.component.PageSizeConstant.Companion.MY_CHAT_LIST_PAGE_SIZE
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
-class UserActivityChatRoomService(
-    private val mapper: UserActivityChatRoomMapper,
+class ChatRoomListService(
+    private val mapper: ChatRoomListMapper,
     private val pageHandler: OffsetPaginationHandler
 ) {
     /**
-     * 채팅방 목록 조회
+     * 내 채팅방 목록 조회
      */
     @Transactional(readOnly = true)
     fun getChatRoomList(userId: String, page: Int): ChatRoomPageResponse {
         // [1] 변수 세팅
-        val pageSize = MY_TRADE_CHAT_LIST_PAGE_SIZE
+        val pageSize = MY_CHAT_LIST_PAGE_SIZE
         val offset = pageHandler.getOffset(page = page, pageSize = pageSize)
 
         // [2] 채팅방 정보 조회

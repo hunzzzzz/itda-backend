@@ -25,6 +25,8 @@ logging:
     com.moira.itda.domain.admin_user_report.mapper: DEBUG
     com.moira.itda.domain.chat.detail.mapper: DEBUG
     com.moira.itda.domain.chat.history.mapper: DEBUG
+    com.moira.itda.domain.chat.list.mapper: DEBUG
+    com.moira.itda.domain.chat.send.mapper: DEBUG
     com.moira.itda.domain.common.identify.mapper: DEBUG
     com.moira.itda.domain.common.image.mapper: DEBUG
     com.moira.itda.domain.common.refresh.mapper: DEBUG
@@ -51,7 +53,6 @@ logging:
     com.moira.itda.domain.user.myplace.mapper: DEBUG
     com.moira.itda.domain.user.profile.mapper: DEBUG
     com.moira.itda.domain.user.support.mapper: DEBUG
-    com.moira.itda.domain.user_activity_chat.mapper: DEBUG
     com.moira.itda.domain.user_activity_completed_trade.mapper: DEBUG
 
 ---

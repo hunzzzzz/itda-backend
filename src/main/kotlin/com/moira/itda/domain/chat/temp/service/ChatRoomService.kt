@@ -1,43 +1,24 @@
 package com.moira.itda.domain.chat.temp.service
 
 import com.moira.itda.domain.chat.temp.component.ChatValidator
-import com.moira.itda.domain.chat.temp.dto.request.ChatMessageRequest
 import com.moira.itda.domain.chat.temp.dto.request.ChatRoomTradeCancelRequest
 import com.moira.itda.domain.chat.temp.dto.request.TradeCompleteRequest
 import com.moira.itda.domain.chat.temp.mapper.ChatRoomMapper
 import com.moira.itda.domain.notification.component.NotificationManager
-import com.moira.itda.global.entity.ChatMessage
 import com.moira.itda.global.entity.ChatStatus
 import com.moira.itda.global.entity.TradeCancelHistory
 import com.moira.itda.global.entity.TradeCompleteHistory
 import com.moira.itda.global.exception.ErrorCode
 import com.moira.itda.global.exception.ItdaException
-import org.springframework.messaging.simp.SimpMessagingTemplate
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
 class ChatRoomService(
     private val mapper: ChatRoomMapper,
-    private val messageTemplate: SimpMessagingTemplate,
     private val notificationManager: NotificationManager,
     private val validator: ChatValidator
 ) {
-    /**
-     * 내 활동 > 채팅 > 채팅방 > 메시지 전송
-     */
-    @Transactional
-    fun sendMessage(senderId: String, chatRoomId: String, request: ChatMessageRequest) {
-        // [1] ChatMessage 저장
-        val chatMessage = ChatMessage.fromChatMessageRequest(
-            chatRoomId = chatRoomId, senderId = senderId, request = request
-        )
-        mapper.insertChatMessage(chatMessage = chatMessage)
-
-        // [2] /sub/chat/${chatRoomId}/message를 구독중인 사람들에게 메시지 전달
-        messageTemplate.convertAndSend("/sub/chat/$chatRoomId/message", chatMessage)
-    }
-
     /**
      * 거래취소
      */

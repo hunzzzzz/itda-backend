@@ -3,14 +3,14 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.moira.itda.domain.user_activity_chat.mapper.UserActivityChatRoomMapper">
+<mapper namespace="com.moira.itda.domain.chat.list.mapper.ChatRoomListMapper">
     <!-- 채팅방 목록 조회 > totalElements 계산 -->
     <select id="selectChatRoomListCnt">
         SELECT COUNT(id) FROM CHAT_ROOM WHERE seller_id = #{userId} OR buyer_id = #{userId}
     </select>
 
     <!-- 채팅방 목록 조회 -->
-    <select id="selectChatRoomList" resultType="com.moira.itda.domain.user_activity_chat.dto.response.ChatRoomResponse">
+    <select id="selectChatRoomList" resultType="com.moira.itda.domain.chat.list.dto.response.ChatRoomResponse">
         WITH MY_CHAT_ROOM AS (
             SELECT
                    id

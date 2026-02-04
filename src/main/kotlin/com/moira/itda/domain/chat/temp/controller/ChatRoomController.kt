@@ -1,6 +1,5 @@
 package com.moira.itda.domain.chat.temp.controller
 
-import com.moira.itda.domain.chat.temp.dto.request.ChatMessageRequest
 import com.moira.itda.domain.chat.temp.dto.request.ChatRoomTradeCancelRequest
 import com.moira.itda.domain.chat.temp.dto.request.TradeCompleteRequest
 import com.moira.itda.domain.chat.temp.dto.response.ChatRoomIdResponse
@@ -8,10 +7,6 @@ import com.moira.itda.domain.chat.temp.service.ChatRoomService
 import com.moira.itda.global.auth.aop.UserPrincipal
 import com.moira.itda.global.auth.dto.UserAuth
 import org.springframework.http.ResponseEntity
-import org.springframework.messaging.handler.annotation.DestinationVariable
-import org.springframework.messaging.handler.annotation.MessageMapping
-import org.springframework.messaging.handler.annotation.SendTo
-import org.springframework.security.core.Authentication
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -24,21 +19,6 @@ import org.springframework.web.bind.annotation.RestController
 class ChatRoomController(
     private val service: ChatRoomService
 ) {
-    /**
-     * 채팅방 > 메시지 전송
-     */
-    @MessageMapping("/chat/{chatRoomId}/message")
-    @SendTo("/sub/")
-    fun sendMessage(
-        @DestinationVariable chatRoomId: String,
-        request: ChatMessageRequest,
-        authentication: Authentication
-    ) {
-        val userAuth = authentication.principal as UserAuth
-
-        service.sendMessage(senderId = userAuth.userId, chatRoomId = chatRoomId, request = request)
-    }
-
     /**
      * 거래취소
      */
