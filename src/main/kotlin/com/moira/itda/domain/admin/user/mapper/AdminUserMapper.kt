@@ -1,7 +1,7 @@
-package com.moira.itda.domain.admin_user.mapper
+package com.moira.itda.domain.admin.user.mapper
 
-import com.moira.itda.domain.admin_user.dto.response.AdminUserBanResponse
-import com.moira.itda.domain.admin_user.dto.response.AdminUserResponse
+import com.moira.itda.domain.admin.user.dto.response.AdminUserBanResponse
+import com.moira.itda.domain.admin.user.dto.response.AdminUserResponse
 import com.moira.itda.global.entity.UserBanHistory
 import org.apache.ibatis.annotations.Mapper
 

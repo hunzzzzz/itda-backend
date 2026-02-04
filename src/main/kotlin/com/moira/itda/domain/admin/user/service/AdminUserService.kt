@@ -1,9 +1,9 @@
-package com.moira.itda.domain.admin_user.service
+package com.moira.itda.domain.admin.user.service
 
-import com.moira.itda.domain.admin_user.dto.request.UserBanRequest
-import com.moira.itda.domain.admin_user.dto.response.AdminUserBanResponse
-import com.moira.itda.domain.admin_user.dto.response.AdminUserResponse
-import com.moira.itda.domain.admin_user.mapper.AdminUserMapper
+import com.moira.itda.domain.admin.user.dto.request.UserBanRequest
+import com.moira.itda.domain.admin.user.dto.response.AdminUserBanResponse
+import com.moira.itda.domain.admin.user.dto.response.AdminUserResponse
+import com.moira.itda.domain.admin.user.mapper.AdminUserMapper
 import com.moira.itda.global.entity.UserBanHistory
 import com.moira.itda.global.exception.ErrorCode
 import com.moira.itda.global.exception.ItdaException

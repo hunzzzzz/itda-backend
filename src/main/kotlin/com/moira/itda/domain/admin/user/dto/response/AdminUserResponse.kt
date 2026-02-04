@@ -1,4 +1,4 @@
-package com.moira.itda.domain.admin_user.dto.response
+package com.moira.itda.domain.admin.user.dto.response
 
 import com.moira.itda.global.entity.UserRole
 import com.moira.itda.global.entity.UserStatus

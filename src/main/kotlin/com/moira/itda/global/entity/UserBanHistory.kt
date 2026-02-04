@@ -1,6 +1,6 @@
 package com.moira.itda.global.entity
 
-import com.moira.itda.domain.admin_user.dto.request.UserBanRequest
+import com.moira.itda.domain.admin.user.dto.request.UserBanRequest
 import java.time.ZonedDateTime
 
 data class UserBanHistory(
