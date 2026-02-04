@@ -94,6 +94,7 @@
     </select>
 
     <!-- 거래취소 알림 전송 > 채팅방 정보 조회 -->
+    <!-- 거래완료 알림 전송 > 채팅방 정보 조회 -->
     <select id="selectChatRoomNotificationInfo" resultType="java.util.HashMap">
         SELECT
                CASE WHEN CR.seller_id = #{senderId}

@@ -183,7 +183,6 @@ class NotificationManager(
     fun sendTradeCancelNotification(senderId: String, chatRoomId: String) {
         // [1] 알림 전송을 위한 정보 조회
         val infoMap = mapper.selectChatRoomNotificationInfo(senderId = senderId, chatRoomId = chatRoomId)
-        println(infoMap)
         val sourceDto = this.extractTradeInfo(infoMap)
 
         // [2] 알림 전송 메서드 호출
@@ -193,6 +192,27 @@ class NotificationManager(
                 senderId = senderId,
                 type = NotificationType.TRADE_CANCELED,
                 content = "[${it.gachaTitle}]\n${it.senderNickname}님이 '${it.tradeTitle}' 거래를 취소하셨습니다.",
+                targetId = chatRoomId // 채팅방 ID
+            )
+        }?.let { this.send(dto = it) }
+    }
+
+    /**
+     * 알림 전송 (거래 완료)
+     */
+    @Async
+    fun sendTradeCompleteNotification(senderId: String, chatRoomId: String) {
+        // [1] 알림 전송을 위한 정보 조회
+        val infoMap = mapper.selectChatRoomNotificationInfo(senderId = senderId, chatRoomId = chatRoomId)
+        val sourceDto = this.extractTradeInfo(infoMap)
+
+        // [2] 알림 전송 메서드 호출
+        sourceDto?.let {
+            NotificationDto(
+                receiverId = it.receiverId,
+                senderId = senderId,
+                type = NotificationType.TRADE_COMPLETED,
+                content = "[${it.gachaTitle}]\n${it.senderNickname}님이 '${it.tradeTitle}' 거래를 완료하셨습니다. 상호 간에 동의되지 않은 거래 완료 처리인 경우, 해당 유저를 신고하거나 문의사항을 남겨주세요.",
                 targetId = chatRoomId // 채팅방 ID
             )
         }?.let { this.send(dto = it) }

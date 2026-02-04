@@ -1,6 +1,6 @@
 package com.moira.itda.global.entity
 
-import com.moira.itda.domain.chat.temp.dto.request.TradeCompleteRequest
+import com.moira.itda.domain.chat.complete.dto.request.CompleteRequest
 import java.time.ZonedDateTime
 
 data class TradeCompleteHistory(
@@ -15,7 +15,12 @@ data class TradeCompleteHistory(
     val completedAt: ZonedDateTime
 ) {
     companion object {
-        fun fromTradeCompleteRequest(chatRoomId: String, request: TradeCompleteRequest): TradeCompleteHistory {
+        fun fromTradeCompleteRequest(
+            chatRoomId: String,
+            sellerId: String,
+            buyerId: String,
+            request: CompleteRequest
+        ): TradeCompleteHistory {
             return TradeCompleteHistory(
                 id = null,
                 chatRoomId = chatRoomId,
@@ -23,8 +28,8 @@ data class TradeCompleteHistory(
                 tradeItemId = request.tradeItemId,
                 tradeSuggestId = request.tradeSuggestId,
                 gachaId = request.gachaId,
-                sellerId = request.sellerId,
-                buyerId = request.buyerId,
+                sellerId = sellerId,
+                buyerId = buyerId,
                 completedAt = ZonedDateTime.now()
             )
         }

@@ -23,6 +23,8 @@ logging:
     com.moira.itda.domain.admin.support.mapper: DEBUG
     com.moira.itda.domain.admin_user.mapper: DEBUG
     com.moira.itda.domain.admin_user_report.mapper: DEBUG
+    com.moira.itda.domain.chat.cancel.mapper: DEBUG
+    com.moira.itda.domain.chat.complete.mapper: DEBUG
     com.moira.itda.domain.chat.detail.mapper: DEBUG
     com.moira.itda.domain.chat.history.mapper: DEBUG
     com.moira.itda.domain.chat.list.mapper: DEBUG

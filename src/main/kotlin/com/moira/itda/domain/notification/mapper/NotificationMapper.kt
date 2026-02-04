@@ -44,6 +44,7 @@ interface NotificationMapper {
 
     /**
      * 거래취소 알림 전송 > 채팅방 정보 조회
+     * 거래완료 알림 전송 > 채팅방 정보 조회
      */
     fun selectChatRoomNotificationInfo(senderId: String, chatRoomId: String): HashMap<String, String?>
 
