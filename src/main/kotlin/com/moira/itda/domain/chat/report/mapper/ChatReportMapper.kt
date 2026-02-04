@@ -1,10 +1,10 @@
-package com.moira.itda.domain.trade_user_report.mapper
+package com.moira.itda.domain.chat.report.mapper
 
 import com.moira.itda.global.entity.TradeUserReport
 import org.apache.ibatis.annotations.Mapper
 
 @Mapper
-interface TradeUserReportMapper {
+interface ChatReportMapper {
     /**
      * 유저신고 > TradeUserReport 저장
      */

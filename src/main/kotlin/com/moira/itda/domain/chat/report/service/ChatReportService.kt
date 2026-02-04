@@ -1,9 +1,9 @@
-package com.moira.itda.domain.trade_user_report.service
+package com.moira.itda.domain.chat.report.service
 
 import com.moira.itda.domain.chat.cancel.dto.request.CancelRequest
 import com.moira.itda.domain.chat.cancel.service.ChatRoomCancelService
-import com.moira.itda.domain.trade_user_report.dto.request.ReportRequest
-import com.moira.itda.domain.trade_user_report.mapper.TradeUserReportMapper
+import com.moira.itda.domain.chat.report.dto.request.ReportRequest
+import com.moira.itda.domain.chat.report.mapper.ChatReportMapper
 import com.moira.itda.global.entity.TradeSuggestStatus
 import com.moira.itda.global.entity.TradeUserReport
 import com.moira.itda.global.exception.ErrorCode
@@ -12,9 +12,9 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
-class TradeUserReportService(
+class ChatReportService(
     private val chatRoomCancelService: ChatRoomCancelService,
-    private val mapper: TradeUserReportMapper
+    private val mapper: ChatReportMapper
 ) {
     /**
      * 유저신고
@@ -22,7 +22,7 @@ class TradeUserReportService(
     @Transactional
     fun report(userId: String, chatRoomId: String, request: ReportRequest) {
         // [1] 유효성 검사 (신고사유 입력 여부 확인)
-        if (request.reportReason.isBlank()) {
+        if (request.reportReason.trim().isBlank()) {
             throw ItdaException(ErrorCode.NO_REPORT_REASON)
         }
 

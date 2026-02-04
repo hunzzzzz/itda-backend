@@ -1,8 +1,8 @@
-package com.moira.itda.domain.trade_user_report.controller
+package com.moira.itda.domain.chat.report.controller
 
 import com.moira.itda.domain.chat.cancel.dto.response.ChatRoomIdResponse
-import com.moira.itda.domain.trade_user_report.dto.request.ReportRequest
-import com.moira.itda.domain.trade_user_report.service.TradeUserReportService
+import com.moira.itda.domain.chat.report.dto.request.ReportRequest
+import com.moira.itda.domain.chat.report.service.ChatReportService
 import com.moira.itda.global.auth.aop.UserPrincipal
 import com.moira.itda.global.auth.dto.UserAuth
 import org.springframework.http.ResponseEntity
@@ -11,17 +11,14 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 
-/**
- * 유저신고 모달
- */
 @RestController
-class TradeUserReportController(
-    private val service: TradeUserReportService
+class ChatReportController(
+    private val service: ChatReportService
 ) {
     /**
      * 유저신고
      */
-    @PostMapping("/api/trade/chat/{chatRoomId}/report")
+    @PostMapping("/api/chat/{chatRoomId}/report")
     fun report(
         @UserPrincipal userAuth: UserAuth,
         @PathVariable chatRoomId: String,

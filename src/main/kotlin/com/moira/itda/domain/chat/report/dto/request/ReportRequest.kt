@@ -1,4 +1,4 @@
-package com.moira.itda.domain.trade_user_report.dto.request
+package com.moira.itda.domain.chat.report.dto.request
 
 data class ReportRequest(
     val userId: String,

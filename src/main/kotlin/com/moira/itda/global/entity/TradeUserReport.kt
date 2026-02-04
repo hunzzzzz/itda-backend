@@ -1,6 +1,6 @@
 package com.moira.itda.global.entity
 
-import com.moira.itda.domain.trade_user_report.dto.request.ReportRequest
+import com.moira.itda.domain.chat.report.dto.request.ReportRequest
 import java.time.ZonedDateTime
 
 data class TradeUserReport(
