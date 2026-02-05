@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.moira.itda.domain.trade.process.mapper.TradeProcessMapper">
+    <!-- 진행 중인 거래목록 조회 > totalElements 계산 -->
+    <select id="selectTradeProcessResponseListCnt">
+        SELECT COUNT(T.id)
+        FROM TRADE T
+         INNER JOIN TRADE_SUGGEST TS ON TS.trade_id = T.id
+        WHERE 1=1
+        AND TS.status NOT IN ('CANCELED_BEFORE_RESPONSE', 'DELETED')
+        AND (
+               TS.user_id = #{userId}
+            OR T.user_id = #{userId} AND EXISTS (
+                SELECT 1 FROM TRADE_SUGGEST WHERE trade_id = T.id AND status IN ('APPROVED', 'CANCELED', 'COMPLETED')
+               )
+         )
+    </select>
+
+    <!-- 진행 중인 거래목록 조회 -->
+    <select id="selectTradeProcessResponseList" resultType="com.moira.itda.domain.trade.process.dto.response.ProcessResponse">
+        SELECT
+               TI.gacha_id
+             , TI.trade_id
+             , TI.id                        AS trade_item_id
+             , TS.id                        AS trade_suggest_id
+             , CR.id                        AS chat_room_id
+             , TI.type
+             , TS.status
+             , T.title                      AS trade_title
+             , T.content                    AS trade_content
+             , T.file_id                    AS trade_file_id
+             , F.file_url                   AS trade_file_url
+             , T.user_id                    AS seller_id
+             , U1.nickname                  AS seller_nickname
+             , TS.user_id                   AS buyer_id
+             , U2.nickname                  AS buyer_nickname
+             , TS.updated_at
+             , TS.purchase_item_id
+             , GI1.name                     AS purchase_item_name
+             , TS.purchase_original_price
+             , TS.purchase_discount_yn
+             , TS.purchase_discount_price
+             , TS.exchange_seller_item_id
+             , GI2.name                     AS exchange_seller_item_name
+             , TS.exchange_change_yn
+             , TS.exchange_suggested_item_id
+             , GI3.name                     AS exchange_suggested_item_name
+             , CASE WHEN TS.status = 'CANCELED' AND CH.canceled_user_id = #{userId}
+                    THEN 'Y'
+                    WHEN TS.status = 'CANCELED' AND CH.canceled_user_id != #{userId}
+                    THEN 'N'
+                    ELSE NULL
+               END AS my_cancel_yn
+             , CH.cancel_reason
+             , CASE WHEN TS.status IN ('CANCELED', 'COMPLETED') AND IFNULL(UR.report_user_id, '') = #{userId}
+                    THEN 'Y'
+                    WHEN TS.status IN ('CANCELED', 'COMPLETED') AND IFNULL(UR.report_user_id, '') != #{userId}
+                    THEN 'N'
+                    ELSE NULL
+               END AS report_yn
+             , CASE WHEN TS.status = 'COMPLETED' AND IFNULL(UC.compliment_user_id, '') = #{userId}
+                    THEN 'Y'
+                    WHEN TS.status = 'COMPLETED' AND IFNULL(UC.compliment_user_id, '') != #{userId}
+                    THEN 'N'
+                    ELSE NULL
+               END AS compliment_yn
+        FROM TRADE T
+         INNER JOIN TRADE_ITEM           TI  ON TI.trade_id         = T.id
+         INNER JOIN TRADE_SUGGEST        TS  ON TS.trade_id         = T.id
+                                            AND TS.trade_item_id    = TI.id
+         INNER JOIN IMAGE_FILE           F   ON F.file_id           = T.file_id
+         INNER JOIN USER                 U1  ON U1.id               = T.user_id
+         INNER JOIN USER                 U2  ON U2.id               = TS.user_id
+         LEFT JOIN GACHA_ITEM            GI1 ON GI1.id              = TS.purchase_item_id
+         LEFT JOIN GACHA_ITEM            GI2 ON GI2.id              = TS.exchange_seller_item_id
+         LEFT JOIN GACHA_ITEM            GI3 ON GI3.id              = TS.exchange_suggested_item_id
+         LEFT JOIN TRADE_CANCEL_HISTORY  CH  ON CH.trade_suggest_id = TS.id
+         LEFT JOIN TRADE_USER_REPORT     UR  ON UR.trade_suggest_id = TS.id
+         LEFT JOIN TRADE_USER_COMPLIMENT UC  ON UC.trade_suggest_id = TS.id
+         LEFT JOIN CHAT_ROOM             CR  ON CR.trade_suggest_id = TS.id
+        WHERE 1=1
+         AND TS.status NOT IN ('CANCELED_BEFORE_RESPONSE', 'DELETED')
+         AND (
+               TS.user_id = #{userId}
+            OR T.user_id = #{userId} AND EXISTS (
+                 SELECT 1 FROM TRADE_SUGGEST WHERE trade_id = T.id AND status IN ('APPROVED', 'CANCELED', 'COMPLETED')
+               )
+         )
+        ORDER BY TS.updated_at DESC
+        LIMIT #{pageSize} OFFSET #{offset}
+    </select>
+</mapper>

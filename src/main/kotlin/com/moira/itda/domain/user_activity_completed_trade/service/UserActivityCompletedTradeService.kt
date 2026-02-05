@@ -7,7 +7,7 @@ import com.moira.itda.global.entity.TradeUserCompliment
 import com.moira.itda.global.exception.ErrorCode
 import com.moira.itda.global.exception.ItdaException
 import com.moira.itda.global.pagination.component.OffsetPaginationHandler
-import com.moira.itda.global.pagination.component.PageSizeConstant.Companion.MY_COMPLETED_TRADE_LIST_PAGE_SIZE
+import com.moira.itda.global.pagination.component.PageSizeConstant.Companion.MY_PROCESSING_TRADE_LIST_PAGE_SIZE
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -22,7 +22,7 @@ class UserActivityCompletedTradeService(
     @Transactional(readOnly = true)
     fun getCompletedTradeList(userId: String, page: Int): CompletedTradePageResponse {
         // [1] 변수 세팅
-        val pageSize = MY_COMPLETED_TRADE_LIST_PAGE_SIZE
+        val pageSize = MY_PROCESSING_TRADE_LIST_PAGE_SIZE
         val offset = pageHandler.getOffset(page = page, pageSize = pageSize)
 
         // [2] totalElements 계산

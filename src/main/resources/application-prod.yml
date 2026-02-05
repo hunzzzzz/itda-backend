@@ -48,6 +48,7 @@ logging:
     com.moira.itda.domain.trade.common.mapper: DEBUG
     com.moira.itda.domain.trade.delete.mapper: DEBUG
     com.moira.itda.domain.trade.list.mapper: DEBUG
+    com.moira.itda.domain.trade.process.mapper: DEBUG
     com.moira.itda.domain.trade.update.mapper: DEBUG
     com.moira.itda.domain.trade_target.mapper: DEBUG
     com.moira.itda.domain.user.mypage.mapper: DEBUG
