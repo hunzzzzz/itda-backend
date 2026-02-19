@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.moira.itda.domain.user.compliment.mapper.UserComplimentMapper">
+    <!-- 유저칭찬 > 칭찬 여부 조회 (TradeSuggest 기준) -->
+    <select id="selectTradeUserComplimentChk" resultType="java.lang.Boolean">
+        SELECT EXISTS (
+            SELECT 1 FROM TRADE_USER_COMPLIMENT
+            WHERE compliment_user_id = #{userId}
+             AND  trade_suggest_id   = #{tradeSuggestId}
+        )
+    </select>
+
+    <!-- 유저칭찬 > TradeUserCompliment 저장 -->
+    <insert id="insertTradeUserCompliment">
+        INSERT INTO TRADE_USER_COMPLIMENT (
+               trade_id
+             , trade_item_id
+             , trade_suggest_id
+             , compliment_user_id
+             , complimented_user_id
+             , compliment_at
+        )
+        VALUES (
+               #{tradeId}
+             , #{tradeItemId}
+             , #{tradeSuggestId}
+             , #{complimentUserId}
+             , #{complimentedUserId}
+             , #{complimentAt}
+        )
+    </insert>
+</mapper>

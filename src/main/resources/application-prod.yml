@@ -51,11 +51,11 @@ logging:
     com.moira.itda.domain.trade.process.mapper: DEBUG
     com.moira.itda.domain.trade.update.mapper: DEBUG
     com.moira.itda.domain.trade_target.mapper: DEBUG
+    com.moira.itda.domain.user.compliment.mapper: DEBUG
     com.moira.itda.domain.user.mypage.mapper: DEBUG
     com.moira.itda.domain.user.myplace.mapper: DEBUG
     com.moira.itda.domain.user.profile.mapper: DEBUG
     com.moira.itda.domain.user.support.mapper: DEBUG
-    com.moira.itda.domain.user_activity_completed_trade.mapper: DEBUG
 
 ---
 

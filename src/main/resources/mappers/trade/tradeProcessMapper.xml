@@ -82,7 +82,7 @@
          LEFT JOIN TRADE_USER_COMPLIMENT UC  ON UC.trade_suggest_id = TS.id
          LEFT JOIN CHAT_ROOM             CR  ON CR.trade_suggest_id = TS.id
         WHERE 1=1
-         AND TS.status NOT IN ('CANCELED_BEFORE_RESPONSE', 'DELETED')
+         AND TS.status NOT IN ('DELETED')
          AND (
                TS.user_id = #{userId}
             OR T.user_id = #{userId} AND EXISTS (

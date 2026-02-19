@@ -1,6 +1,6 @@
 package com.moira.itda.global.entity
 
-import com.moira.itda.domain.user_activity_completed_trade.dto.request.ComplimentRequest
+import com.moira.itda.domain.user.compliment.dto.request.ComplimentRequest
 import java.time.ZonedDateTime
 
 data class TradeUserCompliment(
