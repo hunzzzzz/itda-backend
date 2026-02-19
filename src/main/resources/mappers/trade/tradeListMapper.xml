@@ -62,7 +62,7 @@
              , (
                    SELECT COUNT(id) FROM TRADE_SUGGEST
                    WHERE trade_id = T.id
-                    AND status NOT IN ('CANCELED_BEFORE_RESPONSE', 'DELETED')
+                    AND status NOT IN ('DELETED')
                ) AS suggest_count
              , T.created_at
         FROM TRADE T
@@ -154,7 +154,7 @@
              , (
                    SELECT COUNT(id) FROM TRADE_SUGGEST
                    WHERE trade_id = T.id
-                    AND status NOT IN ('CANCELED_BEFORE_RESPONSE', 'DELETED')
+                    AND status NOT IN ('DELETED')
                ) AS suggest_count
              , T.created_at
         FROM TRADE T

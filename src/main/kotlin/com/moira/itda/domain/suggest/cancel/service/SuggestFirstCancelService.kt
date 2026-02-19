@@ -40,7 +40,7 @@ class SuggestFirstCancelService(
             this.validateCancelSuggest(userId = userId, suggestUserId = suggestUserId, suggestStatus = suggestStatus)
 
             // [3] 제안 취소
-            mapper.updateTradeSuggestStatusCBR(suggestId = suggestId)
+            mapper.updateTradeSuggestStatusDeleted(suggestId = suggestId)
         } else {
             throw ItdaException(ErrorCode.FORBIDDEN)
         }

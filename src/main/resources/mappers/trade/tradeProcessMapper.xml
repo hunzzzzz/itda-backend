@@ -10,7 +10,7 @@
         FROM TRADE T
          INNER JOIN TRADE_SUGGEST TS ON TS.trade_id = T.id
         WHERE 1=1
-        AND TS.status NOT IN ('CANCELED_BEFORE_RESPONSE', 'DELETED')
+        AND TS.status NOT IN ('DELETED')
         AND (
                TS.user_id = #{userId}
             OR T.user_id = #{userId} AND EXISTS (
@@ -85,9 +85,7 @@
          AND TS.status NOT IN ('DELETED')
          AND (
                TS.user_id = #{userId}
-            OR T.user_id = #{userId} AND EXISTS (
-                 SELECT 1 FROM TRADE_SUGGEST WHERE trade_id = T.id AND status IN ('APPROVED', 'CANCELED', 'COMPLETED')
-               )
+            OR T.user_id = #{userId} AND TS.status IN ('APPROVED', 'CANCELED', 'COMPLETED')
          )
         ORDER BY TS.updated_at DESC
         LIMIT #{pageSize} OFFSET #{offset}

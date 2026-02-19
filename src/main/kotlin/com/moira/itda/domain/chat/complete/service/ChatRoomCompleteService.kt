@@ -57,20 +57,22 @@ class ChatRoomCompleteService(
             나머지 제안이
             1) PENDING인 경우  -> REJECT 처리
             2) APPROVED인 경우 -> CANCELED 처리
-            3) CANCELED_BEFORE_RESPONSE, REJECTED, CANCELED, DELETED인 경우 -> 고려대상 X
+            3) REJECTED, CANCELED, DELETED인 경우 -> 고려대상 X
          */
         val restSuggestList = mapper.selectRestTradeSuggestList(
             tradeItemId = request.tradeItemId,
             completedSuggestId = request.tradeSuggestId
         )
+        println(restSuggestList)
+
         for (infoMap in restSuggestList) {
             val iSuggestId = infoMap["suggest_id"]
             val iStatus = infoMap["status"]
-            val iChatRoomId = infoMap["chat_room_id"]
+            val iChatRoomId = infoMap["chat_room_id"] // PENDING이면 chatRoomId가 null일 수 있다.
             val iTradeId = infoMap["trade_id"]
             val iGachaId = infoMap["gacha_id"]
 
-            if (iSuggestId == null || iStatus == null || iChatRoomId == null || iTradeId == null || iGachaId == null) {
+            if (iSuggestId == null || iStatus == null || iTradeId == null || iGachaId == null) {
                 throw ItdaException(ErrorCode.FORBIDDEN)
             }
 
@@ -82,7 +84,7 @@ class ChatRoomCompleteService(
                 TradeSuggestStatus.APPROVED.name -> {
                     cancelService.cancel(
                         userId = userId,
-                        chatRoomId = iChatRoomId,
+                        chatRoomId = iChatRoomId ?: throw ItdaException(ErrorCode.FORBIDDEN),
                         request = CancelRequest(
                             tradeId = iTradeId,
                             tradeSuggestId = iSuggestId,

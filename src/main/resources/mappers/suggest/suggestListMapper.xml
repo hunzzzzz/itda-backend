@@ -51,7 +51,6 @@
          LEFT JOIN TRADE_CANCEL_HISTORY CH    ON CH.trade_suggest_id = TS.id
         WHERE TS.trade_id = #{tradeId}
          AND  TS.status  != 'DELETED'
-         AND  TS.status  != 'CANCELED_BEFORE_RESPONSE'
         ORDER BY TS.status = 'COMPLETED' DESC, TS.status = 'PENDING' DESC, TS.created_at DESC
         LIMIT #{pageSize} OFFSET #{offset}
     </select>

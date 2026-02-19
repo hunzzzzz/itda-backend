@@ -107,7 +107,6 @@ class SuggestValidator(
                 throw ItdaException(ErrorCode.CANNOT_CANCEL_REJECTED_SUGGEST)
             }
 
-            TradeSuggestStatus.CANCELED_BEFORE_RESPONSE.name,
             TradeSuggestStatus.CANCELED.name -> {
                 throw ItdaException(ErrorCode.ALREADY_CANCELED_SUGGEST)
             }

@@ -56,7 +56,7 @@
              , TS.trade_id    AS trade_id
              , TS.gacha_id    AS gacha_id
         FROM TRADE_SUGGEST TS
-         INNER JOIN CHAT_ROOM CR ON CR.trade_item_id = TS.id
+         LEFT JOIN CHAT_ROOM CR ON CR.trade_suggest_id = TS.id
         WHERE TS.trade_item_id = #{tradeItemId}
          AND  TS.status       IN ('PENDING', 'APPROVED')
          AND  TS.id           != #{completedSuggestId}
