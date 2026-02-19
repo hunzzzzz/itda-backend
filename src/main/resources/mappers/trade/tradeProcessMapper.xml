@@ -55,16 +55,16 @@
                     ELSE NULL
                END AS my_cancel_yn
              , CH.cancel_reason
-             , CASE WHEN TS.status IN ('CANCELED', 'COMPLETED') AND IFNULL(UR.report_user_id, '') = #{userId}
-                    THEN 'Y'
-                    WHEN TS.status IN ('CANCELED', 'COMPLETED') AND IFNULL(UR.report_user_id, '') != #{userId}
-                    THEN 'N'
+             , CASE WHEN TS.status IN ('CANCELED', 'COMPLETED')
+                    THEN (SELECT IF(COUNT(*) > 0, 'Y', 'N')
+                          FROM TRADE_USER_REPORT
+                          WHERE trade_suggest_id = TS.id AND report_user_id = #{userId})
                     ELSE NULL
                END AS report_yn
-             , CASE WHEN TS.status = 'COMPLETED' AND IFNULL(UC.compliment_user_id, '') = #{userId}
-                    THEN 'Y'
-                    WHEN TS.status = 'COMPLETED' AND IFNULL(UC.compliment_user_id, '') != #{userId}
-                    THEN 'N'
+             , CASE WHEN TS.status = 'COMPLETED'
+                    THEN (SELECT IF(COUNT(*) > 0, 'Y', 'N')
+                          FROM TRADE_USER_COMPLIMENT
+                          WHERE trade_suggest_id = TS.id AND compliment_user_id = #{userId})
                     ELSE NULL
                END AS compliment_yn
         FROM TRADE T
@@ -78,8 +78,6 @@
          LEFT JOIN GACHA_ITEM            GI2 ON GI2.id              = TS.exchange_seller_item_id
          LEFT JOIN GACHA_ITEM            GI3 ON GI3.id              = TS.exchange_suggested_item_id
          LEFT JOIN TRADE_CANCEL_HISTORY  CH  ON CH.trade_suggest_id = TS.id
-         LEFT JOIN TRADE_USER_REPORT     UR  ON UR.trade_suggest_id = TS.id
-         LEFT JOIN TRADE_USER_COMPLIMENT UC  ON UC.trade_suggest_id = TS.id
          LEFT JOIN CHAT_ROOM             CR  ON CR.trade_suggest_id = TS.id
         WHERE 1=1
          AND TS.status NOT IN ('DELETED')
